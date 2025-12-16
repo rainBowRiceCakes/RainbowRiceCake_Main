@@ -1,0 +1,17 @@
+/**
+ * @file src/components/main/MainShow.css
+ * @description 메인 페이지(app) 
+ * 251216 v1.0.0 sara init 
+ */
+
+/* mainshow-page-container: 전체 메인 페이지 레이아웃 */
+.mainshow-page-container {
+    width: 100%;
+}
+
+/* 모든 메인 섹션에 대한 공통 스타일 (필요 시) */
+.mainshow-section-wrapper {
+    max-width: var(--mng-web-max-width);
+    margin: 0 auto;
+    padding: var(--mng-container-padding);
+}

@@ -1,0 +1,177 @@
+/**
+ * @file src/components/main/sections/MainFee.css
+ * @description 요금 안내 / 지점 안내 
+ * 251216 v1.0.0 sara init 
+ */
+
+/*
+  [index.css 공통 변수]
+  --mng-section-padding: 60px;
+  --mng-color-white: #ffffff;
+  --mng-color-light-gray: #f8f8f8;
+  --mng-font-primary-color: #212529;
+  --mng-font-gray: #343a40;
+  --mng-font-weight-heavy: 700;
+  --mng-font-size-title: 18px;
+  --mng-font-size-sub-title: 16px;
+  --mng-font-size-sidebar: 14px;
+  --mng-font-size-content: 12px;
+  --mng-content-border-color: #e0e0e0;
+  --mng-color-blue: #3498db;
+  --mng-color-green: #2ecc71;
+  --mng-color-red: #e74c3c;
+*/
+
+/* MainFee 자체 변수 */
+:root {
+    --mainfee-box-bg: var(--mng-color-light-gray);
+    --mainfee-map-btn-hover: #555;
+    --mainfee-box-title-border: 2px solid var(--mng-color-blue);
+}
+
+.mainfee-frame { /* .mainfee-container -> .mainfee-frame */
+    padding: var(--mng-section-padding) 0;
+    background-color: var(--mng-color-white);
+}
+
+/* .mainfee-web-wrapper 삭제, mainshow-section-wrapper 사용 */
+
+.mainfee-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.mainfee-title-text { /* .mainfee-title -> .mainfee-title-text */
+    font-size: var(--mng-font-size-title);
+    font-weight: var(--mng-font-weight-heavy);
+    color: var(--mng-font-primary-color);
+    margin-bottom: 10px;
+}
+
+.mainfee-subtitle-text { /* .mainfee-subtitle -> .mainfee-subtitle-text */
+    font-size: var(--mng-font-size-sub-title);
+    color: var(--mng-font-gray);
+}
+
+.mainfee-content-flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+/* 박스 공통 스타일 */
+.mainfee-price-box, .mainfee-branch-box {
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid var(--mng-content-border-color);
+    border-radius: 8px;
+    padding: 25px;
+    text-align: left;
+    background-color: var(--mainfee-box-bg);
+}
+
+.mainfee-box-title {
+    font-size: var(--mng-font-size-sub-title);
+    font-weight: var(--mng-font-weight-heavy);
+    color: var(--mng-color-blue);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: var(--mainfee-box-title-border);
+}
+
+/* 가격표 스타일 */
+.mainfee-table-wrapper {
+    margin-bottom: 15px;
+    border: 1px solid var(--mng-content-border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.mainfee-table-row {
+    display: flex;
+    border-bottom: 1px solid var(--mng-content-border-color);
+}
+
+.mainfee-table-row:last-child {
+    border-bottom: none;
+}
+
+.mainfee-table-cell {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: var(--mng-font-size-sidebar);
+    border-right: 1px solid var(--mng-content-border-color);
+}
+
+.mainfee-table-cell:last-child {
+    border-right: none;
+    text-align: center;
+}
+.mainfee-table-cell--region { flex: 1.2; }
+.mainfee-table-cell--amount { flex: 1; }
+.mainfee-table-cell--fee { flex: 0.8; }
+
+.mainfee-table-header-row { /* .mainfee-table-header -> .mainfee-table-header-row */
+    background-color: var(--mng-content-border-color);
+    font-weight: var(--mng-font-weight-heavy);
+    color: var(--mng-font-primary-color);
+}
+
+.mainfee-fee-free {
+    color: var(--mng-color-green);
+    font-weight: var(--mng-font-weight-heavy);
+}
+
+.mainfee-note-text {
+    font-size: var(--mng-font-size-content);
+    color: var(--mng-color-red);
+}
+
+/* 지점 안내 스타일 */
+.mainfee-branch-item {
+    margin-bottom: 15px;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--mng-content-border-color);
+}
+
+.mainfee-branch-name {
+    font-size: var(--mng-font-size-sidebar);
+    font-weight: var(--mng-font-weight-heavy);
+    color: var(--mng-font-primary-color);
+    margin-bottom: 3px;
+}
+
+.mainfee-branch-address {
+    font-size: var(--mng-font-size-content);
+    color: var(--mng-font-gray);
+}
+
+.mainfee-branch-map-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.mainfee-map-link-button { /* .mainfee-map-link-btn -> .mainfee-map-link-button */
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--mng-font-gray);
+    color: var(--mng-color-white);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: var(--mng-font-size-sidebar);
+    transition: background-color 0.2s;
+}
+
+.mainfee-map-link-button:hover {
+    background-color: var(--mainfee-map-btn-hover);
+}
+
+
+@media (max-width: 900px) {
+    .mainfee-content-flex {
+        flex-direction: column;
+    }
+    .mainfee-price-box, .mainfee-branch-box {
+        margin-bottom: 20px;
+    }
+}

@@ -1,78 +1,106 @@
-.home-footer {
+/**
+ * @file src/components/common/Footer01.css
+ * @description 푸터
+ * 251216 v1.0.0 sara init 
+ */
+
+/*
+  [index.css 공통 변수]
+  --mng-color-white: #ffffff;
+  --mng-font-primary-color: #212529; 
+  --mng-font-gray: #343a40; 
+  --mng-web-max-width: 1200px;
+*/
+
+/* Footer01 자체 변수 */
+:root {
+  --footer01-border: rgba(15, 23, 42, 0.08);
+  --footer01-bg: rgba(255, 255, 255, 0.92);
+  --footer01-max-width: 1440px; /* 기존 1440px 유지 */
+  
+  /* 폰트 색상 디테일 */
+  --footer01-slogan-color: rgba(17, 24, 39, 0.62);
+  --footer01-link-color: rgba(17, 24, 39, 0.78);
+  --footer01-link-hover-color: rgba(17, 24, 39, 0.95);
+  --footer01-link-hover-border: rgba(17, 24, 39, 0.25);
+  --footer01-muted-color: rgba(17, 24, 39, 0.45);
+}
+
+.footer01-frame { /* .home-footer -> .footer01-frame */
   margin-top: 48px;
   padding: 28px 0 30px;
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(255, 255, 255, 0.92);
+  border-top: 1px solid var(--footer01-border);
+  background: var(--footer01-bg);
   backdrop-filter: blur(10px) saturate(1.1);
 }
 
-.home-footer__container {
-  width: min(1440px, 100%);
+.footer01-container { /* .home-footer__container -> .footer01-container */
+  width: min(var(--footer01-max-width), 100%);
   margin: 0 auto;
   padding: 0 16px;
 }
 
-.home-footer__inner {
+.footer01-inner-group { /* .home-footer__inner -> .footer01-inner-group */
   display: grid;
   gap: 18px;
   align-items: start;
 }
 
-.home-footer__brand {
+.footer01-brand-group { /* .home-footer__brand -> .footer01-brand-group */
   display: grid;
   gap: 6px;
 }
 
-.home-footer__logo {
+.footer01-logo-text { /* .home-footer__logo -> .footer01-logo-text */
   font-weight: 950;
   letter-spacing: -0.02em;
   font-size: 16px;
-  color: #0b0b0c;
+  color: #0b0b0c; /* 고정 색상 */
 }
 
-.home-footer__slogan {
+.footer01-slogan-text { /* .home-footer__slogan -> .footer01-slogan-text */
   margin: 0;
   font-size: 13px;
   font-weight: 800;
-  color: rgba(17, 24, 39, 0.62);
+  color: var(--footer01-slogan-color);
 }
 
-.home-footer__links {
+.footer01-links-group { /* .home-footer__links -> .footer01-links-group */
   display: flex;
   flex-wrap: wrap;
   gap: 10px 14px;
 }
 
-.home-footer__links a {
+.footer01-links-group a {
   text-decoration: none;
   font-size: 13px;
   font-weight: 900;
-  color: rgba(17, 24, 39, 0.78);
+  color: var(--footer01-link-color);
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
 }
 
-.home-footer__links a:hover {
-  color: rgba(17, 24, 39, 0.95);
-  border-bottom-color: rgba(17, 24, 39, 0.25);
+.footer01-links-group a:hover {
+  color: var(--footer01-link-hover-color);
+  border-bottom-color: var(--footer01-link-hover-border);
 }
 
-.home-footer__meta p {
+.footer01-meta-info p { /* .home-footer__meta p -> .footer01-meta-info p */
   margin: 0;
   font-size: 12.5px;
   font-weight: 800;
-  color: rgba(17, 24, 39, 0.62);
+  color: var(--footer01-slogan-color);
   line-height: 1.55;
 }
 
-.home-footer__muted {
+.footer01-muted-text { /* .home-footer__muted -> .footer01-muted-text */
   margin-top: 8px !important;
-  color: rgba(17, 24, 39, 0.45) !important;
+  color: var(--footer01-muted-color) !important;
 }
 
 /* 데스크탑에서 3열 느낌 */
 @media (min-width: 900px) {
-  .home-footer__inner {
+  .footer01-inner-group {
     grid-template-columns: 1.2fr 1fr 1fr;
     gap: 24px;
   }

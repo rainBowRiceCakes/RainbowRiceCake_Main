@@ -1,0 +1,198 @@
+/**
+ * @file src/components/main/sections/MainInfo.css
+ * @description 서비스 소개 섹션
+ * 251216 v1.0.0 sara init 
+ */
+
+/*
+  [index.css 공통 변수]
+  --mng-section-padding: 60px;
+  --mng-font-primary-color: #212529; 
+  --mng-font-gray: #343a40;
+  --mng-color-white: #ffffff;
+  --mng-content-border-color: #e0e0e0;
+  --mng-font-weight-heavy: 700;
+  --mng-font-weight-bold: 900;
+  --mng-font-size-sidebar: 14px;
+  --mng-font-size-sub-title: 16px;
+  --mng-color-blue: #3498db;
+*/
+
+/* MainInfo 자체 변수 (Delivery-main design based on HomePage.css) */
+:root {
+  --maininfo-text: #0b0b0c;
+  --maininfo-muted: #6b7280;
+  --maininfo-border: rgba(15, 23, 42, 0.12);
+  --maininfo-card-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+  --maininfo-card-radius: 18px;
+  --maininfo-soft-bg: rgba(2, 6, 23, 0.04);
+  --maininfo-primary-bg: #111827;
+}
+
+.maininfo-frame { /* .section -> .maininfo-frame */
+    /* Using mainshow-section-frame wrapper for padding and max-width */
+    padding: var(--mng-section-padding) 0;
+    border-top: 1px solid var(--maininfo-soft-bg);
+}
+/* MainShow.jsx에서 첫 섹션에만 border-top을 제거할 경우를 대비하여 아래 스타일은 생략 */
+/* .maininfo-frame:first-child { border-top: none; } */
+
+
+/* Header Group: section__head -> maininfo-header-group */
+.maininfo-header-group {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.maininfo-title-text { /* section__title -> maininfo-title-text */
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--maininfo-text);
+}
+
+.maininfo-desc-text { /* section__desc -> maininfo-desc-text */
+    margin: 8px 0 0;
+    color: var(--maininfo-muted);
+    font-size: var(--mng-font-size-sidebar);
+    line-height: 1.5;
+}
+
+.maininfo-actions-group { /* section__actions -> maininfo-actions-group */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Button Base: btn -> maininfo-button */
+.maininfo-button {
+    appearance: none;
+    border: 1px solid var(--maininfo-border);
+    background: var(--mng-color-white);
+    color: var(--maininfo-text);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: var(--mng-font-weight-heavy);
+    font-size: var(--mng-font-size-sidebar);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.maininfo-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(2, 6, 23, 0.06);
+}
+
+/* Primary Button: btn--primary -> maininfo-button--primary */
+.maininfo-button--primary {
+    background: var(--maininfo-primary-bg);
+    color: var(--mng-color-white);
+    border-color: var(--maininfo-primary-bg);
+}
+
+/* Card Base: card -> maininfo-card-box */
+.maininfo-card-box {
+    background: var(--mng-color-white);
+    border: 1px solid var(--maininfo-border);
+    border-radius: var(--maininfo-card-radius);
+    box-shadow: var(--maininfo-card-shadow);
+    padding: 18px;
+}
+.maininfo-card-title-text {
+    margin: 0; 
+    font-size: 18px; /* Original fixed size */
+    letter-spacing: -0.01em;
+}
+.maininfo-card-desc-text {
+    margin: 8px 0 12px; 
+    color: var(--maininfo-muted); 
+    font-size: 13px; 
+    line-height: 1.5;
+}
+
+/* Grid Layouts: grid-2/3 -> maininfo-grid-2/3 */
+.maininfo-grid-2 { 
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+.maininfo-grid-3 { 
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+/* Step List (ol/li) */
+.maininfo-step-list {
+    margin: 12px 0 0;
+    padding-left: 18px;
+    line-height: 1.7;
+    color: #374151;
+}
+
+/* Note Boxes (Inlined Box 1) */
+.maininfo-note-box {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 14px; 
+    background: var(--maininfo-soft-bg);
+}
+
+.maininfo-note-title-text { /* .maininfo-note-title -> .maininfo-note-title-text */
+    font-weight: var(--mng-font-weight-bold);
+}
+.maininfo-note-desc-text {
+    margin: 6px 0 0;
+    color: var(--maininfo-muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Size Items */
+.maininfo-size-item { /* Original miniStyle */
+    border: 1px solid var(--maininfo-border);
+    border-radius: 14px;
+    padding: 12px;
+    background: var(--mng-color-white);
+}
+.maininfo-size-title-text { /* Original miniTitle */
+    font-weight: var(--mng-font-weight-bold);
+    letter-spacing: -0.01em;
+}
+.maininfo-size-desc-text { /* Original miniDesc */
+    margin-top: 6px;
+    color: var(--maininfo-muted);
+    font-size: 13px;
+}
+
+/* Note Group (for Caution/Restriction) */
+.maininfo-note-group {
+    margin-top: 14px;
+    display: grid;
+    gap: 10px;
+}
+.maininfo-note-item { /* Original noteStyle */
+    padding: 12px;
+    border: 1px solid var(--maininfo-border);
+    border-radius: 14px;
+}
+
+
+/* Responsive */
+@media (min-width: 900px) {
+    .maininfo-grid-2 {
+        grid-template-columns: 1.1fr 0.9fr; 
+        gap: 22px;
+    }
+    .maininfo-grid-3 {
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 16px;
+    }
+}

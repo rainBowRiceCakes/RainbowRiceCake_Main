@@ -1,0 +1,244 @@
+/**
+ * @file src/components/main/sections/MainCS.css
+ * @description 고객센터 페이지 (CustomerCenter.jsx 스타일 기반)
+ * 251216 v1.0.0 sara init 
+ */
+
+/*
+  [index.css 공통 변수]
+  --mng-section-padding: 60px;
+  --mng-color-white: #ffffff;
+  --mng-font-primary-color: #212529; 
+  --mng-font-gray: #343a40;
+  --mng-font-weight-heavy: 700;
+  --mng-font-weight-bold: 900;
+  --mng-font-size-sidebar: 14px;
+  --mng-content-border-color: #e0e0e0;
+  --mng-color-blue: #3498db;
+*/
+
+/* MainCS 자체 변수 (Delivery-main design based on HomePage.css) */
+:root {
+  --maincs-text: #0b0b0c;
+  --maincs-muted: #6b7280;
+  --maincs-border: rgba(15, 23, 42, 0.12);
+  --maincs-soft-bg: rgba(2, 6, 23, 0.04);
+  --maincs-card-radius: 18px;
+  --maincs-primary-bg: #111827;
+}
+
+.maincs-frame { /* .maincs-container -> .maincs-frame */
+    padding: var(--mng-section-padding) 0;
+    background-color: var(--mng-color-white);
+}
+
+/* Header Group: section__head -> maincs-header-group */
+.maincs-header-group {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    /* Center alignment for mobile until 900px, but flex for actions */
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+}
+.maincs-header-group > div:first-child {
+    margin-bottom: 12px;
+}
+@media (min-width: 900px) {
+    .maincs-header-group {
+        flex-direction: row;
+        align-items: flex-end;
+        text-align: left;
+    }
+}
+
+.maincs-title-text { /* section__title -> maincs-title-text */
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--maincs-text);
+}
+
+.maincs-subtitle-text { /* section__desc -> maincs-subtitle-text */
+    margin: 8px 0 0;
+    color: var(--maincs-muted);
+    font-size: var(--mng-font-size-sidebar);
+    line-height: 1.5;
+}
+
+.maincs-actions-group { /* section__actions -> maincs-actions-group */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Button Base: btn -> maincs-button (Reusing MainInfo button style) */
+.maincs-button {
+    appearance: none;
+    border: 1px solid var(--maincs-border);
+    background: var(--mng-color-white);
+    color: var(--maincs-text);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: var(--mng-font-weight-heavy);
+    font-size: var(--mng-font-size-sidebar);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.maincs-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(2, 6, 23, 0.06);
+}
+
+/* Primary Button: btn--primary -> maincs-button--primary */
+.maincs-button--primary {
+    background: var(--maincs-primary-bg);
+    color: var(--mng-color-white);
+    border-color: var(--maincs-primary-bg);
+}
+
+/* Grid Layouts: grid-2 -> maincs-grid-2 */
+.maincs-grid-2 { 
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+@media (min-width: 900px) {
+    .maincs-grid-2 {
+        grid-template-columns: 1fr 1fr; 
+        gap: 22px;
+    }
+}
+
+/* Card Base: card -> maincs-card-box (Reusing MainInfo card style) */
+.maincs-card-box {
+    background: var(--mng-color-white);
+    border: 1px solid var(--maincs-border);
+    border-radius: var(--maincs-card-radius); /* 18px */
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08); /* Reusing shadow from HomePage.css */
+    padding: 18px; 
+}
+.maincs-card-title-text {
+    margin: 0; 
+    font-size: 18px;
+    letter-spacing: -0.01em;
+}
+.maincs-card-desc-text {
+    margin: 8px 0 0;
+    color: var(--maincs-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* FAQ */
+.maincs-faq-list-group {
+    margin-top: 12px;
+    display: grid;
+    gap: 10px;
+}
+.maincs-faq-item { /* Original faqItem */
+    border: 1px solid var(--maincs-border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.maincs-faq-button { /* Original faqBtn */
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-weight: var(--mng-font-weight-bold);
+    letter-spacing: -0.01em;
+    color: var(--maincs-text);
+}
+
+.maincs-faq-body-text { /* Original faqBody */
+    padding: 0 12px 12px;
+    color: var(--maincs-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Info Box (Time) */
+.maincs-info-box { /* Original infoBox */
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 14px;
+    background: var(--maincs-soft-bg);
+}
+.maincs-info-title-text { /* Original fontWeight 900 */
+    font-weight: var(--mng-font-weight-bold);
+}
+.maincs-info-desc-text {
+    margin-top: 6px;
+    color: var(--maincs-muted);
+    font-size: 13px;
+}
+
+/* Chatbot Actions */
+.maincs-chat-actions-group {
+    margin-top: 14px;
+    display: grid;
+    gap: 10px;
+}
+
+/* Callback Area */
+.maincs-callback-area {
+    margin-top: 16px;
+    border-top: 1px solid rgba(2,6,23,0.06);
+    padding-top: 14px;
+}
+.maincs-callback-title-text {
+    margin: 0; 
+    font-size: var(--mng-font-size-sub-title); /* 16px */
+    letter-spacing: -0.01em;
+}
+.maincs-callback-desc-text {
+    margin: 8px 0 10px;
+    color: var(--maincs-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+.maincs-callback-form {
+    display: grid; 
+    gap: 10px;
+}
+
+/* Form Fields (Reusing original form utility from HomePage.css) */
+.maincs-form-label-group {
+    display: grid;
+    gap: 0;
+}
+.maincs-field-label { /* field__label -> maincs-field-label */
+    display: block;
+    font-size: 12px;
+    color: var(--maincs-muted);
+    margin-bottom: 6px;
+}
+.maincs-field-input { /* field__input -> maincs-field-input */
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--maincs-border);
+    padding: 0 12px;
+    font-size: var(--mng-font-size-sidebar);
+    outline: none;
+}
+.maincs-field-input:focus {
+    border-color: rgba(17, 24, 39, 0.45);
+    box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.08);
+}
+.maincs-form-note-text {
+    font-size: 12px; 
+    color: var(--maincs-muted);
+}

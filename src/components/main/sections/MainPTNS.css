@@ -1,0 +1,218 @@
+/**
+ * @file src/components/main/sections/MainPTNS.css
+ * @description 제휴 문의 섹션 (Partnership.jsx 스타일 기반)
+ * 251216 v1.0.0 sara init 
+ */
+
+/*
+  [index.css 공통 변수]
+  --mng-section-padding: 60px;
+  --mng-color-white: #ffffff;
+  --mng-font-primary-color: #212529; 
+  --mng-font-gray: #343a40;
+  --mng-font-weight-heavy: 700;
+  --mng-font-weight-bold: 900;
+  --mng-font-size-sidebar: 14px;
+  --mng-font-size-content: 12px;
+  --mng-content-border-color: #e0e0e0;
+*/
+
+/* MainPTNS 자체 변수 (Delivery-main design based on HomePage.css) */
+:root {
+  --mainptns-text: #0b0b0c;
+  --mainptns-muted: #6b7280;
+  --mainptns-border: rgba(15, 23, 42, 0.12);
+  --mainptns-soft-bg: rgba(2, 6, 23, 0.04);
+  --mainptns-card-radius: 18px;
+  --mainptns-primary-bg: #111827;
+}
+
+.mainptns-frame { 
+    padding: var(--mng-section-padding) 0;
+    border-top: 1px solid var(--mainptns-soft-bg);
+    background-color: var(--mng-color-white);
+}
+
+/* Header Group: section__head -> mainptns-header-group */
+.mainptns-header-group {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+}
+.mainptns-header-group > div:first-child {
+    margin-bottom: 12px;
+}
+@media (min-width: 900px) {
+    .mainptns-header-group {
+        flex-direction: row;
+        align-items: flex-end;
+        text-align: left;
+    }
+}
+
+.mainptns-title-text { /* section__title -> mainptns-title-text */
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--mainptns-text);
+}
+
+.mainptns-desc-text { /* section__desc -> mainptns-desc-text */
+    margin: 8px 0 0;
+    color: var(--mainptns-muted);
+    font-size: var(--mng-font-size-sidebar);
+    line-height: 1.5;
+}
+
+
+/* Grid Layouts: grid-2 -> mainptns-grid-2 */
+.mainptns-grid-2 { 
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+.mainptns-input-grid-2 { /* grid-2 (nested) -> mainptns-input-grid-2 */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+@media (min-width: 900px) {
+    .mainptns-grid-2 {
+        grid-template-columns: 1fr 1fr; 
+        gap: 22px;
+    }
+    .mainptns-input-grid-2 {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+
+
+/* Card Base: card -> mainptns-card-box (Reusing MainInfo card style) */
+.mainptns-card-box {
+    background: var(--mng-color-white);
+    border: 1px solid var(--mainptns-border);
+    border-radius: var(--mainptns-card-radius); /* 18px */
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+    padding: 18px; 
+}
+.mainptns-card-title-text {
+    margin: 0; 
+    font-size: 18px;
+    letter-spacing: -0.01em;
+}
+
+/* Form Fields */
+.mainptns-form-fields-group {
+    margin-top: 12px;
+    display: grid;
+    gap: 10px;
+}
+/* .mainptns-form-label-group: 빈 블록 제거 */
+
+.mainptns-field-label { /* field__label -> mainptns-field-label */
+    display: block;
+    font-size: 12px;
+    color: var(--mainptns-muted);
+    margin-bottom: 6px;
+}
+.mainptns-field-input { /* field__input -> mainptns-field-input */
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid var(--mainptns-border);
+    padding: 0 12px;
+    font-size: var(--mng-font-size-sidebar);
+    outline: none;
+}
+.mainptns-form-textarea {
+    width: 100%;
+    min-height: 120px;
+    border-radius: 12px;
+    border: 1px solid var(--mainptns-border);
+    padding: 12px;
+    font-size: var(--mng-font-size-sidebar);
+    outline: none;
+    resize: vertical;
+}
+
+/* Agreement */
+.mainptns-agreement-label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.mainptns-agreement-text {
+    font-size: 13px;
+    color: #111827;
+    opacity: 0.85;
+}
+
+/* Submit Button */
+.mainptns-submit-button { /* btn -> mainptns-submit-button */
+    appearance: none;
+    border: 1px solid var(--mainptns-border);
+    background: var(--mng-color-white);
+    color: var(--mainptns-text);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: var(--mng-font-weight-heavy);
+    font-size: var(--mng-font-size-sidebar);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    height: 44px;
+    border-radius: 12px;
+}
+.mainptns-submit-button--primary { /* btn--primary -> mainptns-submit-button--primary */
+    background: var(--mainptns-primary-bg);
+    color: var(--mng-color-white);
+    border-color: var(--mainptns-primary-bg);
+}
+
+/* Guide Notes */
+.mainptns-note-list-group {
+    margin-top: 12px;
+    display: grid;
+    gap: 10px;
+}
+.mainptns-note-item { /* original note style */
+    padding: 12px;
+    border: 1px solid var(--mainptns-border);
+    border-radius: 14px;
+}
+.mainptns-note-title-text { /* original noteT */
+    font-weight: var(--mng-font-weight-bold);
+    letter-spacing: -0.01em;
+}
+.mainptns-note-desc-text { /* original noteD */
+    margin-top: 6px;
+    color: var(--mainptns-muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Message Box */
+.mainptns-message-box {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 14px;
+    background: var(--mainptns-soft-bg);
+}
+.mainptns-message-title-text {
+    font-weight: var(--mng-font-weight-bold);
+}
+.mainptns-message-desc-text {
+    margin-top: 6px;
+    color: var(--mainptns-muted);
+    font-size: 13px;
+    line-height: 1.5;
+}

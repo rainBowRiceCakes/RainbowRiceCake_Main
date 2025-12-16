@@ -1,0 +1,56 @@
+/**
+ * @file src/components/common/TopButton01.css
+ * @description top 버튼 (웹/ 앱 공용)
+ * 251216 v1.0.0 sara init 
+ */
+
+/*
+  [index.css 공통 변수]
+  --mng-color-white: #ffffff;
+*/
+
+/* TopButton01 자체 변수 */
+:root {
+  --topbutton01-border: rgba(15, 23, 42, 0.12);
+  --topbutton01-bg: rgba(255, 255, 255, 0.92);
+  --topbutton01-shadow-normal: 0 12px 30px rgba(2, 6, 23, 0.10);
+  --topbutton01-shadow-hover: 0 18px 40px rgba(2, 6, 23, 0.14);
+}
+
+
+.topbutton01-button { /* .topBtn -> .topbutton01-button */
+  position: fixed;
+  right: 16px;
+  z-index: 95;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+
+  border: 1px solid var(--topbutton01-border);
+  background: var(--topbutton01-bg);
+  backdrop-filter: blur(10px) saturate(1.2);
+
+  box-shadow: var(--topbutton01-shadow-normal);
+  cursor: pointer;
+
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1;
+
+  display: grid;
+  place-items: center;
+
+  transition: transform 140ms ease, box-shadow 160ms ease;
+}
+
+.topbutton01-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--topbutton01-shadow-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbutton01-button {
+    transition: none !important;
+  }
+}
