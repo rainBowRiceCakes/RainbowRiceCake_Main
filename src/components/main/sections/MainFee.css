@@ -6,32 +6,32 @@
 
 /*
   [index.css 공통 변수]
-  --mng-section-padding: 60px;
-  --mng-color-white: #ffffff;
-  --mng-color-light-gray: #f8f8f8;
-  --mng-font-primary-color: #212529;
-  --mng-font-gray: #343a40;
-  --mng-font-weight-heavy: 700;
-  --mng-font-size-title: 18px;
-  --mng-font-size-sub-title: 16px;
-  --mng-font-size-sidebar: 14px;
-  --mng-font-size-content: 12px;
-  --mng-content-border-color: #e0e0e0;
-  --mng-color-blue: #3498db;
-  --mng-color-green: #2ecc71;
-  --mng-color-red: #e74c3c;
+  --com-section-padding: 60px;
+  --com-color-white: #ffffff;
+  --com-color-light-gray: #f8f8f8;
+  --com-font-primary-color: #212529;
+  --com-font-gray: #343a40;
+  --com-font-weight-heavy: 700;
+  --com-font-size-title: 18px;
+  --com-font-size-sub-title: 16px;
+  --com-font-size-sidebar: 14px;
+  --com-font-size-content: 12px;
+  --com-content-border-color: #e0e0e0;
+  --com-color-blue: #3498db;
+  --com-color-green: #2ecc71;
+  --com-color-red: #e74c3c;
 */
 
 /* MainFee 자체 변수 */
 :root {
-    --mainfee-box-bg: var(--mng-color-light-gray);
+    --mainfee-box-bg: var(--com-color-light-gray);
     --mainfee-map-btn-hover: #555;
-    --mainfee-box-title-border: 2px solid var(--mng-color-blue);
+    --mainfee-box-title-border: 2px solid var(--com-color-blue);
 }
 
 .mainfee-frame { /* .mainfee-container -> .mainfee-frame */
-    padding: var(--mng-section-padding) 0;
-    background-color: var(--mng-color-white);
+    padding: var(--com-section-padding) 0;
+    background-color: var(--com-color-white);
 }
 
 /* .mainfee-web-wrapper 삭제, mainshow-section-wrapper 사용 */
@@ -42,15 +42,15 @@
 }
 
 .mainfee-title-text { /* .mainfee-title -> .mainfee-title-text */
-    font-size: var(--mng-font-size-title);
-    font-weight: var(--mng-font-weight-heavy);
-    color: var(--mng-font-primary-color);
+    font-size: var(--com-font-size-title);
+    font-weight: var(--com-font-weight-heavy);
+    color: var(--com-font-primary-color);
     margin-bottom: 10px;
 }
 
 .mainfee-subtitle-text { /* .mainfee-subtitle -> .mainfee-subtitle-text */
-    font-size: var(--mng-font-size-sub-title);
-    color: var(--mng-font-gray);
+    font-size: var(--com-font-size-sub-title);
+    color: var(--com-font-gray);
 }
 
 .mainfee-content-flex {
@@ -63,7 +63,7 @@
 .mainfee-price-box, .mainfee-branch-box {
     flex: 1;
     min-width: 300px;
-    border: 1px solid var(--mng-content-border-color);
+    border: 1px solid var(--com-content-border-color);
     border-radius: 8px;
     padding: 25px;
     text-align: left;
@@ -71,9 +71,9 @@
 }
 
 .mainfee-box-title {
-    font-size: var(--mng-font-size-sub-title);
-    font-weight: var(--mng-font-weight-heavy);
-    color: var(--mng-color-blue);
+    font-size: var(--com-font-size-sub-title);
+    font-weight: var(--com-font-weight-heavy);
+    color: var(--com-color-blue);
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: var(--mainfee-box-title-border);
@@ -82,14 +82,14 @@
 /* 가격표 스타일 */
 .mainfee-table-wrapper {
     margin-bottom: 15px;
-    border: 1px solid var(--mng-content-border-color);
+    border: 1px solid var(--com-content-border-color);
     border-radius: 4px;
     overflow: hidden;
 }
 
 .mainfee-table-row {
     display: flex;
-    border-bottom: 1px solid var(--mng-content-border-color);
+    border-bottom: 1px solid var(--com-content-border-color);
 }
 
 .mainfee-table-row:last-child {
@@ -99,8 +99,8 @@
 .mainfee-table-cell {
     flex: 1;
     padding: 10px 15px;
-    font-size: var(--mng-font-size-sidebar);
-    border-right: 1px solid var(--mng-content-border-color);
+    font-size: var(--com-font-size-sidebar);
+    border-right: 1px solid var(--com-content-border-color);
 }
 
 .mainfee-table-cell:last-child {
@@ -112,38 +112,38 @@
 .mainfee-table-cell--fee { flex: 0.8; }
 
 .mainfee-table-header-row { /* .mainfee-table-header -> .mainfee-table-header-row */
-    background-color: var(--mng-content-border-color);
-    font-weight: var(--mng-font-weight-heavy);
-    color: var(--mng-font-primary-color);
+    background-color: var(--com-content-border-color);
+    font-weight: var(--com-font-weight-heavy);
+    color: var(--com-font-primary-color);
 }
 
 .mainfee-fee-free {
-    color: var(--mng-color-green);
-    font-weight: var(--mng-font-weight-heavy);
+    color: var(--com-color-green);
+    font-weight: var(--com-font-weight-heavy);
 }
 
 .mainfee-note-text {
-    font-size: var(--mng-font-size-content);
-    color: var(--mng-color-red);
+    font-size: var(--com-font-size-content);
+    color: var(--com-color-red);
 }
 
 /* 지점 안내 스타일 */
 .mainfee-branch-item {
     margin-bottom: 15px;
     padding: 10px 0;
-    border-bottom: 1px dotted var(--mng-content-border-color);
+    border-bottom: 1px dotted var(--com-content-border-color);
 }
 
 .mainfee-branch-name {
-    font-size: var(--mng-font-size-sidebar);
-    font-weight: var(--mng-font-weight-heavy);
-    color: var(--mng-font-primary-color);
+    font-size: var(--com-font-size-sidebar);
+    font-weight: var(--com-font-weight-heavy);
+    color: var(--com-font-primary-color);
     margin-bottom: 3px;
 }
 
 .mainfee-branch-address {
-    font-size: var(--mng-font-size-content);
-    color: var(--mng-font-gray);
+    font-size: var(--com-font-size-content);
+    color: var(--com-font-gray);
 }
 
 .mainfee-branch-map-link {
@@ -154,11 +154,11 @@
 .mainfee-map-link-button { /* .mainfee-map-link-btn -> .mainfee-map-link-button */
     display: inline-block;
     padding: 8px 15px;
-    background-color: var(--mng-font-gray);
-    color: var(--mng-color-white);
+    background-color: var(--com-font-gray);
+    color: var(--com-color-white);
     text-decoration: none;
     border-radius: 4px;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     transition: background-color 0.2s;
 }
 

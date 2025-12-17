@@ -13,11 +13,10 @@ import MainDLVS from '../components/main/sections/MainDLVS.jsx';
 import MainCS from '../components/main/sections/MainCS.jsx';
 import MainPTNS from '../components/main/sections/MainPTNS.jsx';
 
-// 그 외 인증 및 사용자 관련 컴포넌트 (가정된 경로) TODO : 차후 추가
-// import Login from '../components/main/Login.jsx'; 
-// import MyPage from '../users/MyPage/MyPage.jsx';
-
-
+// 신규 인증 및 사용자 관련 컴포넌트
+import Login from "../components/main/auth/Login.jsx";
+import MyPage from "../components/main/auth/MyPage.jsx";
+import RegisterForm from "../components/main/auth/RegisterForm.jsx";
 
 // 사용자 정의 라우트 객체
 const router = createBrowserRouter([
@@ -38,37 +37,53 @@ const router = createBrowserRouter([
       // 1. MainShow 페이지 라우트
       // ---------------------------------      
       { 
-          path: '/sections/cover', 
-          element: <MainCover /> 
+        path: '/sections/cover', 
+        element: <MainCover /> 
       },
       { 
-          path: '/sections/info', 
-          element: <MainInfo /> 
+        path: '/sections/info', 
+        element: <MainInfo /> 
       },
       { 
-          path: '/sections/fee', 
-          element: <MainFee /> 
+        path: '/sections/fee', 
+        element: <MainFee /> 
       },
       { 
-          path: '/sections/dlvs', 
-          element: <MainDLVS /> 
+        path: '/sections/dlvs', 
+        element: <MainDLVS /> 
       },
       { 
-          path: '/sections/cs', 
-          element: <MainCS /> 
+        path: '/sections/cs', 
+        element: <MainCS /> 
       },
       { 
-          path: '/sections/ptns', 
-          element: <MainPTNS /> 
+        path: '/sections/ptns', 
+        element: <MainPTNS /> 
       },
-
+      
       // ---------------------------------
       // 2. 인증/게스트 라우트
       // ---------------------------------
-      // { 
-      //     path: '/login',
-      //     element:<Login />
-      // },      
+      { 
+        path: '/login',
+        element: <Login /> // 로그인/회원가입 선택 페이지
+      },      
+      { 
+        path: '/mypage',
+        element: <MyPage /> // 마이페이지
+      }, 
+      { 
+        path: '/register',
+        element: <RegisterForm /> // 회원가입 폼
+      }, 
+
+      // ---------------------------------
+      // 3. 404 처리
+      // ---------------------------------
+      {
+        path: '*',
+        element: <div>404 Not Found</div>
+      },
 
 // // ---------------------------------
 //             // 3. 보호된 라우트 그룹 (ProtectedRouter 사용)
@@ -83,27 +98,15 @@ const router = createBrowserRouter([
 //                     },
 //                     // 기타 보호가 필요한 경로들을 여기에 추가...
 //                 ]
-//             },
-
-//             // ---------------------------------
-//             // 4. 404 처리
-//             // ---------------------------------
-//             {
-//                 path: '*',
-//                 element: <div>404 Not Found: 페이지를 찾을 수 없습니다.</div>
-//             }
 //         ]
 //     }
 // ]);
-            {
-                path: '*',
-                element: <div>404 Not Found: 페이지를 찾을 수 없습니다.</div>
-            }
-
-        ]
+      ]
     }
 ]);
 
 export default function Router() {
     return <RouterProvider router={router} />;
 };
+
+

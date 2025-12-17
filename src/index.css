@@ -10,30 +10,43 @@
   /* 추가된 변수 from sara */
 
   /* 기본 배경 색상 (Main Cover, Header 등) */
-  --mng-color-white: #ffffff;
-  
+  --com-color-white: #ffffff;
   /* 콘텐츠 배경색 (약간 회색) */
-  --mng-color-light-gray: #f8f8f8;
-  
+  --com-color-light-gray: #f8f8f8;
   /* 섹션 구분을 위한 배경색 (Main DLVS, Main PTNS 등) */
-  --mng-color-section-bg: #f4f7f6; 
-  
+  --com-color-section-bg: #f4f7f6; 
   /* 기본 폰트 색상 (가장 진한 색상) */
-  --mng-font-primary-color: #212529; 
-  
+  --com-font-primary-color: #212529; 
   /* 웹 콘텐츠의 최대 너비 */
-  --mng-web-max-width: 1200px;
-  
+  --com-web-max-width: 1200px;
   /* 섹션 간의 일반적인 수직 여백 */
-  --mng-section-padding: 60px;
-
+  --com-section-padding: 60px;
   /* 명시적인 폰트 두께 (font-weight: 700) - Main Info, Fee 등에서 자주 사용됨 */
-  --mng-font-weight-heavy: 700;
+  --com-font-weight-heavy: 700;
   /* 얇은 경계선 색상 (border-color) - Table, Box Border에서 사용됨 */
-  --mng-content-border-color: #e0e0e0;
-
+  /* mng에서 사용하는 사이즈, 구조 -> com으로 변경해서 사용 */
+  --com-content-border-color: #e0e0e0;
+  --com-sidebar-width: 240px;
+  --com-sidebar-title-font-color: #adb5bd;
+  --com-sidebar-item-font-color: #c2c7d0;
+  --com-font-size-sidebar: 14px;
+  /* 기존 900px -> 900으로 변경 */
+  --com-font-weight: 900; 
+  --com-font-gray: #343a40;
+  --com-font-green: #2ecc71;
+  --com-font-blue: #3498db;
+  --com-font-red: #e74c3c;
+  --com-content-border-bottom: #dee2e6;
+  --com-button-content: #fff;
+  --com-font-size-title: 18px;
+  --com-font-size-sub-title: 16px;
+  --com-font-size-content: 12px;
+  --com-container-padding: 20px;
+  --com-mobile-max-width: 355px; /* 375px - 20px */
+  /* com- 글로벌 css변수 추가 시, 위 규칙 따르기 */
+  
   /* ------------------------------------------------------------------------------ */
-
+ 
 
   /* 기존 변수 from wook */
   
@@ -47,7 +60,7 @@
   --mng-font-green: #2ecc71;
   --mng-font-blue: #3498db;
   --mng-font-red: #e74c3c;
-  --mng-content-border-boottom: #dee2e6;
+  --mng-content-border-bottom: #dee2e6;
   --mng-button-content: #fff;
   --mng-font-size-title: 18px;
   --mng-font-size-sub-title: 16px;

@@ -17,7 +17,7 @@ export default function MainCover() {
           {/* ✅ 텍스트 오버레이 제거 및 img 태그로 대체 */}
           <img 
             src={MaincoverImg} 
-            alt="신선한 떡, 내일 아침 식탁으로" 
+            alt="우리 서비스 이미지 (1020*500)" 
             className="maincover-cover-image"
           /> 
         </div>
@@ -38,8 +38,8 @@ export default function MainCover() {
                 </button>
             </div>
             <div className="maincover-link-group">
-                <a href="#more-delivery" className="maincover-more-link">
-                    더 많은 배송 조회 옵션
+                <a href="#more-delivery" className="maincover-more-link" >
+                    내 배송 현황 보러가기
                 </a>
             </div>
         </form>

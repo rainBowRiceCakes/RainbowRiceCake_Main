@@ -6,15 +6,15 @@
 
 /*
   [index.css 공통 변수]
-  --mng-section-padding: 60px;
-  --mng-color-white: #ffffff;
-  --mng-font-primary-color: #212529; 
-  --mng-font-gray: #343a40;
-  --mng-font-weight-heavy: 700;
-  --mng-font-weight-bold: 900;
-  --mng-font-size-sidebar: 14px;
-  --mng-font-size-content: 12px;
-  --mng-content-border-color: #e0e0e0;
+  --com-section-padding: 60px;
+  --com-color-white: #ffffff;
+  --com-font-primary-color: #212529; 
+  --com-font-gray: #343a40;
+  --com-font-weight-heavy: 700;
+  --com-font-weight-bold: 900;
+  --com-font-size-sidebar: 14px;
+  --com-font-size-content: 12px;
+  --com-content-border-color: #e0e0e0;
 */
 
 /* MainPTNS 자체 변수 (Delivery-main design based on HomePage.css) */
@@ -28,9 +28,9 @@
 }
 
 .mainptns-frame { 
-    padding: var(--mng-section-padding) 0;
+    padding: var(--com-section-padding) 0;
     border-top: 1px solid var(--mainptns-soft-bg);
-    background-color: var(--mng-color-white);
+    background-color: var(--com-color-white);
 }
 
 /* Header Group: section__head -> mainptns-header-group */
@@ -66,7 +66,7 @@
 .mainptns-desc-text { /* section__desc -> mainptns-desc-text */
     margin: 8px 0 0;
     color: var(--mainptns-muted);
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     line-height: 1.5;
 }
 
@@ -95,7 +95,7 @@
 
 /* Card Base: card -> mainptns-card-box (Reusing MainInfo card style) */
 .mainptns-card-box {
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     border: 1px solid var(--mainptns-border);
     border-radius: var(--mainptns-card-radius); /* 18px */
     box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
@@ -127,7 +127,7 @@
     border-radius: 12px;
     border: 1px solid var(--mainptns-border);
     padding: 0 12px;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     outline: none;
 }
 .mainptns-form-textarea {
@@ -136,7 +136,7 @@
     border-radius: 12px;
     border: 1px solid var(--mainptns-border);
     padding: 12px;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     outline: none;
     resize: vertical;
 }
@@ -157,12 +157,12 @@
 .mainptns-submit-button { /* btn -> mainptns-submit-button */
     appearance: none;
     border: 1px solid var(--mainptns-border);
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     color: var(--mainptns-text);
     border-radius: 999px;
     padding: 10px 14px;
-    font-weight: var(--mng-font-weight-heavy);
-    font-size: var(--mng-font-size-sidebar);
+    font-weight: var(--com-font-weight-heavy);
+    font-size: var(--com-font-size-sidebar);
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -174,7 +174,7 @@
 }
 .mainptns-submit-button--primary { /* btn--primary -> mainptns-submit-button--primary */
     background: var(--mainptns-primary-bg);
-    color: var(--mng-color-white);
+    color: var(--com-color-white);
     border-color: var(--mainptns-primary-bg);
 }
 
@@ -190,7 +190,7 @@
     border-radius: 14px;
 }
 .mainptns-note-title-text { /* original noteT */
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
     letter-spacing: -0.01em;
 }
 .mainptns-note-desc-text { /* original noteD */
@@ -208,7 +208,7 @@
     background: var(--mainptns-soft-bg);
 }
 .mainptns-message-title-text {
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
 }
 .mainptns-message-desc-text {
     margin-top: 6px;

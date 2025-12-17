@@ -1,0 +1,115 @@
+/**
+ * @file src/components/main/auth/Login.css
+ * @description 로그인/회원가입 페이지
+ * 251217 v1.0.0 sara init 
+ */
+
+.login-frame {
+  padding: var(--com-section-padding) 0;
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--com-color-white);
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  border: 1px solid var(--com-content-border-color);
+  border-radius: 16px;
+  text-align: center;
+  background-color: var(--com-color-white);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: var(--com-font-weight);
+  color: var(--com-font-primary-color);
+  margin-bottom: 30px;
+}
+
+.login-input-group,
+.login-select-group {
+  display: grid;
+  gap: 12px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--com-content-border-color);
+  border-radius: 8px;
+  font-size: var(--com-font-size-sub-title);
+  outline: none;
+}
+
+.login-password-wrapper {
+  position: relative;
+}
+
+.login-view-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.login-btn,
+.login-select-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: var(--com-font-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login-btn--mint {
+  background-color: var(--com-font-gray);
+  color: var(--com-button-content);
+  border: none;
+}
+
+.login-select-btn {
+  border: 1px solid var(--com-content-border-color);
+  background: var(--com-color-white);
+  color: var(--com-font-primary-color);
+}
+
+.login-hr {
+  margin: 15px 0;
+  color: var(--com-sidebar-title-font-color);
+  font-size: var(--com-font-size-content);
+  display: flex;
+  align-items: center;
+}
+
+.login-hr::before,
+.login-hr::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--com-content-border-color);
+  margin: 0 10px;
+}
+
+.login-helper-links {
+  margin-top: 20px;
+  font-size: var(--com-font-size-content);
+  color: var(--com-font-gray);
+}
+
+.login-back-btn {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  color: var(--com-sidebar-item-font-color);
+  cursor: pointer;
+}

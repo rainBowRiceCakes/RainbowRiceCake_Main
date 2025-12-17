@@ -1,0 +1,108 @@
+/**
+ * @file src/components/main/auth/RegisterForm.css
+ * @description 회원가입 페이지 
+ * 251217 v1.0.0 sara init 
+ */
+
+.register-frame {
+  padding: var(--com-section-padding) 0;
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--com-color-section-bg);
+}
+
+.register-box {
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 30px;
+  border: 1px solid var(--com-content-border-color);
+  border-radius: 16px;
+  text-align: center;
+  background-color: var(--com-color-white);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.register-title {
+  font-size: 24px;
+  font-weight: var(--com-font-weight);
+  color: var(--com-font-primary-color);
+  margin-bottom: 12px;
+}
+
+.register-info {
+  font-size: var(--com-font-size-sidebar);
+  color: var(--com-font-gray);
+  margin-bottom: 30px;
+}
+
+.register-info span {
+  color: var(--com-font-blue);
+  cursor: pointer;
+  font-weight: var(--com-font-weight-heavy);
+  text-decoration: underline;
+}
+
+.register-form-grid {
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+
+.register-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--com-content-border-color);
+  border-radius: 8px;
+  font-size: var(--com-font-size-sidebar);
+  outline: none;
+  background-color: var(--com-color-white);
+}
+
+.register-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.register-phone-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px;
+}
+
+.register-select {
+  padding: 0 10px;
+  border: 1px solid var(--com-content-border-color);
+  border-radius: 8px;
+  background-color: var(--com-color-light-gray);
+  font-size: var(--com-font-size-content);
+}
+
+.register-agree {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--com-font-size-content);
+  color: var(--com-font-gray);
+  margin-top: 10px;
+}
+
+.register-submit-btn {
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  background-color: var(--com-font-primary-color);
+  color: var(--com-button-content);
+  border: none;
+  border-radius: 8px;
+  font-size: var(--com-font-size-sub-title);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.register-submit-btn:hover {
+  opacity: 0.9;
+}

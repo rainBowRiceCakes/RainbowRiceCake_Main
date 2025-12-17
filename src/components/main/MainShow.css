@@ -11,7 +11,7 @@
 
 /* 모든 메인 섹션에 대한 공통 스타일 (필요 시) */
 .mainshow-section-wrapper {
-    max-width: var(--mng-web-max-width);
+    max-width: var(--com-web-max-width);
     margin: 0 auto;
-    padding: var(--mng-container-padding);
+    padding: var(--com-container-padding);
 }

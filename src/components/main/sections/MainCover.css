@@ -6,25 +6,25 @@
 
 /*
   [index.css 공통 변수]
-  --mng-web-max-width: 1200px;
-  --mng-container-padding: 20px;
-  --mng-color-white: #ffffff;
-  --mng-font-primary-color: #212529; 
-  --mng-font-size-sub-title: 16px;
-  --mng-font-size-sidebar: 14px;
-  --mng-font-size-content: 12px;
-  --mng-font-weight-heavy: 700;
-  --mng-color-light-gray: #f8f8f8;
+  --com-web-max-width: 1200px;
+  --com-container-padding: 20px;
+  --com-color-white: #ffffff;
+  --com-font-primary-color: #212529; 
+  --com-font-size-sub-title: 16px;
+  --com-font-size-sidebar: 14px;
+  --com-font-size-content: 12px;
+  --com-font-weight-heavy: 700;
+  --com-color-light-gray: #f8f8f8;
 */
 
 /* MainCover 자체 변수 */
 :root {
-    --maincover-delivery-bg: var(--mng-color-light-gray); /* ✅ 밝은 모노톤으로 변경 */
+    --maincover-delivery-bg: var(--com-color-light-gray); /* ✅ 밝은 모노톤으로 변경 */
     --maincover-max-width: 1400px; 
 
     /* 조회 버튼 색상 */
     --maincover-button-bg: #0b0b0c; /* 블랙 */
-    --maincover-button-text: var(--mng-color-white);
+    --maincover-button-text: var(--com-color-white);
 }
 
 
@@ -64,8 +64,8 @@
 .maincover-delivery-area { 
     flex-shrink: 0; 
     background-color: var(--maincover-delivery-bg); /* ✅ 밝은 모노톤 배경 */
-    color: var(--mng-font-primary-color); /* ✅ 텍스트 색상을 검은색 계열로 변경 */
-    padding: 30px var(--mng-container-padding);
+    color: var(--com-font-primary-color); /* ✅ 텍스트 색상을 검은색 계열로 변경 */
+    padding: 30px var(--com-container-padding);
 }
 
 .maincover-delivery-form { 
@@ -77,8 +77,8 @@
 }
 
 .maincover-delivery-title-text { 
-    font-size: var(--mng-font-size-sub-title);
-    font-weight: var(--mng-font-weight-heavy);
+    font-size: var(--com-font-size-sub-title);
+    font-weight: var(--com-font-weight-heavy);
     margin-bottom: 15px;
 }
 
@@ -92,9 +92,9 @@
 .maincover-input-field { 
     flex-grow: 1;
     padding: 10px 15px;
-    border: 1px solid var(--mng-content-border-color); /* 테두리 추가로 분리감 강화 */
+    border: 1px solid var(--com-content-border-color); /* 테두리 추가로 분리감 강화 */
     border-radius: 4px 0 0 4px;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
 }
 
 .maincover-submit-button { 
@@ -104,25 +104,25 @@
     border: 1px solid var(--maincover-button-bg); 
     padding: 10px 20px;
     cursor: pointer;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     border-radius: 0 4px 4px 0;
     transition: background-color 0.2s, color 0.2s;
 }
 
 .maincover-submit-button:hover {
     /* ✅ 호버 디자인 수정: 흰색 배경, 검은색 글자 */
-    background-color: var(--mng-color-white);
+    background-color: var(--com-color-white);
     color: var(--maincover-button-bg);
     border-color: var(--maincover-button-bg);
 }
 
 .maincover-link-group { 
-    font-size: var(--mng-font-size-content);
-    color: var(--mng-font-primary-color); /* 링크 그룹 텍스트도 검은색 계열로 변경 */
+    font-size: var(--com-font-size-content);
+    color: var(--com-font-primary-color); /* 링크 그룹 텍스트도 검은색 계열로 변경 */
 }
 
 .maincover-more-link { 
-    color: var(--mng-font-primary-color); 
+    color: var(--com-font-primary-color); 
     opacity: 0.8;
     text-decoration: underline;
 }

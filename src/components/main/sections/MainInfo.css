@@ -6,16 +6,16 @@
 
 /*
   [index.css 공통 변수]
-  --mng-section-padding: 60px;
-  --mng-font-primary-color: #212529; 
-  --mng-font-gray: #343a40;
-  --mng-color-white: #ffffff;
-  --mng-content-border-color: #e0e0e0;
-  --mng-font-weight-heavy: 700;
-  --mng-font-weight-bold: 900;
-  --mng-font-size-sidebar: 14px;
-  --mng-font-size-sub-title: 16px;
-  --mng-color-blue: #3498db;
+  --com-section-padding: 60px;
+  --com-font-primary-color: #212529; 
+  --com-font-gray: #343a40;
+  --com-color-white: #ffffff;
+  --com-content-border-color: #e0e0e0;
+  --com-font-weight-heavy: 700;
+  --com-font-weight-bold: 900;
+  --com-font-size-sidebar: 14px;
+  --com-font-size-sub-title: 16px;
+  --com-color-blue: #3498db;
 */
 
 /* MainInfo 자체 변수 (Delivery-main design based on HomePage.css) */
@@ -31,7 +31,7 @@
 
 .maininfo-frame { /* .section -> .maininfo-frame */
     /* Using mainshow-section-frame wrapper for padding and max-width */
-    padding: var(--mng-section-padding) 0;
+    padding: var(--com-section-padding) 0;
     border-top: 1px solid var(--maininfo-soft-bg);
 }
 /* MainShow.jsx에서 첫 섹션에만 border-top을 제거할 경우를 대비하여 아래 스타일은 생략 */
@@ -58,7 +58,7 @@
 .maininfo-desc-text { /* section__desc -> maininfo-desc-text */
     margin: 8px 0 0;
     color: var(--maininfo-muted);
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     line-height: 1.5;
 }
 
@@ -72,12 +72,12 @@
 .maininfo-button {
     appearance: none;
     border: 1px solid var(--maininfo-border);
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     color: var(--maininfo-text);
     border-radius: 999px;
     padding: 10px 14px;
-    font-weight: var(--mng-font-weight-heavy);
-    font-size: var(--mng-font-size-sidebar);
+    font-weight: var(--com-font-weight-heavy);
+    font-size: var(--com-font-size-sidebar);
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -93,13 +93,13 @@
 /* Primary Button: btn--primary -> maininfo-button--primary */
 .maininfo-button--primary {
     background: var(--maininfo-primary-bg);
-    color: var(--mng-color-white);
+    color: var(--com-color-white);
     border-color: var(--maininfo-primary-bg);
 }
 
 /* Card Base: card -> maininfo-card-box */
 .maininfo-card-box {
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     border: 1px solid var(--maininfo-border);
     border-radius: var(--maininfo-card-radius);
     box-shadow: var(--maininfo-card-shadow);
@@ -146,7 +146,7 @@
 }
 
 .maininfo-note-title-text { /* .maininfo-note-title -> .maininfo-note-title-text */
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
 }
 .maininfo-note-desc-text {
     margin: 6px 0 0;
@@ -160,10 +160,10 @@
     border: 1px solid var(--maininfo-border);
     border-radius: 14px;
     padding: 12px;
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
 }
 .maininfo-size-title-text { /* Original miniTitle */
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
     letter-spacing: -0.01em;
 }
 .maininfo-size-desc-text { /* Original miniDesc */

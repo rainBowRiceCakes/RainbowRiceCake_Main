@@ -6,15 +6,15 @@
 
 /*
   [index.css 공통 변수]
-  --mng-section-padding: 60px;
-  --mng-color-white: #ffffff;
-  --mng-font-primary-color: #212529; 
-  --mng-font-gray: #343a40;
-  --mng-font-weight-heavy: 700;
-  --mng-font-weight-bold: 900;
-  --mng-font-size-sidebar: 14px;
-  --mng-content-border-color: #e0e0e0;
-  --mng-color-blue: #3498db;
+  --com-section-padding: 60px;
+  --com-color-white: #ffffff;
+  --com-font-primary-color: #212529; 
+  --com-font-gray: #343a40;
+  --com-font-weight-heavy: 700;
+  --com-font-weight-bold: 900;
+  --com-font-size-sidebar: 14px;
+  --com-content-border-color: #e0e0e0;
+  --com-color-blue: #3498db;
 */
 
 /* MainCS 자체 변수 (Delivery-main design based on HomePage.css) */
@@ -28,8 +28,8 @@
 }
 
 .maincs-frame { /* .maincs-container -> .maincs-frame */
-    padding: var(--mng-section-padding) 0;
-    background-color: var(--mng-color-white);
+    padding: var(--com-section-padding) 0;
+    background-color: var(--com-color-white);
 }
 
 /* Header Group: section__head -> maincs-header-group */
@@ -66,7 +66,7 @@
 .maincs-subtitle-text { /* section__desc -> maincs-subtitle-text */
     margin: 8px 0 0;
     color: var(--maincs-muted);
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     line-height: 1.5;
 }
 
@@ -80,12 +80,12 @@
 .maincs-button {
     appearance: none;
     border: 1px solid var(--maincs-border);
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     color: var(--maincs-text);
     border-radius: 999px;
     padding: 10px 14px;
-    font-weight: var(--mng-font-weight-heavy);
-    font-size: var(--mng-font-size-sidebar);
+    font-weight: var(--com-font-weight-heavy);
+    font-size: var(--com-font-size-sidebar);
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -101,7 +101,7 @@
 /* Primary Button: btn--primary -> maincs-button--primary */
 .maincs-button--primary {
     background: var(--maincs-primary-bg);
-    color: var(--mng-color-white);
+    color: var(--com-color-white);
     border-color: var(--maincs-primary-bg);
 }
 
@@ -120,7 +120,7 @@
 
 /* Card Base: card -> maincs-card-box (Reusing MainInfo card style) */
 .maincs-card-box {
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     border: 1px solid var(--maincs-border);
     border-radius: var(--maincs-card-radius); /* 18px */
     box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08); /* Reusing shadow from HomePage.css */
@@ -157,7 +157,7 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
     letter-spacing: -0.01em;
     color: var(--maincs-text);
 }
@@ -177,7 +177,7 @@
     background: var(--maincs-soft-bg);
 }
 .maincs-info-title-text { /* Original fontWeight 900 */
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
 }
 .maincs-info-desc-text {
     margin-top: 6px;
@@ -200,7 +200,7 @@
 }
 .maincs-callback-title-text {
     margin: 0; 
-    font-size: var(--mng-font-size-sub-title); /* 16px */
+    font-size: var(--com-font-size-sub-title); /* 16px */
     letter-spacing: -0.01em;
 }
 .maincs-callback-desc-text {
@@ -231,7 +231,7 @@
     border-radius: 12px;
     border: 1px solid var(--maincs-border);
     padding: 0 12px;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     outline: none;
 }
 .maincs-field-input:focus {

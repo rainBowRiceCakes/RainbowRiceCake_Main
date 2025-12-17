@@ -6,14 +6,14 @@
 
 /*
   [index.css 공통 변수]
-  --mng-section-padding: 60px;
-  --mng-color-white: #ffffff;
-  --mng-color-section-bg: #f4f7f6;
-  --mng-font-primary-color: #212529;
-  --mng-font-gray: #343a40; 
-  --mng-font-weight-heavy: 700;
-  --mng-font-weight-bold: 900;
-  --mng-font-size-sidebar: 14px;
+  --com-section-padding: 60px;
+  --com-color-white: #ffffff;
+  --com-color-section-bg: #f4f7f6;
+  --com-font-primary-color: #212529;
+  --com-font-gray: #343a40; 
+  --com-font-weight-heavy: 700;
+  --com-font-weight-bold: 900;
+  --com-font-size-sidebar: 14px;
 */
 
 /* MainDLVS 자체 변수 (Delivery-main design based on HomePage.css inline styles) */
@@ -31,8 +31,8 @@
 }
 
 .maindlvs-frame { /* section -> .maindlvs-frame */
-    padding: var(--mng-section-padding) 0;
-    background-color: var(--mng-color-section-bg);
+    padding: var(--com-section-padding) 0;
+    background-color: var(--com-color-section-bg);
 }
 
 .maindlvs-header-group { /* section__head -> maindlvs-header-group */
@@ -54,7 +54,7 @@
 .maindlvs-desc-text { /* section__desc -> maindlvs-desc-text */
     margin: 8px 0 0;
     color: var(--maindlvs-muted);
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     line-height: 1.5;
 }
 
@@ -73,7 +73,7 @@
 
 /* Card Base */
 .maindlvs-card-box { /* card -> maindlvs-card-box */
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     border: 1px solid var(--maindlvs-border);
     border-radius: var(--maindlvs-card-radius);
     box-shadow: var(--maindlvs-card-shadow);
@@ -108,7 +108,7 @@
     border-radius: 12px;
     border: 1px solid var(--maindlvs-border);
     padding: 0 12px;
-    font-size: var(--mng-font-size-sidebar);
+    font-size: var(--com-font-size-sidebar);
     outline: none;
 }
 
@@ -117,11 +117,11 @@
 .maindlvs-submit-button { /* btn -> maindlvs-submit-button */
     appearance: none;
     border: 1px solid var(--maindlvs-border);
-    background: var(--mng-color-white);
+    background: var(--com-color-white);
     color: var(--maindlvs-text);
     padding: 10px 14px;
-    font-weight: var(--mng-font-weight-heavy);
-    font-size: var(--mng-font-size-sidebar);
+    font-weight: var(--com-font-weight-heavy);
+    font-size: var(--com-font-size-sidebar);
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -134,7 +134,7 @@
 }
 .maindlvs-submit-button--primary { /* btn--primary -> maindlvs-submit-button--primary */
     background: var(--maindlvs-primary-bg);
-    color: var(--mng-color-white);
+    color: var(--com-color-white);
     border-color: var(--maindlvs-primary-bg);
 }
 
@@ -164,7 +164,7 @@
     background: var(--maindlvs-soft-bg);
 }
 .maindlvs-status-title-text {
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
 }
 .maindlvs-status-desc-text {
     margin-top: 6px;
@@ -178,7 +178,7 @@
     /* Div container */
 }
 .maindlvs-timeline-title-text {
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
     margin-bottom: 8px;
 }
 .maindlvs-timeline-list {
@@ -202,7 +202,7 @@
 
 /* Proof Box */
 .maindlvs-proof-title-text {
-    font-weight: var(--mng-font-weight-bold);
+    font-weight: var(--com-font-weight-bold);
     margin-bottom: 8px;
 }
 .maindlvs-proof-box { /* proofBox -> maindlvs-proof-box */
