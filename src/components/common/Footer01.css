@@ -26,82 +26,280 @@
   --footer01-muted-color: rgba(17, 24, 39, 0.45);
 }
 
-.footer01-frame { /* .home-footer -> .footer01-frame */
-  margin-top: 48px;
-  padding: 28px 0 30px;
-  border-top: 1px solid var(--footer01-border);
-  background: var(--footer01-bg);
-  backdrop-filter: blur(10px) saturate(1.1);
+/* 전체 프레임 */
+.footer01-frame {
+  width: 100%;
+  background-color: #fff;
+  padding: 60px 0;
+  border-top: 1px solid #e5e5e5;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
 }
 
-.footer01-container { /* .home-footer__container -> .footer01-container */
-  width: min(var(--footer01-max-width), 100%);
+.footer01-container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 20px;
 }
 
-.footer01-inner-group { /* .home-footer__inner -> .footer01-inner-group */
-  display: grid;
-  gap: 18px;
-  align-items: start;
-}
-
-.footer01-brand-group { /* .home-footer__brand -> .footer01-brand-group */
-  display: grid;
-  gap: 6px;
-}
-
-.footer01-logo-text { /* .home-footer__logo -> .footer01-logo-text */
-  font-weight: 950;
-  letter-spacing: -0.02em;
-  font-size: 16px;
-  color: #0b0b0c; /* 고정 색상 */
-}
-
-.footer01-slogan-text { /* .home-footer__slogan -> .footer01-slogan-text */
-  margin: 0;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--footer01-slogan-color);
-}
-
-.footer01-links-group { /* .home-footer__links -> .footer01-links-group */
+/* ★ 레이아웃 핵심: 중앙 정렬 & 상대 위치 기준점 설정 ★ */
+.footer01-inner-group {
+  position: relative; /* 자식 요소(로고)의 절대 위치 기준점 */
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px 14px;
+  justify-content: center; /* 정보 영역을 가로 중앙에 배치 */
+  align-items: center;     /* 세로 중앙 정렬 */
+  min-height: 150px;       /* 로고와 텍스트 배치를 위한 최소 높이 확보 */
 }
 
+/* --- 좌측: 로고 (절대 위치 고정) --- */
+.footer01-brand-group {
+  position: absolute; /* 흐름에서 빠져나와 단독 배치 */
+  left: 0;            /* 컨테이너의 가장 왼쪽에 붙임 */
+  top: 50%;           /* 상위 컨테이너의 높이 반만큼 내림 */
+  transform: translateY(-50%); /* 자신의 높이 반만큼 다시 올려서 완벽한 수직 중앙 정렬 */
+}
+
+.footer01-logo-text {
+  font-size: 60px;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  background: linear-gradient(to right, #ff9a9e, #a18cd1, #fad0c4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: default;
+}
+
+/* --- 중앙: 텍스트 정보 그룹 --- */
+.footer01-info-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 내부 요소(링크, 텍스트) 가로 중앙 정렬 */
+  text-align: center;  /* 텍스트 내용 중앙 정렬 */
+}
+
+/* 링크 그룹 */
+.footer01-links-group {
+  display: flex; /* 링크들을 가로로 나열 */
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: #000;
+  font-weight: 700;
+}
+
+/* 링크 그룹 (이용약관 등) 기본 스타일 */
 .footer01-links-group a {
   text-decoration: none;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 900;
   color: var(--footer01-link-color);
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
 }
 
+/* ★ 마우스 호버 효과 (여기를 수정) ★ */
 .footer01-links-group a:hover {
   color: var(--footer01-link-hover-color);
   border-bottom-color: var(--footer01-link-hover-border);
 }
 
-.footer01-meta-info p { /* .home-footer__meta p -> .footer01-meta-info p */
-  margin: 0;
-  font-size: 12.5px;
-  font-weight: 800;
-  color: var(--footer01-slogan-color);
-  line-height: 1.55;
+/* (선택사항) 개인정보처리방침만 강조 색상을 다르게 주고 싶다면 */
+/*
+.footer01-links-group a.footer01-bold:hover {
+  color: #0056b3; 
+}
+*/
+
+.footer01-bold {
+  font-weight: 900;
 }
 
-.footer01-muted-text { /* .home-footer__muted -> .footer01-muted-text */
-  margin-top: 8px !important;
-  color: var(--footer01-muted-color) !important;
+.footer01-separator {
+  margin: 0 12px;
+  color: #ccc;
+  font-weight: 400;
 }
 
-/* 데스크탑에서 3열 느낌 */
-@media (min-width: 900px) {
+/* 상세 정보 텍스트 */
+.footer01-meta-info {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer01-meta-info p {
+  margin: 4px 0;
+}
+
+/* Copyright */
+.footer01-copyright-text {
+  font-size: 12px;
+  color: #999;
+}
+
+/* --- 모바일 반응형 --- */
+@media (max-width: 900px) {
+  /* 화면이 좁아지면 로고와 텍스트가 겹칠 수 있으므로 세로 배치로 변경 */
   .footer01-inner-group {
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 24px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
   }
+  
+  .footer01-brand-group {
+    position: static; /* 절대 위치 해제하고 원래 흐름대로 배치 */
+    transform: none;
+    margin-bottom: 10px;
+  }
+}
+
+/* ========================================= */
+/* ★ 모달 관련 CSS 추가 ★ */
+/* ========================================= */
+
+/* 모달 뒷배경 (어두운 오버레이) */
+.footer01-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 */
+  z-index: 9999; /* 최상위로 올림 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px); /* 배경 살짝 흐리게 (선택사항) */
+}
+
+/* 모달 메인 박스 */
+.footer01-modal-box {
+  background-color: #fff;
+  width: 90%;
+  max-width: 600px; /* 사진과 비슷한 너비 */
+  height: 80vh;     /* 화면 높이의 80% */
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column; /* 헤더-본문-푸터 세로 배치 */
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease;
+}
+
+/* 모달 헤더 (제목, X버튼) */
+.footer01-modal-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee; /* 하단 구분선 */
+}
+
+.footer01-modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.footer01-close-x-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+  line-height: 1;
+}
+
+/* 모달 본문 (스크롤 영역) */
+.footer01-modal-body {
+  flex: 1; /* 남은 공간 모두 차지 */
+  padding: 24px;
+  overflow-y: auto; /* 내용 길면 스크롤 */
+  background-color: #f9f9f9; /* 사진처럼 내부 박스 느낌을 주기 위해 약간 회색 배경 */
+}
+
+/* 본문 내부 텍스트 박스 (사진 속 하얀 박스 테두리 부분) */
+.footer01-text-content {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.footer01-text-content h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #000;
+}
+
+.footer01-text-content h4:first-child {
+  margin-top: 0;
+}
+
+.footer01-text-content ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+/* 모달 하단 (닫기 버튼) */
+.footer01-modal-footer {
+  padding: 15px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+}
+
+/* 하단 회색 닫기 버튼 */
+.footer01-close-btn {
+  background-color: #ddd; /* 사진과 비슷한 회색 */
+  color: #333;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.footer01-close-btn:hover {
+  background-color: #ccc;
+}
+
+/* 등장 애니메이션 */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 상단 설명글 */
+.modal-description {
+  margin-bottom: 30px;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px dashed #ddd;
+  padding-bottom: 15px;
+}
+
+/* 각 조항 블록 간격 */
+.modal-article-block {
+  margin-bottom: 24px;
+}
+
+/* 조항 내부의 p 태그와 ul 태그 간격 조정 */
+.modal-article-block p {
+  margin-bottom: 8px;
+}
+
+.modal-article-block ul {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
