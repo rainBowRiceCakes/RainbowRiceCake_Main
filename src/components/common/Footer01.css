@@ -94,8 +94,8 @@
 }
 
 .footer01-muted-text { /* .home-footer__muted -> .footer01-muted-text */
-  margin-top: 8px !important;
-  color: var(--footer01-muted-color) !important;
+  margin-top: 8px;
+  color: var(--footer01-muted-color);
 }
 
 /* 데스크탑에서 3열 느낌 */

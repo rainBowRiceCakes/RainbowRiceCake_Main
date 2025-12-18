@@ -51,6 +51,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .topbutton01-button {
-    transition: none !important;
+    transition: none;
   }
 }

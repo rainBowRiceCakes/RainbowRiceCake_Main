@@ -14,64 +14,124 @@
 
 /* 2. 공통 섹션 래퍼: 중앙 정렬 및 1440px 가로폭 제한 */
 .mainshow-section-wrapper {
-    width: 100%;
-    max-width: var(--com-web-max-width); /* 1440px */
-    margin: 0 auto;
-    padding: 0 var(--com-container-padding); /* SE: 12px, 일반: 20px */
-    box-sizing: border-box;
+  width: 100%;
+  max-width: var(--com-web-max-width); /* 1440px */
+  margin: 0 auto;
+  padding: 0 var(--com-container-padding); /* SE: 12px, 일반: 20px */
+  box-sizing: border-box;
 }
 
 /* 3. 섹션 간 간격 조절용 프레임 */
 .mainshow-section-frame {
-    padding: var(--com-section-padding) 0; /* SE: 30px, 일반: 60px */
+  padding: var(--com-section-padding) 0; /* SE: 30px, 일반: 60px */
 }
 
-/* 4. 우측 플로팅 내비 - 모노크롬 테마 */
+/* 내비게이션 전체 컨테이너 */
 .mainshow-floating-nav {
-    position: fixed;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    z-index: 1000;
-    padding: 15px 8px;
-    background: rgba(255, 255, 255, 0.85); /* 모노크롬 배경 */
-    backdrop-filter: blur(5px);
-    border: 1px solid var(--com-content-border-color);
-    border-radius: 25px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  position: fixed;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
 }
 
-.nav-dot {
-    width: 8px;
-    height: 8px;
-    background-color: var(--com-content-border-color); /* 모노톤 기본 */
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
+/* 전체를 감싸는 컨테이너 박스 */
+.mainshow-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 15px 10px;
+  transition: all 0.3s ease;
+  align-items: flex-end;
 }
 
-.nav-dot:hover {
-    background-color: var(--com-font-gray); /* 호버 시 진한 회색 */
+/* 개별 아이템 래퍼 */
+.mainshow-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  min-height: 24px;
 }
 
-.nav-dot.active {
-    background-color: var(--com-color-mint); /* 활성화 시 민트색 포인트 */
-    transform: scale(1.4);
+/* 도트 스타일 - 공통 변수 활용 */
+.mainshow-nav-dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--com-sidebar-item-font-color); /* 비활성: #c2c7d0 */
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 5. iPhone SE(375px) 대응 */
+/* 활성 도트 - 공통 변수 활용 */
+.mainshow-nav-dot.active {
+  background-color: var(--com-font-primary-color); /* 활성: #212529 */
+  transform: scale(1.4);
+}
+
+/* 이름 박스 - 공통 변수 활용 */
+.mainshow-nav-label-box {
+  position: absolute;
+  right: 0;
+  background-color: var(--com-color-white);
+  
+  /* 핵심 수정: 모든 박스 크기를 동일하게 고정 */
+  width: 100px;               /* 모든 라벨 박스의 너비를 100px로 통일 */
+  display: flex;
+  justify-content: center;    /* 글자를 박스 중앙에 정렬 */
+  align-items: center;
+  
+  padding: 8px 0;             /* 상하 패딩만 유지 */
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border: none;
+}
+
+/* 텍스트 스타일 - 공통 변수 활용 */
+.mainshow-nav-text {
+  font-size: 13px;
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-sidebar-item-font-color); /* 비활성: #c2c7d0 */
+  text-align: center;
+}
+
+/* 활성 텍스트 - 공통 변수 활용 */
+.mainshow-nav-text.active {
+  color: var(--com-font-primary-color); /* 활성: #212529 */
+}
+
+/* ============================================================ */
+/* 그룹 전체 호버 시: 도트 숨기고 이름 박스 일괄 등장 */
+/* ============================================================ */
+.mainshow-nav-group:hover .mainshow-nav-dot {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.mainshow-nav-group:hover .mainshow-nav-label-box {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* 개별 아이템 호버 시 텍스트 강조 */
+.mainshow-nav-item:hover .mainshow-nav-text {
+  color: var(--com-font-primary-color);
+}
+
+/* iPhone SE (375px) 대응 최적화 */
 @media screen and (max-width: 375px) {
-    .mainshow-floating-nav {
-        right: 10px;
-        padding: 10px 6px;
-        gap: 10px;
-    }
-    .nav-dot {
-        width: 6px;
-        height: 6px;
-    }
+.mainshow-nav-group:hover .mainshow-nav-dot {
+  opacity: 1;
+  transform: scale(1); 
+}
+.mainshow-nav-group:hover .mainshow-nav-label-box {
+  display: none;
+}
 }
