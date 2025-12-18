@@ -30,9 +30,9 @@
 }
 
 .maininfo-frame { /* .section -> .maininfo-frame */
-    /* Using mainshow-section-frame wrapper for padding and max-width */
-    padding: var(--com-section-padding) 0;
-    border-top: 1px solid var(--maininfo-soft-bg);
+  /* Using mainshow-section-frame wrapper for padding and max-width */
+  padding: var(--com-section-padding) 0;
+  border-top: 1px solid var(--maininfo-soft-bg);
 }
 /* MainShow.jsx에서 첫 섹션에만 border-top을 제거할 경우를 대비하여 아래 스타일은 생략 */
 /* .maininfo-frame:first-child { border-top: none; } */

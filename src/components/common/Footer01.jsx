@@ -22,8 +22,8 @@ export default function Footer01() {
         </div>
 
         <div className="footer01-meta-info">
-          <p>회사명: 200 OK Co., Ltd.</p>
-          <p>사업자 정보: 000-00-00000</p>
+          <p>회사명: RC Co, Ltd.</p>
+          <p>사업자 정보: 053-01-53264</p>
           <p>주소: Seoul, KR</p>
           <p className="footer01-muted-text">© {new Date().getFullYear()} BRAND</p>
         </div>

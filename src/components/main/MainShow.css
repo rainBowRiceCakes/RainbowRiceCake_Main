@@ -6,12 +6,72 @@
 
 /* mainshow-page-container: 전체 메인 페이지 레이아웃 */
 .mainshow-page-container {
-    width: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 모든 메인 섹션에 대한 공통 스타일 (필요 시) */
+/* 2. 공통 섹션 래퍼: 중앙 정렬 및 1440px 가로폭 제한 */
 .mainshow-section-wrapper {
-    max-width: var(--com-web-max-width);
+    width: 100%;
+    max-width: var(--com-web-max-width); /* 1440px */
     margin: 0 auto;
-    padding: var(--com-container-padding);
+    padding: 0 var(--com-container-padding); /* SE: 12px, 일반: 20px */
+    box-sizing: border-box;
+}
+
+/* 3. 섹션 간 간격 조절용 프레임 */
+.mainshow-section-frame {
+    padding: var(--com-section-padding) 0; /* SE: 30px, 일반: 60px */
+}
+
+/* 4. 우측 플로팅 내비 - 모노크롬 테마 */
+.mainshow-floating-nav {
+    position: fixed;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 1000;
+    padding: 15px 8px;
+    background: rgba(255, 255, 255, 0.85); /* 모노크롬 배경 */
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--com-content-border-color);
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.nav-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--com-content-border-color); /* 모노톤 기본 */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-dot:hover {
+    background-color: var(--com-font-gray); /* 호버 시 진한 회색 */
+}
+
+.nav-dot.active {
+    background-color: var(--com-color-mint); /* 활성화 시 민트색 포인트 */
+    transform: scale(1.4);
+}
+
+/* 5. iPhone SE(375px) 대응 */
+@media screen and (max-width: 375px) {
+    .mainshow-floating-nav {
+        right: 10px;
+        padding: 10px 6px;
+        gap: 10px;
+    }
+    .nav-dot {
+        width: 6px;
+        height: 6px;
+    }
 }

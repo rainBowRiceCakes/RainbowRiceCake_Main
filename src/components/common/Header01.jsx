@@ -11,19 +11,19 @@
  * - MyPage 클릭: 내 정보 화면 이동
  */
 
-const NAV_ITEMS = [
-  { id: "info", label: "서비스 소개" },
-  { id: "fee", label: "지점안내/요금안내" },
-  { id: "deliverys", label: "배송현황" },
-  { id: "cs", label: "고객센터" },
-  { id: "partners", label: "제휴문의" },
-];
-
-
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./header01.css";
 import MainlogoImg from "../../assets/main-logo..png";
+
+const NAV_ITEMS = [
+  { id: "info", label: "서비스 소개" },
+  { id: "search", label: "지점 안내" },
+  { id: "fee", label: "요금 안내" },
+  { id: "dlvs", label: "배송 현황" },
+  { id: "cs", label: "고객 센터" },
+  { id: "ptns", label: "제휴 문의" },
+];
 
 export default function Header01() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,11 +31,18 @@ export default function Header01() {
   const navigate = useNavigate();
   const headerRef = useRef(null);
 
-// 현재 위치가 모든 섹션이 모여있는 'MainShow'(/)인지 확인
-  const isMainShow = useMemo(
-    () => location.pathname === "/",
-    [location.pathname]
-  );
+  const isMainShow = useMemo(() => location.pathname === "/", [location.pathname]);
+
+  // 외부 클릭 시 닫기 로직
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (isOpen && headerRef.current && !headerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [isOpen]);
 
   const toggleMenu = (e) => {
     e?.stopPropagation?.();
@@ -44,24 +51,16 @@ export default function Header01() {
 
   const closeMenu = () => setIsOpen(false);
 
-  /**
-   * @description 섹션 이동 로직
-   * MainShow(/)가 아니면 메인으로 이동 후 해당 섹션 id로 스크롤
-   */
   const goSection = (sectionId) => {
     if (!isMainShow) {
       navigate(`/#${sectionId}`);
-      return;
+    } else {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-
-    const el = document.getElementById(sectionId);
-    if (!el) return;
-
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
     closeMenu();
   };
 
-  // ✅ 로고 클릭 시 메인(MainShow)의 최상단으로 이동
   const onLogoClick = () => {
     if (isMainShow) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -75,49 +74,26 @@ export default function Header01() {
     <header className="header01-frame" ref={headerRef}>
       <div className="header01-inner-group">
         {/* Left: Logo */}
-        <button
-          type="button"
-          className="header01-logo-button"
-          onClick={onLogoClick}
-          aria-label="Go MainShow"
-        >
+        <button type="button" className="header01-logo-button" onClick={onLogoClick}>
           <div className="header01-brand-img">
-            <img src={MainlogoImg} alt="logo" /> 
+            <img src={MainlogoImg} alt="logo" />
           </div>
         </button>
 
-        {/* Center: Nav (Desktop) */}
-        <nav className="header01-nav-desktop" aria-label="Primary">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className="header01-nav-link-button"
-              onClick={() => goSection(item.id)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
         {/* Right: Actions */}
         <div className="header01-actions-group">
-          <Link to="/login" className="header01-action-button-link" onClick={closeMenu}>
-            LOGIN
-          </Link>
-          <Link
-            to="/mypage"
-            className="header01-action-button-link header01-action-button-link--solid"
-            onClick={closeMenu}
-          >
-            MyPage 
-          </Link>
+          {/* 웹 화면용 링크 (모바일에서 숨기고 싶다면 CSS에서 조절) */}
+          <div className="header01-desktop-links">
+            <Link to="/login" className="header01-action-button-link">LOGIN</Link>
+            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid">MyPage</Link>
+          </div>
 
+          {/* 햄버거 버튼 (모바일 전용) */}
           <button
             type="button"
-            className="header01-hamburger-button"
+            className={`header01-hamburger-button ${isOpen ? "is-active" : ""}`}
             onClick={toggleMenu}
-            aria-label="Open menu"
+            aria-label="Menu"
           >
             <span className="header01-bar" />
             <span className="header01-bar" />
@@ -126,11 +102,13 @@ export default function Header01() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile dropdown: 여기에 6개 섹션 dot 메뉴 포함 */}
       {isOpen && (
-        <div id="header-01-mobile" className="header01-mobile-dropdown-frame">
+        <div className="header01-mobile-dropdown-frame">
           <div className="header01-mobile-inner-group">
-            <div className="header01-mobile-title-text">Explore Main</div>
+            <div className="header01-mobile-title-text">Menu</div>
+            
+            {/* 6개 섹션 이동 메뉴 */}
             <div className="header01-mobile-list-group">
               {NAV_ITEMS.map((item) => (
                 <button
@@ -143,13 +121,13 @@ export default function Header01() {
                 </button>
               ))}
             </div>
+
+            <div className="header01-mobile-divider" />
+
+            {/* 로그인/마이페이지 */}
             <div className="header01-mobile-actions-group">
-              <Link to="/login" className="header01-mobile-action-button-link" onClick={closeMenu}>
-                LOGIN
-              </Link>
-              <Link to="/mypage" className="header01-mobile-action-button-link header01-mobile-action-button-link--solid" onClick={closeMenu}>
-                MyPage
-              </Link>
+              <Link to="/login" className="header01-mobile-action-button-link" onClick={closeMenu}>LOGIN</Link>
+              <Link to="/mypage" className="header01-mobile-action-button-link header01-mobile-action-button-link--solid" onClick={closeMenu}>MyPage</Link>
             </div>
           </div>
         </div>

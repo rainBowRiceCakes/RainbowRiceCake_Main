@@ -60,7 +60,7 @@
 }
 
 /* 박스 공통 스타일 */
-.mainfee-price-box, .mainfee-branch-box {
+.mainfee-price-box, .mainfee-search-box {
     flex: 1;
     min-width: 300px;
     border: 1px solid var(--com-content-border-color);
@@ -83,8 +83,10 @@
 .mainfee-table-wrapper {
     margin-bottom: 15px;
     border: 1px solid var(--com-content-border-color);
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
+    padding: var(--com-container-padding);
+    background-color: var(--com-color-white);
 }
 
 .mainfee-table-row {
@@ -99,54 +101,70 @@
 .mainfee-table-cell {
     flex: 1;
     padding: 10px 15px;
-    font-size: var(--com-font-size-sidebar);
     border-right: 1px solid var(--com-content-border-color);
+    font-size: var(--com-font-size-content);
+    line-height: 1.4;
+    color: var(--com-font-primary-color);
 }
 
 .mainfee-table-cell:last-child {
     border-right: none;
     text-align: center;
 }
-.mainfee-table-cell--region { flex: 1.2; }
-.mainfee-table-cell--amount { flex: 1; }
-.mainfee-table-cell--fee { flex: 0.8; }
+.mainfee-table-cell--region {
+  font-weight: var(--com-font-weight-heavy);
+  /* 동네 이름이 길어질 경우를 대비 */
+  word-break: keep-all;
+}
+
+.mainfee-table-cell--amount { 
+  flex: 1; 
+}
+
+.mainfee-table-cell--fee { 
+  flex: 0.8; 
+  font-size: var(--com-font-size-sub-title);
+  font-weight: var(--com-font-weight);
+  color: var(--com-font-red);
+  text-align: right;
+}
 
 .mainfee-table-header-row { /* .mainfee-table-header -> .mainfee-table-header-row */
-    background-color: var(--com-content-border-color);
-    font-weight: var(--com-font-weight-heavy);
-    color: var(--com-font-primary-color);
+  background-color: var(--com-content-border-color);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
 }
 
 .mainfee-fee-free {
-    color: var(--com-color-green);
-    font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-green);
+  font-weight: var(--com-font-weight-heavy);
 }
 
 .mainfee-note-text {
-    font-size: var(--com-font-size-content);
-    color: var(--com-color-red);
+  font-size: var(--com-font-size-content);
+  color: var(--com-color-red);
 }
 
 /* 지점 안내 스타일 */
-.mainfee-branch-item {
+.mainfee--item {
     margin-bottom: 15px;
     padding: 10px 0;
     border-bottom: 1px dotted var(--com-content-border-color);
 }
 
-.mainfee-branch-name {
+.mainfee-search-name {
     font-size: var(--com-font-size-sidebar);
     font-weight: var(--com-font-weight-heavy);
     color: var(--com-font-primary-color);
     margin-bottom: 3px;
 }
 
-.mainfee-branch-address {
+.mainfee-search-address {
     font-size: var(--com-font-size-content);
     color: var(--com-font-gray);
 }
 
-.mainfee-branch-map-link {
+.mainfee-search-map-link {
     text-align: center;
     margin-top: 20px;
 }
@@ -171,7 +189,7 @@
     .mainfee-content-flex {
         flex-direction: column;
     }
-    .mainfee-price-box, .mainfee-branch-box {
+    .mainfee-price-box, .mainfee-search-box {
         margin-bottom: 20px;
     }
 }

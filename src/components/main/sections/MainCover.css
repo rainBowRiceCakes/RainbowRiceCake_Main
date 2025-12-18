@@ -27,7 +27,6 @@
     --maincover-button-text: var(--com-color-white);
 }
 
-
 .maincover-frame { 
     width: 100%;
     min-height: auto; 
@@ -59,66 +58,70 @@
     display: block; 
 }
 
-
 /* 2. 하단 배송 조회 컨테이너 박스 영역 (FORM) */
 .maincover-delivery-area { 
-    flex-shrink: 0; 
-    background-color: var(--maincover-delivery-bg); /* ✅ 밝은 모노톤 배경 */
-    color: var(--com-font-primary-color); /* ✅ 텍스트 색상을 검은색 계열로 변경 */
-    padding: 30px var(--com-container-padding);
+  width: 100%;
+  flex-shrink: 0; 
+  background-color: var(--maincover-delivery-bg);
+  color: var(--com-font-primary-color);
+  padding: var(--com-container-padding);
+  
+  /* 패팅 유지하되 내부 콘텐츠를 1440px 안으로 가두기 위해 */
+  display: flex;
+  justify-content: center;
 }
 
 .maincover-delivery-form { 
-    max-width: var(--maincover-max-width); /* ✅ 폼 자체의 최대 너비를 1400px로 제한 */
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  max-width: var(--maincover-max-width); /* ✅ 폼 자체의 최대 너비를 1400px로 제한 */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .maincover-delivery-title-text { 
-    font-size: var(--com-font-size-sub-title);
-    font-weight: var(--com-font-weight-heavy);
-    margin-bottom: 15px;
+  font-size: var(--com-font-size-sub-title);
+  font-weight: var(--com-font-weight-heavy);
+  margin-bottom: 15px;
 }
 
 .maincover-input-group { 
-    display: flex;
-    width: 100%;
-    max-width: 500px; /* 인풋 그룹 자체는 500px 유지 */
-    margin-bottom: 10px;
+  display: flex;
+  width: 100%;
+  max-width: 500px; /* 인풋 그룹 자체는 500px 유지 */
+  margin-bottom: 10px;
 }
 
 .maincover-input-field { 
-    flex-grow: 1;
-    padding: 10px 15px;
-    border: 1px solid var(--com-content-border-color); /* 테두리 추가로 분리감 강화 */
-    border-radius: 4px 0 0 4px;
-    font-size: var(--com-font-size-sidebar);
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: 1px solid var(--com-content-border-color); /* 테두리 추가로 분리감 강화 */
+  border-radius: 4px 0 0 4px;
+  font-size: var(--com-font-size-sidebar);
 }
 
 .maincover-submit-button { 
-    /* ✅ 버튼 디자인 수정: 블랙 기본 */
-    background-color: var(--maincover-button-bg);
-    color: var(--maincover-button-text);
-    border: 1px solid var(--maincover-button-bg); 
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: var(--com-font-size-sidebar);
-    border-radius: 0 4px 4px 0;
-    transition: background-color 0.2s, color 0.2s;
+  /* ✅ 버튼 디자인 수정: 블랙 기본 */
+  background-color: var(--maincover-button-bg);
+  color: var(--maincover-button-text);
+  border: 1px solid var(--maincover-button-bg); 
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: var(--com-font-size-sidebar);
+  border-radius: 0 4px 4px 0;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .maincover-submit-button:hover {
-    /* ✅ 호버 디자인 수정: 흰색 배경, 검은색 글자 */
-    background-color: var(--com-color-white);
-    color: var(--maincover-button-bg);
-    border-color: var(--maincover-button-bg);
+  /* ✅ 호버 디자인 수정: 흰색 배경, 검은색 글자 */
+  background-color: var(--com-color-white);
+  color: var(--maincover-button-bg);
+  border-color: var(--maincover-button-bg);
 }
 
 .maincover-link-group { 
-    font-size: var(--com-font-size-content);
-    color: var(--com-font-primary-color); /* 링크 그룹 텍스트도 검은색 계열로 변경 */
+  font-size: var(--com-font-size-content);
+  color: var(--com-font-primary-color); /* 링크 그룹 텍스트도 검은색 계열로 변경 */
 }
 
 .maincover-more-link { 

@@ -4,11 +4,12 @@
   box-sizing: border-box;
 }
 
-
 :root {
+  /* ============================================================================== */
+  /* [공통] 레이아웃 및 규격 (1440px 제한 및 모바일 최적화) */
+  /* ============================================================================== */
 
   /* 추가된 변수 from sara */
-
   /* 기본 배경 색상 (Main Cover, Header 등) */
   --com-color-white: #ffffff;
   /* 콘텐츠 배경색 (약간 회색) */
@@ -19,6 +20,7 @@
   --com-font-primary-color: #212529; 
   /* 웹 콘텐츠의 최대 너비 */
   --com-web-max-width: 1200px;
+
   /* 섹션 간의 일반적인 수직 여백 */
   --com-section-padding: 60px;
   /* 명시적인 폰트 두께 (font-weight: 700) - Main Info, Fee 등에서 자주 사용됨 */
@@ -38,6 +40,7 @@
   --com-font-red: #e74c3c;
   --com-content-border-bottom: #dee2e6;
   --com-button-content: #fff;
+
   --com-font-size-title: 18px;
   --com-font-size-sub-title: 16px;
   --com-font-size-content: 12px;
@@ -46,9 +49,8 @@
   /* com- 글로벌 css변수 추가 시, 위 규칙 따르기 */
   
   /* ------------------------------------------------------------------------------ */
- 
-
-  /* 기존 변수 from wook */
+  /* [기존 wook 변수] */
+  /* ------------------------------------------------------------------------------ */
   
   --mng-sidebar-width: 240px;
   --mng-sidebar-title-font-color: #adb5bd;
@@ -66,4 +68,15 @@
   --mng-font-size-sub-title: 16px;
   --mng-font-size-content: 12px;
   --mng-container-padding: 20px;
+}
+
+/* 📱 아이폰 SE (375px 이하) 전용 가변 변수 덮어쓰기 */
+@media screen and (max-width: 375px) {
+  :root {
+    --com-font-size-title: 15px;      /* 모바일 타이틀 축소 */
+    --com-font-size-sub-title: 13px;  /* 모바일 서브타이틀 축소 */
+    --com-font-size-content: 11px;    /* 모바일 본문/표 텍스트 축소 */
+    --com-container-padding: 12px;    /* 모바일 좌우 여백 축소 */
+    --com-section-padding: 30px;      /* 섹션 간격 축소 */
+  }
 }

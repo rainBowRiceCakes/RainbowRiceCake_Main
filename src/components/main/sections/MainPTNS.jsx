@@ -4,7 +4,6 @@
  * 251216 v1.0.0 sara init 
  */
 
-
 import './MainPTNS.css';
 
 export default function MainPTNS() {
