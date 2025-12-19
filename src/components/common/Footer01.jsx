@@ -6,7 +6,8 @@
 
 import { useState } from "react";
 import "./Footer01.css";
-import footerData from '../../data/footerData.json'
+import footerData from '../../data/footerData.json';
+import Carousel from './Carousel.jsx';
 
 export default function Footer01() {
 // 모달 상태 관리 (null = 닫힘, 'terms' | 'privacy' | 'location' = 해당 모달 열림)
@@ -27,6 +28,9 @@ export default function Footer01() {
 
   return (
     <>
+      {/* 파트너 캐러샐 */}
+      {/* <div><Carousel /></div> */}
+
       <div className="footer01-frame">
         <div className="footer01-container footer01-inner-group">
           

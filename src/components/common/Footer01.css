@@ -105,42 +105,58 @@
   opacity: 0.8;
 }
 
-/* --- 모바일 반응형 (로직 유지 및 변수 적용) --- */
-@media (max-width: 900px) {  
+/* --- 모바일 반응형 --- */
+@media (max-width: 900px) {
+  /* 1. 전체 프레임 패딩 축소 (위아래 높이 감소) */
   .footer01-frame {
     padding: 20px 0; 
   }
 
+  /* 2. 내부 그룹: 세로 배치하되 간격(gap)을 줄여서 높이 확보 */
   .footer01-inner-group {
     flex-direction: column;
     justify-content: center;
-    min-height: auto; 
-    gap: 15px; 
+    min-height: auto; /* PC용 최소 높이 해제 */
+    gap: 15px; /* 기존 30px -> 15px로 축소 */
   }
   
+  /* 3. 로고 영역: 위치 초기화 및 여백 제거 */
   .footer01-brand-group {
     position: static; 
     transform: none;
-    margin-bottom: 5px; 
+    margin-bottom: 5px; /* 로고 아래 여백 최소화 */
   }
 
+  /* 4. 로고 폰트 크기 축소 (높이 감소 효과) */
   .footer01-logo-text {
-    font-size: 32px; 
+    font-size: 40px; /* 기존 60px -> 40px */
   }
 
+  /* 5. 링크 그룹(이용약관 등) 높이 및 폰트 조절 */
   .footer01-links-group {
-    margin-bottom: 10px; 
-    flex-wrap: wrap; 
+    margin-bottom: 10px; /* 아래 여백 축소 */
+    flex-wrap: wrap; /* 화면이 너무 좁으면 줄바꿈 허용 */
+    gap: 5px 0; /* 줄바꿈 시 간격 */
   }
 
   .footer01-links-group a {
-    font-size: var(--com-font-size-sub-title); /* 가변 13px */
+    font-size: 13px; /* 모바일에서 적당한 크기로 축소 */
   }
 
+  /* 6. 상세 정보 텍스트(주소 등) 높이 조절 */
   .footer01-meta-info {
-    font-size: var(--com-font-size-content); /* 가변 11px */
-    line-height: 1.4; 
+    font-size: 11px; /* 폰트 축소 */
+    line-height: 1.4; /* 줄 간격 좁힘 */
     margin-bottom: 10px;
+    word-break: keep-all; /* 단어 단위 줄바꿈 */
+  }
+
+  .footer01-meta-info p {
+    margin: 2px 0; /* 문단 간격 최소화 */
+  }
+  
+  .footer01-copyright-text {
+    font-size: 10px;
   }
 }
 

@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Header01 from "./components/common/Header01.jsx";
 import Footer01 from "./components/common/Footer01.jsx";
 import TopButton01 from "./components/common/TopButton01.jsx";
+import PWAInstallButton from './components/common/PWAInstallButton.jsx';
 
 function App() { 
   return (
@@ -11,6 +12,7 @@ function App() {
       <Outlet />
       <Footer01 />
       <TopButton01 />
+      <PWAInstallButton />
     </>
   )
 }
