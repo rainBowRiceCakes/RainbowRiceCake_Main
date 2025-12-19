@@ -4,195 +4,168 @@
  * 251216 v1.0.0 sara init 
  */
 
-/*
-  [index.css 공통 변수]
-  --com-section-padding: 60px;
-  --com-font-primary-color: #212529; 
-  --com-font-gray: #343a40;
-  --com-color-white: #ffffff;
-  --com-content-border-color: #e0e0e0;
-  --com-font-weight-heavy: 700;
-  --com-font-weight-bold: 900;
-  --com-font-size-sidebar: 14px;
-  --com-font-size-sub-title: 16px;
-  --com-color-blue: #3498db;
-*/
-
-/* MainInfo 자체 변수 (Delivery-main design based on HomePage.css) */
-:root {
-  --maininfo-text: #0b0b0c;
-  --maininfo-muted: #6b7280;
-  --maininfo-border: rgba(15, 23, 42, 0.12);
-  --maininfo-card-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
-  --maininfo-card-radius: 18px;
-  --maininfo-soft-bg: rgba(2, 6, 23, 0.04);
-  --maininfo-primary-bg: #111827;
-}
-
-.maininfo-frame { /* .section -> .maininfo-frame */
-  /* Using mainshow-section-frame wrapper for padding and max-width */
+.maininfo-frame {
   padding: var(--com-section-padding) 0;
-  border-top: 1px solid var(--maininfo-soft-bg);
+  border-top: 1px solid var(--com-color-overlay);
 }
-/* MainShow.jsx에서 첫 섹션에만 border-top을 제거할 경우를 대비하여 아래 스타일은 생략 */
-/* .maininfo-frame:first-child { border-top: none; } */
 
-
-/* Header Group: section__head -> maininfo-header-group */
+/* Header Group */
 .maininfo-header-group {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 18px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
 }
 
-.maininfo-title-text { /* section__title -> maininfo-title-text */
-    font-size: 28px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin: 0;
-    color: var(--maininfo-text);
+.maininfo-title-text {
+  font-size: var(--com-size-title);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--com-color-black);
 }
 
-.maininfo-desc-text { /* section__desc -> maininfo-desc-text */
-    margin: 8px 0 0;
-    color: var(--maininfo-muted);
-    font-size: var(--com-font-size-sidebar);
-    line-height: 1.5;
+.maininfo-desc-text {
+  margin: 8px 0 0;
+  color: var(--com-font-muted);
+  font-size: var(--com-size-sidebar);
+  line-height: 1.5;
 }
 
-.maininfo-actions-group { /* section__actions -> maininfo-actions-group */
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.maininfo-actions-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-/* Button Base: btn -> maininfo-button */
+/* Button Base */
 .maininfo-button {
-    appearance: none;
-    border: 1px solid var(--maininfo-border);
-    background: var(--com-color-white);
-    color: var(--maininfo-text);
-    border-radius: 999px;
-    padding: 10px 14px;
-    font-weight: var(--com-font-weight-heavy);
-    font-size: var(--com-font-size-sidebar);
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  appearance: none;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+  color: var(--com-color-black);
+  border-radius: var(--com-radius-pill);
+  padding: 10px 14px;
+  font-weight: var(--com-font-weight-heavy);
+  font-size: var(--com-size-sidebar);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
 }
+
 .maininfo-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(2, 6, 23, 0.06);
+  transform: translateY(-1px);
+  box-shadow: var(--com-shadow-default);
 }
 
-/* Primary Button: btn--primary -> maininfo-button--primary */
 .maininfo-button--primary {
-    background: var(--maininfo-primary-bg);
-    color: var(--com-color-white);
-    border-color: var(--maininfo-primary-bg);
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
 }
 
-/* Card Base: card -> maininfo-card-box */
+/* Card Base */
 .maininfo-card-box {
-    background: var(--com-color-white);
-    border: 1px solid var(--maininfo-border);
-    border-radius: var(--maininfo-card-radius);
-    box-shadow: var(--maininfo-card-shadow);
-    padding: 18px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-lg);
+  box-shadow: var(--com-shadow-default);
+  padding: 18px;
 }
+
 .maininfo-card-title-text {
-    margin: 0; 
-    font-size: 18px; /* Original fixed size */
-    letter-spacing: -0.01em;
+  margin: 0; 
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  letter-spacing: -0.01em;
+  color: var(--com-color-black);
 }
+
 .maininfo-card-desc-text {
-    margin: 8px 0 12px; 
-    color: var(--maininfo-muted); 
-    font-size: 13px; 
-    line-height: 1.5;
+  margin: 8px 0 12px; 
+  color: var(--com-font-muted); 
+  font-size: 13px; 
+  line-height: 1.5;
 }
 
-/* Grid Layouts: grid-2/3 -> maininfo-grid-2/3 */
+/* Grid Layouts */
 .maininfo-grid-2 { 
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
+
 .maininfo-grid-3 { 
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
 }
 
-/* Step List (ol/li) */
+/* Step List (Monochrome 강조) */
 .maininfo-step-list {
-    margin: 12px 0 0;
-    padding-left: 18px;
-    line-height: 1.7;
-    color: #374151;
+  margin: 12px 0 0;
+  padding-left: 18px;
+  line-height: 1.7;
+  color: var(--com-font-primary-color);
 }
 
-/* Note Boxes (Inlined Box 1) */
+/* Note Boxes */
 .maininfo-note-box {
-    margin-top: 14px;
-    padding: 12px;
-    border-radius: 14px; 
-    background: var(--maininfo-soft-bg);
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 14px; 
+  background: var(--com-color-bg-light);
 }
 
-.maininfo-note-title-text { /* .maininfo-note-title -> .maininfo-note-title-text */
-    font-weight: var(--com-font-weight-bold);
+.maininfo-note-title-text {
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
 }
+
 .maininfo-note-desc-text {
-    margin: 6px 0 0;
-    color: var(--maininfo-muted);
-    font-size: 13px;
-    line-height: 1.5;
+  margin: 6px 0 0;
+  color: var(--com-font-muted);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 /* Size Items */
-.maininfo-size-item { /* Original miniStyle */
-    border: 1px solid var(--maininfo-border);
-    border-radius: 14px;
-    padding: 12px;
-    background: var(--com-color-white);
-}
-.maininfo-size-title-text { /* Original miniTitle */
-    font-weight: var(--com-font-weight-bold);
-    letter-spacing: -0.01em;
-}
-.maininfo-size-desc-text { /* Original miniDesc */
-    margin-top: 6px;
-    color: var(--maininfo-muted);
-    font-size: 13px;
+.maininfo-size-item {
+  border: 1px solid var(--com-border-default);
+  border-radius: 14px;
+  padding: 12px;
+  background: var(--com-color-white);
 }
 
-/* Note Group (for Caution/Restriction) */
-.maininfo-note-group {
-    margin-top: 14px;
-    display: grid;
-    gap: 10px;
+.maininfo-size-title-text {
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
 }
-.maininfo-note-item { /* Original noteStyle */
-    padding: 12px;
-    border: 1px solid var(--maininfo-border);
-    border-radius: 14px;
-}
-
 
 /* Responsive */
 @media (min-width: 900px) {
-    .maininfo-grid-2 {
-        grid-template-columns: 1.1fr 0.9fr; 
-        gap: 22px;
-    }
-    .maininfo-grid-3 {
-        grid-template-columns: repeat(3, 1fr); 
-        gap: 16px;
-    }
+  .maininfo-grid-2 {
+    grid-template-columns: 1.1fr 0.9fr; 
+    gap: 22px;
+  }
+  .maininfo-grid-3 {
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 16px;
+  }
+}
+
+/* 📱 아이폰 SE 가변 대응 */
+@media screen and (max-width: 375px) {
+  .maininfo-title-text {
+    font-size: var(--com-font-size-title);
+  }
+  .maininfo-card-desc-text,
+  .maininfo-note-desc-text,
+  .maininfo-size-desc-text {
+    font-size: var(--com-font-size-content);
+  }
 }

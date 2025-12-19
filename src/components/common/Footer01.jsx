@@ -66,7 +66,7 @@ export default function Footer01() {
         </div>
       </div>
 
-{/* --- 모달 영역 --- */}
+      {/* --- 모달 영역 --- */}
       {activeModal && footerData[activeModal] && (
         <div className="footer01-modal-overlay" onClick={closeModal}>
           <div className="footer01-modal-box" onClick={(e) => e.stopPropagation()}>

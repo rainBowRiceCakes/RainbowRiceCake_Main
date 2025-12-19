@@ -4,88 +4,65 @@
  * 251216 v1.0.0 sara init 
  */
 
-/*
-  [index.css 공통 변수]
-  --com-section-padding: 60px;
-  --com-color-white: #ffffff;
-  --com-font-primary-color: #212529; 
-  --com-font-gray: #343a40;
-  --com-font-weight-heavy: 700;
-  --com-font-weight-bold: 900;
-  --com-font-size-sidebar: 14px;
-  --com-content-border-color: #e0e0e0;
-  --com-color-blue: #3498db;
-*/
-
-/* MainCS 자체 변수 (Delivery-main design based on HomePage.css) */
-:root {
-  --maincs-text: #0b0b0c;
-  --maincs-muted: #6b7280;
-  --maincs-border: rgba(15, 23, 42, 0.12);
-  --maincs-soft-bg: rgba(2, 6, 23, 0.04);
-  --maincs-card-radius: 18px;
-  --maincs-primary-bg: #111827;
-}
-
-.maincs-frame { /* .maincs-container -> .maincs-frame */
+ .maincs-frame {
     padding: var(--com-section-padding) 0;
     background-color: var(--com-color-white);
 }
 
-/* Header Group: section__head -> maincs-header-group */
+/* Header Group */
 .maincs-header-group {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 18px;
-    /* Center alignment for mobile until 900px, but flex for actions */
     flex-direction: column; 
     align-items: center; 
     text-align: center;
+    gap: 16px;
+    margin-bottom: 18px;
 }
+
 .maincs-header-group > div:first-child {
     margin-bottom: 12px;
 }
+
 @media (min-width: 900px) {
     .maincs-header-group {
         flex-direction: row;
         align-items: flex-end;
         text-align: left;
+        justify-content: space-between;
     }
 }
 
-.maincs-title-text { /* section__title -> maincs-title-text */
-    font-size: 28px;
+.maincs-title-text {
+    font-size: var(--com-size-title); /* 28px */
     line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0;
-    color: var(--maincs-text);
+    color: var(--com-color-black);
 }
 
-.maincs-subtitle-text { /* section__desc -> maincs-subtitle-text */
+.maincs-subtitle-text {
     margin: 8px 0 0;
-    color: var(--maincs-muted);
-    font-size: var(--com-font-size-sidebar);
+    color: var(--com-font-muted);
+    font-size: var(--com-size-sidebar); /* 14px */
     line-height: 1.5;
 }
 
-.maincs-actions-group { /* section__actions -> maincs-actions-group */
+.maincs-actions-group {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-/* Button Base: btn -> maincs-button (Reusing MainInfo button style) */
+/* Button Base */
 .maincs-button {
     appearance: none;
-    border: 1px solid var(--maincs-border);
+    border: 1px solid var(--com-border-default);
     background: var(--com-color-white);
-    color: var(--maincs-text);
-    border-radius: 999px;
+    color: var(--com-font-primary-color);
+    border-radius: var(--com-radius-pill);
     padding: 10px 14px;
     font-weight: var(--com-font-weight-heavy);
-    font-size: var(--com-font-size-sidebar);
+    font-size: var(--com-size-sidebar);
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
@@ -93,24 +70,25 @@
     justify-content: center;
     transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
+
 .maincs-button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(2, 6, 23, 0.06);
+    box-shadow: var(--com-shadow-default);
 }
 
-/* Primary Button: btn--primary -> maincs-button--primary */
 .maincs-button--primary {
-    background: var(--maincs-primary-bg);
+    background: var(--com-color-black);
     color: var(--com-color-white);
-    border-color: var(--maincs-primary-bg);
+    border-color: var(--com-color-black);
 }
 
-/* Grid Layouts: grid-2 -> maincs-grid-2 */
+/* Grid Layouts */
 .maincs-grid-2 { 
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
 }
+
 @media (min-width: 900px) {
     .maincs-grid-2 {
         grid-template-columns: 1fr 1fr; 
@@ -118,22 +96,25 @@
     }
 }
 
-/* Card Base: card -> maincs-card-box (Reusing MainInfo card style) */
+/* Card Base */
 .maincs-card-box {
     background: var(--com-color-white);
-    border: 1px solid var(--maincs-border);
-    border-radius: var(--maincs-card-radius); /* 18px */
-    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08); /* Reusing shadow from HomePage.css */
+    border: 1px solid var(--com-border-default);
+    border-radius: var(--com-radius-lg); /* 18px */
+    box-shadow: var(--com-shadow-default);
     padding: 18px; 
 }
+
 .maincs-card-title-text {
     margin: 0; 
-    font-size: 18px;
+    font-size: var(--com-size-subtitle); /* 16px */
+    font-weight: var(--com-font-weight-heavy);
     letter-spacing: -0.01em;
 }
+
 .maincs-card-desc-text {
     margin: 8px 0 0;
-    color: var(--maincs-muted);
+    color: var(--com-font-muted);
     font-size: 13px;
     line-height: 1.6;
 }
@@ -144,13 +125,14 @@
     display: grid;
     gap: 10px;
 }
-.maincs-faq-item { /* Original faqItem */
-    border: 1px solid var(--maincs-border);
+
+.maincs-faq-item {
+    border: 1px solid var(--com-border-default);
     border-radius: 14px;
     overflow: hidden;
 }
 
-.maincs-faq-button { /* Original faqBtn */
+.maincs-faq-button {
     width: 100%;
     text-align: left;
     padding: 12px;
@@ -158,87 +140,79 @@
     background: transparent;
     cursor: pointer;
     font-weight: var(--com-font-weight-bold);
-    letter-spacing: -0.01em;
-    color: var(--maincs-text);
+    color: var(--com-color-black);
 }
 
-.maincs-faq-body-text { /* Original faqBody */
+.maincs-faq-body-text {
     padding: 0 12px 12px;
-    color: var(--maincs-muted);
+    color: var(--com-font-muted);
     font-size: 13px;
     line-height: 1.6;
 }
 
 /* Info Box (Time) */
-.maincs-info-box { /* Original infoBox */
+.maincs-info-box {
     margin-top: 14px;
     padding: 12px;
     border-radius: 14px;
-    background: var(--maincs-soft-bg);
+    background: var(--com-color-bg-light);
 }
-.maincs-info-title-text { /* Original fontWeight 900 */
+
+.maincs-info-title-text {
     font-weight: var(--com-font-weight-bold);
 }
+
 .maincs-info-desc-text {
     margin-top: 6px;
-    color: var(--maincs-muted);
+    color: var(--com-font-muted);
     font-size: 13px;
 }
 
-/* Chatbot Actions */
-.maincs-chat-actions-group {
-    margin-top: 14px;
-    display: grid;
-    gap: 10px;
-}
-
-/* Callback Area */
+/* Callback Area & Form */
 .maincs-callback-area {
     margin-top: 16px;
-    border-top: 1px solid rgba(2,6,23,0.06);
+    border-top: 1px solid var(--com-color-overlay);
     padding-top: 14px;
 }
+
 .maincs-callback-title-text {
     margin: 0; 
-    font-size: var(--com-font-size-sub-title); /* 16px */
+    font-size: var(--com-size-subtitle);
     letter-spacing: -0.01em;
 }
-.maincs-callback-desc-text {
-    margin: 8px 0 10px;
-    color: var(--maincs-muted);
-    font-size: 13px;
-    line-height: 1.6;
-}
-.maincs-callback-form {
-    display: grid; 
-    gap: 10px;
-}
 
-/* Form Fields (Reusing original form utility from HomePage.css) */
-.maincs-form-label-group {
-    display: grid;
-    gap: 0;
-}
-.maincs-field-label { /* field__label -> maincs-field-label */
+.maincs-field-label {
     display: block;
-    font-size: 12px;
-    color: var(--maincs-muted);
+    font-size: var(--com-size-content); /* 12px */
+    color: var(--com-font-muted);
     margin-bottom: 6px;
 }
-.maincs-field-input { /* field__input -> maincs-field-input */
+
+.maincs-field-input {
     width: 100%;
     height: 44px;
-    border-radius: 12px;
-    border: 1px solid var(--maincs-border);
+    border-radius: var(--com-radius-md); /* 12px */
+    border: 1px solid var(--com-border-default);
     padding: 0 12px;
-    font-size: var(--com-font-size-sidebar);
+    font-size: var(--com-size-sidebar);
+    background-color: var(--com-color-white);
     outline: none;
 }
+
 .maincs-field-input:focus {
-    border-color: rgba(17, 24, 39, 0.45);
-    box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.08);
+    border-color: var(--com-font-gray);
+    box-shadow: 0 0 0 4px var(--com-color-overlay);
 }
-.maincs-form-note-text {
-    font-size: 12px; 
-    color: var(--maincs-muted);
+
+/* 📱 아이폰 SE (375px 이하) 가변 대응 */
+@media screen and (max-width: 375px) {
+    .maincs-title-text {
+        font-size: var(--com-font-size-title);
+    }
+    .maincs-subtitle-text {
+        font-size: var(--com-font-size-sub-title);
+    }
+    .maincs-card-desc-text, .maincs-faq-body-text, .maincs-info-desc-text {
+        font-size: var(--com-font-size-content);
+    }
 }

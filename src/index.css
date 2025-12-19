@@ -6,77 +6,82 @@
 
 :root {
   /* ============================================================================== */
-  /* [공통] 레이아웃 및 규격 (1440px 제한 및 모바일 최적화) */
+  /* [공통] 레이아웃 및 규격 (1440px 제한 및 모바일 375px 최적화) */
   /* ============================================================================== */
 
   /* 추가된 변수 from sara */
-  /* 기본 배경 색상 (Main Cover, Header 등) */
-  --com-color-white: #ffffff;
-  /* 콘텐츠 배경색 (약간 회색) */
-  --com-color-light-gray: #f8f8f8;
-  /* 섹션 구분을 위한 배경색 (Main DLVS, Main PTNS 등) */
-  --com-color-section-bg: #f4f7f6; 
-  /* 기본 폰트 색상 (가장 진한 색상) */
-  --com-font-primary-color: #212529; 
-  /* 웹 콘텐츠의 최대 너비 */
-  --com-web-max-width: 1200px;
 
-  /* 섹션 간의 일반적인 수직 여백 */
-  --com-section-padding: 60px;
-  /* 명시적인 폰트 두께 (font-weight: 700) - Main Info, Fee 등에서 자주 사용됨 */
-  --com-font-weight-heavy: 700;
-  /* 얇은 경계선 색상 (border-color) - Table, Box Border에서 사용됨 */
-  /* mng에서 사용하는 사이즈, 구조 -> com으로 변경해서 사용 */
-  --com-content-border-color: #e0e0e0;
-  --com-sidebar-width: 240px;
-  --com-sidebar-title-font-color: #adb5bd;
-  --com-sidebar-item-font-color: #c2c7d0;
-  --com-font-size-sidebar: 14px;
-  /* 기존 900px -> 900으로 변경 */
-  --com-font-weight: 900; 
-  --com-font-gray: #343a40;
-  --com-font-green: #2ecc71;
-  --com-font-blue: #3498db;
-  --com-font-red: #e74c3c;
-  --com-content-border-bottom: #dee2e6;
-  --com-button-content: #fff;
-
-  --com-font-size-title: 18px;
-  --com-font-size-sub-title: 16px;
-  --com-font-size-content: 12px;
+  /* [규격 및 레이아웃] */
+  --com-web-max-width-padding: 20px;   /* 좌우 padding 20px + 20px = 40px  */
+  --com-web-max-width: 1400px; /* 1440px - 40(좌우 padding)px  = 1400px */
+  --com-mobile-max-width: 355px; /* 375px - 20px */
   --com-container-padding: 20px;
-      --com-mobile-max-width: 355px; /* 375px - 20px */
-      /* com- 글로벌 css변수 추가 시, 위 규칙 따르기 */
-      /* ============================================================================== */
-      /* [공통] Footer Variables */
-      /* ============================================================================== */
-      --com-footer-border: rgba(15, 23, 42, 0.08);
-      --com-footer-bg: rgba(255, 255, 255, 0.92);
-      --com-footer-max-width: 1440px;
-      --com-footer-slogan-color: rgba(17, 24, 39, 0.62);
-      --com-footer-link-color: rgba(17, 24, 39, 0.78);
-      --com-footer-link-hover-color: rgba(17, 24, 39, 0.95);
-      --com-footer-link-hover-border: rgba(17, 24, 39, 0.25);
-      --com-footer-muted-color: rgba(17, 24, 39, 0.45);  /* ------------------------------------------------------------------------------ */
-  /* [기존 wook 변수] */
-  /* ------------------------------------------------------------------------------ */
+  --com-section-padding: 60px;
+  --com-sidebar-width: 240px;
   
-  --mng-sidebar-width: 240px;
-  --mng-sidebar-title-font-color: #adb5bd;
-  --mng-sidebar-item-font-color: #c2c7d0;
-  --mng-font-size-sidebar: 14px;
-  /* 기존 900px -> 900으로 변경 */
-  --mng-font-weight: 900; 
-  --mng-font-gray: #343a40;
-  --mng-font-green: #2ecc71;
-  --mng-font-blue: #3498db;
-  --mng-font-red: #e74c3c;
-  --mng-content-border-bottom: #dee2e6;
-  --mng-button-content: #fff;
-  --mng-font-size-title: 18px;
-  --mng-font-size-sub-title: 16px;
-  --mng-font-size-content: 12px;
-  --mng-container-padding: 20px;
+  /* [폰트 설정] */
+  --com-font-primary-color: #212529; 
+  --com-font-gray: #343a40;
+  --com-font-muted: #6b7280;
+  --com-font-weight-heavy: 700;
+  --com-font-weight-bold: 900;
+
+  /* [폰트 사이즈] */
+  --com-size-title: 28px;
+  --com-size-subtitle: 16px;
+  --com-size-content: 12px;
+  --com-size-sidebar: 14px;
+  --com-size-mini: 11px;
+
+  /* [컬러 팔레트] */
+  --com-color-white: #ffffff;
+  --com-color-bg-light: #f8f8f8;      /* 기존 light-gray */
+  --com-color-bg-section: #f4f7f6;    /* 섹션 배경 */
+  --com-color-blue: #3498db;
+  --com-color-green: #2ecc71;
+  --com-color-red: #e74c3c;
+  --com-color-black: #111827;
+  --com-color-overlay: rgba(15, 23, 42, 0.08); /* 푸터 border, 그림자 등 */
+
+  /* [확장 파스텔 무지개 컬러 - 포인트 및 배경용] */
+  
+  /* Red & Pink */
+  --com-color-pastel-red: #FFADAD;     /* 연한 레드 */
+  --com-color-pastel-rose: #FFC2D1;    /* 로즈 핑크 */
+  --com-color-pastel-pink: #FFD6E0;    /* 소프트 핑크 */
+  --com-color-pastel-magenta: #FFDDF4; /* 연자주색 */
+
+  /* Orange & Yellow */
+  --com-color-pastel-orange: #FFD6A5;  /* 연한 주황 */
+  --com-color-pastel-peach: #FDFFB6;   /* 복숭아색 */
+  --com-color-pastel-yellow: #FFFFFC;  /* 크림 옐로우 */
+  --com-color-pastel-gold: #FFECB3;    /* 연한 금색 */
+
+  /* Green */
+  --com-color-pastel-lime: #E2F0CB;    /* 라임 그린 */
+  --com-color-pastel-mint: #CAFFBF;    /* 민트 */
+  --com-color-pastel-leaf: #D4E09B;    /* 올리브 리프 */
+  --com-color-pastel-tea: #F1F3C2;     /* 그린티 */
+
+  /* Blue & Cyan */
+  --com-color-pastel-cyan: #9BF6FF;    /* 시안 블루 */
+  --com-color-pastel-sky: #A0C4FF;     /* 스카이 블루 */
+  --com-color-pastel-aqua: #B9FBC0;    /* 연한 아쿠아 */
+  --com-color-pastel-ocean: #CFEAFA;   /* 오션 블루 */
+
+  /* Purple & Violet */
+  --com-color-pastel-lavender: #BDB2FF; /* 라벤더 */
+  --com-color-pastel-violet: #EDC7FF;   /* 연보라 */
+  --com-color-pastel-lilac: #D0D1FF;    /* 라일락 */
+  --com-color-pastel-indigo: #C7CEEA;   /* 연한 인디고 */
+
+  /* [기타 - 경계선 및 장식] */
+  /* 추가되는 css 공용 변수는 이제 이 아래에 정의  */
+  --com-border-default: #e0e0e0;
+  --com-radius-lg: 18px;    /* 카드류 */
+  --com-radius-md: 12px;    /* 인풋류 */
+  --com-radius-pill: 999px; /* 버튼류 */
+  --com-shadow-default: 0 12px 30px rgba(2, 6, 23, 0.08);
 }
 
 /* 📱 아이폰 SE (375px 이하) 전용 가변 변수 덮어쓰기 */

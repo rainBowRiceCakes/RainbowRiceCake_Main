@@ -6,12 +6,12 @@
 import { useState, useEffect, useRef } from 'react';
 
 import MainCover from './sections/MainCover.jsx';
-import MainInfo from './sections/MainInfo.jsx';     // 1. 서비스 소개
-import MainPTNSSearch from './sections/MainPTNSSearch.jsx'; // 2. 지점안내
-import MainFee from './sections/MainFee.jsx';       // 3. 요금안내
-import MainDLVS from './sections/MainDLVS.jsx';     // 4. 배송현황
-import MainCS from './sections/MainCS.jsx';         // 5. 고객센터
-import MainPTNS from './sections/MainPTNS.jsx';     // 6. 제휴문의
+import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
+import MainPTNSSearch from './sections/MainPTNSSearch.jsx';  // 2. 지점안내
+import MainFee from './sections/MainFee.jsx';                // 3. 요금안내
+import MainDLVS from './sections/MainDLVS.jsx';              // 4. 배송현황
+import MainCS from './sections/MainCS.jsx';                  // 5. 고객센터
+import MainPTNS from './sections/MainPTNS.jsx';              // 6. 제휴문의
 import './MainShow.css';
 
 export default function MainShow() {
@@ -25,7 +25,7 @@ export default function MainShow() {
     "배송현황", 
     "고객센터", 
     "제휴문의"
-  ];
+];
 
   const sections = [
     'info', 
@@ -34,7 +34,7 @@ export default function MainShow() {
     'dlvs', 
     'cs', 
     'ptns'
-  ];
+];
 
   const observer = useRef(null);
   

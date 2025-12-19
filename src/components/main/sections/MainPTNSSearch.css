@@ -4,91 +4,97 @@
  * 251218 v1.0.0 sara init 
  */
 
-/* 메인 프레임: 상하 마진(패딩) 추가 및 경계선 설정 */
+/* 메인 프레임: 상하 여백 확보 */
 .ptnssearch-frame {
-  padding: var(--com-section-padding) 0; /* 상하 여백 확보 (SE: 30px, 일반: 60px) */
-  border-top: 1px solid var(--maininfo-soft-bg);
+  padding: var(--com-section-padding) 0;
+  background-color: var(--com-color-white);
 }
 
-/* 검색 카드 컨테이너 */
+/* 검색 카드 컨테이너 (무채색 카드 규격 적용) */
 .ptnssearch-card-box {
-    background: var(--com-color-white);
-    border: 1px solid var(--com-content-border-color);
-    border-radius: var(--maininfo-card-radius); /* 18px */
-    padding: var(--com-container-padding); /* SE: 12px, 일반: 20px */
-    box-shadow: var(--maininfo-card-shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-lg);
+  padding: var(--com-container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: var(--com-shadow-default);
 }
 
 /* 검색 바 레이아웃 */
 .ptnssearch-input-group {
-    display: flex;
-    gap: 10px;
-    width: 100%;
+  display: flex;
+  gap: 10px;
+  width: 100%;
 }
 
 .ptnssearch-input-field {
-    flex: 1;
-    padding: 12px 16px;
-    border: 1px solid var(--com-content-border-color);
-    border-radius: 8px;
-    font-size: var(--com-font-size-content); /* SE: 11px, 일반: 12px */
-    outline: none;
-    transition: all 0.3s ease;
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-md);
+  font-size: var(--com-size-sidebar);
+  background-color: var(--com-color-white);
+  color: var(--com-font-primary-color);
+  outline: none;
+  transition: all 0.3s ease;
 }
 
 .ptnssearch-input-field:focus {
-    border-color: var(--com-color-mint); /* 민트색 포인트 */
-    box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.1);
+  border-color: var(--com-font-gray);
+  box-shadow: 0 0 0 2px var(--com-color-overlay);
 }
 
 /* 지도 영역 레이아웃 */
 .ptnssearch-map-wrapper {
-    width: 100%;
-    height: 350px; /* 데스크탑 기본 높이 */
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--com-content-border-color);
+  width: 100%;
+  height: 350px;
+  border-radius: var(--com-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--com-border-default);
 }
 
 .ptnssearch-map-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: var(--com-color-light-gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--com-color-bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ptnssearch-map-content {
-    text-align: center;
-    color: var(--maininfo-muted);
+  text-align: center;
+  color: var(--com-font-muted);
 }
 
 .ptnssearch-map-icon {
-    font-size: 32px;
-    display: block;
-    margin-bottom: 8px;
-    color: var(--com-color-mint); /* 민트 포인트 */
+  font-size: 32px;
+  display: block;
+  margin-bottom: 8px;
 }
 
-/* iPhone SE (375px) 모바일 최적화 */
+/* 📱 아이폰 SE (375px) 및 모바일 최적화 */
 @media screen and (max-width: 375px) {
-    .ptnssearch-frame {
-        padding: calc(var(--com-section-padding) * 0.5) 0; /* 모바일에서는 여백 살짝 조절 */
-    }
+  .ptnssearch-frame {
+    padding: var(--com-section-padding) 0; /* index.css 가변 변수 30px 적용 */
+  }
 
-    .ptnssearch-map-wrapper {
-        height: 220px; /* 모바일에서 지도 높이 축소 */
-    }
-    
-    .ptnssearch-input-group {
-        gap: 6px;
-    }
+  .ptnssearch-map-wrapper {
+    height: 220px; /* 모바일 지도 높이 축소 */
+  }
+  
+  .ptnssearch-input-group {
+    gap: 6px;
+  }
 
-    .ptnssearch-input-field {
-        padding: 10px;
-    }
+  .ptnssearch-input-field {
+    padding: 10px;
+    font-size: var(--com-size-content); /* 가변 11px 적용 */
+  }
+
+  .ptnssearch-card-box {
+    padding: var(--com-container-padding); /* 가변 12px 적용 */
+  }
 }

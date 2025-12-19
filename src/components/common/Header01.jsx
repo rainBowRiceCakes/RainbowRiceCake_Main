@@ -32,9 +32,8 @@ export default function Header01() {
   const navigate = useNavigate();
   const headerRef = useRef(null);
 
-  const isMainShow = useMemo(() => location.pathname === "/", [location.pathname]);
+  const isMainShow = useMemo(() => location.pathname === "/" || location.pathname === "/home", [location.pathname]);
 
-  // 외부 클릭 시 닫기 로직
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (isOpen && headerRef.current && !headerRef.current.contains(e.target)) {
@@ -52,7 +51,7 @@ export default function Header01() {
 
   const closeMenu = () => setIsOpen(false);
 
-const goSection = (sectionId) => {
+  const goSection = (sectionId) => {
     if (!isMainShow) {
       navigate(`/#${sectionId}`);
     } else {
@@ -87,18 +86,17 @@ const goSection = (sectionId) => {
             <button className="header01-lang-button">EN</button>
             <div className="header01-divider-v" />
             <button className="header01-lang-button">KO</button>
-            <Link to="/login" className="header01-action-button-link">LOGIN</Link>
-            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid">MyPage</Link>
+            <Link to="/login" className="header01-action-button-link" onClick={closeMenu}>LOGIN</Link>
+            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid" onClick={closeMenu}>MyPage</Link>
           </div>
 
           {/* 모바일 화면 (900px 미만) */}
           <div className="header01-mobile-icons-group">
-          {/* 요청하신 로그인 아이콘 전용 컨테이너 (70x40) */}
-          <div className="mainshow-header-login-box">
-            <Link to="/login" className="header01-icon-login-btn">
-              <img src={LoginIcon} alt="login-icon" className="header01-login-img" />
-            </Link>
-          </div>
+            <div className="mainshow-header-login-box">
+              <Link to="/login" className="header01-icon-login-btn" onClick={closeMenu}>
+                <img src={LoginIcon} alt="login-icon" className="header01-login-img" />
+              </Link>
+            </div>
 
             <button
               type="button"
@@ -113,30 +111,26 @@ const goSection = (sectionId) => {
         </div>
       </div>
         
-        {/* Mobile dropdown: 여기에 6개 섹션 dot 메뉴 포함 */}
-        {isOpen && (
-          <div className="header01-mobile-dropdown-frame">
-            <div className="header01-mobile-inner-group">
-              <div className="header01-mobile-title-text">Menu</div>
-              
-              {/* 6개 섹션 이동 메뉴 */}
-              <div className="header01-mobile-list-group">
-                {NAV_ITEMS.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className="header01-mobile-item-button"
-                    onClick={() => goSection(item.id)}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-
-              <div className="header01-mobile-divider" />
+      {/* Mobile dropdown */}
+      {isOpen && (
+        <div className="header01-mobile-dropdown-frame">
+          <div className="header01-mobile-inner-group">
+            <div className="header01-mobile-title-text">Menu</div>
+            <div className="header01-mobile-list-group">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="header01-mobile-item-button"
+                  onClick={() => goSection(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
-        )}
+        </div>
+      )}
     </header>
   );
 }

@@ -4,133 +4,67 @@
  * 251216 v1.0.0 sara init 
  */
 
-/*
-  [index.css 공통 변수]
-  --com-section-padding: 60px;
-  --com-color-white: #ffffff;
-  --com-color-light-gray: #f8f8f8;
-  --com-font-primary-color: #212529;
-  --com-font-gray: #343a40;
-  --com-font-weight-heavy: 700;
-  --com-font-size-title: 18px;
-  --com-font-size-sub-title: 16px;
-  --com-font-size-sidebar: 14px;
-  --com-font-size-content: 12px;
-  --com-content-border-color: #e0e0e0;
-  --com-color-blue: #3498db;
-  --com-color-green: #2ecc71;
-  --com-color-red: #e74c3c;
-*/
-
-/* MainFee 자체 변수 */
-:root {
-    --mainfee-box-bg: var(--com-color-light-gray);
-    --mainfee-map-btn-hover: #555;
-    --mainfee-box-title-border: 2px solid var(--com-color-blue);
-}
-
-.mainfee-frame { /* .mainfee-container -> .mainfee-frame */
-    padding: var(--com-section-padding) 0;
-    background-color: var(--com-color-white);
-}
-
-/* .mainfee-web-wrapper 삭제, mainshow-section-wrapper 사용 */
-
-.mainfee-header {
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-.mainfee-title-text { /* .mainfee-title -> .mainfee-title-text */
-    font-size: var(--com-font-size-title);
-    font-weight: var(--com-font-weight-heavy);
-    color: var(--com-font-primary-color);
-    margin-bottom: 10px;
-}
-
-.mainfee-subtitle-text { /* .mainfee-subtitle -> .mainfee-subtitle-text */
-    font-size: var(--com-font-size-sub-title);
-    color: var(--com-font-gray);
-}
-
-.mainfee-content-flex {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-/* 박스 공통 스타일 */
-.mainfee-price-box, .mainfee-search-box {
-    flex: 1;
-    min-width: 300px;
-    border: 1px solid var(--com-content-border-color);
-    border-radius: 8px;
-    padding: 25px;
-    text-align: left;
-    background-color: var(--mainfee-box-bg);
-}
-
 .mainfee-box-title {
-    font-size: var(--com-font-size-sub-title);
-    font-weight: var(--com-font-weight-heavy);
-    color: var(--com-color-blue);
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: var(--mainfee-box-title-border);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-blue);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--com-color-blue);
 }
 
 /* 가격표 스타일 */
 .mainfee-table-wrapper {
-    margin-bottom: 15px;
-    border: 1px solid var(--com-content-border-color);
-    border-radius: 8px;
-    overflow: hidden;
-    padding: var(--com-container-padding);
-    background-color: var(--com-color-white);
+  margin-bottom: 15px;
+  border: 1px solid var(--com-border-default);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: var(--com-container-padding);
+  background-color: var(--com-color-white);
 }
 
 .mainfee-table-row {
-    display: flex;
-    border-bottom: 1px solid var(--com-content-border-color);
+  display: flex;
+  border-bottom: 1px solid var(--com-border-default);
 }
 
 .mainfee-table-row:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .mainfee-table-cell {
-    flex: 1;
-    padding: 10px 15px;
-    border-right: 1px solid var(--com-content-border-color);
-    font-size: var(--com-font-size-content);
-    line-height: 1.4;
-    color: var(--com-font-primary-color);
+  flex: 1;
+  padding: 10px 15px;
+  border-right: 1px solid var(--com-border-default);
+  font-size: var(--com-size-content);
+  line-height: 1.4;
+  color: var(--com-font-primary-color);
 }
 
 .mainfee-table-cell:last-child {
-    border-right: none;
-    text-align: center;
+  border-right: none;
+  text-align: center;
 }
+
 .mainfee-table-cell--region {
   font-weight: var(--com-font-weight-heavy);
-  /* 동네 이름이 길어질 경우를 대비 */
   word-break: keep-all;
 }
 
-.mainfee-table-cell--amount { 
-  flex: 1; 
+.mainfee-table-cell--amount {
+  flex: 1;
 }
 
-.mainfee-table-cell--fee { 
-  flex: 0.8; 
-  font-size: var(--com-font-size-sub-title);
-  font-weight: var(--com-font-weight);
-  color: var(--com-font-red);
+.mainfee-table-cell--fee {
+  flex: 0.8;
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-red);
   text-align: right;
 }
 
-.mainfee-table-header-row { /* .mainfee-table-header -> .mainfee-table-header-row */
-  background-color: var(--com-content-border-color);
+.mainfee-table-header-row {
+  background-color: var(--com-color-bg-light);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
 }
@@ -141,55 +75,70 @@
 }
 
 .mainfee-note-text {
-  font-size: var(--com-font-size-content);
+  font-size: var(--com-size-content);
   color: var(--com-color-red);
+  margin-top: 8px;
 }
 
 /* 지점 안내 스타일 */
 .mainfee--item {
-    margin-bottom: 15px;
-    padding: 10px 0;
-    border-bottom: 1px dotted var(--com-content-border-color);
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--com-border-default);
 }
 
 .mainfee-search-name {
-    font-size: var(--com-font-size-sidebar);
-    font-weight: var(--com-font-weight-heavy);
-    color: var(--com-font-primary-color);
-    margin-bottom: 3px;
+  font-size: var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+  margin-bottom: 3px;
 }
 
 .mainfee-search-address {
-    font-size: var(--com-font-size-content);
-    color: var(--com-font-gray);
+  font-size: var(--com-size-content);
+  color: var(--com-font-gray);
 }
 
 .mainfee-search-map-link {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 
-.mainfee-map-link-button { /* .mainfee-map-link-btn -> .mainfee-map-link-button */
-    display: inline-block;
-    padding: 8px 15px;
-    background-color: var(--com-font-gray);
-    color: var(--com-color-white);
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: var(--com-font-size-sidebar);
-    transition: background-color 0.2s;
+.mainfee-map-link-button {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: var(--com-size-sidebar);
+  transition: opacity 0.2s ease;
 }
 
 .mainfee-map-link-button:hover {
-    background-color: var(--mainfee-map-btn-hover);
+  opacity: 0.8;
 }
 
-
+/* 반응형 대응 */
 @media (max-width: 900px) {
-    .mainfee-content-flex {
-        flex-direction: column;
-    }
-    .mainfee-price-box, .mainfee-search-box {
-        margin-bottom: 20px;
-    }
+  .mainfee-content-flex {
+    flex-direction: column;
+  }
+  .mainfee-price-box, 
+  .mainfee-search-box {
+    margin-bottom: 20px;
+  }
+}
+
+/* 📱 아이폰 SE 가변 대응 */
+@media screen and (max-width: 375px) {
+  .mainfee-box-title,
+  .mainfee-table-cell--fee {
+    font-size: var(--com-font-size-sub-title);
+  }
+  .mainfee-table-cell,
+  .mainfee-note-text,
+  .mainfee-search-address {
+    font-size: var(--com-font-size-content);
+  }
 }

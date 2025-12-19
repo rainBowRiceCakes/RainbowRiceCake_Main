@@ -4,49 +4,17 @@
  * 251216 v1.0.0 sara init 
  */
 
-/* [index.css 공통 변수 참조]
-  --com-web-max-width: 1200px;
-  --com-color-white: #ffffff;
-  --com-font-primary-color: #212529; 
-  --com-font-weight-heavy: 700;
-  --com-font-weight-bold: 900;
-  --com-font-size-sidebar: 14px;
-  --com-content-border-color: #e0e0e0;
-  --com-color-blue: #3498db;
-  --com-container-padding: 20px;
-*/
-
-/* Header01 전용 변수 (index.css에 없는 스타일 정의) */
-:root {
-  --header01-bg: rgba(255, 255, 255, 0.92);
-  --header01-text: #0b0b0c;
-  --header01-border-soft: rgba(15, 23, 42, 0.12);
-  --header01-radius-pill: 999px;
-  --header01-max-width: 1440px;
-  
-  /* 버튼 및 액션 전용 */
-  --header01-action-solid-bg: #111827;
-  --header01-action-solid-text: #fff;
-  --header01-shadow-soft: 0 10px 18px rgba(2, 6, 23, 0.06);
-  --header01-hover-bg: rgba(2, 6, 23, 0.04);
-  
-  /* 로고 사이즈 커스텀 */
-  --header01-logo-width: 140px;
-  --header01-logo-height: 40px;
-}
-
 .header01-frame {
   position: sticky;
   top: 0;
   z-index: 60;
-  background: var(--header01-bg);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: saturate(1.2) blur(10px);
-  border-bottom: 1px solid var(--com-content-border-color);
+  border-bottom: 1px solid var(--com-border-default);
 }
 
-/* 핵심 레이아웃: 로고와 액션을 양끝으로 밀어냄 */
 .header01-inner-group {
-  max-width: var(--header01-max-width);
+  max-width: var(--com-web-max-width);
   margin: 0 auto;
   padding: 12px var(--com-container-padding);
   display: flex;
@@ -61,17 +29,17 @@
   background: transparent;
   cursor: pointer;
   padding: 8px 10px;
-  border-radius: 12px;
+  border-radius: var(--com-radius-md);
   transition: background 0.2s ease;
 }
 
 .header01-logo-button:hover {
-  background: var(--header01-hover-bg);
+  background: var(--com-color-bg-light);
 }
 
 .header01-brand-img {
-  width: var(--header01-logo-width);
-  height: var(--header01-logo-height);
+  width: 120px;
+  height: 34px;
   display: flex;
   align-items: center;
   user-select: none;
@@ -84,7 +52,7 @@
   pointer-events: none;
 }
 
-/* Action Buttons & Desktop Links (Right Side) */
+/* Action Buttons & Desktop Links */
 .header01-actions-group {
   display: flex;
   align-items: center;
@@ -97,13 +65,12 @@
   gap: 12px;
 }
 
-/* 언어 선택 버튼 스타일 */
 .header01-lang-button {
   background: none;
   border: none;
-  font-size: 13px;
+  font-size: var(--com-size-mini);
   font-weight: var(--com-font-weight-heavy);
-  color: var(--com-sidebar-item-font-color);
+  color: var(--com-font-muted);
   cursor: pointer;
   padding: 0 4px;
   transition: color 0.2s ease;
@@ -113,11 +80,10 @@
   color: var(--com-font-primary-color);
 }
 
-/* 세로 구분선 */
 .header01-divider-v {
   width: 1px;
   height: 12px;
-  background-color: var(--com-content-border-color);
+  background-color: var(--com-border-default);
 }
 
 .header01-action-button-link {
@@ -126,31 +92,31 @@
   justify-content: center;
   height: 38px;
   padding: 0 16px;
-  border-radius: var(--header01-radius-pill);
+  border-radius: var(--com-radius-pill);
   text-decoration: none;
   font-weight: var(--com-font-weight-bold);
-  font-size: 13px;
-  color: var(--header01-text);
-  border: 1px solid var(--header01-border-soft);
+  font-size: var(--com-size-content);
+  color: var(--com-font-primary-color);
+  border: 1px solid var(--com-border-default);
   background: var(--com-color-white);
   transition: all 0.12s ease;
 }
 
 .header01-action-button-link:hover {
   transform: translateY(-1px);
-  box-shadow: var(--header01-shadow-soft);
-  background: var(--com-color-light-gray);
+  box-shadow: var(--com-shadow-default);
+  background: var(--com-color-bg-light);
 }
 
 .header01-action-button-link--solid {
-  background: var(--header01-action-solid-bg);
-  color: var(--header01-action-solid-text);
-  border-color: var(--header01-action-solid-bg);
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
 }
 
 /* Mobile Hamburger */
 .header01-hamburger-button {
-  display: none; /* 기본 숨김 */
+  display: none;
   flex-direction: column;
   gap: 4px;
   width: 40px;
@@ -158,7 +124,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   background: var(--com-color-white);
   cursor: pointer;
 }
@@ -166,15 +132,15 @@
 .header01-hamburger-button .header01-bar {
   width: 18px;
   height: 2px;
-  background: var(--header01-action-solid-bg);
+  background: var(--com-color-black);
   border-radius: 2px;
 }
 
 /* Mobile Dropdown Menu */
 .header01-mobile-dropdown-frame {
-  border-top: 1px solid var(--com-content-border-color);
+  border-top: 1px solid var(--com-border-default);
   background: var(--com-color-white);
-  box-shadow: var(--header01-shadow-soft);
+  box-shadow: var(--com-shadow-default);
 }
 
 .header01-mobile-inner-group {
@@ -185,8 +151,8 @@
 
 .header01-mobile-title-text {
   font-weight: var(--com-font-weight-bold);
-  font-size: var(--com-font-size-sub-title);
-  color: #64748b;
+  font-size: var(--com-size-subtitle);
+  color: var(--com-font-muted);
 }
 
 .header01-mobile-list-group {
@@ -197,83 +163,47 @@
 
 .header01-mobile-item-button {
   text-align: center;
-  border: 1px solid var(--com-content-border-color);
-  background: var(--com-color-light-gray);
-  border-radius: 12px;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-bg-light);
+  border-radius: var(--com-radius-md);
   padding: 14px;
   cursor: pointer;
   font-weight: var(--com-font-weight-heavy);
-  color: var(--header01-text);
+  color: var(--com-font-primary-color);
 }
 
-.header01-mobile-actions-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding-top: 10px;
-}
-
-.header01-mobile-action-button-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: var(--com-font-weight-bold);
-  border: 1px solid var(--header01-border-soft);
-  color: var(--header01-text);
-  background: var(--com-color-white);
-}
-
-.header01-mobile-action-button-link--solid {
-  background: var(--header01-action-solid-bg);
-  color: var(--header01-action-solid-text);
-  border-color: var(--header01-action-solid-bg);
-}
-
-/* ============================================================ */
-/* 반응형 제어: 900px 기준 */
-/* ============================================================ */
-
+/* Responsive */
 @media (min-width: 901px) {
-  /* 웹화면: 햄버거 숨김, 데스크탑 링크 표시 */
-  .header01-hamburger-button {
-    display: none;
-  }
-  .header01-desktop-links {
-    display: flex;
-  }
+  .header01-hamburger-button { display: none; }
+  .header01-desktop-links { display: flex; }
 }
 
 @media (max-width: 900px) {
-  /* 태블릿/모바일: 웹용 링크 숨김, 햄버거 등장 */
-  .header01-desktop-links {
-    display: none;
-  }
-  .header01-hamburger-button {
+  .header01-desktop-links { display: none; }
+  .header01-hamburger-button { display: flex; }
+  .header01-mobile-icons-group {
     display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }
 
-/* 모바일 전용 아이콘 이미지 스타일 */
+/* Mobile Icon Box */
 .header01-login-img {
-  width: 24px;   /* 아이콘 크기 적절히 조절 */
+  width: 24px;
   height: 24px;
   object-fit: contain;
 }
 
-/* 로그인 아이콘 전용 컨테이너 박스 */
 .mainshow-header-login-box {
     width: 70px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--com-color-light-gray);
+    background-color: var(--com-color-bg-light);
     border-radius: 8px;
 }
-
 
 .header01-icon-login-btn {
   display: flex;
@@ -285,22 +215,9 @@
 }
 
 .header01-icon-login-btn:hover {
-  background-color: var(--com-color-light-gray);
+  background-color: var(--com-border-default);
 }
 
-/* 900px 미만에서 아이콘 그룹 노출 */
-@media (max-width: 900px) {
-  .header01-desktop-links {
-    display: none;
-  }
-  .header01-mobile-icons-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-}
-
-/* 375px(iPhone SE) 대응 */
 @media (max-width: 375px) {
   .header01-login-img {
     width: 22px;

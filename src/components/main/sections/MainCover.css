@@ -4,46 +4,10 @@
  * 251216 v1.0.0 sara init 
  */
 
-/*
-  [index.css 공통 변수]
-  --com-web-max-width: 1200px;
-  --com-container-padding: 20px;
-  --com-color-white: #ffffff;
-  --com-font-primary-color: #212529; 
-  --com-font-size-sub-title: 16px;
-  --com-font-size-sidebar: 14px;
-  --com-font-size-content: 12px;
-  --com-font-weight-heavy: 700;
-  --com-color-light-gray: #f8f8f8;
-*/
-
-/* MainCover 자체 변수 */
-:root {
-    --maincover-delivery-bg: var(--com-color-light-gray); /* ✅ 밝은 모노톤으로 변경 */
-    --maincover-max-width: 1400px; 
-
-    /* 조회 버튼 색상 */
-    --maincover-button-bg: #0b0b0c; /* 블랙 */
-    --maincover-button-text: var(--com-color-white);
-}
-
-.maincover-frame { 
-    width: 100%;
-    min-height: auto; 
-    display: flex;
-    flex-direction: column; 
-    min-width: 375px; 
-}
-
 /* 1. 상단 이미지 영역 */
-.maincover-image-area { 
-    flex-grow: 1; 
-    padding: 0; 
-    height: 500px; 
-}
-
 .maincover-image-wrapper { 
-    max-width: var(--maincover-max-width); /* ✅ 이미지 컨테이너 최대 너비 1400px 제한 */
+    /* 이미지 컨테이너 최대 너비를 1400px 공통 규격으로 제한 */
+    max-width: var(--com-web-max-width); 
     margin: 0 auto;
     width: 100%;
     height: 100%;
@@ -58,21 +22,22 @@
     display: block; 
 }
 
-/* 2. 하단 배송 조회 컨테이너 박스 영역 (FORM) */
+/* 2. 하단 배송 조회 컨테이너 (Monochrome 배경) */
 .maincover-delivery-area { 
   width: 100%;
   flex-shrink: 0; 
-  background-color: var(--maincover-delivery-bg);
+  /* 공통 배경색 및 텍스트 색상 적용 */
+  background-color: var(--com-color-bg-light);
   color: var(--com-font-primary-color);
   padding: var(--com-container-padding);
   
-  /* 패팅 유지하되 내부 콘텐츠를 1440px 안으로 가두기 위해 */
   display: flex;
   justify-content: center;
 }
 
 .maincover-delivery-form { 
-  max-width: var(--maincover-max-width); /* ✅ 폼 자체의 최대 너비를 1400px로 제한 */
+  /* 폼의 최대 너비도 공통 규격 1400px 적용 */
+  max-width: var(--com-web-max-width); 
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -80,48 +45,54 @@
 }
 
 .maincover-delivery-title-text { 
-  font-size: var(--com-font-size-sub-title);
+  /* 가변 서브타이틀 폰트 및 굵기 적용 */
+  font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
   margin-bottom: 15px;
 }
 
+/* 3. 입력창 그룹 (Input + Button) */
 .maincover-input-group { 
   display: flex;
   width: 100%;
-  max-width: 500px; /* 인풋 그룹 자체는 500px 유지 */
+  max-width: 500px; 
   margin-bottom: 10px;
 }
 
 .maincover-input-field { 
   flex-grow: 1;
   padding: 10px 15px;
-  border: 1px solid var(--com-content-border-color); /* 테두리 추가로 분리감 강화 */
+  /* 공통 경계선 및 폰트 사이즈 적용 */
+  border: 1px solid var(--com-border-default); 
   border-radius: 4px 0 0 4px;
-  font-size: var(--com-font-size-sidebar);
+  font-size: var(--com-size-sidebar);
+  background-color: var(--com-color-white);
+  outline: none;
 }
 
 .maincover-submit-button { 
-  /* ✅ 버튼 디자인 수정: 블랙 기본 */
-  background-color: var(--maincover-button-bg);
-  color: var(--maincover-button-text);
-  border: 1px solid var(--maincover-button-bg); 
+  /* 무채색 블랙 버튼 적용 */
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  border: 1px solid var(--com-color-black); 
   padding: 10px 20px;
   cursor: pointer;
-  font-size: var(--com-font-size-sidebar);
+  font-size: var(--com-size-sidebar);
   border-radius: 0 4px 4px 0;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .maincover-submit-button:hover {
-  /* ✅ 호버 디자인 수정: 흰색 배경, 검은색 글자 */
+  /* 호버 시 무채색 반전 효과 */
   background-color: var(--com-color-white);
-  color: var(--maincover-button-bg);
-  border-color: var(--maincover-button-bg);
+  color: var(--com-color-black);
+  border-color: var(--com-color-black);
 }
 
+/* 4. 하단 링크 영역 */
 .maincover-link-group { 
-  font-size: var(--com-font-size-content);
-  color: var(--com-font-primary-color); /* 링크 그룹 텍스트도 검은색 계열로 변경 */
+  font-size: var(--com-size-content);
+  color: var(--com-font-primary-color);
 }
 
 .maincover-more-link { 
@@ -130,7 +101,7 @@
     text-decoration: underline;
 }
 
-/* [미디어 쿼리] 900px 이하에서 이미지 영역 숨김 (유지) */
+/* [미디어 쿼리] 900px 이하 대응 */
 @media (max-width: 900px) {
     .maincover-image-area {
         display: none;
@@ -140,4 +111,16 @@
     .maincover-frame {
         min-height: auto; 
     }
+}
+
+/* 📱 아이폰 SE (375px 이하) 가변 대응 */
+@media screen and (max-width: 375px) {
+  .maincover-delivery-title-text {
+    /* 모바일 가변 폰트 사이즈(13px) 연동 */
+    font-size: var(--com-font-size-sub-title);
+  }
+  .maincover-delivery-area {
+    /* 모바일 가변 컨테이너 패딩(12px) 연동 */
+    padding: var(--com-container-padding);
+  }
 }

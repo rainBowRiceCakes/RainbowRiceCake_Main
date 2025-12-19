@@ -4,53 +4,61 @@
  * 251216 v1.0.0 sara init 
  */
 
-/*
-  [index.css 공통 변수]
-  --com-color-white: #ffffff;
-*/
-
-/* TopButton01 자체 변수 */
-:root {
-  --topbutton01-border: rgba(15, 23, 42, 0.12);
-  --topbutton01-bg: rgba(255, 255, 255, 0.92);
-  --topbutton01-shadow-normal: 0 12px 30px rgba(2, 6, 23, 0.10);
-  --topbutton01-shadow-hover: 0 18px 40px rgba(2, 6, 23, 0.14);
-}
-
-
 .topbutton01-button { /* .topBtn -> .topbutton01-button */
   position: fixed;
-  right: 16px;
+  /* 우측 여백을 컨테이너 패딩 변수와 연동 */
+  right: var(--com-container-padding);
+  bottom: 24px;
   z-index: 95;
 
   width: 44px;
   height: 44px;
-  border-radius: 999px;
+  /* 999px 대신 공통 pill 변수 활용 */
+  border-radius: var(--com-radius-pill);
 
-  border: 1px solid var(--topbutton01-border);
-  background: var(--topbutton01-bg);
+  /* 무채색 경계선 및 반투명 흰색 배경 적용 */
+  border: 1px solid var(--com-color-overlay);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px) saturate(1.2);
 
-  box-shadow: var(--topbutton01-shadow-normal);
+  /* 공통 그림자 변수 적용 */
+  box-shadow: var(--com-shadow-default);
   cursor: pointer;
 
-  font-weight: 900;
-  font-size: 18px;
+  /* 폰트 설정 치환 */
+  font-weight: var(--com-font-weight-heavy);
+  font-size: var(--com-size-subtitle); /* 16px */
+  color: var(--com-color-black);
   line-height: 1;
 
   display: grid;
   place-items: center;
 
-  transition: transform 140ms ease, box-shadow 160ms ease;
+  /* 트랜지션 시간 정형화 */
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
 }
 
 .topbutton01-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--topbutton01-shadow-hover);
+  /* 호버 시 살짝 위로 이동 및 그림자 강조 */
+  transform: translateY(-4px);
+  background: var(--com-color-white);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* 저사양/접근성 대응: 애니메이션 제거 */
 @media (prefers-reduced-motion: reduce) {
   .topbutton01-button {
     transition: none;
+  }
+}
+
+/* 📱 아이폰 SE (375px 이하) 가변 대응 */
+@media screen and (max-width: 375px) {
+  .topbutton01-button {
+    width: 38px;
+    height: 38px;
+    /* 모바일 가변 폰트 사이즈 연동 */
+    font-size: var(--com-font-size-sub-title); 
+    bottom: 20px;
   }
 }

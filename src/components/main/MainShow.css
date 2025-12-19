@@ -4,29 +4,31 @@
  * 251216 v1.0.0 sara init 
  */
 
-/* mainshow-page-container: 전체 메인 페이지 레이아웃 */
+/* 1. 전체 페이지 레이아웃 */
 .mainshow-page-container {
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
+  background-color: var(--com-color-white);
+  color: var(--com-font-primary-color);
 }
 
-/* 2. 공통 섹션 래퍼: 중앙 정렬 및 1440px 가로폭 제한 */
+/* 2. 공통 섹션 그리드 래퍼 */
 .mainshow-section-wrapper {
   width: 100%;
-  max-width: var(--com-web-max-width); /* 1440px */
+  max-width: var(--com-web-max-width);
   margin: 0 auto;
-  padding: 0 var(--com-container-padding); /* SE: 12px, 일반: 20px */
+  padding: 0 var(--com-container-padding);
   box-sizing: border-box;
 }
 
 /* 3. 섹션 간 간격 조절용 프레임 */
 .mainshow-section-frame {
-  padding: var(--com-section-padding) 0; /* SE: 30px, 일반: 60px */
+  padding: var(--com-section-padding) 0;
 }
 
-/* 내비게이션 전체 컨테이너 */
+/* 4. 플로팅 내비게이션 (오른쪽 사이드 고정) */
 .mainshow-floating-nav {
   position: fixed;
   right: 25px;
@@ -35,7 +37,7 @@
   z-index: 1000;
 }
 
-/* 전체를 감싸는 컨테이너 박스 */
+/* 내비게이션 그룹 컨테이너 */
 .mainshow-nav-group {
   display: flex;
   flex-direction: column;
@@ -55,63 +57,57 @@
   min-height: 24px;
 }
 
-/* 도트 스타일 - 공통 변수 활용 */
+/* 도트 스타일 */
 .mainshow-nav-dot {
   width: 10px;
   height: 10px;
-  background-color: var(--com-sidebar-item-font-color); /* 비활성: #c2c7d0 */
+  background-color: var(--com-font-muted);
   border-radius: 50%;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* 활성 도트 - 공통 변수 활용 */
+/* 활성 도트 */
 .mainshow-nav-dot.active {
-  background-color: var(--com-font-primary-color); /* 활성: #212529 */
+  background-color: var(--com-color-black);
   transform: scale(1.4);
 }
 
-/* 이름 박스 - 공통 변수 활용 */
+/* 이름 라벨 박스 */
 .mainshow-nav-label-box {
   position: absolute;
   right: 0;
   background-color: var(--com-color-white);
-  
-  /* 핵심 수정: 모든 박스 크기를 동일하게 고정 */
-  width: 100px;               /* 모든 라벨 박스의 너비를 100px로 통일 */
+  width: 100px;
   display: flex;
-  justify-content: center;    /* 글자를 박스 중앙에 정렬 */
+  justify-content: center;
   align-items: center;
-  
-  padding: 8px 0;             /* 상하 패딩만 유지 */
-  border-radius: 20px;
+  padding: 8px 0;
+  border-radius: 20px; 
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
   transform: translateX(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  border: none;
+  box-shadow: var(--com-shadow-default);
+  border: 1px solid var(--com-border-default);
 }
 
-/* 텍스트 스타일 - 공통 변수 활용 */
+/* 내비게이션 텍스트 */
 .mainshow-nav-text {
-  font-size: 13px;
+  font-size: var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
-  color: var(--com-sidebar-item-font-color); /* 비활성: #c2c7d0 */
+  color: var(--com-font-muted);
   text-align: center;
 }
 
-/* 활성 텍스트 - 공통 변수 활용 */
 .mainshow-nav-text.active {
-  color: var(--com-font-primary-color); /* 활성: #212529 */
+  color: var(--com-color-black);
 }
 
-/* ============================================================ */
-/* 그룹 전체 호버 시: 도트 숨기고 이름 박스 일괄 등장 */
-/* ============================================================ */
+/* 5. 인터랙션 (호버 효과) */
 .mainshow-nav-group:hover .mainshow-nav-dot {
-    opacity: 0;
-    transform: scale(0);
+  opacity: 0;
+  transform: scale(0);
 }
 
 .mainshow-nav-group:hover .mainshow-nav-label-box {
@@ -120,18 +116,14 @@
   transform: translateX(0);
 }
 
-/* 개별 아이템 호버 시 텍스트 강조 */
 .mainshow-nav-item:hover .mainshow-nav-text {
-  color: var(--com-font-primary-color);
+  color: var(--com-color-black);
 }
 
-/* iPhone SE (375px) 대응 최적화 */
+/* 📱 iPhone SE (375px 이하) 대응 최적화 */
 @media screen and (max-width: 375px) {
-.mainshow-nav-group:hover .mainshow-nav-dot {
-  opacity: 1;
-  transform: scale(1); 
-}
-.mainshow-nav-group:hover .mainshow-nav-label-box {
-  display: none;
-}
+  /* 요청하신 대로 375px 이하에서 내비게이션 그룹을 숨깁니다. */
+  .mainshow-nav-group {
+    display: none !important;
+  }
 }
