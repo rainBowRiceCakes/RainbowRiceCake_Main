@@ -45,10 +45,19 @@
   --com-font-size-sub-title: 16px;
   --com-font-size-content: 12px;
   --com-container-padding: 20px;
-  --com-mobile-max-width: 355px; /* 375px - 20px */
-  /* com- 글로벌 css변수 추가 시, 위 규칙 따르기 */
-  
-  /* ------------------------------------------------------------------------------ */
+      --com-mobile-max-width: 355px; /* 375px - 20px */
+      /* com- 글로벌 css변수 추가 시, 위 규칙 따르기 */
+      /* ============================================================================== */
+      /* [공통] Footer Variables */
+      /* ============================================================================== */
+      --com-footer-border: rgba(15, 23, 42, 0.08);
+      --com-footer-bg: rgba(255, 255, 255, 0.92);
+      --com-footer-max-width: 1440px;
+      --com-footer-slogan-color: rgba(17, 24, 39, 0.62);
+      --com-footer-link-color: rgba(17, 24, 39, 0.78);
+      --com-footer-link-hover-color: rgba(17, 24, 39, 0.95);
+      --com-footer-link-hover-border: rgba(17, 24, 39, 0.25);
+      --com-footer-muted-color: rgba(17, 24, 39, 0.45);  /* ------------------------------------------------------------------------------ */
   /* [기존 wook 변수] */
   /* ------------------------------------------------------------------------------ */
   
