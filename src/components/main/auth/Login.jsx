@@ -4,17 +4,19 @@
  * 251217 v1.0.0 sara init 
  */
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LanguageContext } from '../../../context/LanguageContext';
 import "./Login.css";
 
 export default function Login() {
   const navigate = useNavigate();
   const [mode, setMode] = useState('select'); // 'select', 'login'
+  const { t } = useContext(LanguageContext);
 
   const onLoginSubmit = (e) => {
     e.preventDefault();
-    alert("로그인 처리");
+    alert("로그인 처리"); // This should be translated or replaced with a proper notification
   };
 
   // --- 1. 이메일 로그인 폼 화면 (보안 문제로 back 기능은 삭제 가눙)---
@@ -22,22 +24,22 @@ export default function Login() {
     return (
       <div className="login-frame">
         <form className="login-box" onSubmit={onLoginSubmit}>
-          <h2 className="login-title">로그인</h2>
+          <h2 className="login-title">{t('loginTitle')}</h2>
           <div className="login-input-group">
-            <input type="email" placeholder="이메일을 입력해주세요." className="login-input" required />
+            <input type="email" placeholder={t('loginEmailPlaceholder')} className="login-input" required />
             <div className="login-password-wrapper">
-              <input type="password" placeholder="패스워드를 입력해주세요." className="login-input" required />
+              <input type="password" placeholder={t('loginPasswordPlaceholder')} className="login-input" required />
               <span className="login-view-icon">👁️</span>
             </div>
             <label className="login-check-label">
-              <input type="checkbox" /> <span>로그인 상태 유지</span>
+              <input type="checkbox" /> <span>{t('loginStayLoggedIn')}</span>
             </label>
-            <button type="submit" className="login-btn login-btn--mint">로그인</button>
+            <button type="submit" className="login-btn login-btn--mint">{t('loginTitle')}</button>
           </div>
           <div className="login-helper-links">
-            <span>이메일 찾기</span> | <span>패스워드 찾기</span>
+            <span>{t('loginFindEmail')}</span> | <span>{t('loginFindPassword')}</span>
           </div>
-          <button type="button" className="login-back-btn" onClick={() => setMode('select')}>뒤로가기</button>
+          <button type="button" className="login-back-btn" onClick={() => setMode('select')}>{t('loginGoBack')}</button>
         </form>
       </div>
     );
@@ -47,15 +49,15 @@ export default function Login() {
   return (
     <div className="login-frame">
       <div className="login-box">
-        <h2 className="login-title">로그인</h2>
+        <h2 className="login-title">{t('loginTitle')}</h2>
         <div className="login-select-group">
-          <button className="login-select-btn" onClick={() => setMode('login')}>이메일로 로그인</button>
+          <button className="login-select-btn" onClick={() => setMode('login')}>{t('loginWithEmail')}</button>
           <button className="login-select-btn login-select-btn--social">
-            <span className="google-g">G</span> 구글 소셜 로그인
+            <span className="google-g">G</span> {t('loginWithGoogle')}
           </button>
           <div className="login-hr"><span>OR</span></div>
           <button className="login-select-btn login-select-btn--register" onClick={() => navigate('/register')}>
-            이메일로 회원 가입
+            {t('loginRegisterWithEmail')}
           </button>
         </div>
       </div>

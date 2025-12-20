@@ -75,6 +75,67 @@
   margin-bottom: 8px;
 }
 
+/* 251220 Gemini: Add styles for map modal */
+.ptnssearch-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--com-font-muted);
+}
+
+.map-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.map-modal-content {
+  position: relative;
+  width: 90%;
+  height: 80%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: var(--com-radius-lg);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Ensures map corners are rounded */
+}
+
+.map-modal-header {
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid var(--com-border-default);
+}
+
+.map-modal-header .ptnssearch-input-field {
+  flex-grow: 1;
+}
+
+.map-modal-close-button {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--com-font-gray);
+  cursor: pointer;
+  padding: 0 10px;
+}
+/* End of Gemini's additions */
+
 /* 📱 아이폰 SE (375px) 및 모바일 최적화 */
 @media screen and (max-width: 375px) {
   .ptnssearch-frame {

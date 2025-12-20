@@ -1,0 +1,286 @@
+export const footerData = {
+  ko: {
+    terms: {
+      title: "이용 약관 동의",
+      description: "RC 서비스 이용 약관",
+      articles: [
+        {
+          heading: "제1조 (목적)",
+          text: "본 약관은 RC(이하 '회사')가 제공하는 짐 배송 및 보관 서비스(이하 '서비스')를 이용함에 있어, 회사와 이용 고객(이하 '고객') 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다."
+        },
+        {
+          heading: "제2조 (취급 제한 품목 및 거절)",
+          text: "1. 고객은 다음 각 호에 해당하는 물품을 서비스에 위탁할 수 없으며, 회사는 이를 확인하기 위해 물품의 내용을 확인할 권리가 있습니다.",
+          list: [
+            "현금, 유가증권, 신분증(여권 포함), 계약서 등 재발행이 어려운 서류",
+            "100만 원(또는 미화 1,000불)을 초과하는 고가 귀금속 및 예술품",
+            "파손되기 쉬운 물품 (유리, 도자기, 전자제품 등 완충 포장이 되지 않은 물품)",
+            "폭발물, 인화성 물질, 마약류 등 법령에 의해 소지가 금지된 물품",
+            "부패하거나 변질되기 쉬운 음식물"
+          ],
+          text2: "2. 고객이 위 1항의 사실을 알리지 않고 물품을 위탁하여 발생한 분실, 훼손, 변질 등에 대해 회사는 어떠한 배상 책임도 지지 않습니다."
+        },
+        {
+          heading: "제3조 (손해배상의 범위 및 한도)",
+          text: "1. 회사의 고의/과실로 인한 분실/파손 시 배상하며, 한도는 1개당 최대 50만원입니다. 단, 다음의 경우는 면책됩니다.",
+          list: [
+            "캐리어(가방)의 바퀴, 손잡이, 외부의 경미한 스크래치, 찌그러짐 등 통상적 마모",
+            "고객이 제공한 정보(주소, 연락처 등)의 오류로 인한 배송 지연 및 분실",
+            "천재지변, 교통 통제, 항공 지연 등 불가항력적인 사유로 인한 배송 지연"
+          ],
+          text2: "2. 손해배상 한도액은 물품 1개당 최대 [500,000원](설정하신 보험 가입 금액에 따라 기재)으로 제한합니다. 단, 물품 가액이 한도액 미만인 경우 실제 물품 가액을 기준으로 배상합니다.",
+          text3: "3. 다음 각 호의 경우 배상 대상에서 제외됩니다. (면책 조항)",
+          list2: [
+            "캐리어(가방)의 바퀴, 손잡이, 외부의 경미한 스크래치, 찌그러짐 등 운송 과정에서 통상적으로 발생할 수 있는 마모 및 파손",
+            "고객이 제공한 정보(주소, 연락처 등)의 오류로 인한 배송 지연 및 분실",
+            "천재지변, 교통 통제, 항공 지연 등 불가항력적인 사유로 인한 배송 지연"
+          ]
+        },
+        {
+          heading: "제4조 (예약 취소 및 환불)",
+          text: "고객은 예약된 서비스 이용 시간 1시간 전까지 위약금 없이 예약을 취소할 수 있으며, 이 경우 전액 환불됩니다. 서비스 이용 시간 1시간 이내에 취소하거나, 예약된 시간에 현장에 나타나지 않는 경우(No-Show)에는 수수료 100%가 부과되어 환불이 불가합니다."
+        },
+        {
+          heading: "제5조 (장기 미수령 물품의 처리)",
+          text: "1. 서비스 이용 종료일(배송/보관 완료일)로부터 30일이 경과하여도 고객이 물품을 찾아가지 않는 경우, 회사는 해당 물품에 대한 소유권을 포기한 것으로 간주합니다.",
+          text2: "2. 회사는 30일 경과 후 임의로 물품을 처분하거나 폐기할 수 있으며, 처분 비용이 발생할 경우 고객에게 청구할 수 있습니다. 고객은 이에 대해 추후 이의를 제기할 수 없습니다."
+        },
+        {
+          heading: "제6조 (관할 법원)",
+          text: "본 약관과 관련하여 발생한 분쟁에 대해서는 대한민국 법령을 적용하며, 회사의 본점 소재지를 관할하는 법원을 전속 관할로 합니다."
+        }
+      ]
+    },
+    privacy: {
+      title: "개인정보처리방침",
+      description: "RC(이하 '회사')는 개인정보보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보처리방침을 수립·공개합니다.",
+      articles: [
+        {
+          heading: "1. 개인정보의 처리",
+          text: "목적 회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.",
+          list: [
+            "짐 배송 및 보관 서비스 예약 및 이행",
+            "서비스 이용에 따른 본인 식별 및 인증",
+            "물품 사고 발생 시 처리를 위한 기록 보존"
+          ]
+        },
+        {
+          heading: "2. 수집하는 개인정보의 항목",
+          list: [
+            "필수항목: 이름, 휴대전화번호, 이메일, 픽업/배송지 정보, 짐 사진",
+            "선택항목: 항공편명, 숙소 예약 정보"
+          ]
+        },
+        {
+          heading: "3. 개인정보의 제3자 제공",
+          text: "회사는 정보주체의 동의, 법률의 특별한 규정 등 개인정보보호법 제17조 및 제18조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.",
+          list: [
+            "제공받는 자: 제휴 파트너 매장",
+            "제공 목적: 예약자 본인 확인 및 물품 인수/인계",
+            "제공 항목: 이름, 예약 번호, 짐 사진",
+            "보유 기간: 서비스 제공 완료 시까지"
+          ]
+        },
+        {
+          heading: "4. 개인정보 처리의 위탁",
+          text: "회사는 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.",
+          list: [
+            "결제 처리: 아임포트, 토스 등",
+            "서버 운영: AWS (Amazon Web Services)"
+          ]
+        },
+        {
+          heading: "5. 개인정보의 파기",
+          text: "회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.",
+          list: [
+            "다만「전자상거래 등에서의 소비자보호에 관한 법률」 등 관계 법령에 따라 일정 기간 보관해야 하는 경우, 해당 기간 동안(예: 대금결제 기록 5년) 보관 후 파기합니다.",
+            "파기 방법: 전자적 파일 형태는 복구할 수 없는 기술적 방법을 사용하여 삭제하며, 종이 문서는 분쇄하거나 소각합니다."
+          ]
+        }
+      ]
+    },
+    location: {
+      title: "위치기반서비스 이용약관",
+      articles: [
+        {
+          heading: "제1조 (목적)",
+          text: "본 약관은 RC(이하 “회사”)가 제공하는 짐 배송 및 보관 서비스(이하 “서비스”)와 관련하여, 회사와 이용자(이하 “고객”) 간의 위치정보 이용에 관한 권리, 의무 및 책임사항을 규정함을 목적으로 합니다."
+        },
+        {
+          heading: "제2조 (이용 목적)",
+          text: "회사는 고객의 위치정보를 이용하여 다음과 같은 서비스를 제공합니다.",
+          text2: "1. 제휴 보관소 추천: 고객의 현재 위치를 기반으로 가장 가까운 제휴 파트너 매장(짐 보관소)의 위치 및 정보를 검색하여 제공합니다.",
+          text3: "2. 배송 경로 안내: 고객이 맡긴 짐이 배송되는 과정에서, 배송 기사의 위치 정보를 활용하여 화물의 이동 경로 및 현재 위치를 고객에게 실시간으로 안내합니다."
+        },
+        {
+          heading: "제3조 (보유 및 이용기간)",
+          text: "1. 고객의 위치정보 (즉시 파기 원칙): 회사는 제2조 1항의 ‘보관소 추천’ 기능을 제공하기 위하여 고객의 위치정보를 일시적으로 활용하며, 해당 목적을 달성(검색 완료)한 즉시 파기합니다. 회사는 고객의 위치정보를 별도의 서버에 저장하거나 동선을 추적하지 않습니다.",
+          text2: "2. 배송 수행 기록 (보존): 단, 서비스 이행 및 배송 증명을 위하여 배송 기사의 위치 로그 및 배송 완료 시점의 위치 정보는 서비스 이용 내역으로 기록되어, 전자상거래법 등 관련 법령에 따른 보존 기간(최대 5년) 동안 보관될 수 있습니다."
+        },
+        {
+          heading: "제4조 (이용요금)",
+          text: "회사가 제공하는 위치기반서비스는 무료입니다. 단, 무선 서비스 이용 시 발생하는 데이터 통신료는 이동통신사 가입 요금제에 따라 고객이 별도로 부담합니다."
+        },
+        {
+          heading: "제5조 (권리)",
+          text: "1. 고객은 언제든지 위치기반서비스 이용에 대한 동의의 전부 또는 일부를 철회할 수 있습니다.",
+          text2: "2. 고객은 언제든지 개인위치정보의 이용 및 제공의 일시 중지를 요구할 수 있습니다.",
+          text3: "회사는 위 1항 및 2항에 따라 고객이 동의를 철회하거나 중지를 요청하는 경우, 처리에 필요한 조치를 즉시 취합니다."
+        },
+        {
+          heading: "제6조 (관리책임자)",
+          text: "회사는 위치정보를 적절히 관리·보호하고, 고객의 불만을 원활히 처리하기 위하여 위치정보관리책임자를 지정합니다.",
+          list: [
+            "성명: 정의욱 (대표)",
+            "연락처: 010-0000-0000 / https://daegu.greenart.co.kr"
+          ]
+        },
+        {
+          heading: "제7조 (손해배상)",
+          text: "회사가 위치정보의 보호 및 이용 등에 관한 법률 제15조 내지 제26조의 규정을 위반하여 고객에게 손해를 발생시킨 경우, 회사는 그 손해를 배상할 책임이 있습니다. 단, 회사가 고의 또는 과실이 없음을 입증하는 경우에는 그러하지 아니합니다."
+        }
+      ]
+    }
+  },
+  en: {
+    terms: {
+      title: "Agreement to Terms and Conditions",
+      description: "RC Service Terms and Conditions",
+      articles: [
+        {
+          heading: "Article 1 (Purpose)",
+          text: "These terms and conditions are intended to define the rights, obligations, and responsibilities between RC (hereinafter referred to as the 'Company') and its users (hereinafter referred to as 'Customers') in using the baggage delivery and storage services (hereinafter referred to as the 'Service') provided by the Company."
+        },
+        {
+          heading: "Article 2 (Restricted Items and Refusal)",
+          text: "1. Customers may not entrust the following items to the Service, and the Company reserves the right to inspect the contents of the items to verify compliance.",
+          list: [
+            "Cash, securities, identification (including passports), contracts, and other documents that are difficult to reissue.",
+            "High-value precious metals and works of art exceeding 1 million KRW (or USD 1,000).",
+            "Fragile items (such as glass, ceramics, and electronics) that are not properly cushioned.",
+            "Explosives, flammable substances, narcotics, and other items prohibited by law.",
+            "Perishable or easily spoiled food items."
+          ],
+          text2: "2. The Company shall not be liable for any loss, damage, or deterioration of items resulting from the Customer's failure to disclose the items listed in paragraph 1."
+        },
+        {
+          heading: "Article 3 (Scope and Limit of Compensation for Damages)",
+          text: "1. The Company shall compensate for loss or damage caused by its intentional or negligent acts, with a maximum limit of 500,000 KRW per item. However, the Company shall be exempted from liability in the following cases:",
+          list: [
+            "Normal wear and tear of carriers (bags), such as minor scratches, dents on wheels, handles, and exteriors.",
+            "Delivery delays or losses due to errors in the information provided by the Customer (e.g., address, contact information).",
+            "Delivery delays due to force majeure events such as natural disasters, traffic control, and flight delays."
+          ],
+          text2: "2. The maximum limit for compensation for damages is limited to [500,000 KRW] per item (as specified in the insurance plan you have subscribed to). However, if the value of the item is less than the limit, compensation will be based on the actual value of the item.",
+          text3: "3. Compensation will not be provided in the following cases (Exemption Clauses):",
+          list2: [
+            "Normal wear and tear that may occur during transportation, such as minor scratches and dents on the wheels, handles, and exterior of the carrier (bag).",
+            "Delivery delays or losses due to errors in the information provided by the Customer (e.g., address, contact information).",
+            "Delivery delays due to force majeure events such as natural disasters, traffic control, and flight delays."
+          ]
+        },
+        {
+          heading: "Article 4 (Reservation Cancellation and Refund)",
+          text: "Customers may cancel their reservation without a penalty fee up to 1 hour before the scheduled service time, in which case a full refund will be provided. If a cancellation is made within 1 hour of the service time, or if the Customer does not show up at the scheduled time (No-Show), a 100% cancellation fee will be charged, and no refund will be available."
+        },
+        {
+          heading: "Article 5 (Handling of Long-Term Unclaimed Items)",
+          text: "1. If the Customer does not retrieve their items within 30 days from the service completion date (delivery/storage completion date), the Company shall consider the Customer to have forfeited their ownership of the items.",
+          text2: "2. The Company may dispose of or discard the items at its discretion after 30 days, and any disposal costs incurred may be charged to the Customer. The Customer may not raise any objections to this later."
+        },
+        {
+          heading: "Article 6 (Jurisdiction)",
+          text: "Any disputes arising in connection with these terms and conditions shall be governed by the laws of the Republic of Korea, and the court having jurisdiction over the Company's head office shall have exclusive jurisdiction."
+        }
+      ]
+    },
+    privacy: {
+      title: "Privacy Policy",
+      description: "RC (hereinafter referred to as the 'Company') establishes and discloses this Privacy Policy in accordance with Article 30 of the Personal Information Protection Act to protect the personal information of data subjects and to handle related grievances promptly and smoothly.",
+      articles: [
+        {
+          heading: "1. Processing of Personal Information",
+          text: "Purpose: The Company processes personal information for the following purposes. The processed personal information will not be used for any purpose other than the following, and if the purpose of use is changed, necessary measures such as obtaining separate consent will be implemented.",
+          list: [
+            "Reservation and fulfillment of baggage delivery and storage services.",
+            "Identification and authentication for service use.",
+            "Preservation of records for handling item accidents."
+          ]
+        },
+        {
+          heading: "2. Items of Personal Information Collected",
+          list: [
+            "Required items: Name, mobile phone number, email, pickup/delivery address information, baggage photo.",
+            "Optional items: Flight number, accommodation reservation information."
+          ]
+        },
+        {
+          heading: "3. Provision of Personal Information to Third Parties",
+          text: "The Company provides personal information to third parties only in cases that fall under Articles 17 and 18 of the Personal Information Protection Act, such as the data subject's consent or special provisions of the law.",
+          list: [
+            "Recipient: Affiliated partner stores",
+            "Purpose of provision: Verification of the reservation holder's identity and handover/receipt of items",
+            "Items provided: Name, reservation number, baggage photo",
+            "Retention period: Until the completion of the service"
+          ]
+        },
+        {
+          heading: "4. Entrustment of Personal Information Processing",
+          text: "The Company entrusts the processing of personal information as follows for smooth personal information processing.",
+          list: [
+            "Payment processing: I'mport, Toss, etc.",
+            "Server operation: AWS (Amazon Web Services)"
+          ]
+        },
+        {
+          heading: "5. Personal Information Destruction",
+          text: "The Company shall destroy personal information without delay when it becomes unnecessary, such as upon the expiration of the retention period or achievement of the processing purpose.",
+          list: [
+            "However, if information must be retained for a specific period under laws like the 「Act on Consumer Protection in Electronic Commerce, etc.」, it will be stored for that duration (e.g., 5 years for payment records).",
+            "Method: Electronic files are deleted using unrecoverable technical methods; paper documents are shredded or incinerated."
+          ]
+        }
+      ]
+    },
+    location: {
+      title: "Location-Based Service Terms and Conditions",
+      articles: [
+        {
+          heading: "Article 1 (Purpose)",
+          text: "These terms and conditions define the rights, obligations, and responsibilities regarding location information in connection with RC's services."
+        },
+        {
+          heading: "Article 2 (Purpose of Use)",
+          text: "The Company provides the following services using location information.",
+          text2: "1. Recommendation of affiliated storage locations based on the Customer's current location.",
+          text3: "2. Real-time delivery route guidance utilizing delivery driver location data."
+        },
+        {
+          heading: "Article 3 (Retention and Use Period)",
+          text: "1. Customer location info for recommendations is destroyed immediately after usage.",
+          text2: "2. Delivery logs and fulfillment records are stored for up to 5 years as required by the E-commerce Act."
+        },
+        {
+          heading: "Article 4 (Usage Fee)",
+          text: "Location-based services are free of charge, excluding data communication fees charged by mobile carriers."
+        },
+        {
+          heading: "Article 5 (Rights)",
+          text: "Customers may withdraw consent or request temporary suspension of location data usage at any time."
+        },
+        {
+          heading: "Article 6 (Management Supervisor)",
+          text: "The Company designates a supervisor to manage location information and handle complaints.",
+          list: [
+            "Name: Euiwook Jeong (CEO)",
+            "Contact: 010-0000-0000 / https://daegu.greenart.co.kr"
+          ]
+        },
+        {
+          heading: "Article 7 (Compensation for Damages)",
+          text: "The Company is liable for damages caused by violating location information laws, unless it proves no intentional or negligent acts occurred."
+        }
+      ]
+    }
+  }
+};

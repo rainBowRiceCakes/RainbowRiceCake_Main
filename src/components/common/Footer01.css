@@ -1,15 +1,8 @@
-/**
- * @file src/components/common/Footer01.css
- * @description 푸터
- * 251216 v1.0.0 sara init 
- */
-/*
-
 /* 전체 프레임 */
 .footer01-frame {
   width: 100%;
   background-color: var(--com-color-white);
-  padding: 30px 0;
+  padding: var(--com-section-padding) 0;
   border-top: 1px solid var(--com-border-default);
   color: var(--com-font-primary-color);
 }
@@ -25,7 +18,7 @@
   display: flex;
   justify-content: center; /* 정보 영역을 가로 중앙에 배치 */
   align-items: center;     /* 세로 중앙 정렬 */
-  min-height: 150px;       /* 로고와 텍스트 배치를 위한 최소 높이 확보 */
+  min-height: 120px;       /* 로고와 텍스트 배치를 위한 최소 높이 확보 */
 }
 
 /* --- 좌측: 로고 (절대 위치 고정) --- */
@@ -37,11 +30,11 @@
 }
 
 .footer01-logo-text {
-  font-size: 40px; /* 가독성을 위해 40px로 조정 */
+  font-size: var(--com-size-title); 
   font-weight: var(--com-font-weight-bold);
   font-style: italic;
   line-height: 1;
-  color: var(--com-color-black); /* 그라데이션 제거, 무채색 적용 */
+  color: var(--com-color-black); 
   cursor: default;
 }
 
@@ -57,13 +50,13 @@
 .footer01-links-group {
   display: flex; 
   justify-content: center;
-  margin-bottom: 20px;
-  gap: 12px;
+  margin-bottom: var(--com-gap-sm); /* Adjusted from 16px */
+  gap: var(--com-gap-sm); /* Adjusted from 12px */
 }
 
 .footer01-links-group a {
   text-decoration: none;
-  font-size: var(--com-size-sidebar); /* 14px */
+  font-size: var(--com-size-content);
   font-weight: var(--com-font-weight-bold);
   color: var(--com-font-primary-color);
   border-bottom: 1px solid transparent;
@@ -81,66 +74,60 @@
 }
 
 .footer01-separator {
-  margin: 0 12px;
+  margin: 0 var(--com-gap-xs); /* Adjusted from 8px */
   color: var(--com-border-default);
-  font-weight: 400;
 }
 
-/* 상세 정보 텍스트 */
 .footer01-meta-info {
-  font-size: var(--com-size-content); /* 12px */
+  font-size: var(--com-size-mini);
   color: var(--com-font-muted);
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.8;
+  margin-bottom: var(--com-gap-sm); /* Adjusted from 16px */
 }
 
 .footer01-meta-info p {
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 /* Copyright */
 .footer01-copyright-text {
-  font-size: var(--com-size-mini); /* 11px */
+  font-size: var(--com-size-mini);
   color: var(--com-font-muted);
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 /* --- 모바일 반응형 (로직 유지 및 변수 적용) --- */
 @media (max-width: 900px) {  
   .footer01-frame {
-    padding: 20px 0; 
+    padding: var(--com-section-padding) 0; /* Adjusted from 30px */
   }
 
   .footer01-inner-group {
     flex-direction: column;
-    justify-content: center;
     min-height: auto; 
-    gap: 15px; 
+    gap: var(--com-gap-md); /* Adjusted from 20px */
   }
   
   .footer01-brand-group {
     position: static; 
     transform: none;
-    margin-bottom: 5px; 
   }
 
   .footer01-logo-text {
-    font-size: 32px; 
+    font-size: var(--com-size-title); /* Adjusted from 24px */
   }
 
   .footer01-links-group {
-    margin-bottom: 10px; 
     flex-wrap: wrap; 
   }
 
   .footer01-links-group a {
-    font-size: var(--com-font-size-sub-title); /* 가변 13px */
+    font-size: var(--com-size-content);
   }
 
   .footer01-meta-info {
-    font-size: var(--com-font-size-content); /* 가변 11px */
-    line-height: 1.4; 
-    margin-bottom: 10px;
+    font-size: var(--com-size-mini);
+    line-height: 1.5; 
   }
 }
 
@@ -163,7 +150,7 @@
   width: 90%;
   max-width: 600px; 
   height: 80vh;     
-  border-radius: var(--com-radius-lg); /* 18px */
+  border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-default);
   display: flex;
   flex-direction: column; 
@@ -172,7 +159,7 @@
 }
 
 .footer01-modal-header {
-  padding: 20px 24px;
+  padding: var(--com-gap-md) var(--com-container-padding); /* Adjusted from 20px 24px */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -181,7 +168,7 @@
 
 .footer01-modal-header h3 {
   margin: 0;
-  font-size: var(--com-size-subtitle); /* 16px */
+  font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-color-black);
 }
@@ -189,7 +176,7 @@
 .footer01-close-x-btn {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: var(--com-size-title); /* Adjusted from 24px */
   cursor: pointer;
   color: var(--com-font-primary-color);
   padding: 0;
@@ -198,23 +185,61 @@
 
 .footer01-modal-body {
   flex: 1; 
-  padding: 24px;
+  padding: var(--com-gap-md); /* Adjusted from 20px */
   overflow-y: auto; 
   background-color: var(--com-color-bg-light); 
+  /* 내부 요소(modal-description)밖으로 나가지 못하도록 설정 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 클래스명 변경: .modal-description -> .footer01-modal-description */
+.footer01-modal-description {
+  margin-bottom: var(--com-gap-md); /* Adjusted from 20px */
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  border-bottom: 1px dashed var(--com-border-default);
+  padding-bottom: 15px; /* Keep for now as there's no variable for this specific use */
+  font-size: var(--com-size-content);
+  /* 텍스트 줄바꿈 강제 설정 */
+  word-break: keep-all;
 }
 
 .footer01-text-content {
   background-color: var(--com-color-white);
   border: 1px solid var(--com-border-default);
-  padding: 20px;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: var(--com-gap-md); /* Adjusted from 20px */
+  border-radius: var(--com-radius-md); 
+  font-size: var(--com-size-content);
   line-height: 1.6;
   color: var(--com-font-primary-color);
+  width: 100%;
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+  word-break: keep-all;   /* 한글 줄바꿈 자연스럽게 */
+  overflow-wrap: break-word;
+}
+
+/* --- 약관 내부 리스트 스타일 정밀 조정 --- */
+.footer01-text-content ul {
+  margin: var(--com-gap-sm) 0; /* Adjusted from 10px */
+  padding-left: var(--com-gap-md); /* Adjusted from 20px */
+  list-style-type: disc;
+}
+
+.footer01-text-content li {
+  margin-bottom: var(--com-gap-xs); /* Adjusted from 8px */
+  /* 리스트 내용이 길어질 경우 텍스트가 불렛 아래로 파고들지 않게 정렬 */
+}
+
+.footer01-text-content h3, 
+.footer01-text-content h4 {
+  margin: 15px 0 var(--com-gap-sm); /* Adjusted from 10px */
+  color: var(--com-color-black);
+  font-weight: var(--com-font-weight-bold);
 }
 
 .footer01-modal-footer {
-  padding: 15px;
+  padding: 15px; /* Keep for now as there's no variable for this specific use */
   background-color: var(--com-color-white);
   border-top: 1px solid var(--com-border-default);
   display: flex;
@@ -225,9 +250,9 @@
   background-color: var(--com-color-bg-light); 
   color: var(--com-color-black);
   border: none;
-  padding: 10px 40px;
-  border-radius: var(--com-radius-md); /* 12px */
-  font-size: var(--com-size-subtitle);
+  padding: var(--com-gap-sm) 40px; /* Adjusted from 10px */
+  border-radius: var(--com-radius-md);
+  font-size: var(--com-size-content);
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
   transition: background-color 0.2s;
@@ -238,14 +263,13 @@
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
 
-.modal-description {
-  margin-bottom: 30px;
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  border-bottom: 1px dashed var(--com-border-default);
-  padding-bottom: 15px;
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }

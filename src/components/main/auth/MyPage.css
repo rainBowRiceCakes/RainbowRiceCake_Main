@@ -23,9 +23,9 @@
   min-width: 280px; /* 아주 작은 기기 대응 */
   margin: 0 auto;
   padding: 40px 30px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   border-radius: 24px;
-  background-color: var(--com-color-light-gray);
+  background-color: var(--com-color-bg-light);
   text-align: center;
   box-sizing: border-box;
 }
@@ -38,8 +38,8 @@
 .mypage-login-btn {
   margin-top: 24px;
   padding: 12px 40px;
-  background: var(--com-button-content --com-font-gray);
-  color: var(--com-button-content);
+  background: var(--com-color-white);
+  color: var(--com-color-white);
   border: none;
   border-radius: 12px;
   font-weight: var(--com-font-weight-heavy);
@@ -52,41 +52,41 @@
   gap: 20px;
   margin-bottom: 40px;
   padding-bottom: 20px;
-  border-bottom: 2px solid var(--com-content-border-bottom);
+  border-bottom: 2px solid var(--com-border-default);
 }
 
 .profile-circle {
   width: 70px;
   height: 70px;
-  background: var(--com-color-section-bg);
+  background: var(--com-color-bg-section);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
-  color: var(--com-sidebar-title-font-color);
+  color: var(--com-font-muted);
 }
 
 .user-name {
-  font-size: var(--com-font-size-title);
-  font-weight: var(--com-font-weight);
+  font-size: var(--com-size-title);
+  font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
 }
 
 .user-email {
   color: var(--com-font-gray);
-  font-size: var(--com-font-size-sidebar);
+  font-size: var(--com-size-sidebar);
 }
 
 .mypage-status-card {
-  background: var(--com-color-section-bg);
+  background: var(--com-color-bg-section);
   padding: 30px;
   border-radius: 20px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
 }
 
 .status-title {
-  font-size: var(--com-font-size-sub-title);
+  font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
   margin-bottom: 25px;
 }
@@ -100,10 +100,10 @@
 .progress-step {
   flex: 1;
   text-align: center;
-  font-size: var(--com-font-size-content);
+  font-size: var(--com-size-content);
   font-weight: var(--com-font-weight-heavy);
   position: relative;
-  color: var(--com-sidebar-item-font-color);
+  color: var(--com-font-primary-color);
 }
 
 .progress-step.is-done {

@@ -204,7 +204,7 @@
 /* 📱 아이폰 SE 가변 대응 */
 @media screen and (max-width: 375px) {
   .mainptns-title-text {
-    font-size: var(--com-font-size-title);
+    font-size: var(--com-size-title);
   }
   .mainptns-desc-text,
   .mainptns-message-desc-text {

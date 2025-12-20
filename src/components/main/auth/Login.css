@@ -17,7 +17,7 @@
   width: 100%;
   max-width: 400px;
   padding: 40px 30px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   border-radius: 16px;
   text-align: center;
   background-color: var(--com-color-white);
@@ -26,7 +26,7 @@
 
 .login-title {
   font-size: 24px;
-  font-weight: var(--com-font-weight);
+  font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
   margin-bottom: 30px;
 }
@@ -40,9 +40,9 @@
 .login-input {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   border-radius: 8px;
-  font-size: var(--com-font-size-sub-title);
+  font-size: var(--com-size-subtitle);
   outline: none;
 }
 
@@ -64,7 +64,7 @@
   width: 100%;
   padding: 14px;
   border-radius: 8px;
-  font-size: var(--com-font-size-sidebar);
+  font-size: var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
   transition: 0.2s;
@@ -72,20 +72,20 @@
 
 .login-btn--mint {
   background-color: var(--com-font-gray);
-  color: var(--com-button-content);
+  color: var(--com-color-white);
   border: none;
 }
 
 .login-select-btn {
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   background: var(--com-color-white);
   color: var(--com-font-primary-color);
 }
 
 .login-hr {
   margin: 15px 0;
-  color: var(--com-sidebar-title-font-color);
-  font-size: var(--com-font-size-content);
+  color: var(--com-font-muted);
+  font-size: var(--com-size-content);
   display: flex;
   align-items: center;
 }
@@ -95,13 +95,13 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--com-content-border-color);
+  background: var(--com-border-default);
   margin: 0 10px;
 }
 
 .login-helper-links {
   margin-top: 20px;
-  font-size: var(--com-font-size-content);
+  font-size: var(--com-size-content);
   color: var(--com-font-gray);
 }
 
@@ -110,6 +110,6 @@
   background: none;
   border: none;
   text-decoration: underline;
-  color: var(--com-sidebar-item-font-color);
+  color: var(--com-font-primary-color);
   cursor: pointer;
 }

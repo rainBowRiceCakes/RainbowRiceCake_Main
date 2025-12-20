@@ -1,0 +1,9 @@
+.card-nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; }
+.card-nav-item {
+  height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: white; border: 1px solid #eee; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  cursor: pointer; transition: 0.2s;
+}
+.card-nav-item:active { transform: scale(0.96); background: #f9f9f9; }
+.card-nav-icon-placeholder { font-size: 32px; margin-bottom: 12px; }
+.card-nav-label { font-size: 14px; font-weight: 800; color: #111; text-align: center; line-height: 1.3; }

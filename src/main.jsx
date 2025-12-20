@@ -9,9 +9,12 @@ import Router from './routes/Router.jsx';
 import './index.css'
 import { Provider } from 'react-redux';
 import store from './store/store.js';
+import { LanguageProvider } from './context/LanguageContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <Router />
+    <LanguageProvider>
+      <Router />
+    </LanguageProvider>
   </Provider>
 )

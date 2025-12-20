@@ -10,14 +10,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--com-color-section-bg);
+  background-color: var(--com-color-bg-section);
 }
 
 .register-box {
   width: 100%;
   max-width: 480px;
   padding: 40px 30px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   border-radius: 16px;
   text-align: center;
   background-color: var(--com-color-white);
@@ -26,19 +26,19 @@
 
 .register-title {
   font-size: 24px;
-  font-weight: var(--com-font-weight);
+  font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
   margin-bottom: 12px;
 }
 
 .register-info {
-  font-size: var(--com-font-size-sidebar);
+  font-size: var(--com-size-sidebar);
   color: var(--com-font-gray);
   margin-bottom: 30px;
 }
 
 .register-info span {
-  color: var(--com-font-blue);
+  color: var(--com-color-blue);
   cursor: pointer;
   font-weight: var(--com-font-weight-heavy);
   text-decoration: underline;
@@ -53,9 +53,9 @@
 .register-input {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   border-radius: 8px;
-  font-size: var(--com-font-size-sidebar);
+  font-size: var(--com-size-sidebar);
   outline: none;
   background-color: var(--com-color-white);
 }
@@ -74,17 +74,17 @@
 
 .register-select {
   padding: 0 10px;
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   border-radius: 8px;
-  background-color: var(--com-color-light-gray);
-  font-size: var(--com-font-size-content);
+  background-color: var(--com-color-bg-light);
+  font-size: var(--com-size-content);
 }
 
 .register-agree {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: var(--com-font-size-content);
+  font-size: var(--com-size-content);
   color: var(--com-font-gray);
   margin-top: 10px;
 }
@@ -94,10 +94,10 @@
   padding: 16px;
   margin-top: 20px;
   background-color: var(--com-font-primary-color);
-  color: var(--com-button-content);
+  color: var(--com-color-white);
   border: none;
   border-radius: 8px;
-  font-size: var(--com-font-size-sub-title);
+  font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
   transition: opacity 0.2s;

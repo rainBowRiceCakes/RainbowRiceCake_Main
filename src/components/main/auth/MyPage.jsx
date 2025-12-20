@@ -4,19 +4,22 @@
  * 251217 v1.0.0 sara init 
  */
 
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LanguageContext } from '../../../context/LanguageContext';
 import "./MyPage.css";
 
 export default function MyPage({ isLoggedIn = false }) {
   const navigate = useNavigate();
+  const { t } = useContext(LanguageContext);
 
   if (!isLoggedIn) {
     return (
       <div className="mypage-frame mypage-frame--unauth">
         <div className="mypage-lock-box">
           <div className="lock-icon">🔒</div>
-          <h2>로그인이 필요해요</h2>
-          <button className="mypage-login-btn" onClick={() => navigate('/login')}>로그인</button>
+          <h2>{t('myPageLoginRequired')}</h2>
+          <button className="mypage-login-btn" onClick={() => navigate('/login')}>{t('myPageLogin')}</button>
         </div>
       </div>
     );
@@ -34,12 +37,12 @@ export default function MyPage({ isLoggedIn = false }) {
       </div>
 
       <div className="mypage-status-card">
-        <h3 className="status-title">배송/보관 중인 짐 현황</h3>
+        <h3 className="status-title">{t('myPageStatusTitle')}</h3>
         <div className="status-progress-bar">
-          <div className="progress-step is-done">✔<p>예약 확정</p></div>
-          <div className="progress-step is-done">✔<p>픽업 완료</p></div>
-          <div className="progress-step is-active"><p>이동 중</p></div>
-          <div className="progress-step"><p>보관 중</p></div>
+          <div className="progress-step is-done">✔<p>{t('myPageStatusStep1')}</p></div>
+          <div className="progress-step is-done">✔<p>{t('myPageStatusStep2')}</p></div>
+          <div className="progress-step is-active"><p>{t('myPageStatusStep3')}</p></div>
+          <div className="progress-step"><p>{t('myPageStatusStep4')}</p></div>
         </div>
       </div>
     </div>
