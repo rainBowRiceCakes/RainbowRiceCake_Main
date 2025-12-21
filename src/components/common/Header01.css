@@ -292,6 +292,36 @@
   color: var(--com-color-black);
 }
 
+.header01-desktop-links .header01-action-button-link {
+  border-color: transparent;
+  background: var(--com-color-white);
+}
+
+/* ✅ 로그인 버튼(기본): 무지개 라인 느낌(hover 시 채움) */
+.header01-desktop-links .header01-action-button-link:hover {
+  background: var(--com-gradient-rainbow);
+  border-color: transparent;
+  box-shadow: var(--com-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ✅ 마이페이지 버튼: 기본은 블랙, 호버 시 무지개 */
+.header01-desktop-links .header01-action-button-link--solid {
+  background: var(--com-color-black);
+  border-color: transparent;
+  color: var(--com-color-white);
+  box-shadow: var(--com-shadow-md);
+}
+
+/* ✅ 호버 시 nav-item과 동일한 무지개 톤 + 블랙 텍스트 */
+.header01-desktop-links .header01-action-button-link--solid:hover {
+  background: var(--com-gradient-rainbow);
+  border-color: transparent;
+  color: var(--com-color-black);
+  box-shadow: var(--com-shadow-md);
+  transform: translateY(-1px);
+}
+
 /* Mobile Responsive - Tablet & Mobile (≤ 768px) */
 @media screen and (max-width: 768px) {
   .header01-frame {

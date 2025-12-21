@@ -4,39 +4,48 @@
  * 251216 v1.0.0 sara init 
  */
 
-/* 1. 상단 이미지 영역 */
+/* 0. 메인커버 래퍼 */
+.maincover-frame {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. 상단 이미지 영역 ✅ (웹에서도 높이 제한해서 배송조회가 같이 보이게) */
+.maincover-image-area {
+  width: 100%;
+  height: min(78vh, 650px); /* ✅ 핵심: 이미지가 화면을 다 먹지 못하게 상한 */
+}
+
+/* 이미지 래퍼 */
 .maincover-image-wrapper { 
-    /* 이미지 컨테이너 최대 너비를 1400px 공통 규격으로 제한 */
-    max-width: var(--com-web-max-width); 
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    position: relative; 
-    overflow: hidden;
+  max-width: var(--com-web-max-width); 
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;            /* ✅ image-area 높이를 따라감 */
+  position: relative; 
+  overflow: hidden;
 }
 
 .maincover-cover-image {
-    width: 100%;
-    height: 100%; 
-    object-fit: cover; 
-    display: block; 
+  width: 100%;
+  height: 100%; 
+  object-fit: cover; 
+  object-position: center;
+  display: block; 
 }
 
-/* 2. 하단 배송 조회 컨테이너 (Monochrome 배경) */
+/* 2. 하단 배송 조회 컨테이너 */
 .maincover-delivery-area { 
   width: 100%;
   flex-shrink: 0; 
-  /* 공통 배경색 및 텍스트 색상 적용 */
   background-color: var(--com-color-bg-light);
   color: var(--com-font-primary-color);
   padding: var(--com-container-padding);
-  
   display: flex;
   justify-content: center;
 }
 
 .maincover-delivery-form { 
-  /* 폼의 최대 너비도 공통 규격 1400px 적용 */
   max-width: var(--com-web-max-width); 
   margin: 0 auto;
   display: flex;
@@ -45,7 +54,6 @@
 }
 
 .maincover-delivery-title-text { 
-  /* 가변 서브타이틀 폰트 및 굵기 적용 */
   font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
   margin-bottom: 15px;
@@ -62,7 +70,6 @@
 .maincover-input-field { 
   flex-grow: 1;
   padding: var(--com-gap-sm) 15px;
-  /* 공통 경계선 및 폰트 사이즈 적용 */
   border: 1px solid var(--com-border-default); 
   border-radius: 4px 0 0 4px;
   font-size: var(--com-size-sidebar);
@@ -71,7 +78,6 @@
 }
 
 .maincover-submit-button { 
-  /* 무채색 블랙 버튼 적용 */
   background-color: var(--com-color-black);
   color: var(--com-color-white);
   border: 1px solid var(--com-color-black); 
@@ -83,44 +89,46 @@
 }
 
 .maincover-submit-button:hover {
-  /* 호버 시 무채색 반전 효과 */
   background-color: var(--com-color-white);
   color: var(--com-color-black);
   border-color: var(--com-color-black);
 }
 
-/* 4. 하단 링크 영역 */
+/* 4. 하단 링크 */
 .maincover-link-group { 
   font-size: var(--com-size-content);
   color: var(--com-font-primary-color);
 }
 
 .maincover-more-link { 
-    color: var(--com-font-primary-color); 
-    opacity: 0.8;
-    text-decoration: underline;
+  color: var(--com-font-primary-color); 
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
-/* [미디어 쿼리] 900px 이하 대응 */
+/* [미디어 쿼리] 900px 이하 ✅ 모바일에서도 이미지 "작게" + 박스 같이 보이게 */
 @media (max-width: 900px) {
-    .maincover-image-area {
-        display: none;
-        height: auto; 
-    }
-    
-    .maincover-frame {
-        min-height: auto; 
-    }
+  .maincover-image-area {
+    height: 220px;         /* ✅ 요청: 모바일 사진 조금 더 키움 */
+  }
+
+  .maincover-image-wrapper {
+    border-radius: 14px;
+    overflow: hidden;
+  }
 }
 
-/* 📱 아이폰 SE (375px 이하) 가변 대응 */
+/* 📱 iPhone SE (375px 이하) */
 @media screen and (max-width: 375px) {
+  .maincover-image-area {
+    height: 170px; /* ✅ SE에서도 “사진+조회” 같이 보이게 */
+  }
+
   .maincover-delivery-title-text {
-    /* 모바일 가변 폰트 사이즈(13px) 연동 */
     font-size: var(--com-font-size-sub-title);
   }
+
   .maincover-delivery-area {
-    /* 모바일 가변 컨테이너 패딩(12px) 연동 */
     padding: var(--com-container-padding);
   }
 }
