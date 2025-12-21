@@ -3,6 +3,7 @@
  * @description 메인 페이지(app) 
  * 251216 v1.0.0 sara init 
  */
+
 import { useState, useEffect, useRef, useContext } from 'react';
 
 import MainCover from './sections/MainCover.jsx';
@@ -12,8 +13,9 @@ import MainFee from './sections/MainFee.jsx';                // 3. 요금안내
 import MainDLVS from './sections/MainDLVS.jsx';              // 4. 배송현황
 import MainCS from './sections/MainCS.jsx';                  // 5. 고객센터
 import MainPTNS from './sections/MainPTNS.jsx';              // 6. 제휴문의
+import Carousel from '../common/Carousel.jsx';               // 7. 로고 캐러샐
 import './MainShow.css';
-import { LanguageContext } from '../../context/LanguageContext.jsx';
+import { LanguageContext } from '../../context/LanguageContext.jsx';  // en/ko 
 
 export default function MainShow() {
   const { t } = useContext(LanguageContext);
@@ -100,6 +102,10 @@ return (
 
       {/* 6. 파트너십 섹션 (제휴 문의) */}
       <div id="ptns" className="mainshow-section-frame"><MainPTNS /></div>
+
+      {/* 7. 파트너 로고 캐러샐 */}
+      <div><Carousel /></div>
+      
     </div>
   );
 }

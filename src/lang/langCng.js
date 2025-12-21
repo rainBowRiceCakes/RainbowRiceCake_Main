@@ -684,7 +684,7 @@ export const LANG_CNG = {
     en: "Close",
   },
 
-  // --- src/components/main/auth/RegisterForm.jsx ---
+  // --- src/components/main/auth/Register.jsx ---
   registerTitle: {
     ko: "이메일로 회원 가입",
     en: "Register with email",

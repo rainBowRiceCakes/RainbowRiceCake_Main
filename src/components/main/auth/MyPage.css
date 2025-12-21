@@ -1,6 +1,6 @@
 /**
  * @file src/components/main/auth/MyPage.css
- * @description 마이 페이지
+ * @description 마이 페이지 및 배송 상태 가이드(step img) 
  * 251217 v1.0.0 sara init 
  */
 
@@ -22,9 +22,9 @@
   max-width: 400px; /* 로그인 박스 크기와 통일 */
   min-width: 280px; /* 아주 작은 기기 대응 */
   margin: 0 auto;
-  padding: 40px 30px;
+  padding: 40px var(--com-gap-xl);
   border: 1px solid var(--com-border-default);
-  border-radius: 24px;
+  border-radius: var(--com-size-icon);
   background-color: var(--com-color-bg-light);
   text-align: center;
   box-sizing: border-box;
@@ -32,16 +32,16 @@
 
 .lock-icon {
   font-size: 48px;
-  margin-bottom: 20px;
+  margin-bottom: var(--com-gap-md);
 }
 
 .mypage-login-btn {
-  margin-top: 24px;
-  padding: 12px 40px;
+  margin-top: var(--com-size-icon);
+  padding: var(--com-radius-md) 40px;
   background: var(--com-color-white);
   color: var(--com-color-white);
   border: none;
-  border-radius: 12px;
+  border-radius: var(--com-radius-md);
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
 }
@@ -49,9 +49,9 @@
 .mypage-user-profile {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: var(--com-gap-md);
   margin-bottom: 40px;
-  padding-bottom: 20px;
+  padding-bottom: var(--com-gap-md);
   border-bottom: 2px solid var(--com-border-default);
 }
 
@@ -80,8 +80,8 @@
 
 .mypage-status-card {
   background: var(--com-color-bg-section);
-  padding: 30px;
-  border-radius: 20px;
+  padding: var(--com-gap-xl);
+  border-radius: var(--com-gap-md);
   border: 1px solid var(--com-border-default);
 }
 

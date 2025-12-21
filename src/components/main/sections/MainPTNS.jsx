@@ -2,7 +2,6 @@
  * @file src/components/main/sections/MainPTNS.jsx
  * @description 제휴업체 페이지 
  * 251216 v1.0.0 sara init 
- * 251221 v1.1.0 Gemini i18n
  */
 
 import { useContext } from 'react';

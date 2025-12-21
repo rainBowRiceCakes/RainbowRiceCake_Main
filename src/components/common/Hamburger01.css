@@ -1,0 +1,43 @@
+/**
+ * @file src/components/common/Hamburger01.css
+ * @description hamburger menu
+ * 251217 v1.0.0 sara init 
+ */
+
+.hamburger01-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--com-gap-md);
+}
+
+.hamburger01-nav-item {
+  display: flex;
+  align-items: center;
+  padding: var(--com-size-subtitle) var(--com-size-icon);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.hamburger01-nav-item:active {
+  background-color: #f0f0f0;
+}
+
+.hamburger01-nav-icon {
+  width: var(--com-size-mini-icon);
+  height: var(--com-size-mini-icon);
+  margin-right: var(--com-size-subtitle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger01-nav-icon img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.hamburger01-nav-label {
+  font-size: var(--com-size-subtitle);
+  font-weight: 600;
+  color: var(--com-font-gray);
+}

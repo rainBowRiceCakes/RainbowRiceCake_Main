@@ -1,15 +1,15 @@
 /**
- * @file src/components/main/auth/RegisterForm.jsx
- * @description 이메일 회원가입 페이지 
+ * @file src/components/main/auth/Register.jsx
+ * @description 회원가입 페이지 
  * 251217 v1.0.0 sara init 
  */
 
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
-import "./RegisterForm.css";
+import "./Register.css";
 
-export default function RegisterForm() {
+export default function Register() {
   const navigate = useNavigate();
   const { t } = useContext(LanguageContext);
 

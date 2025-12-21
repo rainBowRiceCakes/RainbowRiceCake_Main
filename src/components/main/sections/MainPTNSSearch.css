@@ -2,9 +2,10 @@
  * @file src/components/main/sections/MainPTNSSearch.css
  * @description 제휴업체 검색 페이지 (지도 기반 검색 레이아웃)
  * 251218 v1.0.0 sara init 
+ * 251220 v1.1.0 sara add kakao map modal
  */
 
-/* 메인 프레임: 상하 여백 확보 */
+/* 1. 메인 프레임: 상하 여백 확보 */
 .ptnssearch-frame {
   padding: var(--com-section-padding) 0;
   background-color: var(--com-color-white);
@@ -18,20 +19,20 @@
   padding: var(--com-container-padding);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--com-gap-md);
   box-shadow: var(--com-shadow-default);
 }
 
 /* 검색 바 레이아웃 */
 .ptnssearch-input-group {
   display: flex;
-  gap: 10px;
+  gap: var(--com-gap-sm);
   width: 100%;
 }
 
 .ptnssearch-input-field {
   flex: 1;
-  padding: 12px 16px;
+  padding: var(--com-radius-md) var(--com-size-subtitle);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
   font-size: var(--com-size-sidebar);
@@ -72,7 +73,7 @@
 .ptnssearch-map-icon {
   font-size: 32px;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--com-gap-xs);
 }
 
 /* 251220 Gemini: Add styles for map modal */
@@ -81,8 +82,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 40px 20px;
+  gap: var(--com-size-subtitle);
+  padding: 40px var(--com-gap-md);
   text-align: center;
   color: var(--com-font-muted);
 }
@@ -116,7 +117,7 @@
 .map-modal-header {
   padding: 15px;
   display: flex;
-  gap: 10px;
+  gap: var(--com-gap-sm);
   align-items: center;
   border-bottom: 1px solid var(--com-border-default);
 }
@@ -128,11 +129,11 @@
 .map-modal-close-button {
   background: transparent;
   border: none;
-  font-size: 28px;
+  font-size: var(--com-size-title);
   font-weight: bold;
   color: var(--com-font-gray);
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 var(--com-gap-sm);
 }
 /* End of Gemini's additions */
 
@@ -151,7 +152,7 @@
   }
 
   .ptnssearch-input-field {
-    padding: 10px;
+    padding: var(--com-gap-sm);
     font-size: var(--com-size-content); /* 가변 11px 적용 */
   }
 

@@ -10,17 +10,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./header01.css";
 import MainlogoImg from "../../assets/main-logo.png";
 import LoginIcon from "../../assets/resource/main-loginIcon.png";
-import CardNav from "./CardNav";
+import Hamburger01 from "./Hamburger01";
 import { LanguageContext } from "../../context/LanguageContext";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
-  { id: "info", key: "navServiceIntro" },
-  { id: "search", key: "navBranchInfo" },
-  { id: "fee", key: "navFeeInfo" },
-  { id: "dlvs", key: "navDeliveryStatus" },
-  { id: "cs", key: "navCustomerCenter" },
-  { id: "ptns", key: "navPartnershipInquiry" },
+  { id: "info", key: "navServiceIntro", icon: "info.svg" },
+  { id: "search", key: "navBranchInfo", icon: "search.svg" },
+  { id: "fee", key: "navFeeInfo", icon: "fee.svg" },
+  { id: "dlvs", key: "navDeliveryStatus", icon: "dlvs.svg" },
+  { id: "cs", key: "navCustomerCenter", icon: "cs.svg" },
+  { id: "ptns", key: "navPartnershipInquiry", icon: "ptns.svg" },
 ];
 
 // 언어 토글 컴포넌트
@@ -151,8 +151,8 @@ export default function Header01() {
                 {/* 닫기 버튼 */}
                 <button className="header01-close-btn" onClick={() => setIsOpen(false)}>✕</button>
               </div>
-              {/* CardNav에 설정값과 이동 함수 전달 */}
-              <CardNav navItems={NAV_ITEMS_CONFIG} goSection={goSection} />
+              {/* Hamburger01에 설정값과 이동 함수 전달 */}
+              <Hamburger01 navItems={NAV_ITEMS_CONFIG} goSection={goSection} />
             </div>
           </motion.div>
         )}

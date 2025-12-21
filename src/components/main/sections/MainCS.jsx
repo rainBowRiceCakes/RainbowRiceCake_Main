@@ -1,8 +1,7 @@
 /**
  * @file src/components/main/sections/MainCS.jsx
- * @description 고객센터 페이지 (CustomerCenter.jsx 내용 통합)
- * 251216 v1.0.0 sara init 
- * 251221 v1.1.0 Gemini i18n
+ * @description 고객센터 페이지
+ * 251216 v1.0.0 sara init
  */
 
 import { useState, useContext } from "react";

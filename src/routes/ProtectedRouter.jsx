@@ -1,3 +1,9 @@
+/**
+ * @file src/routes/ProtectedRouter.jsx
+ * @description 라우터
+ * 251214 v1.0.0 wook init
+ */
+
 // import { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 // import { useLocation, Navigate, Outlet } from "react-router-dom";

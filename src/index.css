@@ -1,3 +1,9 @@
+/**
+ * @file src/index.css
+ * @description 글로벌 css 변수
+ * 251210 v1.0.0 wook init
+ */
+
 * {
   margin: 0;
   padding: 0;
@@ -97,6 +103,7 @@
   --com-shadow-md: 0 8px 20px rgba(2, 6, 23, 0.07); /* 중간 그림자 */
   --com-color-primary: #3498db; /* 예시로 블루 계열 사용 */
   --com-size-icon: 24px; /* 아이콘 기본 사이즈 */
+  --com-size-mini-icon: 16px; /* 아이콘 미니 사이즈 */
   --com-gap-sm: 10px; /* 작은 간격 */
   --com-gap-md: 20px; /* 중간 간격 */
   --com-gap-xs: 8px; /* 아주 작은 간격 */
@@ -113,6 +120,7 @@
     --com-font-size-content: 11px;    /* 모바일 본문/표 텍스트 축소 */
     --com-container-padding: 12px;    /* 모바일 좌우 여백 축소 */
     --com-section-padding: 30px;      /* 섹션 간격 축소 */
+    --com-section-sub-padding: 60px:  /* 섹션 간격 조금 축소 */
   }
 }
 

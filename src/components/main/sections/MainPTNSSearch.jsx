@@ -2,8 +2,9 @@
  * @file src/components/main/sections/MainPTNSSearch.jsx
  * @description 제휴업체 검색 페이지 (지도 기반 검색 레이아웃)
  * 251218 v1.0.0 sara init 
- * 251220 v1.1.0 Gemini add map modal feature
+ * 251220 v1.1.0 sara add kakao map modal
  */
+
 import { useState, useEffect, useContext } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import PTNSData from '../../../data/PTNSData.json';

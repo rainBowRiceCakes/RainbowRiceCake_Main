@@ -72,7 +72,7 @@
 .header01-actions-group {
   display: flex;
   align-items: center;
-  gap: 12px; /* Space between action elements */
+  gap: var(--com-radius-md); /* Space between action elements */
 }
 
 /* Language Toggle Switch - iPhone Style */
@@ -81,9 +81,9 @@
   align-items: center;
   position: relative;
   width: 56px; /* Toggle width */
-  height: 30px; /* Toggle height */
+  height: var(--com-gap-xl); /* Toggle height */
   background-color: var(--com-color-bg-light); /* Global light gray background */
-  border-radius: 100px; /* Full rounded corners */
+  border-radius: var(--com-radius-pill); /* Full rounded corners */
   cursor: pointer;
   padding: 3px;
   transition: all 0.3s ease;
@@ -97,8 +97,8 @@
 }
 
 .lang-toggle-handle {
-  width: 24px;
-  height: 24px;
+  width: var(--com-size-icon);
+  height: var(--com-size-icon);
   background-color: var(--com-color-white);
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Realistic shadow */
@@ -119,11 +119,11 @@
 }
 
 .lang-toggle-text:first-of-type {
-  left: 8px;
+  left: var(--com-gap-xs);
 }
 
 .lang-toggle-text:last-of-type {
-  right: 8px;
+  right: var(--com-gap-xs);
 }
 
 .lang-toggle-text.active {
@@ -134,14 +134,14 @@
 .header01-desktop-links {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--com-gap-sm);
 }
 
 .header01-action-button-link {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 700;
+  padding: var(--com-gap-xs) var(--com-size-subtitle);
+  border-radius: var(--com-gap-md);
+  font-size: var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
   text-decoration: none;
   color: var(--com-font-primary-color);
   border: 1px solid var(--com-border-default);
@@ -163,14 +163,14 @@
 .header01-action-button-link--solid:hover {
   background-color: var(--com-color-primary-hover); /* Changed from #333 to global var */
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--com-shadow-xs);
 }
 
 /* Mobile Icons Group (Login Icon / Hamburger) */
 .header01-mobile-icons-group {
   display: none; /* Hidden on desktop */
   align-items: center;
-  gap: 10px;
+  gap: var(--com-gap-sm);
 }
 
 .header01-icon-login-btn {
@@ -189,8 +189,8 @@
 }
 
 .header01-login-img {
-  width: 20px;
-  height: 20px;
+  width: var(--com-gap-md);
+  height: var(--com-gap-md);
   object-fit: contain;
 }
 
@@ -204,10 +204,10 @@
   width: 40px;
   height: 40px;
   border: 1px solid var(--com-border-default);
-  border-radius: 8px;
+  border-radius: var(--com-gap-xs);
   background: transparent;
   cursor: pointer;
-  padding: 8px;
+  padding: var(--com-gap-xs);
   transition: all 0.3s ease;
 }
 
@@ -216,7 +216,7 @@
 }
 
 .header01-bar {
-  width: 20px;
+  width: var(--com-gap-md);
   height: 2px;
   background-color: var(--com-color-black);
   border-radius: 2px;
@@ -252,10 +252,10 @@
 }
 
 .header01-mobile-inner-group {
-  padding: 40px 20px;
+  padding: 40px var(--com-container-padding);
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: var(--com-gap-xl);
 }
 
 /* Mobile Menu Header (Title & Close Button) */
@@ -263,7 +263,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: var(--com-gap-md);
   border-bottom: 1px solid var(--com-color-overlay);
 }
 
@@ -278,7 +278,7 @@
 .header01-close-btn {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: var(--com-size-title);
   cursor: pointer;
   color: var(--com-font-muted);
   padding: 5px;
@@ -295,11 +295,12 @@
 /* Mobile Responsive - Tablet & Mobile (≤ 768px) */
 @media screen and (max-width: 768px) {
   .header01-frame {
-    height: 60px; /* Reduced header height for mobile */
+    height: var(--com-section-sub-padding); /* Reduced header height for mobile */
+    padding: 6px 0; 
   }
 
   .header01-inner-group {
-    padding: 0 var(--com-container-padding-mobile, 16px); /* Use mobile padding if defined, else 16px */
+    padding: 0 var(--com-size-subtitle, 16px); /* Use mobile padding if defined, else 16px */
   }
 
   .header01-brand-img-container {

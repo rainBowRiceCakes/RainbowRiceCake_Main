@@ -1,3 +1,9 @@
+/**
+ * @file src/context/LanguageContext.jsx
+ * @description KO/EN 번역 스토어 다른 언어 (영어, 중국어 추가 시 확장성을 위해 context 폴더로 따로 관리 )
+ * 251219 v1.0.0 sara init 
+ */
+
 import { createContext, useState, useMemo } from 'react';
 import { LANG_CNG } from '../lang/langCng';
 

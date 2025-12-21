@@ -16,12 +16,12 @@
   flex-direction: column; 
   align-items: center; 
   text-align: center;
-  gap: 16px;
-  margin-bottom: 18px;
+  gap: var(--com-size-subtitle);
+  margin-bottom: var(--com-radius-lg);
 }
 
 .mainptns-header-group > div:first-child {
-  margin-bottom: 12px;
+  margin-bottom: var(--com-radius-md);
 }
 
 @media (min-width: 900px) {
@@ -42,7 +42,7 @@
 }
 
 .mainptns-desc-text {
-  margin: 8px 0 0;
+  margin: var(--com-gap-xs) 0 0;
   color: var(--com-font-muted);
   font-size: var(--com-size-sidebar);
   line-height: 1.5;
@@ -52,13 +52,13 @@
 .mainptns-grid-2 { 
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: var(--com-size-subtitle);
 }
 
 .mainptns-input-grid-2 {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: var(--com-gap-sm);
 }
 
 @media (min-width: 900px) {
@@ -77,7 +77,7 @@
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-default);
-  padding: 18px; 
+  padding: var(--com-radius-lg); 
 }
 
 .mainptns-card-title-text {
@@ -90,9 +90,9 @@
 
 /* Form Fields */
 .mainptns-form-fields-group {
-  margin-top: 12px;
+  margin-top: var(--com-radius-md);
   display: grid;
-  gap: 10px;
+  gap: var(--com-gap-sm);
 }
 
 .mainptns-field-label {
@@ -107,7 +107,7 @@
   height: 44px;
   border-radius: var(--com-radius-md);
   border: 1px solid var(--com-border-default);
-  padding: 0 12px;
+  padding: 0 var(--com-radius-md);
   font-size: var(--com-size-sidebar);
   background-color: var(--com-color-white);
   outline: none;
@@ -118,7 +118,7 @@
   min-height: 120px;
   border-radius: var(--com-radius-md);
   border: 1px solid var(--com-border-default);
-  padding: 12px;
+  padding: var(--com-radius-md);
   font-size: var(--com-size-sidebar);
   background-color: var(--com-color-white);
   outline: none;
@@ -128,7 +128,7 @@
 /* Agreement */
 .mainptns-agreement-label {
   display: flex;
-  gap: 10px;
+  gap: var(--com-gap-sm);
   align-items: center;
   cursor: pointer;
 }
@@ -146,7 +146,7 @@
   background: var(--com-color-white);
   color: var(--com-color-black);
   border-radius: var(--com-radius-md);
-  padding: 10px 14px;
+  padding: var(--com-gap-sm) var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
   font-size: var(--com-size-sidebar);
   cursor: pointer;
@@ -171,9 +171,9 @@
 
 /* Guide & Message Boxes */
 .mainptns-note-item {
-  padding: 12px;
+  padding: var(--com-radius-md);
   border: 1px solid var(--com-border-default);
-  border-radius: 14px;
+  border-radius: var(--com-size-sidebar);
   background-color: var(--com-color-white);
 }
 
@@ -183,11 +183,12 @@
 }
 
 .mainptns-message-box {
-  margin-top: 14px;
-  padding: 12px;
-  border-radius: 14px;
+  margin-top: var(--com-size-sidebar);
+  padding: var(--com-radius-md);
+  border-radius: var(--com-size-sidebar);
   background: var(--com-color-bg-light);
 }
+
 
 .mainptns-message-title-text {
   font-weight: var(--com-font-weight-bold);
