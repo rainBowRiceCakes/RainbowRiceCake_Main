@@ -35,6 +35,8 @@
   /* [폰트 사이즈] */
   --com-size-title: 28px;
   --com-size-subtitle: 16px;
+  --com-size-sub-title: 13px; 
+  /* 기존 --com-size-sub-title: 13px;  -> --com-size-sub-title: 13px;  */
   --com-size-content: 12px;
   --com-size-sidebar: 14px;
   --com-size-mini: 11px;
@@ -116,7 +118,7 @@
 @media screen and (max-width: 375px) {
   :root {
     --com-font-size-title: 15px;      /* 모바일 타이틀 축소 */
-    --com-font-size-sub-title: 13px;  /* 모바일 서브타이틀 축소 */
+    --com-size-sub-title: 13px;  /* 모바일 서브타이틀 축소 */
     --com-font-size-content: 11px;    /* 모바일 본문/표 텍스트 축소 */
     --com-container-padding: 12px;    /* 모바일 좌우 여백 축소 */
     --com-section-padding: 30px;      /* 섹션 간격 축소 */

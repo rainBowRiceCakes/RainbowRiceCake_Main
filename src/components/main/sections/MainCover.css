@@ -113,7 +113,6 @@
   }
 
   .maincover-image-wrapper {
-    border-radius: 14px;
     overflow: hidden;
   }
 }
@@ -125,7 +124,7 @@
   }
 
   .maincover-delivery-title-text {
-    font-size: var(--com-font-size-sub-title);
+    font-size: var(--com-size-sub-title);
   }
 
   .maincover-delivery-area {

@@ -211,7 +211,7 @@
         font-size: var(--com-font-size-title);
     }
     .maincs-subtitle-text {
-        font-size: var(--com-font-size-sub-title);
+        font-size: var(--com-size-sub-title);
     }
     .maincs-card-desc-text, .maincs-faq-body-text, .maincs-info-desc-text {
         font-size: var(--com-font-size-content);

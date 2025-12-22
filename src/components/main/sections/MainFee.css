@@ -134,7 +134,7 @@
 @media screen and (max-width: 375px) {
   .mainfee-box-title,
   .mainfee-table-cell--fee {
-    font-size: var(--com-font-size-sub-title);
+    font-size: var(--com-size-sub-title);
   }
   .mainfee-table-cell,
   .mainfee-note-text,
