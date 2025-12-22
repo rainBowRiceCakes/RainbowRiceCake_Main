@@ -15,9 +15,9 @@ export default defineConfig({
         '/icons/*'
       ],
       manifest: {
-        name: 'meerkatgram',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
-        short_name: 'meerkatgram', // 홈 화면 아이콘 아래에 표시될 이름
-        description: 'meerkatgram', // 앱 설명
+        name: 'rainbowricecake',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
+        short_name: 'rc', // 홈 화면 아이콘 아래에 표시될 이름
+        description: 'delivery app', // 앱 설명
         theme_color: '#ffffff', // 브라우저 UI 테마 색상
         background_color: '#ffffff', //기본 배경색
         lang: 'ko',                     // 앱의 언어 설정 (기본 언어)
@@ -56,7 +56,7 @@ export default defineConfig({
     proxy: {
       // 경로가 `/api`로 시작하는 요청을 대상으로 proxy 설정
       '/api': {
-        target: `localhost:${process.env.APP_PATH}`, // Request 대상 서버 주소 TODO: env설정 후 수정 할 것
+        target: `localhost:5173`, // Request 대상 서버 주소 TODO: env설정 후 수정 할 것
         changeOrigin: true, // Request Header Host 필드 값을 대상 서버 호스트로 변경
         secure: false, // SSL 인증서 검증 무시
         ws: true // WebSoket 프로토콜 사용

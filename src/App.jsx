@@ -1,7 +1,9 @@
-import './App.css';
+import { Outlet } from "react-router-dom";
 
-function App() {
-  <h1>Main입니다~</h1>
+export default function App() {
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 }
-
-export default App;

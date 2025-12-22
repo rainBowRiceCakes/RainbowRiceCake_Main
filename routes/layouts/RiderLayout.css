@@ -1,0 +1,15 @@
+/* src/routes/layouts/RiderLayout.css */
+
+.rider-shell {
+  min-height: 100vh;
+  background: #f2f3f5; /* 앱 외부 배경 */
+  display: flex;
+  justify-content: center;
+}
+
+.rider-container {
+  width: 100%;
+  max-width: 420px;      /* 📱 모바일 최대 폭 */
+  min-height: 100vh;
+  background: #ffffff;  /* 앱 화면 배경 */
+}

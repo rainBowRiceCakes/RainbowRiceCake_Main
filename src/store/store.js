@@ -5,9 +5,12 @@
  */
 
 import { configureStore } from "@reduxjs/toolkit";
+import ordersReducer from "./slices/ordersSlice.js";
 
-export default configureStore ({
+const store = configureStore({
   reducer: {
-
-  }
+    orders: ordersReducer,
+  },
 });
+
+export default store;

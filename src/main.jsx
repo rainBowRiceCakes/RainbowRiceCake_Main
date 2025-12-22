@@ -1,16 +1,17 @@
-/**
- * @file src/main.jsx
- * @description main컴포넌트
- * 251210 v1.0.0 wook 최초 생성
- */
-
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import Router from '../routes/Router.jsx';
+import { Provider }from 'react-redux';
+import store from './store/store.js'
+// import { injectStoreInAxios } from './api/axiosInstance.js';
+// import swRegister from './swRegister.js';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <Provider store={store}>
+    <Router />
+  </Provider>
 )
+
+// injectStoreInAxios(store);
+
+// swRegister();
