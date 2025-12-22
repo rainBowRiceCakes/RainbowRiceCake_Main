@@ -2,7 +2,7 @@
 import {
   getInProgressBadgeText,
   getNavModeByStatus,
-} from "../../../../src/constants/orderStatus.js";
+} from "../../../../../src/constants/orderStatus.js";
 import "./RiderInProgressView.css";
 import { useNavigate, useParams } from "react-router-dom";
 

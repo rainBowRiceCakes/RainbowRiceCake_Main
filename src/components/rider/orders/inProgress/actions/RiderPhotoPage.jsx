@@ -7,7 +7,7 @@ import {
   attachDropoffPhoto,
   markCompleted,
   markDelivering, // ✅ 변경
-} from "../../../../../src/store/slices/ordersSlice.js";
+} from "../../../../../store/slices/ordersSlice.js";
 
 export default function RiderPhotoPage({ mode }) {
   const { id, orderId } = useParams();
@@ -90,7 +90,7 @@ export default function RiderPhotoPage({ mode }) {
       if (isPickup) {
         navigate(`/rider/${id}/delivering/${order.orderNo}`);
       } else {
-        navigate(`/rider/${id}`);
+        navigate(`/rider/${id}`, { state: { activeTab: "completed" } });
       }
     }, 650);
   };
@@ -112,7 +112,7 @@ export default function RiderPhotoPage({ mode }) {
         <h1 className="rpp-title">사진 촬영</h1>
       </header>
 
-      <main className="rpp-main">
+      <div className="rpp-main">
         <button type="button" className="rpp-upload-box" onClick={openCamera}>
           {previewUrl ? (
             <img className="rpp-preview" src={previewUrl} alt={previewAlt} />
@@ -132,9 +132,9 @@ export default function RiderPhotoPage({ mode }) {
           capture="environment"
           onChange={handleFileChange}
         />
-      </main>
+      </div>
 
-      <footer className="rpp-footer">
+      <div className="rpp-footer">
         <button
           type="button"
           className="rpp-submit"
@@ -143,7 +143,7 @@ export default function RiderPhotoPage({ mode }) {
         >
           {isUploading ? "업로드 중..." : "업로드 완료"}
         </button>
-      </footer>
+      </div>
     </div>
   );
 }

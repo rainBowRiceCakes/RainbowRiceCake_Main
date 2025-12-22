@@ -14,3 +14,6 @@ const store = configureStore({
 });
 
 export default store;
+
+
+// slices과 연결

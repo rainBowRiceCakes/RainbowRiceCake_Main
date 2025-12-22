@@ -2,10 +2,10 @@
 import { Navigate } from "react-router-dom";
 // main pages
 import RiderMainPage from "../components/rider/main/RiderMainPage.jsx";
-import RiderPhotoPage from "../components/rider/orders/inProgress/actions/RiderPhotoPage.jsx";
 import RiderNavFlowPage from "../components/rider/orders/inProgress/actions/RiderNavFlowPage.jsx";
 import RiderOrderDetailPage from "../components/rider/orders/RiderOrderDetailPage.jsx";
 import RiderIssueReportPage from "../components/rider/issues/RiderIssueReportPage.jsx";
+import RiderPhotoPage from "../components/rider/orders/inProgress/actions/RiderPhotoPage.jsx"
 
 // mypage layout and pages
 import RiderMyPage from "../components/rider/account/MyPage.jsx";

@@ -1,15 +1,23 @@
 // components/rider/main/completed/RiderCompletedView.jsx
 import { useNavigate, useParams } from "react-router-dom";
 import "./RiderCompletedView.css";
+import RiderOrderDetailPage from "../RiderOrderDetailPage.jsx";
 
-function CompletedOrderRow({ order, onOpen }) {
+function CompletedOrderRow({ order }) {
   const timeText = order?.completedAt?.slice(11, 16) ?? "--:--";
+  // const navigate = useNavigate();
+  // const { id, orderId } = useParams();
+
+  // const order = useMemo(
+  //     () => orders.find((o) => String(o.orderNo) === String(orderId)),
+  //     [orders, orderId]
+  //   );
 
   return (
     <button
       type="button"
       className="cor-row"
-      onClick={() => onOpen?.(order.orderNo)}
+      // onClick={() => navigate(`/rider/${id}/orders/${orderId}/`)}
     >
       <div className="cor-left">
         <p className="cor-time">
@@ -30,10 +38,10 @@ function CompletedOrderRow({ order, onOpen }) {
 export default function RiderCompletedView({ orders = [] }) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const handleOpen = (orderNo) => {
-    navigate(`/rider/${id}/orders/${orderNo}`);
+  const handleBackToCompleted = () => {
+    // state에 activeTab 정보를 담아서 보냅니다.
+    navigate(`/rider/${id}`, { state: { activeTab: "completed" } });
   };
-
   // ✅ KPI: 완료 주문 기반으로 계산 (필드명은 더미 shape에 맞춰 조정)
   const todayCompletedCount = orders.length;
 
@@ -63,7 +71,7 @@ export default function RiderCompletedView({ orders = [] }) {
             <CompletedOrderRow
               key={order.orderNo ?? order.id}
               order={order}
-              onOpen={handleOpen}
+              onOpen={handleBackToCompleted}
             />
           ))
         )}

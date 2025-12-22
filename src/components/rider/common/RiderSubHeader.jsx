@@ -6,7 +6,7 @@ export default function RiderSubHeader({ title }) {
   const navigate = useNavigate();
 
   return (
-    <header className="rider-sub-header">
+    <div className="rider-sub-header">
       <button
         type="button"
         className="rider-sub-back"
@@ -20,6 +20,6 @@ export default function RiderSubHeader({ title }) {
 
       {/* 기존 rod-spacer 역할 */}
       <div className="rider-sub-spacer" />
-    </header>
+    </div>
   );
 }
