@@ -1,3 +1,9 @@
+/**
+ * @file src/routes/Router.jsx
+ * @description 라우터
+ * 251214 v1.0.0 wook init
+ */
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App.jsx";
 // import ProtectedRouter from "./ProtectedRouter.jsx"; // 인증/권한 로직 처리
@@ -16,7 +22,7 @@ import MainPTNS from '../components/main/sections/MainPTNS.jsx';
 // 신규 인증 및 사용자 관련 컴포넌트
 import Login from "../components/main/auth/Login.jsx";
 import MyPage from "../components/main/auth/MyPage.jsx";
-import RegisterForm from "../components/main/auth/RegisterForm.jsx";
+import Register from "../components/main/auth/Register.jsx";
 
 // 사용자 정의 라우트 객체
 const router = createBrowserRouter([
@@ -74,7 +80,7 @@ const router = createBrowserRouter([
       }, 
       { 
         path: '/register',
-        element: <RegisterForm /> // 회원가입 폼
+        element: <Register /> // 회원가입 폼
       }, 
 
       // ---------------------------------

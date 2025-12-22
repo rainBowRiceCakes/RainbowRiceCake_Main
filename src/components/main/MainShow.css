@@ -37,93 +37,120 @@
   z-index: 1000;
 }
 
-/* 내비게이션 그룹 컨테이너 */
+/* 5. 내비게이션 그룹 컨테이너 */
 .mainshow-nav-group {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 15px 10px;
-  transition: all 0.3s ease;
-  align-items: flex-end;
+  gap: var(--com-size-subtitle);
+  padding: 15px var(--com-gap-sm);
+  align-items: flex-end; /* 도트를 오른쪽 끝으로 정렬 */
 }
 
-/* 개별 아이템 래퍼 */
+/* 6. 개별 아이템 래퍼 */
 .mainshow-nav-item {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   cursor: pointer;
-  min-height: 24px;
+  position: relative;
+  height: 40px;
 }
 
-/* 도트 스타일 */
+/* 7. 도트 스타일 (기본 상태) */
 .mainshow-nav-dot {
-  width: 10px;
-  height: 10px;
+  width: var(--com-gap-sm);
+  height: var(--com-gap-sm);
   background-color: var(--com-font-muted);
   border-radius: 50%;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2; /* 라벨보다 위에 배치 */
 }
 
-/* 활성 도트 */
+/* 8. 활성 도트 강조 */
 .mainshow-nav-dot.active {
   background-color: var(--com-color-black);
   transform: scale(1.4);
 }
 
-/* 이름 라벨 박스 */
+/* 9. 이름 라벨 박스 (기본 상태에서 숨김) */
 .mainshow-nav-label-box {
   position: absolute;
-  right: 0;
-  background-color: var(--com-color-white);
-  width: 100px;
+  right: 0; /* 도트 위치에 고정 */
+  width: 180px; 
+  height: var(--com-size-button-md);
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 8px 0;
-  border-radius: 20px; 
-  white-space: nowrap;
+  justify-content: center;
+  background-color: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 50px;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--com-shadow-default);
-  border: 1px solid var(--com-border-default);
+  transform: translateX(10px); /* 살짝 오른쪽에서 나타나는 효과 */
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
 }
 
-/* 내비게이션 텍스트 */
+/* 10. 내비게이션 텍스트 */
 .mainshow-nav-text {
   font-size: var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-muted);
-  text-align: center;
 }
 
+/* 11. 내비게이션 텍스트 활성화 */
 .mainshow-nav-text.active {
   color: var(--com-color-black);
 }
 
-/* 5. 인터랙션 (호버 효과) */
+/* 12. 그룹 전체 호버 시: 도트는 숨기고 라벨 박스 노출 */
 .mainshow-nav-group:hover .mainshow-nav-dot {
   opacity: 0;
   transform: scale(0);
 }
 
+/* 13. 라벨 박스 */
 .mainshow-nav-group:hover .mainshow-nav-label-box {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
 }
 
+/* 14. 개별 아이템 호버 시 무지개 그라데이션 적용 */
+.mainshow-nav-item:hover .mainshow-nav-label-box {
+  background: var(--com-gradient-rainbow);
+  border-color: transparent;
+  box-shadow: var(--com-shadow-md);
+}
+
+/* 15. 호버 시 텍스트 가독성 향상을 위해 글자 색상을 흰색으로 변경 */
 .mainshow-nav-item:hover .mainshow-nav-text {
   color: var(--com-color-black);
 }
 
-/* 📱 iPhone SE (375px 이하) 대응 최적화 */
-@media screen and (max-width: 375px) {
-  /* 요청하신 대로 375px 이하에서 내비게이션 그룹을 숨깁니다. */
+/* 16. 도트 색상 순차 적용 (무지개 톤) */
+.mainshow-nav-item:nth-child(1) .mainshow-nav-dot { 
+  background-color: rgba(255, 173, 173, 0.8); 
+}
+.mainshow-nav-item:nth-child(2) .mainshow-nav-dot { 
+  background-color: rgba(255, 214, 165, 0.8); 
+}
+.mainshow-nav-item:nth-child(3) .mainshow-nav-dot { 
+  background-color: rgba(253, 255, 182, 0.8); 
+}
+.mainshow-nav-item:nth-child(4) .mainshow-nav-dot { 
+  background-color: rgba(202, 255, 191, 0.8); 
+}
+.mainshow-nav-item:nth-child(5) .mainshow-nav-dot { 
+  background-color: rgba(155, 246, 255, 0.8); 
+}
+.mainshow-nav-item:nth-child(6) .mainshow-nav-dot { 
+  background-color: rgba(160, 196, 255, 0.8); 
+}
+
+/* 17. 모바일 환경 내비게이션 숨김 */
+@media (max-width: 768px) {
   .mainshow-nav-group {
-    display: none !important;
+    display: none;
   }
 }

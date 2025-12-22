@@ -1,6 +1,6 @@
 /**
  * @file src/components/main/sections/MainFee.css
- * @description 요금 안내 / 지점 안내 
+ * @description 요금 안내
  * 251216 v1.0.0 sara init 
  */
 
@@ -9,7 +9,7 @@
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-color-blue);
   margin-bottom: 15px;
-  padding-bottom: 10px;
+  padding-bottom: var(--com-gap-sm);
   border-bottom: 2px solid var(--com-color-blue);
 }
 
@@ -17,7 +17,7 @@
 .mainfee-table-wrapper {
   margin-bottom: 15px;
   border: 1px solid var(--com-border-default);
-  border-radius: 8px;
+  border-radius: var(--com-gap-xs);
   overflow: hidden;
   padding: var(--com-container-padding);
   background-color: var(--com-color-white);
@@ -34,7 +34,7 @@
 
 .mainfee-table-cell {
   flex: 1;
-  padding: 10px 15px;
+  padding: var(--com-gap-sm) 15px;
   border-right: 1px solid var(--com-border-default);
   font-size: var(--com-size-content);
   line-height: 1.4;
@@ -77,13 +77,13 @@
 .mainfee-note-text {
   font-size: var(--com-size-content);
   color: var(--com-color-red);
-  margin-top: 8px;
+  margin-top: var(--com-gap-xs);
 }
 
 /* 지점 안내 스타일 */
 .mainfee--item {
   margin-bottom: 15px;
-  padding: 10px 0;
+  padding: var(--com-gap-sm) 0;
   border-bottom: 1px dotted var(--com-border-default);
 }
 
@@ -101,12 +101,12 @@
 
 .mainfee-search-map-link {
   text-align: center;
-  margin-top: 20px;
+  margin-top: var(--com-gap-md);
 }
 
 .mainfee-map-link-button {
   display: inline-block;
-  padding: 8px 15px;
+  padding: var(--com-gap-xs) 15px;
   background-color: var(--com-color-black);
   color: var(--com-color-white);
   text-decoration: none;
@@ -126,7 +126,7 @@
   }
   .mainfee-price-box, 
   .mainfee-search-box {
-    margin-bottom: 20px;
+    margin-bottom: var(--com-gap-md);
   }
 }
 

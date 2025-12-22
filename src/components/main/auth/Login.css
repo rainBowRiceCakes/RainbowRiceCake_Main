@@ -4,6 +4,7 @@
  * 251217 v1.0.0 sara init 
  */
 
+/* 1. 로그인 페이지 전체 레이아웃: 가운데 정렬 + 기본 배경 */
 .login-frame {
   padding: var(--com-section-padding) 0;
   min-height: 60vh;
@@ -13,103 +14,117 @@
   background-color: var(--com-color-white);
 }
 
+/* 2. 로그인 박스(카드) 스타일: 최대 너비, 여백, 테두리, 그림자 */
 .login-box {
   width: 100%;
   max-width: 400px;
-  padding: 40px 30px;
-  border: 1px solid var(--com-content-border-color);
-  border-radius: 16px;
+  padding: 40px var(--com-gap-xl);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-size-subtitle);
   text-align: center;
   background-color: var(--com-color-white);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
+/* 3. 로그인 타이틀 스타일: 크기/굵기/색상/하단 여백 */
 .login-title {
-  font-size: 24px;
-  font-weight: var(--com-font-weight);
+  font-size: var(--com-size-icon);
+  font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
-  margin-bottom: 30px;
+  margin-bottom: var(--com-gap-xl);
 }
 
+/* 4. 입력 영역 그룹: 입력 요소 간 간격을 그리드로 통일 */
 .login-input-group,
 .login-select-group {
   display: grid;
-  gap: 12px;
+  gap: var(--com-radius-md);
 }
 
+/* 5. 입력창 기본 스타일: 패딩/보더/라운드/폰트/포커스 기본 */
 .login-input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid var(--com-content-border-color);
-  border-radius: 8px;
-  font-size: var(--com-font-size-sub-title);
+  padding: var(--com-radius-md);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-gap-xs);
+  font-size: var(--com-size-subtitle);
   outline: none;
 }
 
+/* 6. 비밀번호 입력 래퍼: 아이콘을 절대 위치로 올리기 위한 기준 */
 .login-password-wrapper {
   position: relative;
 }
 
+/* 7. 비밀번호 보기 아이콘: 입력창 우측 중앙 배치 + 클릭 가능 */
 .login-view-icon {
   position: absolute;
-  right: 12px;
+  right: var(--com-radius-md);
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   opacity: 0.5;
 }
 
+/* 8. 공통 버튼 스타일: 너비/패딩/라운드/폰트/호버 전환 */
 .login-btn,
 .login-select-btn {
   width: 100%;
-  padding: 14px;
-  border-radius: 8px;
-  font-size: var(--com-font-size-sidebar);
+  padding: var(--com-size-sidebar);
+  border-radius: var(--com-gap-xs);
+  font-size: var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
   transition: 0.2s;
 }
 
+/* 9. 메인 로그인 버튼(민트 테마): 배경/글자색/보더 제거 */
 .login-btn--mint {
   background-color: var(--com-font-gray);
-  color: var(--com-button-content);
+  color: var(--com-color-white);
   border: none;
 }
 
+/* 10. 선택 버튼 스타일: 테두리형 버튼 + 기본 텍스트 컬러 */
 .login-select-btn {
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
   background: var(--com-color-white);
   color: var(--com-font-primary-color);
 }
 
+/* 11. 구분선(OR) 영역: 양쪽 라인과 텍스트 정렬 */
 .login-hr {
   margin: 15px 0;
-  color: var(--com-sidebar-title-font-color);
-  font-size: var(--com-font-size-content);
+  color: var(--com-font-muted);
+  font-size: var(--com-size-content);
   display: flex;
   align-items: center;
 }
 
+/* 12. 구분선 양옆 라인: 가로로 늘어나는 1px 라인 */
 .login-hr::before,
 .login-hr::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--com-content-border-color);
-  margin: 0 10px;
+  background: var(--com-border-default);
+  margin: 0 var(--com-gap-sm);
 }
 
+/* 13. 하단 도움 링크 영역: 안내 문구/링크 스타일 */
 .login-helper-links {
-  margin-top: 20px;
-  font-size: var(--com-font-size-content);
+  margin-top: var(--com-gap-md);
+  font-size: var(--com-size-content);
   color: var(--com-font-gray);
 }
 
+/* 14. 뒤로가기 버튼: 링크처럼 보이는 언더라인 텍스트 버튼 */
 .login-back-btn {
-  margin-top: 20px;
+  margin-top: var(--com-gap-md);
   background: none;
   border: none;
   text-decoration: underline;
-  color: var(--com-sidebar-item-font-color);
+  color: var(--com-font-primary-color);
   cursor: pointer;
 }
+

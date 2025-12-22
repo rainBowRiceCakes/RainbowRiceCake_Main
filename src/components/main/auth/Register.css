@@ -1,0 +1,118 @@
+/**
+ * @file src/components/main/auth/Register.css
+ * @description 회원가입 페이지 
+ * 251217 v1.0.0 sara init 
+ */
+
+/* 1. 회원가입 페이지 전체 레이아웃: Login과 동일하게 중앙 정렬 + 흰 배경 */
+.register-frame {
+  padding: var(--com-section-padding) 0;
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--com-color-white);
+}
+
+/* 2. 회원가입 카드: Login 박스 스타일과 통일 */
+.register-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px var(--com-gap-xl);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-size-subtitle);
+  text-align: center;
+  background-color: var(--com-color-white);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* 3. 타이틀: Login 타이포 스케일 통일 */
+.register-title {
+  font-size: var(--com-size-icon);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  margin-bottom: var(--com-gap-md);
+}
+
+/* 4. 로그인 이동 링크: 간단/미니멀 */
+.register-login-link {
+  margin-bottom: var(--com-gap-xl);
+  font-size: var(--com-size-content);
+  color: var(--com-font-gray);
+}
+
+.register-login-link span {
+  color: var(--com-color-blue);
+  cursor: pointer;
+  font-weight: var(--com-font-weight-heavy);
+  text-decoration: underline;
+}
+
+/* 5. 폼: Login input 그룹처럼 그리드 간격 통일 */
+.register-form-grid {
+  display: grid;
+  gap: var(--com-radius-md);
+  text-align: left;
+}
+
+/* 6. 입력 기본 */
+.register-input {
+  width: 100%;
+  padding: var(--com-radius-md);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-gap-xs);
+  font-size: var(--com-size-sidebar);
+  outline: none;
+  background-color: var(--com-color-white);
+}
+
+/* 7. 2열 */
+.register-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--com-gap-sm);
+}
+
+/* 8. 전화번호 */
+.register-phone-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: var(--com-gap-sm);
+}
+
+.register-country-select {
+  padding: 0 var(--com-gap-sm);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-gap-xs);
+  background-color: var(--com-color-white);
+  font-size: var(--com-size-content);
+}
+
+/* 9. 약관 */
+.register-agreement-label {
+  display: flex;
+  align-items: center;
+  gap: var(--com-gap-xs);
+  font-size: var(--com-size-content);
+  color: var(--com-font-gray);
+  margin-top: var(--com-gap-sm);
+}
+
+/* 10. 버튼: Login 메인 버튼 톤(단색) */
+.register-submit-btn {
+  width: 100%;
+  padding: var(--com-size-sidebar);
+  margin-top: var(--com-gap-md);
+  background-color: var(--com-font-gray);
+  color: var(--com-color-white);
+  border: none;
+  border-radius: var(--com-gap-xs);
+  font-size: var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.register-submit-btn:hover {
+  opacity: 0.9;
+}

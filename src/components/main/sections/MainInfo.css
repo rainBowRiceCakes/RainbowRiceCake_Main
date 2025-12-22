@@ -14,8 +14,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
+  gap: var(--com-size-subtitle);
+  margin-bottom: var(--com-radius-lg);
 }
 
 .maininfo-title-text {
@@ -27,7 +27,7 @@
 }
 
 .maininfo-desc-text {
-  margin: 8px 0 0;
+  margin: var(--com-gap-xs) 0 0;
   color: var(--com-font-muted);
   font-size: var(--com-size-sidebar);
   line-height: 1.5;
@@ -35,7 +35,7 @@
 
 .maininfo-actions-group {
   display: flex;
-  gap: 10px;
+  gap: var(--com-gap-sm);
   flex-wrap: wrap;
 }
 
@@ -46,7 +46,7 @@
   background: var(--com-color-white);
   color: var(--com-color-black);
   border-radius: var(--com-radius-pill);
-  padding: 10px 14px;
+  padding: var(--com-gap-sm) var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
   font-size: var(--com-size-sidebar);
   cursor: pointer;
@@ -86,7 +86,7 @@
 }
 
 .maininfo-card-desc-text {
-  margin: 8px 0 12px; 
+  margin: var(--com-gap-xs) 0 var(--com-radius-md); 
   color: var(--com-font-muted); 
   font-size: 13px; 
   line-height: 1.5;
@@ -96,28 +96,28 @@
 .maininfo-grid-2 { 
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: var(--com-size-subtitle);
 }
 
 .maininfo-grid-3 { 
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: var(--com-size-sidebar);
 }
 
 /* Step List (Monochrome 강조) */
 .maininfo-step-list {
-  margin: 12px 0 0;
-  padding-left: 18px;
+  margin: var(--com-radius-md) 0 0;
+  padding-left: var(--com-radius-lg);
   line-height: 1.7;
   color: var(--com-font-primary-color);
 }
 
 /* Note Boxes */
 .maininfo-note-box {
-  margin-top: 14px;
-  padding: 12px;
-  border-radius: 14px; 
+  margin-top: var(--com-size-sidebar);
+  padding: var(--com-radius-md);
+  border-radius: var(--com-size-sidebar); 
   background: var(--com-color-bg-light);
 }
 

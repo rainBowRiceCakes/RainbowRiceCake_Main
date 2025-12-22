@@ -4,42 +4,46 @@
  * 251217 v1.0.0 sara init 
  */
 
-import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { LanguageContext } from "../../../context/LanguageContext";
 import "./MyPage.css";
 
 export default function MyPage({ isLoggedIn = false }) {
   const navigate = useNavigate();
+  const { t } = useContext(LanguageContext);
 
   if (!isLoggedIn) {
     return (
       <div className="mypage-frame mypage-frame--unauth">
         <div className="mypage-lock-box">
-          <div className="lock-icon">🔒</div>
-          <h2>로그인이 필요해요</h2>
-          <button className="mypage-login-btn" onClick={() => navigate('/login')}>로그인</button>
+          <div className="mypage-lock-icon">🔒</div>
+          <h2 className="mypage-lock-title">{t("myPageLoginRequired")}</h2>
+          <button className="mypage-login-btn" onClick={() => navigate("/login")}>
+            {t("myPageLogin")}
+          </button>
         </div>
       </div>
     );
   }
 
-  // image_e71f63.png 기반 디자인
   return (
     <div className="mypage-frame">
-      <div className="mypage-user-profile">
-        <div className="profile-circle">👤</div>
-        <div className="profile-info">
-          <div className="user-name">홍*동</div>
-          <div className="user-email">hong@ ricecake.com</div>
+      <div className="mypage-profile-card">
+        <div className="mypage-profile-circle">👤</div>
+        <div>
+          <div className="mypage-user-name">홍*동</div>
+          <div className="mypage-user-email">hong@ricecake.com</div>
         </div>
       </div>
 
       <div className="mypage-status-card">
-        <h3 className="status-title">배송/보관 중인 짐 현황</h3>
-        <div className="status-progress-bar">
-          <div className="progress-step is-done">✔<p>예약 확정</p></div>
-          <div className="progress-step is-done">✔<p>픽업 완료</p></div>
-          <div className="progress-step is-active"><p>이동 중</p></div>
-          <div className="progress-step"><p>보관 중</p></div>
+        <h3 className="mypage-status-title">{t("myPageStatusTitle")}</h3>
+        <div className="mypage-status-progress">
+          <div className="mypage-step is-done">✔ {t("myPageStatusStep1")}</div>
+          <div className="mypage-step is-done">✔ {t("myPageStatusStep2")}</div>
+          <div className="mypage-step is-active">{t("myPageStatusStep3")}</div>
+          <div className="mypage-step">{t("myPageStatusStep4")}</div>
         </div>
       </div>
     </div>

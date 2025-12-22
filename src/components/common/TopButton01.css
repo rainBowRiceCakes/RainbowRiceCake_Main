@@ -4,45 +4,41 @@
  * 251216 v1.0.0 sara init 
  */
 
-.topbutton01-button { /* .topBtn -> .topbutton01-button */
+.topbutton01-button {
   position: fixed;
-  /* 우측 여백을 컨테이너 패딩 변수와 연동 */
   right: var(--com-container-padding);
-  bottom: 24px;
+  bottom: var(--com-gap-md); /* Adjusted from 24px */
   z-index: 95;
 
-  width: 44px;
-  height: 44px;
-  /* 999px 대신 공통 pill 변수 활용 */
+  width: var(--com-size-button-lg);
+  height: var(--com-size-button-lg);
   border-radius: var(--com-radius-pill);
-
-  /* 무채색 경계선 및 반투명 흰색 배경 적용 */
-  border: 1px solid var(--com-color-overlay);
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px) saturate(1.2);
-
-  /* 공통 그림자 변수 적용 */
+  
+  /* [추가] 은은한 파스텔 그라데이션 보더 효과 */
+  background: padding-box var(--com-color-white), 
+              border-box linear-gradient(135deg, var(--com-color-pastel-red), var(--com-color-pastel-sky));
+  border: 2px solid transparent; /* 그라데이션이 보더처럼 보이게 투명 보더 설정 */
+  
+  backdrop-filter: blur(10px);
   box-shadow: var(--com-shadow-default);
   cursor: pointer;
 
-  /* 폰트 설정 치환 */
   font-weight: var(--com-font-weight-heavy);
-  font-size: var(--com-size-subtitle); /* 16px */
-  color: var(--com-color-black);
-  line-height: 1;
-
+  font-size: var(--com-size-subtitle);
+  color: var(--com-font-primary-color);
+  
   display: grid;
   place-items: center;
-
-  /* 트랜지션 시간 정형화 */
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), /* 튕기는 듯한 부드러운 효과 */
+              box-shadow 0.3s ease;
 }
 
 .topbutton01-button:hover {
-  /* 호버 시 살짝 위로 이동 및 그림자 강조 */
-  transform: translateY(-4px);
-  background: var(--com-color-white);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px); /* Keep -6px for now */
+  box-shadow: var(--com-shadow-default); /* Adjusted from 0 12px 24px rgba(0, 0, 0, 0.15) */
+  /* 호버 시 그라데이션 강조 */
+  background: padding-box var(--com-color-white), 
+              border-box linear-gradient(135deg, var(--com-color-pastel-orange), var(--com-color-pastel-lavender));
 }
 
 /* 저사양/접근성 대응: 애니메이션 제거 */
@@ -55,10 +51,10 @@
 /* 📱 아이폰 SE (375px 이하) 가변 대응 */
 @media screen and (max-width: 375px) {
   .topbutton01-button {
-    width: 38px;
-    height: 38px;
+    width: var(--com-size-button-md);
+    height: var(--com-size-button-md);
     /* 모바일 가변 폰트 사이즈 연동 */
-    font-size: var(--com-font-size-sub-title); 
-    bottom: 20px;
+    font-size: var(--com-size-subtitle); 
+    bottom: var(--com-gap-md); /* Adjusted from 20px */
   }
 }

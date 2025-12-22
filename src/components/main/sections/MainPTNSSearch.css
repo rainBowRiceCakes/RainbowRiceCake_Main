@@ -2,9 +2,10 @@
  * @file src/components/main/sections/MainPTNSSearch.css
  * @description 제휴업체 검색 페이지 (지도 기반 검색 레이아웃)
  * 251218 v1.0.0 sara init 
+ * 251220 v1.1.0 sara add kakao map modal
  */
 
-/* 메인 프레임: 상하 여백 확보 */
+/* 1. 메인 프레임: 상하 여백 확보 */
 .ptnssearch-frame {
   padding: var(--com-section-padding) 0;
   background-color: var(--com-color-white);
@@ -18,20 +19,20 @@
   padding: var(--com-container-padding);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--com-gap-md);
   box-shadow: var(--com-shadow-default);
 }
 
 /* 검색 바 레이아웃 */
 .ptnssearch-input-group {
   display: flex;
-  gap: 10px;
+  gap: var(--com-gap-sm);
   width: 100%;
 }
 
 .ptnssearch-input-field {
   flex: 1;
-  padding: 12px 16px;
+  padding: var(--com-radius-md) var(--com-size-subtitle);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
   font-size: var(--com-size-sidebar);
@@ -72,8 +73,69 @@
 .ptnssearch-map-icon {
   font-size: 32px;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--com-gap-xs);
 }
+
+/* 251220 Gemini: Add styles for map modal */
+.ptnssearch-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--com-size-subtitle);
+  padding: 40px var(--com-gap-md);
+  text-align: center;
+  color: var(--com-font-muted);
+}
+
+.map-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.map-modal-content {
+  position: relative;
+  width: 90%;
+  height: 80%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: var(--com-radius-lg);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Ensures map corners are rounded */
+}
+
+.map-modal-header {
+  padding: 15px;
+  display: flex;
+  gap: var(--com-gap-sm);
+  align-items: center;
+  border-bottom: 1px solid var(--com-border-default);
+}
+
+.map-modal-header .ptnssearch-input-field {
+  flex-grow: 1;
+}
+
+.map-modal-close-button {
+  background: transparent;
+  border: none;
+  font-size: var(--com-size-title);
+  font-weight: bold;
+  color: var(--com-font-gray);
+  cursor: pointer;
+  padding: 0 var(--com-gap-sm);
+}
+/* End of Gemini's additions */
 
 /* 📱 아이폰 SE (375px) 및 모바일 최적화 */
 @media screen and (max-width: 375px) {
@@ -90,7 +152,7 @@
   }
 
   .ptnssearch-input-field {
-    padding: 10px;
+    padding: var(--com-gap-sm);
     font-size: var(--com-size-content); /* 가변 11px 적용 */
   }
 

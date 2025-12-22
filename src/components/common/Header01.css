@@ -1,226 +1,352 @@
 /**
  * @file src/components/common/Header01.css
- * @description 헤더 스타일 (글로벌 공통 변수 및 헤더 전용 변수 활용)
+ * @description header01 css
  * 251216 v1.0.0 sara init 
  */
 
+/* Header01.css */
+
+/* Header Main Frame - Sticky & Blur Effect */
 .header01-frame {
   position: sticky;
   top: 0;
-  z-index: 60;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: saturate(1.2) blur(10px);
-  border-bottom: 1px solid var(--com-border-default);
+  z-index: 1000;
+  width: 100%;
+  height: 80px; /* Desktop header height */
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent white background */
+  backdrop-filter: blur(20px) saturate(1.8); /* Strong blur for frosted glass effect */
+  border-bottom: 1px solid var(--com-color-overlay); /* Subtle bottom border using global var */
+  transition: all 0.3s ease-in-out;
 }
 
+/* Inner Container for Max Width & Padding */
 .header01-inner-group {
-  max-width: var(--com-web-max-width);
-  margin: 0 auto;
-  padding: 12px var(--com-container-padding);
+  max-width: var(--com-web-max-width); /* Global max-width setting */
+  width: 100%;
+  margin: 0 auto; /* Center alignment */
+  padding: 0 var(--com-container-padding); /* Global padding setting */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 14px;
 }
 
-/* Logo Section */
+/* Left Side - Logo Section */
+.header01-left-box {
+  display: flex;
+  align-items: center;
+}
+
 .header01-logo-button {
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 8px 10px;
-  border-radius: var(--com-radius-md);
-  transition: background 0.2s ease;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .header01-logo-button:hover {
-  background: var(--com-color-bg-light);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.header01-brand-img-container {
+  width: 140px; /* Adjust width based on actual logo aspect ratio */
+  height: 50px; /* Fits within the 80px header */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .header01-brand-img {
-  width: 120px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  user-select: none;
-}
-
-.header01-brand-img img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: contain; /* Ensures logo is fully visible without distortion */
   pointer-events: none;
 }
 
-/* Action Buttons & Desktop Links */
+/* Right Side - Actions Group (Lang, Auth, Menu) */
 .header01-actions-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--com-radius-md); /* Space between action elements */
 }
 
+/* Language Toggle Switch - iPhone Style */
+.lang-toggle-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 56px; /* Toggle width */
+  height: var(--com-gap-xl); /* Toggle height */
+  background-color: var(--com-color-bg-light); /* Global light gray background */
+  border-radius: var(--com-radius-pill); /* Full rounded corners */
+  cursor: pointer;
+  padding: 3px;
+  transition: all 0.3s ease;
+  user-select: none;
+  overflow: hidden;
+}
+
+.lang-toggle-container:hover {
+  border-color: var(--com-font-muted);
+  transform: translateY(-1px);
+}
+
+.lang-toggle-handle {
+  width: var(--com-size-icon);
+  height: var(--com-size-icon);
+  background-color: var(--com-color-white);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Realistic shadow */
+  z-index: 2;
+}
+
+/* Background Text (KO/EN) */
+.lang-toggle-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-muted);
+  transition: color 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lang-toggle-text:first-of-type {
+  left: var(--com-gap-xs);
+}
+
+.lang-toggle-text:last-of-type {
+  right: var(--com-gap-xs);
+}
+
+.lang-toggle-text.active {
+  color: var(--com-font-primary-color);
+}
+
+/* Desktop Links (Login / MyPage) */
 .header01-desktop-links {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.header01-lang-button {
-  background: none;
-  border: none;
-  font-size: var(--com-size-mini);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-muted);
-  cursor: pointer;
-  padding: 0 4px;
-  transition: color 0.2s ease;
-}
-
-.header01-lang-button:hover {
-  color: var(--com-font-primary-color);
-}
-
-.header01-divider-v {
-  width: 1px;
-  height: 12px;
-  background-color: var(--com-border-default);
+  gap: var(--com-gap-sm);
 }
 
 .header01-action-button-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 38px;
-  padding: 0 16px;
-  border-radius: var(--com-radius-pill);
+  padding: var(--com-gap-xs) var(--com-size-subtitle);
+  border-radius: var(--com-gap-md);
+  font-size: var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
   text-decoration: none;
-  font-weight: var(--com-font-weight-bold);
-  font-size: var(--com-size-content);
   color: var(--com-font-primary-color);
   border: 1px solid var(--com-border-default);
-  background: var(--com-color-white);
-  transition: all 0.12s ease;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .header01-action-button-link:hover {
+  background-color: var(--com-color-bg-light);
   transform: translateY(-1px);
-  box-shadow: var(--com-shadow-default);
-  background: var(--com-color-bg-light);
 }
 
 .header01-action-button-link--solid {
-  background: var(--com-color-black);
+  background-color: var(--com-color-black);
   color: var(--com-color-white);
-  border-color: var(--com-color-black);
+  border: 1px solid var(--com-color-black);
 }
 
-/* Mobile Hamburger */
-.header01-hamburger-button {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  width: 40px;
-  height: 38px;
+.header01-action-button-link--solid:hover {
+  background-color: var(--com-color-primary-hover); /* Changed from #333 to global var */
+  transform: translateY(-1px);
+  box-shadow: var(--com-shadow-xs);
+}
+
+/* Mobile Icons Group (Login Icon / Hamburger) */
+.header01-mobile-icons-group {
+  display: none; /* Hidden on desktop */
   align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border: 1px solid var(--com-border-default);
-  background: var(--com-color-white);
-  cursor: pointer;
-}
-
-.header01-hamburger-button .header01-bar {
-  width: 18px;
-  height: 2px;
-  background: var(--com-color-black);
-  border-radius: 2px;
-}
-
-/* Mobile Dropdown Menu */
-.header01-mobile-dropdown-frame {
-  border-top: 1px solid var(--com-border-default);
-  background: var(--com-color-white);
-  box-shadow: var(--com-shadow-default);
-}
-
-.header01-mobile-inner-group {
-  padding: 20px var(--com-container-padding);
-  display: grid;
-  gap: 16px;
-}
-
-.header01-mobile-title-text {
-  font-weight: var(--com-font-weight-bold);
-  font-size: var(--com-size-subtitle);
-  color: var(--com-font-muted);
-}
-
-.header01-mobile-list-group {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.header01-mobile-item-button {
-  text-align: center;
-  border: 1px solid var(--com-border-default);
-  background: var(--com-color-bg-light);
-  border-radius: var(--com-radius-md);
-  padding: 14px;
-  cursor: pointer;
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-}
-
-/* Responsive */
-@media (min-width: 901px) {
-  .header01-hamburger-button { display: none; }
-  .header01-desktop-links { display: flex; }
-}
-
-@media (max-width: 900px) {
-  .header01-desktop-links { display: none; }
-  .header01-hamburger-button { display: flex; }
-  .header01-mobile-icons-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-}
-
-/* Mobile Icon Box */
-.header01-login-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.mainshow-header-login-box {
-    width: 70px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--com-color-bg-light);
-    border-radius: 8px;
+  gap: var(--com-gap-sm);
 }
 
 .header01-icon-login-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  transition: background 0.2s ease;
+  background-color: var(--com-color-bg-light);
+  transition: background-color 0.2s;
 }
 
 .header01-icon-login-btn:hover {
   background-color: var(--com-border-default);
 }
 
-@media (max-width: 375px) {
-  .header01-login-img {
-    width: 22px;
-    height: 22px;
+.header01-login-img {
+  width: var(--com-gap-md);
+  height: var(--com-gap-md);
+  object-fit: contain;
+}
+
+/* Hamburger Button (Mobile Menu Trigger) */
+.header01-hamburger-button {
+  display: none; /* Hidden on desktop */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-gap-xs);
+  background: transparent;
+  cursor: pointer;
+  padding: var(--com-gap-xs);
+  transition: all 0.3s ease;
+}
+
+.header01-hamburger-button:hover {
+  background-color: var(--com-color-bg-light);
+}
+
+.header01-bar {
+  width: var(--com-gap-md);
+  height: 2px;
+  background-color: var(--com-color-black);
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hamburger Active State (X shape animation) */
+.header01-hamburger-button.is-active .header01-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.header01-hamburger-button.is-active .header01-bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.header01-hamburger-button.is-active .header01-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile Dropdown Menu Frame (Fixed Right Side Drawer) */
+.header01-mobile-dropdown-frame {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 85%; /* Covers 85% of the screen from the right */
+  height: 100vh; /* Full height */
+  background-color: var(--com-color-white);
+  z-index: 10001; /* Highest priority */
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  overflow-y: auto; /* Scrollable content */
+  border-left: 1px solid var(--com-color-overlay);
+}
+
+.header01-mobile-inner-group {
+  padding: 40px var(--com-container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-xl);
+}
+
+/* Mobile Menu Header (Title & Close Button) */
+.header01-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--com-gap-md);
+  border-bottom: 1px solid var(--com-color-overlay);
+}
+
+.header01-mobile-title-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--com-font-primary-color);
+  border-left: 4px solid var(--com-color-black);
+  padding-left: 15px;
+}
+
+.header01-close-btn {
+  background: none;
+  border: none;
+  font-size: var(--com-size-title);
+  cursor: pointer;
+  color: var(--com-font-muted);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.header01-close-btn:hover {
+  color: var(--com-color-black);
+}
+
+.header01-desktop-links .header01-action-button-link {
+  border-color: transparent;
+  background: var(--com-color-white);
+}
+
+/* ✅ 로그인 버튼(기본): 무지개 라인 느낌(hover 시 채움) */
+.header01-desktop-links .header01-action-button-link:hover {
+  background: var(--com-gradient-rainbow);
+  border-color: transparent;
+  box-shadow: var(--com-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ✅ 마이페이지 버튼: 기본은 블랙, 호버 시 무지개 */
+.header01-desktop-links .header01-action-button-link--solid {
+  background: var(--com-color-black);
+  border-color: transparent;
+  color: var(--com-color-white);
+  box-shadow: var(--com-shadow-md);
+}
+
+/* ✅ 호버 시 nav-item과 동일한 무지개 톤 + 블랙 텍스트 */
+.header01-desktop-links .header01-action-button-link--solid:hover {
+  background: var(--com-gradient-rainbow);
+  border-color: transparent;
+  color: var(--com-color-black);
+  box-shadow: var(--com-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Mobile Responsive - Tablet & Mobile (≤ 768px) */
+@media screen and (max-width: 768px) {
+  .header01-frame {
+    height: var(--com-section-sub-padding); /* Reduced header height for mobile */
+    padding: 6px 0; 
+  }
+
+  .header01-inner-group {
+    padding: 0 var(--com-size-subtitle, 16px); /* Use mobile padding if defined, else 16px */
+  }
+
+  .header01-brand-img-container {
+    width: 110px; /* Smaller logo for mobile */
+    height: 40px;
+  }
+
+  .header01-desktop-links {
+    display: none; /* Hide desktop links */
+  }
+
+  .header01-mobile-icons-group {
+    display: flex; /* Show mobile icons (Login Icon & Hamburger) */
+  }
+
+  .header01-hamburger-button {
+    display: flex; /* Show hamburger button */
   }
 }

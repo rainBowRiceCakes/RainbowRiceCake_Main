@@ -1,3 +1,9 @@
+/**
+ * @file src/index.css
+ * @description 글로벌 css 변수
+ * 251210 v1.0.0 wook init
+ */
+
 * {
   margin: 0;
   padding: 0;
@@ -75,13 +81,35 @@
   --com-color-pastel-lilac: #D0D1FF;    /* 라일락 */
   --com-color-pastel-indigo: #C7CEEA;   /* 연한 인디고 */
 
+  /* 파스텔 7색을 조합한 시그니처 무지개 (투명도 0.8 버전) */
+  --com-gradient-rainbow: linear-gradient(135deg, 
+    rgba(255, 173, 173, 0.5), /* Red */
+    rgba(255, 214, 165, 0.5), /* Orange */
+    rgba(253, 255, 182, 0.5), /* Yellow */
+    rgba(202, 255, 191, 0.5), /* Green */
+    rgba(155, 246, 255, 0.5), /* Cyan */
+    rgba(160, 196, 255, 0.5), /* Blue */
+    rgba(189, 178, 255, 0.5)  /* Purple */
+  );
+
   /* [기타 - 경계선 및 장식] */
   /* 추가되는 css 공용 변수는 이제 이 아래에 정의  */
   --com-border-default: #e0e0e0;
   --com-radius-lg: 18px;    /* 카드류 */
   --com-radius-md: 12px;    /* 인풋류 */
   --com-radius-pill: 999px; /* 버튼류 */
-  --com-shadow-default: 0 12px 30px rgba(2, 6, 23, 0.08);
+  --com-shadow-xs: 0 4px 8px rgba(2, 6, 23, 0.05); /* 더 작은 그림자 */
+  --com-shadow-default: 0 12px 30px rgba(2, 6, 23, 0.08); /* 기본 그림자 */
+  --com-shadow-md: 0 8px 20px rgba(2, 6, 23, 0.07); /* 중간 그림자 */
+  --com-color-primary: #3498db; /* 예시로 블루 계열 사용 */
+  --com-size-icon: 24px; /* 아이콘 기본 사이즈 */
+  --com-size-mini-icon: 16px; /* 아이콘 미니 사이즈 */
+  --com-gap-sm: 10px; /* 작은 간격 */
+  --com-gap-md: 20px; /* 중간 간격 */
+  --com-gap-xs: 8px; /* 아주 작은 간격 */
+  --com-gap-xl: 30px; /* 추가된 큰 간격 */
+  --com-size-button-lg: 48px; /* 큰 버튼 사이즈 */
+  --com-size-button-md: 38px; /* 중간 버튼 사이즈 (모바일용) */
 }
 
 /* 📱 아이폰 SE (375px 이하) 전용 가변 변수 덮어쓰기 */
@@ -92,5 +120,29 @@
     --com-font-size-content: 11px;    /* 모바일 본문/표 텍스트 축소 */
     --com-container-padding: 12px;    /* 모바일 좌우 여백 축소 */
     --com-section-padding: 30px;      /* 섹션 간격 축소 */
+    --com-section-sub-padding: 60px:  /* 섹션 간격 조금 축소 */
   }
+}
+
+/* ------------------------------------------------------------------------------ */
+/* [기존 wook 변수] */
+/* ------------------------------------------------------------------------------ */
+
+:root {
+  --mng-sidebar-width: 240px;
+  --mng-sidebar-title-font-color: #adb5bd;
+  --mng-sidebar-item-font-color: #c2c7d0;
+  --mng-font-size-sidebar: 14px;
+  /* 기존 900px -> 900으로 변경 */
+  --mng-font-weight: 900; 
+  --mng-font-gray: #343a40;
+  --mng-font-green: #2ecc71;
+  --mng-font-blue: #3498db;
+  --mng-font-red: #e74c3c;
+  --mng-content-border-bottom: #dee2e6;
+  --mng-button-content: #fff;
+  --mng-font-size-title: 18px;
+  --mng-font-size-sub-title: 16px;
+  --mng-font-size-content: 12px;
+  --mng-container-padding: 20px;
 }
