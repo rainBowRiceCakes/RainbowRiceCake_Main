@@ -1,65 +1,45 @@
 /**
  * @file src/components/main/auth/Login.jsx
- * @description 로그인 선택 및 이메일 로그인 폼 통합 페이지
- * 251217 v1.0.0 sara init 
+ * @description 소셜 로그인 페이지
+ * 251217 v1.0.0 sara init
+ * 251222 v2.0.0 jun 카카오 소셜 로그인으로 통합
  */
 
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
 import "./Login.css";
 
+// --- 카카오톡 SVG 아이콘 컴포넌트 ---
+const KakaoSvgIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 3C6.47715 3 2 6.36364 2 10.5C2 13.1523 3.85547 15.5117 6.73828 16.8711C6.52734 17.6367 5.98438 19.6172 5.875 20.0352C5.73438 20.5664 6.0625 20.5547 6.27344 20.4141C6.54297 20.2344 9.17578 18.4648 10.3125 17.6875C10.8633 17.7656 11.4219 17.8125 12 17.8125C17.5228 17.8125 22 14.4531 22 10.3125C22 6.17188 17.5228 3 12 3Z" fill="black"/>
+  </svg>
+);
+// ------------------------------------
+
 export default function Login() {
-  const navigate = useNavigate();
-  const [mode, setMode] = useState('select'); // 'select', 'login'
+  // const navigate = useNavigate();
   const { t } = useContext(LanguageContext);
 
-  const onLoginSubmit = (e) => {
-    e.preventDefault();
-    alert("로그인 처리"); // This should be translated or replaced with a proper notification
+  const handleKakaoLogin = () => {
+    window.location.replace(`/api/auth/social/kakao`);
+    // alert("카카오 로그인 기능을 연결해주세요.");
   };
 
-  // --- 1. 이메일 로그인 폼 화면 (보안 문제로 back 기능은 삭제 가눙)---
-  if (mode === 'login') {
-    return (
-      <div className="login-frame">
-        <form className="login-box" onSubmit={onLoginSubmit}>
-          <h2 className="login-title">{t('loginTitle')}</h2>
-          <div className="login-input-group">
-            <input type="email" placeholder={t('loginEmailPlaceholder')} className="login-input" required />
-            <div className="login-password-wrapper">
-              <input type="password" placeholder={t('loginPasswordPlaceholder')} className="login-input" required />
-              <span className="login-view-icon">👁️</span>
-            </div>
-            <label className="login-check-label">
-              <input type="checkbox" /> <span>{t('loginStayLoggedIn')}</span>
-            </label>
-            <button type="submit" className="login-btn login-btn--mint">{t('loginTitle')}</button>
-          </div>
-          <div className="login-helper-links">
-            <span>{t('loginFindEmail')}</span> | <span>{t('loginFindPassword')}</span>
-          </div>
-          <button type="button" className="login-back-btn" onClick={() => setMode('select')}>{t('loginGoBack')}</button>
-        </form>
-      </div>
-    );
-  }
-
-  // --- 2. 초기 선택 화면 ---
   return (
-    <div className="login-frame">
+    <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">{t('loginTitle')}</h2>
-        <div className="login-select-group">
-          <button className="login-select-btn" onClick={() => setMode('login')}>{t('loginWithEmail')}</button>
-          <button className="login-select-btn login-select-btn--social">
-            <span className="google-g">G</span> {t('loginWithGoogle')}
-          </button>
-          <div className="login-hr"><span>OR</span></div>
-          <button className="login-select-btn login-select-btn--register" onClick={() => navigate('/register')}>
-            {t('loginRegisterWithEmail')}
-          </button>
-        </div>
+        {/* 타이틀 */}
+        <h2 className="login-title">{t('loginTitle', '로그인')}</h2>
+        
+        {/* 카카오 로그인 버튼 */}
+        <button className="kakao-btn" onClick={handleKakaoLogin}>
+          <span className="kakao-icon-wrapper">
+            <KakaoSvgIcon />
+          </span>
+          <span className="kakao-btn-text">{t('loginWithKakao')}</span>
+        </button>
       </div>
     </div>
   );

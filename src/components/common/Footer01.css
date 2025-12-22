@@ -129,7 +129,12 @@
 
   /* 5. 링크 그룹(이용약관 등) 높이 및 폰트 조절 */
   .footer01-links-group {
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .footer01-separator {
+    display: none;
   }
 
   .footer01-links-group a {

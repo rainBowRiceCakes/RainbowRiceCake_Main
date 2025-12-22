@@ -587,17 +587,9 @@ export const LANG_CNG = {
     ko: "뒤로가기",
     en: "Go back",
   },
-  loginWithEmail: {
-    ko: "이메일로 로그인",
-    en: "Login with email",
-  },
-  loginWithGoogle: {
-    ko: "구글 소셜 로그인",
-    en: "Login with Google",
-  },
-  loginRegisterWithEmail: {
-    ko: "이메일로 회원 가입",
-    en: "Register with email",
+  loginWithKakao: {
+    ko: "카카오 소셜 로그인",
+    en: "Login with Kakao"
   },
 
   // --- Additional keys for Header01.jsx ---

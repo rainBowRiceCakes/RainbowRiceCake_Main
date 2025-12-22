@@ -1,130 +1,76 @@
 /**
  * @file src/components/main/auth/Login.css
- * @description 로그인/회원가입 페이지
- * 251217 v1.0.0 sara init 
+ * @description 소셜 로그인 페이지
+ * 251217 v1.0.0 sara init
+ * 251222 v2.0.0 jun 카카오 소셜 로그인 버튼 디자인 수정
  */
 
-/* 1. 로그인 페이지 전체 레이아웃: 가운데 정렬 + 기본 배경 */
-.login-frame {
-  padding: var(--com-section-padding) 0;
-  min-height: 60vh;
+/* 페이지 중앙 정렬을 위한 컨테이너 */
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--com-color-white);
+  /* 헤더/푸터 높이를 제외한 영역에서 중앙 배치를 위해 최소 높이 설정 (필요에 따라 조절) */
+  min-height: calc(100vh - 200px); 
+  padding: 40px 20px;
+  background-color: transparent; /* 배경색이 필요하면 설정 */
 }
 
-/* 2. 로그인 박스(카드) 스타일: 최대 너비, 여백, 테두리, 그림자 */
+/* 흰색 로그인 박스 디자인 */
 .login-box {
+  background-color: #ffffff;
   width: 100%;
-  max-width: 400px;
-  padding: 40px var(--com-gap-xl);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-size-subtitle);
+  max-width: 460px; /* 이미지와 비슷한 넓이 설정 */
+  padding: 50px 40px;
+  border-radius: 16px; /* 둥근 모서리 */
+  /* 이미지의 옅은 테두리와 그림자 효과 */
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   text-align: center;
-  background-color: var(--com-color-white);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
-/* 3. 로그인 타이틀 스타일: 크기/굵기/색상/하단 여백 */
+/* "로그인" 타이틀 */
 .login-title {
-  font-size: var(--com-size-icon);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  margin-bottom: var(--com-gap-xl);
+  font-size: 26px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 40px; /* 버튼과의 간격 */
 }
 
-/* 4. 입력 영역 그룹: 입력 요소 간 간격을 그리드로 통일 */
-.login-input-group,
-.login-select-group {
-  display: grid;
-  gap: var(--com-radius-md);
-}
-
-/* 5. 입력창 기본 스타일: 패딩/보더/라운드/폰트/포커스 기본 */
-.login-input {
+/* 카카오 로그인 버튼 스타일 */
+.kakao-btn {
+  position: relative; /* 아이콘 배치를 위해 relative 설정 */
   width: 100%;
-  padding: var(--com-radius-md);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-gap-xs);
-  font-size: var(--com-size-subtitle);
-  outline: none;
-}
-
-/* 6. 비밀번호 입력 래퍼: 아이콘을 절대 위치로 올리기 위한 기준 */
-.login-password-wrapper {
-  position: relative;
-}
-
-/* 7. 비밀번호 보기 아이콘: 입력창 우측 중앙 배치 + 클릭 가능 */
-.login-view-icon {
-  position: absolute;
-  right: var(--com-radius-md);
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  opacity: 0.5;
-}
-
-/* 8. 공통 버튼 스타일: 너비/패딩/라운드/폰트/호버 전환 */
-.login-btn,
-.login-select-btn {
-  width: 100%;
-  padding: var(--com-size-sidebar);
-  border-radius: var(--com-gap-xs);
-  font-size: var(--com-size-sidebar);
-  font-weight: var(--com-font-weight-heavy);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-/* 9. 메인 로그인 버튼(민트 테마): 배경/글자색/보더 제거 */
-.login-btn--mint {
-  background-color: var(--com-font-gray);
-  color: var(--com-color-white);
+  height: 54px; /* 버튼 높이 */
+  background-color: var(--com-kakao-bg);
+  color: #191919; /* 카카오 공식 텍스트 색상 (검정 계열) */
   border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* 텍스트 중앙 정렬 */
+  align-items: center;
+  transition: opacity 0.2s ease;
 }
 
-/* 10. 선택 버튼 스타일: 테두리형 버튼 + 기본 텍스트 컬러 */
-.login-select-btn {
-  border: 1px solid var(--com-border-default);
-  background: var(--com-color-white);
-  color: var(--com-font-primary-color);
+.kakao-btn:hover {
+  opacity: 0.95; /* 호버 시 약간 투명하게 */
 }
 
-/* 11. 구분선(OR) 영역: 양쪽 라인과 텍스트 정렬 */
-.login-hr {
-  margin: 15px 0;
-  color: var(--com-font-muted);
-  font-size: var(--com-size-content);
+/* 아이콘 왼쪽 고정 배치를 위한 래퍼 */
+.kakao-icon-wrapper {
+  position: absolute;
+  left: 20px; /* 왼쪽에서의 위치 */
+  top: 50%;
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-/* 12. 구분선 양옆 라인: 가로로 늘어나는 1px 라인 */
-.login-hr::before,
-.login-hr::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--com-border-default);
-  margin: 0 var(--com-gap-sm);
+/* 텍스트 스타일 (필요시) */
+.kakao-btn-text {
+  /* 기본적으로 flex justify-content center로 인해 중앙에 옴 */
 }
-
-/* 13. 하단 도움 링크 영역: 안내 문구/링크 스타일 */
-.login-helper-links {
-  margin-top: var(--com-gap-md);
-  font-size: var(--com-size-content);
-  color: var(--com-font-gray);
-}
-
-/* 14. 뒤로가기 버튼: 링크처럼 보이는 언더라인 텍스트 버튼 */
-.login-back-btn {
-  margin-top: var(--com-gap-md);
-  background: none;
-  border: none;
-  text-decoration: underline;
-  color: var(--com-font-primary-color);
-  cursor: pointer;
-}
-
