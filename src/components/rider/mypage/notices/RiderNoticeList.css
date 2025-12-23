@@ -1,0 +1,76 @@
+/* src/components/rider/account/RiderNoticeList.css */
+
+.rnl-list-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: transparent; /* Let layout handle background */
+  height: 100%;
+}
+
+.rnl-item-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+}
+
+.rnl-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.rnl-item-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.rnl-icon {
+  font-size: 18px;
+}
+
+.rnl-item-date {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.rnl-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rnl-item-row {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.rnl-label {
+  color: #8c8c8c;
+  width: 70px; /* To align the values */
+  flex-shrink: 0;
+}
+
+.rnl-value {
+  color: #333;
+  font-weight: 500;
+}
+
+/* Status-specific styles */
+.rnl-status-ongoing {
+  color: #fa541c; /* A reddish/orange color for "진행중" */
+}
+
+.rnl-status-completed {
+  color: #597ef7; /* A blue/purple color for "완료" */
+}

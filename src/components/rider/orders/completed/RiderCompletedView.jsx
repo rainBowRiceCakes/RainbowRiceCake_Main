@@ -1,23 +1,17 @@
 // components/rider/main/completed/RiderCompletedView.jsx
 import { useNavigate, useParams } from "react-router-dom";
 import "./RiderCompletedView.css";
-import RiderOrderDetailPage from "../RiderOrderDetailPage.jsx";
 
 function CompletedOrderRow({ order }) {
   const timeText = order?.completedAt?.slice(11, 16) ?? "--:--";
-  // const navigate = useNavigate();
-  // const { id, orderId } = useParams();
-
-  // const order = useMemo(
-  //     () => orders.find((o) => String(o.orderNo) === String(orderId)),
-  //     [orders, orderId]
-  //   );
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   return (
     <button
       type="button"
       className="cor-row"
-      // onClick={() => navigate(`/rider/${id}/orders/${orderId}/`)}
+      onClick={() => navigate(`/rider/${id}/orders/${order.orderNo}/`)}
     >
       <div className="cor-left">
         <p className="cor-time">
@@ -36,17 +30,10 @@ function CompletedOrderRow({ order }) {
 }
 
 export default function RiderCompletedView({ orders = [] }) {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const handleBackToCompleted = () => {
-    // state에 activeTab 정보를 담아서 보냅니다.
-    navigate(`/rider/${id}`, { state: { activeTab: "completed" } });
-  };
-  // ✅ KPI: 완료 주문 기반으로 계산 (필드명은 더미 shape에 맞춰 조정)
   const todayCompletedCount = orders.length;
 
   return (
-    <section className="rcv-wrap">
+    <div className="rcv-wrap">
       {/* ✅ KPI */}
       <div className="rcv-kpi">
         <div className="rcv-kpi-box">
@@ -71,11 +58,10 @@ export default function RiderCompletedView({ orders = [] }) {
             <CompletedOrderRow
               key={order.orderNo ?? order.id}
               order={order}
-              onOpen={handleBackToCompleted}
             />
           ))
         )}
       </div>
-    </section>
+    </div>
   );
 }

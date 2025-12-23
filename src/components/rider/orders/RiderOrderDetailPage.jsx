@@ -1,9 +1,10 @@
 // components/rider/orders/detail/RiderOrderDetailPage.jsx
 import "./RiderOrderDetailPage.css";
-import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import RiderSubHeader from "../common/RiderSubHeader";
+import dayjs from "dayjs";
+import { useMemo } from "react";
 
 export default function RiderOrderDetailPage() {
   const navigate = useNavigate();
@@ -31,6 +32,11 @@ export default function RiderOrderDetailPage() {
   const statusText =
     order.statusLabel ?? (order.status === "COMPLETED" ? "완료" : "진행 중");
 
+  // Helper function for formatting
+  const formatDateTime = (dateString) => {
+    return dateString ? dayjs(dateString).format('YYYY-MM-DD HH:mm') : "-";
+  }
+
   return (
     <div className="rod-wrap">
       {/* 상단바(sub header) */}
@@ -50,12 +56,12 @@ export default function RiderOrderDetailPage() {
 
           <div className="rod-row">
             <span className="rod-label">배송 시작 시간</span>
-            <span className="rod-value">{order.startedAt ?? "-"}</span>
+            <span className="rod-value">{formatDateTime(order.startedAt)}</span>
           </div>
 
           <div className="rod-row">
             <span className="rod-label">배송 완료 시간</span>
-            <span className="rod-value">{order.completedAt ?? "-"}</span>
+            <span className="rod-value">{formatDateTime(order.completedAt)}</span>
           </div>
 
           <div className="rod-divider" />
@@ -79,10 +85,11 @@ export default function RiderOrderDetailPage() {
           <div className="rod-row">
             <span className="rod-label">쇼핑백 사이즈</span>
             <span className="rod-value">
-              {order.bagSize
-                ? String(order.bagSize).charAt(0).toUpperCase() +
-                  String(order.bagSize).slice(1)
-                : "-"}
+              {{
+                small: "베이직",
+                medium: "스탠다드",
+                large: "플러스",
+              }[order.bagSize] || "-"}
             </span>
           </div>
         </div>

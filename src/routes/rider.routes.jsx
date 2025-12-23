@@ -8,9 +8,11 @@ import RiderIssueReportPage from "../components/rider/issues/RiderIssueReportPag
 import RiderPhotoPage from "../components/rider/orders/inProgress/actions/RiderPhotoPage.jsx"
 
 // mypage layout and pages
-import RiderMyPage from "../components/rider/account/MyPage.jsx";
-// import RiderNoticeList from "../components/rider/account/notices/RiderNoticeList.jsx";
-// import RiderFaqList from "../components/rider/account/help/RiderFaqList.jsx";
+import RiderMyPage from "../components/rider/mypage/MyPage.jsx";
+import RiderNoticeList from "../components/rider/mypage/notices/RiderNoticeList.jsx";
+import ProfileEdit from "../components/rider/mypage/profile/ProfileEdit.jsx";
+import DeliveryHistory from "../components/rider/mypage/history/DeliveryHistory.jsx";
+// import RiderFaqList from "../components/rider/mypage/help/RiderFaqList.jsx";
 import RiderMyPageLayout from "./layouts/RiderMyPageLayout.jsx";
 
 const riderRoutes = [
@@ -40,7 +42,9 @@ const riderRoutes = [
         element: <RiderMyPageLayout />,
         children: [
           { index: true, element: <RiderMyPage />, handle: { title: "마이페이지" } },
-          // { path: "notices", element: <RiderNoticeList />, handle: { title: "공지사항" } },
+          { path: "notices", element: <RiderNoticeList />, handle: { title: "공지사항" } },
+          { path: "profile", element: <ProfileEdit />, handle: { title: "내 정보 수정" } },
+          { path: "history", element: <DeliveryHistory />, handle: { title: "배송 히스토리" } },
           // { path: "help", element: <RiderFaqList />, handle: { title: "도움말 / 문의하기" } },
           // policy, profile, settlement, history...
         ],

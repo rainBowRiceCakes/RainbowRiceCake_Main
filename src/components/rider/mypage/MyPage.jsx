@@ -1,4 +1,4 @@
-// components/rider/account/myPage.jsx
+// components/rider/mypage/myPage.jsx
 import { useNavigate, useParams } from "react-router-dom";
 import "./MyPage.css";
 
@@ -6,7 +6,7 @@ const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&c
 
 export default function MyPage() {
   const nav = useNavigate();
-  const { riderId } = useParams();
+  const { id } = useParams();
 
   return (
     <div className="mypage">
@@ -26,55 +26,49 @@ export default function MyPage() {
       </div>
 
       {/* 메뉴 리스트 */}
-      <main className="menu">
-        <section className="mypageSection">
-          <button className="navigation" onClick={() => nav(`/rider/${riderId}/account/profile`)}>
+      <div className="menu">
+        <div className="mypageSection">
+          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/profile`)}>
             <span className="icon">👤</span>
             <span className="label">내 정보 수정</span>
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/${riderId}/account/settlement`)}>
+          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/settlement`)}>
             <span className="icon">💸</span>
             <span className="label">정산</span>
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/${riderId}/history`)}>
+          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/history`)}>
             <span className="icon">🕘</span>
             <span className="label">배송 히스토리</span>
             <span className="chev">›</span>
           </button>
-        </section>
+        </div>
 
-        <section className="mypageSection">
-          <button className="navigation" onClick={() => nav(`/rider/${riderId}/account/help`)}>
+        <div className="mypageSection">
+          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/help`)}>
             <span className="icon">✅</span>
             <span className="label">도움말 / 문의하기</span>
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/${riderId}/account/policy`)}>
-            <span className="icon">✅</span>
-            <span className="label">정책</span>
-            <span className="chev">›</span>
-          </button>
-
-          <button className="navigation" onClick={() => nav(`/rider/${riderId}/account/notices`)}>
+          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/notices`)}>
             <span className="icon">📢</span>
             <span className="label">공지사항</span>
             <span className="chev">›</span>
           </button>
-        </section>
+        </div>
 
-        <section className="mypageSection">
+        <div className="mypageSection">
           <button className="navigation navigationLogout" onClick={() => nav("/logout")}>
             <span className="icon iconLogout">🚪</span>
             <span className="label">로그아웃</span>
             <span className="chev">›</span>
           </button>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   );
 }

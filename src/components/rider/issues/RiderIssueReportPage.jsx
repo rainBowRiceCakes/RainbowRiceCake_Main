@@ -11,7 +11,7 @@ const ISSUE_TYPES = [
   { value: "POLICY", label: "[일반] 운영 정책 문의" },
 ];
 
-const MAX_PHOTOS = 3;
+const MAX_PHOTOS = 1;
 
 export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
   const navigate = useNavigate();
@@ -112,11 +112,6 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
         </div>
 
         <div className="rip-field">
-          <label className="rip-label">주문 번호</label>
-          <div className="rip-input readOnly">{order?.orderNo ?? orderId}</div>
-        </div>
-
-        <div className="rip-field">
           <label className="rip-label">
             이슈 유형 <span className="req">*</span>
           </label>
@@ -140,7 +135,7 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
           </label>
           <textarea
             className="rip-textarea"
-            placeholder="이슈 내용을 입력해주세요."
+            placeholder="주문 번호와 이슈 내용을 입력해주세요."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />

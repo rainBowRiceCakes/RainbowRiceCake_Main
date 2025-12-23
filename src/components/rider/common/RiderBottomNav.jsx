@@ -15,21 +15,16 @@ export default function RiderBottomNav() {
       // /rider/:id (메인) - 보통 여기서는 BottomNav를 안 쓰지만, 혹시라도 대비
       return pathname === `/rider/${id}` || pathname === `/rider/${id}/`;
     }
-    if (key === "history") {
-      // 예: /rider/:id/mypage/history 또는 /rider/:id/history 로 바뀔 수도 있어서 includes로 안전하게
-      return pathname.includes(`/rider/${id}/mypage/history`);
-    }
-    if (key === "account") {
+    if (key === "mypage") {
       return pathname.includes(`/rider/${id}/mypage`);
     }
     return false;
   };
 
   const go = (key) => {
-    // ✅ 마이페이지 레이아웃에서 쓸 거라 account 기본은 mypage index로
+    // ✅ 마이페이지 레이아웃에서 쓸 거라 mypage 기본은 mypage index로
     if (key === "home") navigate(`/rider/${id}`);
-    if (key === "history") navigate(`/rider/${id}/mypage/history`); // 아직 없으면 나중에 만들면 됨
-    if (key === "account") navigate(`/rider/${id}/mypage`);
+    if (key === "mypage") navigate(`/rider/${id}/mypage`);
   };
 
   return (
@@ -44,8 +39,8 @@ export default function RiderBottomNav() {
       </button>
       <button
         type="button"
-        className={`rbn-item ${isActive("account") ? "active" : ""}`}
-        onClick={() => go("account")}
+        className={`rbn-item ${isActive("mypage") ? "active" : ""}`}
+        onClick={() => go("mypage")}
       >
         <span className="rbn-icon" aria-hidden="true">👤</span>
         <span className="rbn-label">마이 페이지</span>
