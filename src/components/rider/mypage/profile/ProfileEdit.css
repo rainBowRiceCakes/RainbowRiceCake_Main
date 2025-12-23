@@ -93,13 +93,13 @@
 
 .pe-edit-btn {
   background: #cdb9ff;
-  border-radius: 12px;
-  border: 1px solid #cdb9ff;
-  color: black;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  color: #000000;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 8px 16px;
 }
 
 .pe-warning {
@@ -148,7 +148,7 @@
   margin-bottom: 12px;
 }
 .pe-input:focus {
-  border-color: var(--pe-primary-color);
+  border-color: #cdb9ff;
   outline: none;
   box-shadow: 0 0 0 2px rgba(89, 126, 247, 0.2);
 }
@@ -175,8 +175,8 @@
 }
 
 .pe-save-btn {
-  background-color: var(--pe-primary-color);
-  color: #fff;
+  background-color: #cdb9ff;
+  color: #000000;
 }
 
 .pe-policy-chev {

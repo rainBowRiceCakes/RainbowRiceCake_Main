@@ -23,7 +23,7 @@ export default function RiderWaitingView({ orders, onAccept }) {
   const handleConfirm = () => {
     // 부모로부터 받은 onAccept 실행 (필요 시 선택된 주문 전달)
     if (!selectedOrder) return;
-    if (onAccept) {onAccept(selectedOrder);}
+    if (onAccept) {onAccept(selectedOrder.orderNo);}
   
     setIsModalOpen(false);
 

@@ -105,7 +105,7 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
         <div className="rip-spacer" />
       </header>
 
-      <main className="rip-main">
+      <div className="rip-main">
         <div className="rip-field">
           <label className="rip-label">신고자 유형</label>
           <div className="rip-input readOnly">{reporterTypeLabel}</div>
@@ -215,7 +215,7 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
         >
           이슈 신고하기
         </button>
-      </main>
+      </div>
 
       {isSubmitted && (
         <div className="rip-modal-overlay">

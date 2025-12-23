@@ -2,10 +2,10 @@
 
 // 1️⃣ 상태 코드 (비즈니스 기준)
 export const ORDER_STATUS = {
-  REQUESTED: "REQUESTED",   // 배달 요청 (점주 submit)
-  MATCHED: "MATCHED",       // 기사 매칭 완료 (수락)
-  DELIVERING: "DELIVERING", // 배달 중 (픽업 완료 + 사진 업로드 완료)
-  COMPLETED: "COMPLETED",   // 배달 완료 (전달 사진 업로드 완료)
+  REQUESTED: "REQ",   // 배달 요청 (점주 submit)
+  MATCHED: "MATCH",       // 기사 매칭 완료 (수락)
+  DELIVERING: "PICK", // 배달 중 (픽업 완료 + 사진 업로드 완료)
+  COMPLETED: "COM",   // 배달 완료 (전달 사진 업로드 완료)
 };
 
 // 2️⃣ 진행중 탭에서 보여줄 뱃지 텍스트 (UI 기준)

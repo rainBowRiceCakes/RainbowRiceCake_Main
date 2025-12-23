@@ -1,13 +1,19 @@
 /* RiderNoticeBar.css */
 
-.rider-notice-bar {
+.rider-notice-bar-container {
+  cursor: pointer;
   margin: 10px 16px 0;
+  padding: 8px 0; /* Add some padding */
+}
+
+.rider-notice-bar {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
   font-weight: 700;
   color: #212529;
+  /* Remove margin from here, it's now on the container */
 }
 
 /* 체크 아이콘 */
@@ -28,7 +34,7 @@
 .rider-notice-text {
   display: inline-block;
   padding-left: 100%;
-  animation: rider-marquee 12s linear infinite;
+  animation: rider-marquee 25s linear infinite;
 }
 
 /* 애니메이션 */

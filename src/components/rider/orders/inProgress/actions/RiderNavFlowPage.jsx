@@ -2,12 +2,14 @@
 import "./RiderNavFlowPage.css";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveTab } from "../../../../../store/slices/ordersSlice";
 
 export default function RiderNavFlowPage({ mode = "pickup" }) {
   const { id, orderId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const orders = useSelector((state) => state.orders?.orders ?? []);
   const order = useMemo(
@@ -86,7 +88,8 @@ export default function RiderNavFlowPage({ mode = "pickup" }) {
   };
 
   const handleBackToInProgress = () => {
-    navigate(`/rider/${id}`, { state: { activeTab: "inProgress" } });
+    dispatch(setActiveTab("inProgress"));
+    navigate(`/rider/${id}`);
   };
 
   return (

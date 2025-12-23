@@ -1,6 +1,11 @@
 // components/rider/main/RiderMainPage.jsx
 import "./RiderMainPage.css";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { dummyNotices } from "../../../data/dummyNotices.js";
+import {
+  setAllNotices,
+  setTodaysNotices,
+} from "../../../store/slices/noticesSlice.js";
 
 import RiderInfoBar from "./header/RiderInfoBar.jsx";
 import RiderStatusTabs from "./header/RiderStatusTabs.jsx";
@@ -50,7 +55,11 @@ export default function RiderMainPage() {
   // 2. 탭 변경 핸들러는 dispatch와 페이지 리셋을 함께 담당
   const handleTabChange = (newTab) => {
     dispatch(setActiveTab(newTab));
-    setCurrentPage(1); 
+    setCurrentPage(1);
+  };
+
+  const handleNavigateToNotices = () => {
+    navigate(`/rider/${id}/mypage/notices`);
   };
   const handleAccept = (order) => {
     const actualOrderNo = typeof order === 'object' ? order.orderNo : order;
@@ -65,11 +74,26 @@ export default function RiderMainPage() {
     });
   };
 
+  useEffect(() => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const year = today.getFullYear();
+    const todayFormatted = `${year}/${month}/${day}`;
+
+    const filteredTodaysNotices = dummyNotices.filter(
+      (notice) => notice.date === todayFormatted
+    );
+
+    dispatch(setAllNotices(dummyNotices));
+    dispatch(setTodaysNotices(filteredTodaysNotices));
+  }, [dispatch]);
+
   return (
     <div className="rider-main">
       <RiderInfoBar />
       <RiderStatusTabs activeTab={activeTab} onChange={handleTabChange} />
-      <RiderNoticeBar />
+      <RiderNoticeBar riderId={id} onNavigateToNotices={handleNavigateToNotices} />
 
       <div className="rider-content-area">
         {activeTab === "waiting" && (
@@ -85,13 +109,13 @@ export default function RiderMainPage() {
 
       {pagedOrders.totalPage > 1 && (
         <div className="pagination-container">
-          <button 
-            disabled={currentPage === 1} 
+          <button
+            disabled={currentPage === 1}
             onClick={() => setCurrentPage(prev => prev - 1)}
           >
             이전
           </button>
-          
+
           {[...Array(pagedOrders.totalPage)].map((_, i) => (
             <button
               key={i + 1}
@@ -102,8 +126,8 @@ export default function RiderMainPage() {
             </button>
           ))}
 
-          <button 
-            disabled={currentPage === pagedOrders.totalPage} 
+          <button
+            disabled={currentPage === pagedOrders.totalPage}
             onClick={() => setCurrentPage(prev => prev + 1)}
           >
             다음

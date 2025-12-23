@@ -1,10 +1,10 @@
-// components/rider/mypage/myPage.jsx
+// components/rider/mypage/RiderMyPage.jsx
 import { useNavigate, useParams } from "react-router-dom";
-import "./MyPage.css";
+import "./RiderMyPage.css";
 
 const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
 
-export default function MyPage() {
+export default function RiderMyPage() {
   const nav = useNavigate();
   const { id } = useParams();
 
@@ -36,7 +36,7 @@ export default function MyPage() {
 
           <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/settlement`)}>
             <span className="icon">💸</span>
-            <span className="label">정산</span>
+            <span className="label">정산 내역</span>
             <span className="chev">›</span>
           </button>
 

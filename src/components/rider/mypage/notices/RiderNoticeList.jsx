@@ -1,6 +1,9 @@
 // src/components/rider/mypage/RiderNoticeList.jsx
 import "./RiderNoticeList.css";
-import { dummyNotices } from "../../../../data/dummyNotices.js";
+import { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+
+const ITEMS_PER_PAGE = 6;
 
 function NoticeItem({ notice }) {
   // Determine status class based on notice status
@@ -30,11 +33,50 @@ function NoticeItem({ notice }) {
 }
 
 export default function RiderNoticeList() {
+  const allNotices = useSelector((state) => state.notices.allNotices);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pagedNotices = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const items = allNotices.slice(startIndex, endIndex);
+    const totalPage = Math.ceil(allNotices.length / ITEMS_PER_PAGE);
+    return { items, totalPage };
+  }, [allNotices, currentPage]);
+
   return (
     <div className="rnl-list-container">
-      {dummyNotices.map((notice) => (
+      {pagedNotices.items.map((notice) => (
         <NoticeItem key={notice.id} notice={notice} />
       ))}
+
+      {pagedNotices.totalPage > 1 && (
+        <div className="pagination-container">
+          <button 
+            disabled={currentPage === 1} 
+            onClick={() => setCurrentPage(prev => prev - 1)}
+          >
+            이전
+          </button>
+          
+          {[...Array(pagedNotices.totalPage)].map((_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => setCurrentPage(i + 1)}
+              className={currentPage === i + 1 ? "active" : ""}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button 
+            disabled={currentPage === pagedNotices.totalPage} 
+            onClick={() => setCurrentPage(prev => prev + 1)}
+          >
+            다음
+          </button>
+        </div>
+      )}
     </div>
   );
 }

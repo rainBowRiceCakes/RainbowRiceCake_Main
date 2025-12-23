@@ -1,21 +1,24 @@
 // components/rider/main/RiderNoticeBar.jsx
 // 어드민 페이지에서 어드민이 공지사항을 올리면 우리가 받아서 보여주는 바
 import "./RiderNoticeBar.css";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"; // Uncomment useSelector
 
-export default function RiderNoticeBar() {
-  // const notice = useSelector((state) => state.notice.currentNotice);
+export default function RiderNoticeBar({ riderId, onNavigateToNotices }) {
+  const todaysNotices = useSelector((state) => state.notices.todaysNotices);
 
-  // if (!notice?.title) return null;
+  if (!todaysNotices || todaysNotices.length === 0) {
+    return null; // Return null if no notices for today
+  }
 
   return (
-    <section className="rider-notice-bar">
-      <div className="rider-notice-marquee">
-      <p className="rider-notice-text">✓ 동성로 일대에 축제 진행중, 배송 지연 가능성 높음</p>
+    <div onClick={() => onNavigateToNotices(riderId)} className="rider-notice-bar-container">
+      <div className="rider-notice-bar">
+        <div className="rider-notice-marquee">
+          <p className="rider-notice-text">
+            {todaysNotices.map(notice => `✓ ${notice.title}, ${notice.issue}`).join(" \u00A0\u00A0")}
+          </p>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
-
-
-// {/* <p className="rider-notice-text">{notice.title}</p> */}

@@ -6,10 +6,12 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import ordersReducer from "./slices/ordersSlice.js";
+import noticesReducer from "./slices/noticesSlice.js";
 
 const store = configureStore({
   reducer: {
     orders: ordersReducer,
+    notices: noticesReducer,
   },
 });
 

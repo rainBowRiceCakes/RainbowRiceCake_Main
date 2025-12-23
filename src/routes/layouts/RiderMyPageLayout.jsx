@@ -15,9 +15,9 @@ export default function RiderMyPageLayout() {
       {/* ✅ 폭을 통일할 프레임 */}
       <div className="rider-mypage-frame">
         <RiderSubHeader title={title} />
-        <main className="rider-mypage-content">
+        <div className="rider-mypage-content">
           <Outlet />
-        </main>
+        </div>
         <RiderBottomNav />
       </div>
     </div>
