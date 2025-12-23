@@ -30,7 +30,7 @@ export default function MyPage() {
         <div className="mypageSection">
           <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/profile`)}>
             <span className="icon">👤</span>
-            <span className="label">내 정보 수정</span>
+            <span className="label">내 정보</span>
             <span className="chev">›</span>
           </button>
 

@@ -43,7 +43,7 @@ const riderRoutes = [
         children: [
           { index: true, element: <RiderMyPage />, handle: { title: "마이페이지" } },
           { path: "notices", element: <RiderNoticeList />, handle: { title: "공지사항" } },
-          { path: "profile", element: <ProfileEdit />, handle: { title: "내 정보 수정" } },
+          { path: "profile", element: <ProfileEdit />, handle: { title: "내 정보" } },
           { path: "history", element: <DeliveryHistory />, handle: { title: "배송 히스토리" } },
           // { path: "help", element: <RiderFaqList />, handle: { title: "도움말 / 문의하기" } },
           // policy, profile, settlement, history...
