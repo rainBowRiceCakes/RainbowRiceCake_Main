@@ -78,10 +78,10 @@ const router = createBrowserRouter([
         path: '/mypage',
         element: <MyPage /> // 마이페이지
       }, 
-      { 
-        path: '/register',
-        element: <Register /> // 회원가입 폼
-      }, 
+      // { 
+      //   path: '/register',
+      //   element: <Register /> // 회원가입 폼
+      // }, 
 
       // ---------------------------------
       // 3. 404 처리

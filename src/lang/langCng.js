@@ -457,6 +457,7 @@ export const LANG_CNG = {
   },
 
   // --- src/components/main/sections/MainPTNS.jsx ---
+  // 제휴 신청(form)
   ptnsAgreeRequiredAlert: {
     ko: "개인정보 수집·이용 동의가 필요해.",
     en: "Agreement to the collection and use of personal information is required.",
@@ -466,61 +467,113 @@ export const LANG_CNG = {
     en: "Your partnership inquiry has been successfully submitted. We will review it and contact you.",
   },
   ptnsTitle: {
-    ko: "제휴 문의",
-    en: "Partnership Inquiry",
+    ko: "제휴 신청",
+    en: "Apply for partnership",
   },
   ptnsDesc: {
     ko: "상호/주소/연락처 필수, 검증 후 접수 시간 기록.",
     en: "Company name/address/contact are required. Submission time will be recorded after verification.",
   },
-  ptnsFormTitle: {
-    ko: "제휴 문의 폼",
-    en: "Partnership Inquiry Form",
+  ptnsFormRiderTitle: {
+    ko: "라이더 제휴 신청",
+    en: "Rider Affiliate Application"
   },
-  ptnsStoreNameLabel: {
-    ko: "상호명 (필수)",
-    en: "Company Name (Required)",
+  ptnsFormPartnerTitle: {
+    ko: "파트너 제휴 신청",
+    en: "Partner Affiliate Application"
   },
-  ptnsStoreNamePlaceholder: {
-    ko: "사업자명 또는 매장명",
-    en: "Business name or store name",
+  ptnsTabRider: {
+    ko: "라이더",
+    en: "Rider",
+  },
+  ptnsTabPartner: {
+    ko: "파트너",
+    en: "Partner",
+  },
+  ptnsRiderSubmit: {
+    ko: "라이더 등록하기",
+    en: "Register as Rider",
+  },
+  ptnsPartnerSubmit: {
+    ko: "파트너 등록하기",
+    en: "Register as Partner",
+  },
+  /* 라이더 전용 필드 */
+  ptnsPhoneLabel: {
+    ko: "휴대폰 번호 (필수)",
+    en: "Phone Number (Required)"
   },
   ptnsAddressLabel: {
     ko: "주소 (필수)",
-    en: "Address (Required)",
+    en: "Address (Required)"
   },
   ptnsAddressPlaceholder: {
     ko: "도로명 주소",
-    en: "Street name address",
+    en: "Road Name Address"
   },
-  ptnsPhoneLabel: {
-    ko: "전화번호 (필수)",
-    en: "Phone Number (Required)",
+  ptnsBankNameLabel: {
+    ko: "은행 이름 (필수)",
+    en: "Bank Name (Required)",
   },
-  ptnsPhonePlaceholder: {
-    ko: "010-0000-0000",
-    en: "010-0000-0000",
+  ptnsStoreNamePlaceholder: {
+    ko: "예) 농협",
+    en: "ex) Nonghyup"
   },
-  ptnsEmailRequired: {
-    ko: "이메일 (필수)",
-    en: "Email (Required)",
+  ptnsAccountNumLabel: {
+    ko: "계좌 번호 (필수)",
+    en: "Account Number (Required)",
   },
-  ptnsInquiryPurposeLabel: {
-    ko: "제휴 목적 / 문의 내용 (선택)",
-    en: "Purpose of Partnership / Inquiry (Optional)",
+  ptnsAccountNumber: {
+    ko: "예) 792-XXXX-XXXX-XX",
+    en: "ex) 792-XXXX-XXXX-XX"
   },
-  ptnsInquiryPurposePlaceholder: {
-    ko: "제휴를 원하는 이유 및 추가 문의 사항",
-    en: "Reason for partnership inquiry and additional questions",
+  ptnsLicenseLabel: {
+    ko: "운전 면허 등록 (필수)",
+    en: "Driver's License (Required)",
+  },
+  /* 파트너 전용 필드 */
+  ptnsManagerNameLabel: {
+    ko: "담당자 이름 (필수)",
+    en: "Manager Name (Required)",
+  },
+  ptnsManagerNamePlaceholder: {
+    ko: "예) 홍길동",
+    en: "ex) Hong Gil-Dong"
+  },
+  ptnsStoreNameKrLabel: {
+    ko: "가게 한글 이름 (필수)",
+    en: "Store Name (Korean/Required)",
+  },
+  ptnsStoreNameEnLabel: {
+    ko: "가게 영어 이름 (필수)",
+    en: "Store Name (English/Required)",
+  },
+  ptnsStoreEnNamePlaceholder: {
+    ko: "예) rainbow rice cake",
+    en: "ex) rainbow rice cake"
+  },
+  ptnsBusinessNumLabel: {
+    ko: "사업자 번호 (필수)",
+    en: "Business Registration No. (Required)",
+  },
+  ptnsStoreLogoLabel: {
+    ko: "가게 로고 사진 (필수)",
+    en: "Store Logo Image (Required)",
+  },
+  ptnsUploadPlaceholder: {
+    ko: "사진을 등록해주세요.",
+    en: "Please upload a photo.",
+  },
+  ptnsTermsLabel: {
+    ko: "이용약관에 동의합니다.",
+    en: "I agree to the Terms of Service.",
   },
   ptnsAgreementLabel: {
-    ko: "개인정보 수집·이용에 동의합니다. (필수)",
-    en: "I agree to the collection and use of personal information. (Required)",
+    ko: "개인정보 수집 및 이용에 동의합니다.",
+    en: "I agree to the collection and use of my personal information."
   },
-  ptnsSubmitButton: {
-    ko: "제휴 문의 제출",
-    en: "Submit Partnership Inquiry",
-  },
+
+  // 제휴 안내
   ptnsGuideTitle: {
     ko: "제휴 안내",
     en: "Partnership Guide",
@@ -587,17 +640,9 @@ export const LANG_CNG = {
     ko: "뒤로가기",
     en: "Go back",
   },
-  loginWithEmail: {
-    ko: "이메일로 로그인",
-    en: "Login with email",
-  },
-  loginWithGoogle: {
-    ko: "구글 소셜 로그인",
-    en: "Login with Google",
-  },
-  loginRegisterWithEmail: {
-    ko: "이메일로 회원 가입",
-    en: "Register with email",
+  loginWithKakao: {
+    ko: "카카오 소셜 로그인",
+    en: "Login with Kakao"
   },
 
   // --- Additional keys for Header01.jsx ---
@@ -662,6 +707,14 @@ export const LANG_CNG = {
   footerLocation: {
     ko: "위치기반서비스 약관",
     en: "Location-Based Services Terms",
+  },
+  footerDaeguBranch: {
+    ko: "RC | RC 대구지점",
+    en: "RC | RC Daegu Branch"
+  },
+  footerCompanyAddress: {
+    ko: "41937 대구 중구 중앙대로 394 제일빌딩 5F",
+    en: "5F, Jeil Building, 394 Jungang-daero, Jung-gu, Daegu, 41937"
   },
   footerCEO: {
     ko: "대표자: 정의욱",

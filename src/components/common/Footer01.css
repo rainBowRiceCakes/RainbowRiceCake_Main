@@ -20,28 +20,28 @@
 }
 
 .footer01-inner-group {
-  position: relative; /* 자식 요소(로고)의 절대 위치 기준점 */
   display: flex;
-  justify-content: center; /* 정보 영역을 가로 중앙에 배치 */
-  align-items: center;     /* 세로 중앙 정렬 */
-  min-height: 120px;       /* 로고와 텍스트 배치를 위한 최소 높이 확보 */
+  flex-direction: column; /* 요소들을 세로로 배치 (로고가 위, 텍스트가 아래) */
+  justify-content: center;
+  align-items: center; /* 가로 방향 중앙 정렬 */
+  gap: 30px; /* 로고와 텍스트 정보 사이의 간격 */
 }
 
-/* --- 좌측: 로고 (절대 위치 고정) --- */
+/* 로고 스타일 */
 .footer01-brand-group {
-  position: absolute; /* 흐름에서 빠져나와 단독 배치 */
-  left: 0;            /* 컨테이너의 가장 왼쪽에 붙임 */
-  top: 50%;           /* 상위 컨테이너의 높이 반만큼 내림 */
-  transform: translateY(-50%); /* 자신의 높이 반만큼 다시 올려서 완벽한 수직 중앙 정렬 */
+  margin-bottom: 10px; /* 텍스트와의 추가 간격 미세 조정 (필요 시) */
 }
 
-.footer01-logo-text {
-  font-size: var(--com-size-title); 
-  font-weight: var(--com-font-weight-bold);
-  font-style: italic;
-  line-height: 1;
-  color: var(--com-color-black); 
-  cursor: default;
+.footer01-logo-img {
+  height: 60px; /* 이미지 높이 설정 */
+  width: auto;
+  display: block;
+}
+
+.footer01-brand-img {
+  height: 60px; /* 기존 텍스트 크기(font-size: 60px)와 높이를 맞춤 */
+  width: auto;  /* 비율에 맞게 너비 자동 조절 */
+  display: block; /* 이미지 하단 미세한 여백 제거 */
 }
 
 /* --- 중앙: 텍스트 정보 그룹 --- */
@@ -102,35 +102,46 @@
   opacity: 0.6;
 }
 
-/* --- 모바일 반응형 (로직 유지 및 변수 적용) --- */
-@media (max-width: 900px) {  
+/* --- 모바일 반응형 --- */
+@media (max-width: 900px) {
+  /* 1. 전체 프레임 패딩 축소 (위아래 높이 감소) */
   .footer01-frame {
     padding: var(--com-section-padding) 0; /* Adjusted from 30px */
   }
 
+  /* 2. 내부 그룹: 세로 배치하되 간격(gap)을 줄여서 높이 확보 */
   .footer01-inner-group {
     flex-direction: column;
     min-height: auto; 
     gap: var(--com-gap-md); /* Adjusted from 20px */
   }
   
+  /* 3. 로고 영역: 위치 초기화 및 여백 제거 */
   .footer01-brand-group {
     position: static; 
     transform: none;
   }
 
+  /* 4. 로고 폰트 크기 축소 (높이 감소 효과) */
   .footer01-logo-text {
     font-size: var(--com-size-title); /* Adjusted from 24px */
   }
 
+  /* 5. 링크 그룹(이용약관 등) 높이 및 폰트 조절 */
   .footer01-links-group {
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .footer01-separator {
+    display: none;
   }
 
   .footer01-links-group a {
     font-size: var(--com-size-content);
   }
 
+  /* 6. 상세 정보 텍스트(주소 등) 높이 조절 */
   .footer01-meta-info {
     font-size: var(--com-size-mini);
     line-height: 1.5; 

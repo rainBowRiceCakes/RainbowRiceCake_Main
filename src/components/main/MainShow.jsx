@@ -105,7 +105,6 @@ return (
 
       {/* 7. 파트너 로고 캐러샐 */}
       <div><Carousel /></div>
-      
     </div>
   );
 }
