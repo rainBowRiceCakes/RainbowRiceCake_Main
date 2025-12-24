@@ -5,20 +5,29 @@
  * 251220 v1.1.0 sara add kakao map modal
  */
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import PTNSData from '../../../data/PTNSData.json';
 import './MainPTNSSearch.css';
 import { LanguageContext } from '../../../context/LanguageContext';
 
 export default function MainPTNSSearch() {
+  /* 1. 상태 관리: 위치, 모달 여부, 검색어만 상태로 관리 */
   const { t } = useContext(LanguageContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [location, setLocation] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredStores, setFilteredStores] = useState(PTNSData);
 
-  // 현재 위치를 가져오는 함수
+  /* 2. 에러 해결 (파생 상태): useEffect 없이 검색어에 따라 즉시 필터링 */
+  // useMemo를 사용하여 searchTerm이 바뀔 때만 계산하도록 최적화했습니다.
+  const filteredStores = useMemo(() => {
+    const lowercasedTerm = searchTerm.toLowerCase();
+    return PTNSData.filter(store =>
+      store.name.toLowerCase().includes(lowercasedTerm)
+    );
+  }, [searchTerm]);
+
+  /* 3. 로직: 현재 사용자 위치 정보 가져오기 */
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -27,53 +36,33 @@ export default function MainPTNSSearch() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
-          setIsModalOpen(true); // 위치 정보 성공적으로 가져오면 모달 열기
+          setIsModalOpen(true);
         },
-        (err) => {
-          console.error("Error getting current location: ", err);
+        () => {
           alert(t('ptnsSearchLocationError'));
-          // 기본 위치(대구)로 설정
-          setLocation({ lat: 35.8714, lng: 128.6014 });
+          setLocation({ lat: 35.8714, lng: 128.6014 }); // 기본 위치 대구
           setIsModalOpen(true);
         }
       );
-    } else {
-      alert(t('ptnsSearchGeolocationError'));
-      setLocation({ lat: 35.8714, lng: 128.6014 });
-      setIsModalOpen(true);
     }
   };
 
-  // 검색어에 따라 매장 필터링
-  useEffect(() => {
-    if (searchTerm === '') {
-      setFilteredStores(PTNSData);
-    } else {
-      const lowercasedTerm = searchTerm.toLowerCase();
-      const filtered = PTNSData.filter(store =>
-        store.name.toLowerCase().includes(lowercasedTerm)
-      );
-      setFilteredStores(filtered);
-    }
-  }, [searchTerm]);
-
   return (
+    /* 4. 레이아웃: ptnssearch- 접두사를 가진 전체 프레임 */
     <div className="ptnssearch-frame mainshow-section-wrapper">
-      <div className="maininfo-header-group">
-        <div>
-          <h2 className="maininfo-title-text">{t('ptnsSearchTitle')}</h2>
-          <p className="maininfo-desc-text">
-            {t('ptnsSearchDesc')}
-          </p>
-        </div>
+      {/* 5. 헤더: 제목 및 설명 영역 */}
+      <div className="ptnssearch-header-group">
+        <h2 className="ptnssearch-title-text">{t('ptnsSearchTitle')}</h2>
+        <p className="ptnssearch-desc-text">{t('ptnsSearchDesc')}</p>
       </div>
 
+      {/* 6. 카드: 검색 시작을 유도하는 플레이스홀더 영역 */}
       <div className="ptnssearch-card-box">
         <div className="ptnssearch-placeholder-content">
           <span className="ptnssearch-map-icon">📍</span>
-          <p>{t('ptnsSearchPlaceholder')}</p>
+          <p className="ptnssearch-placeholder-text">{t('ptnsSearchPlaceholder')}</p>
           <button 
-            className="maininfo-button maininfo-button--primary"
+            className="ptnssearch-primary-button"
             onClick={getCurrentLocation}
           >
             {t('ptnsSearchFindNearMe')}
@@ -81,10 +70,11 @@ export default function MainPTNSSearch() {
         </div>
       </div>
 
+      {/* 7. 모달: 지도 및 실시간 검색 인터페이스 */}
       {isModalOpen && (
-        <div className="map-modal-overlay">
-          <div className="map-modal-content">
-            <div className="map-modal-header">
+        <div className="ptnssearch-modal-overlay">
+          <div className="ptnssearch-modal-content">
+            <div className="ptnssearch-modal-header">
               <input 
                 type="text" 
                 className="ptnssearch-input-field" 
@@ -94,41 +84,38 @@ export default function MainPTNSSearch() {
               />
               <button 
                 onClick={() => setIsModalOpen(false)} 
-                className="map-modal-close-button"
+                className="ptnssearch-modal-close-button"
               >
                 &times;
               </button>
             </div>
-            {location ? (
-              <Map
-                center={location}
-                style={{ width: '100%', height: '100%' }}
-                level={4}
-              >
-                {/* 현재 위치 마커 */}
-                <MapMarker 
-                  position={location} 
-                  image={{
-                    src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-                    size: { width: 40, height: 40 },
-                    options: { offset: { x: 20, y: 40 } },
-                  }}
+            
+            {/* 8. 지도 컨테이너: 카카오 맵 연동 및 무채색 필터 적용 영역 */}
+            <div className="ptnssearch-map-container">
+              {location && (
+                <Map
+                  center={location}
+                  className="ptnssearch-kakao-map"
+                  style={{ width: '100%', height: '100%' }}
+                  level={4}
                 >
-                   <div style={{padding: '5px', color: '#000'}}>{t('ptnsSearchCurrentLocation')}</div>
-                </MapMarker>
+                  {/* 현재 위치 마커 */}
+                  <MapMarker position={location} />
 
-                {/* 제휴 매장 마커 */}
-                {filteredStores.map((store, index) => (
-                  <MapMarker key={index} position={{ lat: store.lat, lng: store.lng }}>
-                    <div style={{padding: '5px', color: '#000'}}>{store.name}</div>
-                  </MapMarker>
-                ))}
-              </Map>
-            ) : (
-              <div className="ptnssearch-map-placeholder">
-                <p>{t('ptnsSearchLoadingLocation')}</p>
-              </div>
-            )}
+                  {/* 필터링된 결과 마커 표시 */}
+                  {filteredStores.map((store, index) => (
+                    <MapMarker 
+                      key={`${store.name}-${index}`} 
+                      position={{ lat: store.lat, lng: store.lng }}
+                    >
+                      <div className="ptnssearch-infowindow">
+                        {store.name}
+                      </div>
+                    </MapMarker>
+                  ))}
+                </Map>
+              )}
+            </div>
           </div>
         </div>
       )}

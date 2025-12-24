@@ -5,158 +5,157 @@
  * 251220 v1.1.0 sara add kakao map modal
  */
 
-/* 1. 메인 프레임: 상하 여백 확보 */
+/* 1. 메인 프레임: 기본 상하 여백 및 배경 */
 .ptnssearch-frame {
   padding: var(--com-section-padding) 0;
   background-color: var(--com-color-white);
 }
 
-/* 검색 카드 컨테이너 (무채색 카드 규격 적용) */
+/* 2. 헤더 그룹: 타이틀 간격 조절 */
+.ptnssearch-header-group {
+  margin-bottom: var(--com-gap-md);
+}
+
+.ptnssearch-title-text {
+  font-size: var(--com-size-title);
+  color: var(--com-color-black);
+  font-weight: var(--com-font-weight-bold);
+}
+
+.ptnssearch-desc-text {
+  font-size: var(--com-size-subtitle);
+  color: var(--com-font-muted);
+}
+
+/* 3. 검색 카드: 카드 레이아웃 및 그림자 */
 .ptnssearch-card-box {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
   padding: var(--com-container-padding);
-  display: flex;
-  flex-direction: column;
-  gap: var(--com-gap-md);
-  box-shadow: var(--com-shadow-default);
+  box-shadow: var(--com-shadow-xs);
 }
 
-/* 검색 바 레이아웃 */
-.ptnssearch-input-group {
-  display: flex;
-  gap: var(--com-gap-sm);
-  width: 100%;
-}
-
-.ptnssearch-input-field {
-  flex: 1;
-  padding: var(--com-radius-md) var(--com-size-subtitle);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-sidebar);
-  background-color: var(--com-color-white);
-  color: var(--com-font-primary-color);
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.ptnssearch-input-field:focus {
-  border-color: var(--com-font-gray);
-  box-shadow: 0 0 0 2px var(--com-color-overlay);
-}
-
-/* 지도 영역 레이아웃 */
-.ptnssearch-map-wrapper {
-  width: 100%;
-  height: 350px;
-  border-radius: var(--com-radius-md);
-  overflow: hidden;
-  border: 1px solid var(--com-border-default);
-}
-
-.ptnssearch-map-placeholder {
-  width: 100%;
-  height: 100%;
-  background-color: var(--com-color-bg-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ptnssearch-map-content {
-  text-align: center;
-  color: var(--com-font-muted);
-}
-
-.ptnssearch-map-icon {
-  font-size: 32px;
-  display: block;
-  margin-bottom: var(--com-gap-xs);
-}
-
-/* 251220 Gemini: Add styles for map modal */
+/* 4. 플레이스홀더: 중앙 정렬 컨텐츠 */
 .ptnssearch-placeholder-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--com-size-subtitle);
-  padding: 40px var(--com-gap-md);
-  text-align: center;
-  color: var(--com-font-muted);
+  gap: var(--com-gap-md);
+  padding: 40px 0;
 }
 
-.map-modal-overlay {
+.ptnssearch-map-icon {
+  font-size: 32px;
+  filter: grayscale(1);
+}
+
+/* 5. 버튼: 블랙 & 화이트 모노크롬 버튼 */
+.ptnssearch-primary-button {
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--com-radius-pill);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+}
+
+/* 6. 모달: 오버레이 및 블러 효과 */
+.ptnssearch-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(17, 24, 39, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
-.map-modal-content {
-  position: relative;
-  width: 90%;
-  height: 80%;
-  max-width: 800px;
-  background-color: white;
+/* 7. 모달 컨텐츠: 무채색 박스 디자인 */
+.ptnssearch-modal-content {
+  width: 90%; height: 80%; max-width: 800px;
+  background: var(--com-color-white);
   border-radius: var(--com-radius-lg);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Ensures map corners are rounded */
+  overflow: hidden;
+  border: 1px solid var(--com-color-black);
 }
 
-.map-modal-header {
-  padding: 15px;
+/* 8. 모달 헤더: 검색 입력바 영역 */
+.ptnssearch-modal-header {
+  padding: var(--com-gap-md);
   display: flex;
   gap: var(--com-gap-sm);
-  align-items: center;
   border-bottom: 1px solid var(--com-border-default);
 }
 
-.map-modal-header .ptnssearch-input-field {
-  flex-grow: 1;
+.ptnssearch-input-field {
+  flex: 1;
+  padding: var(--com-gap-sm) var(--com-gap-md);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-md);
+  background-color: var(--com-color-bg-light);
+  font-size: var(--com-size-sidebar);
 }
 
-.map-modal-close-button {
-  background: transparent;
-  border: none;
-  font-size: var(--com-size-title);
-  font-weight: bold;
-  color: var(--com-font-gray);
-  cursor: pointer;
-  padding: 0 var(--com-gap-sm);
+.ptnssearch-modal-close-button {
+  background: none; border: none; font-size: 28px; cursor: pointer; color: var(--com-font-gray);
 }
-/* End of Gemini's additions */
 
-/* 📱 아이폰 SE (375px) 및 모바일 최적화 */
+/* 9. 지도 필터: 모든 컬러를 무채색으로 변환 */
+.ptnssearch-map-container {
+  flex: 1;
+  filter: grayscale(1) contrast(1.1);
+}
+
+/* 10. 인포윈도우: 마커 위 텍스트 박스 */
+.ptnssearch-infowindow {
+  padding: 6px 10px;
+  color: var(--com-color-black);
+  font-size: var(--com-size-content);
+  font-weight: var(--com-font-weight-heavy);
+  background: var(--com-color-white);
+  border: 1px solid var(--com-color-black);
+}
+
+/* 11. 📱 아이폰 SE (375px) 및 초소형 모바일 최적화 */
 @media screen and (max-width: 375px) {
+  /* 섹션 여백 축소 */
   .ptnssearch-frame {
-    padding: var(--com-section-padding) 0; /* index.css 가변 변수 30px 적용 */
+    padding: var(--com-section-padding) 0; /* index.css에 의해 30px 자동 적용 */
   }
 
-  .ptnssearch-map-wrapper {
-    height: 220px; /* 모바일 지도 높이 축소 */
-  }
-  
-  .ptnssearch-input-group {
-    gap: 6px;
+  /* 타이틀 폰트 크기 축소 */
+  .ptnssearch-title-text {
+    font-size: 15px; /* index.css의 모바일 타이틀 규격 준수 */
   }
 
+  /* 카드 내부 여백 및 텍스트 축소 */
+  .ptnssearch-card-box {
+    padding: var(--com-container-padding); /* 12px 자동 적용 */
+  }
+
+  .ptnssearch-placeholder-text {
+    font-size: var(--com-size-content); /* 11px 적용 */
+  }
+
+  /* 모바일 지도 높이 명시적 제어 */
+  .ptnssearch-map-container {
+    height: 250px; /* 모바일 모달 내 지도 높이 고정 */
+  }
+
+  /* 입력 필드 크기 최적화 */
   .ptnssearch-input-field {
     padding: var(--com-gap-sm);
-    font-size: var(--com-size-content); /* 가변 11px 적용 */
+    font-size: var(--com-size-content);
   }
 
-  .ptnssearch-card-box {
-    padding: var(--com-container-padding); /* 가변 12px 적용 */
+  /* 버튼 크기 축소 */
+  .ptnssearch-primary-button {
+    padding: 8px 16px;
+    font-size: var(--com-size-content);
   }
 }
