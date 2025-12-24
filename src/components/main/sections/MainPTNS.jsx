@@ -5,7 +5,7 @@
  * 251223 v2.0.0 jun 라이더, 파트너 form 추가
  */
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LanguageContext } from '../../../context/LanguageContext';
 import { footerData } from '../../../data/footerData'; // 약관 데이터
 import './MainPTNS.css';
@@ -13,6 +13,10 @@ import './MainPTNS.css';
 export default function MainPTNS() {
   const { t, language } = useContext(LanguageContext);
   const [activeTab, setActiveTab] = useState('rider'); // 'rider' | 'partner'
+
+  // 미리보기 상태 분리 (라이더용/파트너용)
+  const [licensePreview, setLicensePreview] = useState(null);
+  const [logoPreview, setLogoPreview] = useState(null);
 
   // 체크박스 상태 관리
   const [agreements, setAgreements] = useState({
@@ -23,9 +27,32 @@ export default function MainPTNS() {
   // 모달 상태 ('terms' | 'privacy' | null)
   const [activeModal, setActiveModal] = useState(null);
 
+  // 메모리 누수 방지 (컴포넌트 언마운트 시 URL 해제)
+  useEffect(() => {
+    return () => {
+      if (licensePreview) URL.revokeObjectURL(licensePreview);
+      if (logoPreview) URL.revokeObjectURL(logoPreview);
+    };
+  }, [licensePreview, logoPreview]);
+
+  // 파일 변경 핸들러 개선
+  const changeFiles = (e) => {
+    const file = e.target.files[0];
+    const name = e.target.name; // input의 name 속성 확인 ('licenseImage' or 'storeLogo')
+
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      
+      if (name === 'licenseImage') {
+        setLicensePreview(objectUrl);
+      } else if (name === 'storeLogo') {
+        setLogoPreview(objectUrl);
+      }
+    }
+  };
+
   // 모달 열기 (체크박스 클릭 시)
   const openModal = (e, type) => {
-    e.preventDefault(); // 체크 방지
     if (!agreements[type]) {
       setActiveModal(type);
       document.body.style.overflow = 'hidden'; // 스크롤 잠금
@@ -67,7 +94,11 @@ export default function MainPTNS() {
     console.log("Submit Data:", submitData);
     alert(t('ptnsSubmitSuccessAlert'));
     e.currentTarget.reset();
+
+    // 상태 초기화
     setAgreements({ terms: false, privacy: false });
+    setLicensePreview(null);
+    setLogoPreview(null);
   };
 
   // 현재 활성화된 모달 데이터
@@ -92,10 +123,13 @@ export default function MainPTNS() {
               
               {/* 탭 헤더 */}
               <div className="form-header-row">
+                {/* 타이틀 */}
                 <h3 className="mainptns-card-title-text">
                   {activeTab === 'rider' ? (t('ptnsFormRiderTitle') || "라이더 제휴 신청") 
                     : (t('ptnsFormPartnerTitle') || "파트너 제휴 신청")}
                 </h3>
+
+                {/* 탭 버튼 */}
                 <div className="mainptns-tab-group">
                   <button type="button" 
                     className={`mainptns-tab-btn ${activeTab === 'rider' ? 'active' : ''}`}
@@ -110,28 +144,57 @@ export default function MainPTNS() {
               <div className="mainptns-form-fields-group">
                 {activeTab === 'rider' && (
                   <>
+                    {/* 휴대폰 번호 */}
                     <label className="mainptns-field-label">
                       {t('ptnsPhoneLabel')}
                       <input className="mainptns-field-input" name="riderPhone" required placeholder="010-0000-0000" />
                     </label>
+
+                    {/* 주소 */}
                     <label className="mainptns-field-label">
                       {t('ptnsAddressLabel')}
                       <input className="mainptns-field-input" name="riderAddress" required placeholder={t('ptnsAddressPlaceholder')} />
                     </label>
+
+                    {/* 은행 이름 */}
                     <label className="mainptns-field-label">
                       {t('ptnsBankNameLabel') || "Bank Name"}
                       <input className="mainptns-field-input" name="bankName" required placeholder={t('ptnsStoreNamePlaceholder')} />
                     </label>
+
+                    {/* 계좌 번호 */}
                     <label className="mainptns-field-label">
                       {t('ptnsAccountNumLabel') || "Account Number"}
                       <input className="mainptns-field-input" name="accountNumber" required placeholder={t('ptnsAccountNumber') || "123-45-67890"} />
                     </label>
+
+                    {/* 운전 면허 등록 */}
                     <div className="mainptns-field-label">
                       {t('ptnsLicenseLabel') || "Driver License"}
                       <div style={{ marginTop: '8px' }}>
-                        <input type="file" name="licenseImage" id="licenseImage" className="mainptns-file-hidden" required />
-                        <label htmlFor="licenseImage" className="mainptns-file-box">
-                          {t('ptnsUploadPlaceholder') || "Upload Photo"}
+                        {/* 이미지 미리보기 */}
+                        <input
+                          type="file"
+                          onChange={changeFiles}
+                          name="licenseImage"
+                          id="licenseImage"
+                          className="mainptns-file-hidden"
+                          accept="image/*"
+                          required
+                        />
+                        <label
+                          htmlFor="licenseImage"
+                          className="mainptns-file-box"
+                          style={{
+                            backgroundImage: licensePreview ? `url("${licensePreview}")` : 'none',
+                            backgroundSize: 'contain',
+                            height: licensePreview ? '200px' : undefined,
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            color: licensePreview ? 'transparent' : 'inherit'
+                          }}
+                        >
+                          {!licensePreview && t('ptnsUploadPlaceholder') || "Upload Photo"}
                         </label>
                       </div>
                     </div>
@@ -142,39 +205,72 @@ export default function MainPTNS() {
                 {activeTab === 'partner' && (
                   <>
                     <div className="mainptns-input-grid-2">
+                      {/* 담당자 이름 */}
                       <label className="mainptns-field-label">
                         {t('ptnsManagerNameLabel') || "Manager Name"}
                         <input className="mainptns-field-input" name="managerName" required placeholder={t('ptnsManagerNamePlaceholder') || "Name"} />
                       </label>
+
+                      {/* 휴대폰 번호 */}
                       <label className="mainptns-field-label">
                         {t('ptnsPhoneLabel')}
                         <input className="mainptns-field-input" name="partnerPhone" required placeholder="010-0000-0000" />
                       </label>
                     </div>
+
                     <div className="mainptns-input-grid-2">
+                      {/* 가계 한글 이름 */}
                       <label className="mainptns-field-label">
                         {t('ptnsStoreNameKrLabel') || "Store Name (KR)"}
                         <input className="mainptns-field-input" name="storeNameKr" required placeholder={t('ptnsStoreNamePlaceholder')} />
                       </label>
+
+                      {/* 가계 영어 이름 */}
                       <label className="mainptns-field-label">
                         {t('ptnsStoreNameEnLabel') || "Store Name (EN)"}
                         <input className="mainptns-field-input" name="storeNameEn" required placeholder={t('ptnsStoreEnNamePlaceholder') || "English Name"} />
                       </label>
                     </div>
+
+                    {/* 사업자 번호 */}
                     <label className="mainptns-field-label">
                       {t('ptnsBusinessNumLabel') || "Business Number"}
                       <input className="mainptns-field-input" name="businessNumber" required placeholder="000-00-00000" />
                     </label>
+
+                    {/* 주소 */}
                     <label className="mainptns-field-label">
                       {t('ptnsAddressLabel')}
                       <input className="mainptns-field-input" name="storeAddress" required placeholder={t('ptnsAddressPlaceholder')} />
                     </label>
+
+                    {/* 가계 로고 사진 */}
                     <div className="mainptns-field-label">
                       {t('ptnsStoreLogoLabel') || "Store Logo"}
                       <div style={{ marginTop: '8px' }}>
-                        <input type="file" name="storeLogo" id="storeLogo" className="mainptns-file-hidden" required />
-                        <label htmlFor="storeLogo" className="mainptns-file-box">
-                          {t('ptnsUploadPlaceholder') || "Upload Photo"}
+                        {/* 이미지 미리보기 */}
+                        <input
+                          type="file"
+                          onChange={changeFiles}
+                          name="storeLogo"
+                          id="storeLogo"
+                          className="mainptns-file-hidden"
+                          accept="image/*"
+                          required
+                        />
+                        <label
+                          htmlFor="storeLogo"
+                          className="mainptns-file-box"
+                          style={{
+                            backgroundImage: logoPreview ? `url("${logoPreview}")` : 'none',
+                            backgroundSize: 'contain',
+                            height: logoPreview ? '200px' : undefined,
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            color: logoPreview ? 'transparent' : 'inherit'
+                          }}
+                        >
+                          {!logoPreview && t('ptnsUploadPlaceholder') || "Upload Photo"}
                         </label>
                       </div>
                     </div>
@@ -183,25 +279,29 @@ export default function MainPTNS() {
 
                 {/* 약관 체크박스 */}
                 <div className="mainptns-form-footer" style={{ marginTop: '20px' }}>
+                  {/* 이용 약관 동의 */}
                   <label className="mainptns-agreement-label">
                     <input type="checkbox" name="agreeTerms" 
                       checked={agreements.terms} 
                       onClick={(e) => openModal(e, 'terms')} readOnly />
                     <span className="mainptns-agreement-text">
                       {t('ptnsTermsLabel') || "I agree to Terms of Service."}
-                      <span style={{ color: '#3498db', marginLeft: '6px', fontSize: '12px' }}>(보기)</span>
+                      <span style={{ color: '#ee0000', marginLeft: '6px', fontSize: '12px', fontWeight: '900' }}>(필수)</span>
                     </span>
                   </label>
+
+                  {/* 개인정보 수집 및 이용 동의 */}
                   <label className="mainptns-agreement-label" style={{ marginTop: '8px' }}>
                     <input type="checkbox" name="agreePrivacy" 
                       checked={agreements.privacy} 
                       onClick={(e) => openModal(e, 'privacy')} readOnly />
                     <span className="mainptns-agreement-text">
                       {t('ptnsAgreementLabel')}
-                      <span style={{ color: '#3498db', marginLeft: '6px', fontSize: '12px' }}>(보기)</span>
+                      <span style={{ color: '#ee0000', marginLeft: '6px', fontSize: '12px', fontWeight: '900' }}>(필수)</span>
                     </span>
                   </label>
-
+                  
+                  {/* 폼 등록하기 버튼 */}
                   <button className="mainptns-submit-button" type="submit" style={{ marginTop: '20px' }}>
                     {activeTab === 'rider' ? (t('ptnsRiderSubmit') || "Register Rider") : (t('ptnsPartnerSubmit') || "Register Partner")}
                   </button>
@@ -250,13 +350,12 @@ export default function MainPTNS() {
 
         {/* 모달 본문 */}
         <div className="mainptns-modal-body">
-          {modalContent.description && (
-            <p className="mainptns-modal-description">
-              {modalContent.description}
-            </p>
-          )}
-
           <div className="mainptns-text-content">
+            {modalContent.description && (
+              <p className="mainptns-modal-description">
+                {modalContent.description}
+              </p>
+            )}
             {modalContent.articles && modalContent.articles.map((article, idx) => (
               <div key={idx} style={{ marginBottom: '20px' }}>
                 {article.heading && <h4>{article.heading}</h4>}
