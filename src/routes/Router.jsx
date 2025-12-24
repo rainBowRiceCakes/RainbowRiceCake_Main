@@ -15,7 +15,7 @@ import MainShow from "../components/main/MainShow.jsx";
 import MainCover from '../components/main/sections/MainCover.jsx';
 import MainInfo from '../components/main/sections/MainInfo.jsx';
 import MainFee from '../components/main/sections/MainFee.jsx';
-import MainDLVS from '../components/main/sections/MainDLVS.jsx';
+// import MainDLVS from '../components/main/sections/MainDLVS.jsx';
 import MainCS from '../components/main/sections/MainCS.jsx';
 import MainPTNS from '../components/main/sections/MainPTNS.jsx';
 
@@ -54,10 +54,10 @@ const router = createBrowserRouter([
         path: '/sections/fee', 
         element: <MainFee /> 
       },
-      { 
-        path: '/sections/dlvs', 
-        element: <MainDLVS /> 
-      },
+      // { 
+      //   path: '/sections/dlvs', 
+      //   element: <MainDLVS /> 
+      // },
       { 
         path: '/sections/cs', 
         element: <MainCS /> 

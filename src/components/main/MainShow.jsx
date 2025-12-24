@@ -10,7 +10,7 @@ import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
 import MainPTNSSearch from './sections/MainPTNSSearch.jsx';  // 2. 지점안내
 import MainFee from './sections/MainFee.jsx';                // 3. 요금안내
-import MainDLVS from './sections/MainDLVS.jsx';              // 4. 배송현황
+// import MainDLVS from './sections/MainDLVS.jsx';              // 4. 배송현황
 import MainCS from './sections/MainCS.jsx';                  // 5. 고객센터
 import MainPTNS from './sections/MainPTNS.jsx';              // 6. 제휴문의
 import Carousel from '../common/Carousel.jsx';               // 7. 로고 캐러샐
@@ -94,8 +94,8 @@ return (
       {/* 3. 가격 안내 섹션 */}
       <div id="fee" className="mainshow-section-frame"><MainFee /></div>
 
-      {/* 4. 배송 조회 섹션 */}
-      <div id="dlvs" className="mainshow-section-frame"><MainDLVS /></div>
+      {/* 4. 배송 조회 섹션
+      <div id="dlvs" className="mainshow-section-frame"><MainDLVS /></div> */}
 
       {/* 5. 고객센터 섹션 */}
       <div id="cs" className="mainshow-section-frame"><MainCS /></div>

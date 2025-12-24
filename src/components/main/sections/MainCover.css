@@ -4,130 +4,63 @@
  * 251216 v1.0.0 sara init 
  */
 
-/* 0. 메인커버 래퍼 */
-.maincover-frame {
-  display: flex;
-  flex-direction: column;
+.maincover-frame { 
+  display: flex; 
+  flex-direction: column; 
 }
 
-/* 1. 상단 이미지 영역 ✅ (웹에서도 높이 제한해서 배송조회가 같이 보이게) */
-.maincover-image-area {
-  width: 100%;
-  height: min(78vh, 650px); /* ✅ 핵심: 이미지가 화면을 다 먹지 못하게 상한 */
+.maincover-image-area { 
+width: 100%; 
+  /* 높이 제한: 뷰포트의 78% 혹은 최대 650px */
+  height: min(78vh, 650px); 
+  background-color: var(--com-color-bg-light); /* 이미지 로딩 전 배경색 대비 */
+  overflow: hidden;
 }
 
-/* 이미지 래퍼 */
+/* 2. 이미지 래퍼 (제공해주신 가이드 반영) */
 .maincover-image-wrapper { 
-  max-width: var(--com-web-max-width); 
-  margin: 0 auto;
+  max-width: var(--com-web-max-width); /* 웹 최대 너비 제한 */
+  margin: 0 auto;                      /* 중앙 정렬 */
   width: 100%;
-  height: 100%;            /* ✅ image-area 높이를 따라감 */
+  height: 100%;                        /* image-area 높이를 그대로 상속 */
   position: relative; 
   overflow: hidden;
 }
 
-.maincover-cover-image {
-  width: 100%;
+.maincover-cover-image { 
+  width: 100%; 
   height: 100%; 
   object-fit: cover; 
-  object-position: center;
-  display: block; 
 }
 
-/* 2. 하단 배송 조회 컨테이너 */
 .maincover-delivery-area { 
-  width: 100%;
-  flex-shrink: 0; 
+  width: 100%; padding: var(--com-container-padding);
   background-color: var(--com-color-bg-light);
-  color: var(--com-font-primary-color);
-  padding: var(--com-container-padding);
-  display: flex;
-  justify-content: center;
+  display: flex; justify-content: center;
 }
 
-.maincover-delivery-form { 
-  max-width: var(--com-web-max-width); 
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.maincover-delivery-title-text { 
-  font-size: var(--com-size-subtitle);
-  font-weight: var(--com-font-weight-heavy);
-  margin-bottom: 15px;
-}
-
-/* 3. 입력창 그룹 (Input + Button) */
 .maincover-input-group { 
-  display: flex;
-  width: 100%;
-  max-width: 500px; 
+  display: flex; width: 100%; max-width: 600px; /* 웹 600px 확장 */
   margin-bottom: var(--com-gap-sm);
+  box-shadow: var(--com-shadow-xs);
 }
 
 .maincover-input-field { 
-  flex-grow: 1;
-  padding: var(--com-gap-sm) 15px;
-  border: 1px solid var(--com-border-default); 
-  border-radius: 4px 0 0 4px;
-  font-size: var(--com-size-sidebar);
-  background-color: var(--com-color-white);
-  outline: none;
+  flex-grow: 1; padding: var(--com-gap-sm) 15px;
+  border: 1px solid var(--com-border-default); border-radius: 4px 0 0 4px;
+  outline: none; font-size: var(--com-size-sidebar);
 }
 
 .maincover-submit-button { 
-  background-color: var(--com-color-black);
-  color: var(--com-color-white);
-  border: 1px solid var(--com-color-black); 
-  padding: var(--com-gap-sm) var(--com-gap-md);
-  cursor: pointer;
-  font-size: var(--com-size-sidebar);
-  border-radius: 0 4px 4px 0;
-  transition: all 0.2s ease;
-}
-
-.maincover-submit-button:hover {
-  background-color: var(--com-color-white);
-  color: var(--com-color-black);
-  border-color: var(--com-color-black);
-}
-
-/* 4. 하단 링크 */
-.maincover-link-group { 
-  font-size: var(--com-size-content);
-  color: var(--com-font-primary-color);
+  background-color: var(--com-color-black); color: var(--com-color-white);
+  padding: 0 25px; cursor: pointer; border-radius: 0 4px 4px 0; border: none;
 }
 
 .maincover-more-link { 
-  color: var(--com-font-primary-color); 
-  opacity: 0.8;
-  text-decoration: underline;
+  background: none; border: none; text-decoration: underline; 
+  cursor: pointer; color: var(--com-font-muted); font-size: var(--com-size-content);
 }
 
-/* [미디어 쿼리] 900px 이하 ✅ 모바일에서도 이미지 "작게" + 박스 같이 보이게 */
-@media (max-width: 900px) {
-  .maincover-image-area {
-    height: 220px;         /* ✅ 요청: 모바일 사진 조금 더 키움 */
-  }
-
-  .maincover-image-wrapper {
-    overflow: hidden;
-  }
-}
-
-/* 📱 iPhone SE (375px 이하) */
 @media screen and (max-width: 375px) {
-  .maincover-image-area {
-    height: 170px; /* ✅ SE에서도 “사진+조회” 같이 보이게 */
-  }
-
-  .maincover-delivery-title-text {
-    font-size: var(--com-size-sub-title);
-  }
-
-  .maincover-delivery-area {
-    padding: var(--com-container-padding);
-  }
+  .maincover-input-group { max-width: 100%; }
 }

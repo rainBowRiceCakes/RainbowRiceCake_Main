@@ -10,6 +10,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import PTNSData from '../../../data/PTNSData.json';
 import './MainPTNSSearch.css';
 import { LanguageContext } from '../../../context/LanguageContext';
+import { FaLocationDot } from "react-icons/fa6";
 
 export default function MainPTNSSearch() {
   /* 1. 상태 관리: 위치, 모달 여부, 검색어만 상태로 관리 */
@@ -59,7 +60,9 @@ export default function MainPTNSSearch() {
       {/* 6. 카드: 검색 시작을 유도하는 플레이스홀더 영역 */}
       <div className="ptnssearch-card-box">
         <div className="ptnssearch-placeholder-content">
-          <span className="ptnssearch-map-icon">📍</span>
+          <span className="ptnssearch-map-icon" aria-hidden="true">
+            <FaLocationDot />
+          </span>
           <p className="ptnssearch-placeholder-text">{t('ptnsSearchPlaceholder')}</p>
           <button 
             className="ptnssearch-primary-button"

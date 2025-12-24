@@ -1,0 +1,35 @@
+/**
+ * @file src/components/main/sections/MainCoverItems/MainCoverModal.css
+ * @description 메인커버화면에 들어갈 배송조회 모달 스타일
+ * 251224 v1.0.0 sara init  
+ */
+
+.maincover-modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 5000;
+  backdrop-filter: blur(2px);
+}
+
+.maincover-modal-content {
+  background: #fff; width: 95%; max-width: 440px; border-radius: 24px; /* 24px 라운드 */
+  padding: 30px 24px; box-shadow: var(--com-shadow-default);
+  animation: modalPop 0.3s ease-out;
+}
+
+@keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.modal-title { font-weight: var(--com-font-weight-bold); font-size: var(--com-size-subtitle); }
+.close-x-btn { background: none; border: none; font-size: 20px; color: #999; cursor: pointer; }
+
+.modal-detail-container {
+  background: var(--com-color-bg-light); border-radius: 14px; padding: 18px; margin-top: 20px;
+}
+.detail-info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+.detail-info-row.no-border { border: none; }
+.price-text { color: var(--com-color-red); font-size: 15px; }
+
+.modal-bottom-close-btn {
+  width: 100%; height: 50px; background: var(--com-color-black); color: #fff;
+  border: none; border-radius: 12px; margin-top: 20px; font-weight: bold; cursor: pointer;
+}

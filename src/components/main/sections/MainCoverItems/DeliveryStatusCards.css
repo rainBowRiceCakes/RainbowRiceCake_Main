@@ -1,0 +1,34 @@
+/**
+ * @file src/components/main/sections/MainCoverItems/DeliveryStatusCards.css
+ * @description 배송 상태 4단계 스텝퍼 (waiting/matched/pickup/complete)
+ * 251224 v1.0.0 sara init
+ */
+
+/* 1) 스텝퍼: 4칸 균등 */
+.dlvsStepper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: start; margin-bottom: 18px; }
+
+/* 2) 스텝 단위 */
+.dlvsStep { position: relative; display: grid; justify-items: center; gap: 8px; }
+
+/* 3) 원형 아이콘 */
+.dlvsStepCircle { width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--com-border-default); background: var(--com-color-white); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #cbd5e1; transition: all 0.2s ease; }
+
+/* 4) 라벨 */
+.dlvsStepLabel { font-size: 11px; font-weight: 800; color: #bbb; white-space: nowrap; }
+
+/* 5) 연결 라인 */
+.dlvsStepLine { position: absolute; top: 27px; right: -14px; width: 28px; height: 2px; background: var(--com-border-default); }
+
+/* 6) 완료 상태 */
+.dlvsStepCircle.is-done { color: var(--com-color-black); }
+.dlvsStepLabel.is-done { color: var(--com-color-black); opacity: 0.85; }
+
+/* 7) 현재(active) 상태 */
+.dlvsStepCircle.is-active { border-color: var(--com-color-black); color: var(--com-color-black); background: var(--com-color-white); }
+.dlvsStepLabel.is-active { color: var(--com-color-black); }
+
+/* 8) 모바일 */
+@media screen and (max-width: 375px) {
+  .dlvsStepCircle { width: 46px; height: 46px; font-size: 20px; }
+  .dlvsStepLine { width: 22px; right: -11px; }
+}
