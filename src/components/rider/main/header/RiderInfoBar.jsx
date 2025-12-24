@@ -23,7 +23,7 @@ export default function RiderInfoBar() {
         <div className="rider-info-text">
           <p className="rider-info-sub">오늘도 화이팅!</p>
           <p className="rider-info-name">
-            김민재<span className="rider-info-sub">기사님</span>
+            김민재<span className="rider-info-title">기사님</span>
           </p>
         </div>
       </div>

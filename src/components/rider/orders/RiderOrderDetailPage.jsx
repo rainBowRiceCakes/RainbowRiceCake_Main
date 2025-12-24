@@ -39,9 +39,6 @@ export default function RiderOrderDetailPage() {
 
   return (
     <div className="rod-wrap">
-      {/* 상단바(sub header) */}
-      <RiderSubHeader title="상세 확인" />
-      {/* 카드(contents) */}
       <div className="rod-main">
         <div className="rod-card" aria-label="주문 상세 카드">
           <div className="rod-row">
@@ -98,7 +95,7 @@ export default function RiderOrderDetailPage() {
         <button
             type="button"
             className="rod-issue-btn"
-            onClick={() => navigate(`/rider/${id}/orders/${orderId}/issue`)}
+            onClick={() => navigate(`/rider/${id}/orders/${order.orderNo}/`)}
             >
             주문에 문제가 생겼나요?
         </button>

@@ -10,6 +10,7 @@ export const dummyDeliveryHistory = [
   // Last 7 days
   {
     id: 1,
+    orderNo: `ORD-2025-2020`,
     completedAt: randomDateInPast(6),
     pickup: "다이소 동성로점",
     dropoff: "호텔 온도",

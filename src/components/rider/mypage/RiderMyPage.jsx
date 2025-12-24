@@ -15,7 +15,7 @@ export default function RiderMyPage() {
         <div className="profile">
           <div className="avatar" style={{ backgroundImage: `url("${externalImageUrl}")` }} />
           <div className="info">
-            <div className="name">김민재<span className="rider-info-sub">기사님</span></div> {/* 추후 수정 {user.name} */}
+            <div className="name">김민재<span className="rider-info-sub-title">기사님</span></div> {/* 추후 수정 {user.name} */}
           </div>
 
           <label className="clockInAndOutToggle"> {/* 기사들의 출근 on and off 기능 */}
@@ -50,7 +50,7 @@ export default function RiderMyPage() {
         <div className="mypageSection">
           <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/help`)}>
             <span className="icon">✅</span>
-            <span className="label">도움말 / 문의하기</span>
+            <span className="label">자주 묻는 질문</span>
             <span className="chev">›</span>
           </button>
 

@@ -4,13 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./RiderIssueReportPage.css";
 
-const ISSUE_TYPES = [
-  { value: "LOST_DAMAGED", label: "[일반] 물품 분실·파손" },
-  { value: "APP_SYSTEM", label: "[일반] 앱 / 시스템 오류" },
-  { value: "SETTLEMENT", label: "[일반] 정산 / 수익 문의" },
-  { value: "POLICY", label: "[일반] 운영 정책 문의" },
-];
-
 const MAX_PHOTOS = 1;
 
 export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
@@ -25,7 +18,6 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
 
   const reporterTypeLabel = reporterTypeFixed === "PARTNER" ? "매장" : "기사";
 
-  const [issueType, setIssueType] = useState("");
   const [message, setMessage] = useState("");
 
   // ✅ 모달 상태: 반드시 handleSubmit 위에 있어야 안전
@@ -79,7 +71,7 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
   }, []);
 
   // ✅ 활성화 조건: "이슈 유형 + 이슈 내용"만
-  const canSubmit = issueType !== "" && message.trim().length > 0;
+  const canSubmit = message.trim().length > 0;
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -87,7 +79,6 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
     console.log("ISSUE SUBMIT", {
       reporterType: reporterTypeFixed,
       orderNo: order?.orderNo ?? orderId,
-      issueType,
       message: message.trim(),
       photos,
     });
@@ -97,36 +88,10 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
 
   return (
     <div className="rip-wrap">
-      <header className="rip-topbar">
-        <button className="rip-back" onClick={() => navigate(-1)}>
-          ←
-        </button>
-        <h1 className="rip-title">이슈 신고</h1>
-        <div className="rip-spacer" />
-      </header>
-
       <div className="rip-main">
         <div className="rip-field">
           <label className="rip-label">신고자 유형</label>
           <div className="rip-input readOnly">{reporterTypeLabel}</div>
-        </div>
-
-        <div className="rip-field">
-          <label className="rip-label">
-            이슈 유형 <span className="req">*</span>
-          </label>
-          <select
-            className="rip-select"
-            value={issueType}
-            onChange={(e) => setIssueType(e.target.value)}
-          >
-            <option value="">선택하세요</option>
-            {ISSUE_TYPES.map((it) => (
-              <option key={it.value} value={it.value}>
-                {it.label}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div className="rip-field">

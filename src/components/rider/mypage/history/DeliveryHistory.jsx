@@ -1,32 +1,44 @@
+// Health check comment
 // src/components/rider/mypage/history/DeliveryHistory.jsx
+import "./DeliveryHistory.css";
 import { useState, useMemo, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { dummyDeliveryHistory } from "../../../../data/dummyOrders.js";
 import dayjs from "dayjs";
 import 'dayjs/locale/ko'; // Import Korean locale
-import "./DeliveryHistory.css";
-import { dummyDeliveryHistory } from "../../../../data/dummyDeliveryHistory.js";
 
 dayjs.locale('ko');
 
 const FILTERS = {
-  "최근 7일": 7,
   "한 달": 30,
   "두 달": 60,
+  "세 달": 90,
 };
 
 export default function DeliveryHistory() {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
-
-  // Read from localStorage on initial render, or default to "최근 7일"
+  const { id } = useParams();
+  
+  // Read from localStorage on initial render, or default to "한 달"
   const [activeFilter, setActiveFilter] = useState(() => {
     const savedFilter = localStorage.getItem('deliveryHistoryActiveFilter');
-    return savedFilter || "최근 7일";
+    return savedFilter || "한 달";
   });
 
   // Save activeFilter to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('deliveryHistoryActiveFilter', activeFilter);
   }, [activeFilter]);
+
+  
+  // const orders = useSelector((state) => state.orders?.orders ?? []);
+
+  // const order = useMemo(
+  //   () => orders.find((o) => String(o.orderNo) === String(orderId)),
+  //   [orders, orderId]
+  // );
 
   // Filter and paginate history data
   const { groupedPaginatedHistory, totalPages, totalFilteredItems } = useMemo(() => {
@@ -87,7 +99,11 @@ export default function DeliveryHistory() {
             <h3 className="dh-group-header">{date}</h3>
             <div className="dh-history-list">
               {items.map((item) => (
-                <div key={item.id} className="dh-history-item">
+                                <div
+                  key={item.id}
+                  className="dh-history-item"
+                  onClick={() => navigate(`/rider/${id}/orders/${item.id}`)}
+                >
                   <div className="dh-item-time">
                     {dayjs(item.completedAt).format("HH:mm")}
                   </div>
@@ -140,4 +156,3 @@ export default function DeliveryHistory() {
     </div>
   );
 }
-

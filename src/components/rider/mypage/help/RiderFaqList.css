@@ -50,7 +50,7 @@
 
 .faq-tabs {
   display: flex;
-  gap: 0.8rem;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
   padding: 0 1rem;
   border-bottom: 1px solid #dee2e6;
@@ -87,7 +87,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 1.2rem 1rem;
+  padding: 10px 30px 20px 30px;
   background: none;
   border: none;
   text-align: left;
@@ -96,6 +96,7 @@
 
 .faq-question-text {
   font-size: 1rem;
+  padding: 0 10px 0 0;
   font-weight: 600;
   color: #495057;
 }
@@ -123,7 +124,7 @@
 }
 
 .faq-answer-content {
-  padding: 1.2rem 1rem;
+  padding: 10px 30px 10px 30px;
   font-size: 0.95rem;
   line-height: 1.6;
   color: #343a40;
