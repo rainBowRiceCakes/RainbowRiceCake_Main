@@ -1,3 +1,8 @@
+/**
+ * @file src/hooks/useLanguageToggle.jsx
+ * @description KO/EN 번역 훅스
+ * 251226 v1.0.0 sara init 
+ */
 
 import { useContext } from "react";
 import { motion } from "framer-motion";

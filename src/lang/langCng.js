@@ -693,6 +693,23 @@ export const LANG_CNG = {
     en: "Thank you for using DGD",
   },
 
+  pwaTitle: {
+    ko: "앱 설치하기",
+    en: "Install App",
+  },
+  pwaDescription: {
+    ko: "앱을 설치하면 더 빠르고 간편하게 서비스를 이용하실 수 있습니다.",
+    en: "Install the app for faster and easier access to our services.",
+  },
+  pwaLater: {
+    ko: "나중에",
+    en: "Later",
+  },
+  pwaInstall: {
+    ko: "설치하기",
+    en: "Install",
+  },
+
   // --- src/components/main/auth/Login.jsx ---
   loginTitle: {
     ko: "로그인",

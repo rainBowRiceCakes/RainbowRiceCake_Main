@@ -1,3 +1,9 @@
+/**
+ * @file src/hooks/useLanguageToggle.css
+ * @description KO/EN 번역 훅스
+ * 251226 v1.0.0 sara init 
+ */
+
 /* Language Toggle Switch - iPhone Style */
 .lang-toggle-container {
   display: flex;

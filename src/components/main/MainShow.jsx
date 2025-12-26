@@ -8,7 +8,7 @@ import { useState, useEffect, useRef, useContext } from 'react';
 
 import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
-import MainPTNSSearch from './sections/MainPTNSSearch.jsx';  // 2. 지점안내
+import MainPTNSSearch from '../main/sections/MainPTNSSearch.jsx';  // 2. 지점안내
 import MainFee from './sections/MainFee.jsx';                // 3. 요금안내
 // import MainDLVS from './sections/MainDLVS.jsx';              // 4. 배송현황
 import MainCS from './sections/MainCS.jsx';                  // 5. 고객센터

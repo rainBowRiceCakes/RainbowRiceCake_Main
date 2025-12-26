@@ -18,6 +18,7 @@ import MainFee from '../components/main/sections/MainFee.jsx';
 // import MainDLVS from '../components/main/sections/MainDLVS.jsx';
 import MainCS from '../components/main/sections/MainCS.jsx';
 import MainPTNS from '../components/main/sections/MainPTNS.jsx';
+import MainPTNSSearch from "../components/main/sections/MainPTNSSearch.jsx";
 
 // 신규 인증 및 사용자 관련 컴포넌트
 import Login from "../components/main/auth/Login.jsx";
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       { 
         path: '/sections/ptns', 
         element: <MainPTNS /> 
+      },
+      { 
+        path: '/sections/ptnssearch', 
+        element: <MainPTNSSearch /> 
       },
       
       // ---------------------------------

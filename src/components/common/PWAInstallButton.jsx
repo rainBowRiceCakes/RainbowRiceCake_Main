@@ -1,13 +1,9 @@
-/**
- * @file src/components/common/PWAInstallButton.jsx
- * @description PWA Install Button UI (웹/앱)
- * 251219 v1.0.0 jun init 
- */
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { LanguageContext } from '../../context/LanguageContext';
 import './PWAInstallButton.css'; // 아래의 CSS 코드를 저장할 파일명
 
 const PWAInstallButton = () => {
+  const { t } = useContext(LanguageContext);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -60,19 +56,19 @@ const PWAInstallButton = () => {
       <div className="pwa-install-container">
         <div className="pwa-content">
           <div className="pwa-text-group">
-            <h3 className="pwa-title">앱 설치하기</h3>
+            <h3 className="pwa-title">{t('pwaTitle')}</h3>
             <p className="pwa-description">
-              앱을 설치하면 더 빠르고 간편하게<br />서비스를 이용하실 수 있습니다.
+              {t('pwaDescription')}
             </p>
           </div>
         </div>
         
         <div className="pwa-button-group">
           <button className="pwa-btn pwa-btn-close" onClick={handleClose}>
-            나중에
+            {t('pwaLater')}
           </button>
           <button className="pwa-btn pwa-btn-install" onClick={handleInstallClick}>
-            설치하기
+            {t('pwaInstall')}
           </button>
         </div>
       </div>

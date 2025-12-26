@@ -142,7 +142,6 @@ export default function MainCS() {
             <h3 className="maincs-card-title-text">{t("csInquiryTitle")}</h3>
             <div className="maincs-callback-area">
               <p className="maincs-callback-desc-text">{t("csInquiryDesc")}</p>
-              <br></br>
               <form onSubmit={onInquirySubmit} className="maincs-callback-form">
                 {/* 제목 */}
                 <label className="maincs-form-label-group">

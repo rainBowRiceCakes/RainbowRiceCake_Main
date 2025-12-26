@@ -102,10 +102,15 @@ export default function MainPTNS() {
   };
 
   // 현재 활성화된 모달 데이터
-  const modalContent = activeModal 
-    ? (footerData[language] ? footerData[language][activeModal] : footerData['ko'][activeModal]) 
-    : null;
-
+    const modalContent = activeModal
+      ? (footerData[language] ? footerData[language][activeModal] : footerData['ko'][activeModal])
+      : null;
+  
+    useEffect(() => {
+      if (activeModal && modalContent) {
+        console.log("PTNS Modal: Current Language:", language, "Modal Content Title:", modalContent.title);
+      }
+    }, [activeModal, language, modalContent]);
   return (
     <>
       <div className="mainptns-frame mainshow-section-frame" id="partners">
