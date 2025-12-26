@@ -22,7 +22,8 @@ import MainPTNS from '../components/main/sections/MainPTNS.jsx';
 // 신규 인증 및 사용자 관련 컴포넌트
 import Login from "../components/main/auth/Login.jsx";
 import MyPage from "../components/main/auth/MyPage.jsx";
-import Register from "../components/main/auth/Register.jsx";
+// import Register from "../components/main/auth/Register.jsx";
+import Social from "../components/main/auth/Social.jsx";
 
 // 사용자 정의 라우트 객체
 const router = createBrowserRouter([
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
         path: '*',
         element: <div>404 Not Found</div>
       },
+      {
+       path: '/callback/social',
+       element: <Social /> 
+      }
 
 // // ---------------------------------
 //             // 3. 보호된 라우트 그룹 (ProtectedRouter 사용)

@@ -12,6 +12,9 @@ import MainlogoImg from "../../assets/main-logo.png";
 import LoginIcon from "../../assets/resource/main-loginIcon.png";
 import Hamburger01 from "./Hamburger01";
 import { LanguageContext } from "../../context/LanguageContext";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAuth } from '../../store/slices/authSlice.js';
+import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
@@ -49,6 +52,11 @@ export default function Header01() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const onlyTitleList = ['/login', '/mypage'];
+  const onlyTitleFlg = onlyTitleList.some(path => path === location.pathname);
   
   // [중요] 드롭다운 영역과 햄버거 버튼 영역을 각각 참조하기 위한 ref
   const dropdownRef = useRef(null);
@@ -98,6 +106,28 @@ export default function Header01() {
     setIsOpen(false);
   };
 
+  function redirectSocialLogin() {
+    navigate('/login');
+  }
+
+  function redirectMypage() {
+    navigate('/mypage');
+  }
+
+  async function logout() {
+    try {
+      navigate('/');
+      const result = await dispatch(logoutThunk());
+      if(result.type.endsWith('/rejected')) {
+        throw result.payload;
+      }
+      dispatch(clearAuth());
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
     <header className="header01-frame">
       <div className="header01-inner-group">
@@ -111,10 +141,22 @@ export default function Header01() {
 
         <div className="header01-actions-group">
           <LanguageToggle />
-          <div className="header01-desktop-links">
-            <Link to="/login" className="header01-action-button-link" onClick={() => setIsOpen(false)}>{t('headerLogin')}</Link>
-            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid" onClick={() => setIsOpen(false)}>{t('headerMyPage')}</Link>
-          </div>
+            {
+              !onlyTitleFlg && (
+                <div className="header01-desktop-links">
+                  {
+                    (isLoggedIn && <button type="button" className="header01-action-button-link" onClick={logout}>{t('headerLogout')}</button>)
+                    ||
+                    <>
+                      <button type="button" className="header01-action-button-link" onClick={redirectSocialLogin}>{t('headerLogin')}</button>
+                      <button type="button" className="header01-action-button-link header01-action-button-link--solid" onClick={redirectMypage}>{t('headerMyPage')}</button>
+                    </>
+                  } 
+                </div>
+              )
+            }
+            {/* <Link to="/login" className="header01-action-button-link" onClick={() => setIsOpen(false)}>{t('headerLogin')}</Link>
+            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid" onClick={() => setIsOpen(false)}>{t('headerMyPage')}</Link> */}
 
           <div className="header01-mobile-icons-group">
             <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>

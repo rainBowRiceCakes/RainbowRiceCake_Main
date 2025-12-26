@@ -650,6 +650,10 @@ export const LANG_CNG = {
     ko: "로그인",
     en: "LOGIN",
   },
+  headerLogout: {
+    ko: "로그아웃",
+    en: "LOGOUT"
+  },
   headerMyPage: {
     ko: "마이페이지",
     en: "MyPage",
