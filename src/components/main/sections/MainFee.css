@@ -120,7 +120,7 @@
   }
 
   .mainfee-title-text {
-    font-size: 15px; /* index.css --com-font-size-title 준수 */
+    font-size: var(--com-font-size-title); /* index.css --com-font-size-title 준수 */
   }
 
   .mainfee-box-title {

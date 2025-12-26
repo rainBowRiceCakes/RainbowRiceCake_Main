@@ -29,7 +29,7 @@
 .maininfo-desc-text {
   margin: var(--com-gap-xs) 0 0;
   color: var(--com-font-muted);
-  font-size: var(--com-size-sidebar);
+  font-size: var(--com-size-mini);
   line-height: 1.5;
 }
 
@@ -48,7 +48,7 @@
   border-radius: var(--com-radius-pill);
   padding: var(--com-gap-sm) var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
-  font-size: var(--com-size-sidebar);
+  font-size: var(--com-font-size-content);
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
@@ -88,7 +88,7 @@
 .maininfo-card-desc-text {
   margin: var(--com-gap-xs) 0 var(--com-radius-md); 
   color: var(--com-font-muted); 
-  font-size: 13px; 
+  font-size: var(--com-size-sub-title); 
   line-height: 1.5;
 }
 
@@ -129,7 +129,7 @@
 .maininfo-note-desc-text {
   margin: 6px 0 0;
   color: var(--com-font-muted);
-  font-size: 13px;
+  font-size: var(--com-size-sub-title);
   line-height: 1.5;
 }
 

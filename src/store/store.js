@@ -5,9 +5,11 @@
  */
 
 import { configureStore } from "@reduxjs/toolkit";
+import questionReducer from "./slices/questionSlice.js";
+// auth는 나중에
 
 export default configureStore ({
   reducer: {
-
+    questions: questionReducer,
   }
 });

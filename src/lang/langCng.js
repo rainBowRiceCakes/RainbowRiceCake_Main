@@ -53,16 +53,16 @@ export const LANG_CNG = {
     en: "Service Introduction",
   },
   infoDescription: {
-    ko: "QR/영수증 기반으로 간편 접수하고 안전하게 보관·배송하는 서비스예요.",
+    ko: "DGD를 이용해 주셔서 감사합니다",
     en: "A service for simple registration and secure storage/delivery based on QR codes/receipts.",
   },
   infoFeeGuideButton: {
     ko: "요금 안내",
-    en: "Fee Information",
+    en: "Fee Info",
   },
   infoBranchGuideButton: {
     ko: "지점 안내",
-    en: "Branch Information",
+    en: "Branch Info",
   },
   infoHowToUseTitle: {
     ko: "이용 방법 (Step Flow)",
@@ -166,6 +166,14 @@ export const LANG_CNG = {
   ptnsSearchLoadingLocation: {
     ko: "위치 정보를 불러오는 중입니다...",
     en: "Loading location information...",
+  },
+  ptnsMapLoading: {
+    ko: "지도를 불러오는 중입니다...",
+    en: "Loading map...",
+  },
+  ptnsMapError: {
+    ko: "지도를 불러오는 데 실패했습니다.",
+    en: "Failed to load map.",
   },
 
   // --- src/components/main/sections/MainFee.jsx ---
@@ -455,6 +463,62 @@ export const LANG_CNG = {
     ko: "문의드립니다",
     en: "Inquiry",
   },
+  csInquiryTitle: {
+    ko: "문의",
+    en: "Inquiry",
+  },
+  csInquiryDesc: {
+    ko: "운영시간 외에도 문의를 남기면 확인 후 순차적으로 안내드려요.",
+    en: "If you leave an inquiry outside of business hours, we will check and guide you sequentially.",
+  },
+  csInquirySubjectLabel: {
+    ko: "제목",
+    en: "Subject",
+  },
+  csInquirySubjectPlaceholder: {
+    ko: "예: 배송 완료 사진이 안 보여요",
+    en: "e.g., I can't see the delivery completion photo",
+  },
+  csInquiryContentLabel: {
+    ko: "내용",
+    en: "Content",
+  },
+  csInquiryContentPlaceholder: {
+    ko: "상황을 간단히 적어주세요. (주문번호/지점/시간대 등)",
+    en: "Please briefly describe the situation. (Order number/branch/time, etc.)",
+  },
+  csInquiryFileLabel: {
+    ko: "첨부파일 (선택)",
+    en: "Attachment (Optional)",
+  },
+  csInquirySubmitLoading: {
+    ko: "접수 중...",
+    en: "Submitting...",
+  },
+  csInquirySubmit: {
+    ko: "접수하기",
+    en: "Submit",
+  },
+  csInquirySuccessMsg: {
+    ko: "문의가 접수되었습니다. 확인 후 연락드리겠습니다.",
+    en: "Your inquiry has been received. We will contact you after checking.",
+  },
+  csInquiryFailMsg: {
+    ko: "문의 접수 실패",
+    en: "Failed to submit inquiry",
+  },
+  csFilePlaceholder: {
+    ko: "파일",
+    en: "FILE",
+  },
+  csFileChooseBtn: {
+    ko: "파일 선택",
+    en: "Choose File",
+  },
+  csFileNoFileSelected: {
+    ko: "선택된 파일 없음",
+    en: "No file selected",
+  },
 
   // --- src/components/main/sections/MainPTNS.jsx ---
   // 제휴 신청(form)
@@ -572,6 +636,18 @@ export const LANG_CNG = {
     ko: "개인정보 수집 및 이용에 동의합니다.",
     en: "I agree to the collection and use of my personal information."
   },
+  ptnsRequired: {
+    ko: "(필수)",
+    en: "(Required)"
+  },
+  ptnsModalCancel: {
+    ko: "취소",
+    en: "Cancel"
+  },
+  ptnsModalConfirm: {
+    ko: "동의 및 확인",
+    en: "Agree and Confirm"
+  },
 
   // 제휴 안내
   ptnsGuideTitle: {
@@ -609,6 +685,12 @@ export const LANG_CNG = {
   ptnsReceiptMessageDesc: {
     ko: "“제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.”",
     en: "'Your partnership inquiry has been successfully submitted. We will review it and contact you.'",
+  },
+
+  // --- General ---
+  generalThankYouMessage: {
+    ko: "DGD를 이용해 주셔서 감사합니다",
+    en: "Thank you for using DGD",
   },
 
   // --- src/components/main/auth/Login.jsx ---

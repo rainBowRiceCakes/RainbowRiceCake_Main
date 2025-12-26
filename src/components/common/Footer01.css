@@ -24,12 +24,12 @@
   flex-direction: column; /* 요소들을 세로로 배치 (로고가 위, 텍스트가 아래) */
   justify-content: center;
   align-items: center; /* 가로 방향 중앙 정렬 */
-  gap: 30px; /* 로고와 텍스트 정보 사이의 간격 */
+  gap: var(--com-gap-xl); /* 로고와 텍스트 정보 사이의 간격 */
 }
 
 /* 로고 스타일 */
 .footer01-brand-group {
-  margin-bottom: 10px; /* 텍스트와의 추가 간격 미세 조정 (필요 시) */
+  margin-bottom: var(--com-gap-sm); /* 텍스트와의 추가 간격 미세 조정 (필요 시) */
 }
 
 .footer01-logo-img {

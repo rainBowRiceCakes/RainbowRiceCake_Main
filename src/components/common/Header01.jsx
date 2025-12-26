@@ -11,6 +11,7 @@ import "./header01.css";
 import MainlogoImg from "../../assets/main-logo.png";
 import LoginIcon from "../../assets/resource/main-loginIcon.png";
 import Hamburger01 from "./Hamburger01";
+import LanguageToggle from "../../hooks/useLanguageToggle";
 import { LanguageContext } from "../../context/LanguageContext";
 
 // 6개 메뉴 설정
@@ -22,27 +23,6 @@ const NAV_ITEMS_CONFIG = [
   { id: "cs", key: "navCustomerCenter", icon: "cs.svg" },
   { id: "ptns", key: "navPartnershipInquiry", icon: "ptns.svg" },
 ];
-
-// 언어 토글 컴포넌트
-const LanguageToggle = () => {
-  const { lang, setLang } = useContext(LanguageContext);
-  const isKo = lang === 'ko';
-  return (
-    <div 
-      className="lang-toggle-container" 
-      onClick={() => setLang(isKo ? 'en' : 'ko')} 
-      style={{ justifyContent: isKo ? 'flex-start' : 'flex-end' }}
-    >
-      <span className={`lang-toggle-text ${isKo ? 'active' : ''}`}>KO</span>
-      <span className={`lang-toggle-text ${!isKo ? 'active' : ''}`}>EN</span>
-      <motion.div 
-        className="lang-toggle-handle" 
-        layout 
-        transition={{ type: "spring", stiffness: 500, damping: 30 }} 
-      />
-    </div>
-  );
-};
 
 export default function Header01() {
   const { t } = useContext(LanguageContext);

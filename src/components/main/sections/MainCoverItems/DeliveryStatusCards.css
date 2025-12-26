@@ -5,16 +5,16 @@
  */
 
 /* 1) 스텝퍼: 4칸 균등 */
-.dlvsStepper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: start; margin-bottom: 18px; }
+.dlvsStepper { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--com-gap-sm); align-items: start; margin-bottom: 18px; }
 
 /* 2) 스텝 단위 */
-.dlvsStep { position: relative; display: grid; justify-items: center; gap: 8px; }
+.dlvsStep { position: relative; display: grid; justify-items: center; gap: var(--com-gap-xs); }
 
 /* 3) 원형 아이콘 */
 .dlvsStepCircle { width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--com-border-default); background: var(--com-color-white); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #cbd5e1; transition: all 0.2s ease; }
 
 /* 4) 라벨 */
-.dlvsStepLabel { font-size: 11px; font-weight: 800; color: #bbb; white-space: nowrap; }
+.dlvsStepLabel { font-size: var(--com-size-mini); font-weight: 800; color: #bbb; white-space: nowrap; }
 
 /* 5) 연결 라인 */
 .dlvsStepLine { position: absolute; top: 27px; right: -14px; width: 28px; height: 2px; background: var(--com-border-default); }

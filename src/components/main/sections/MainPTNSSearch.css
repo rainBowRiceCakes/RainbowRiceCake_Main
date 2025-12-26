@@ -44,7 +44,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--com-gap-md);
-  padding: 40px 0;
+  padding: var(--com-gap-xl) 0;
 }
 
 /* 7. “제휴지점 찾기” 아이콘 크기/색/무채색 처리(여기만 변경).  */
@@ -61,7 +61,7 @@
   background-color: var(--com-color-black);
   color: var(--com-color-white);
   border: none;
-  padding: 12px 24px;
+  padding: var(--com-radius-md) var(--com-size-icon);
   border-radius: var(--com-radius-pill);
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
@@ -151,7 +151,7 @@
 
   /* 타이틀 폰트 크기 축소 */
   .ptnssearch-title-text {
-    font-size: 15px; /* index.css의 모바일 타이틀 규격 준수 */
+    font-size: var(--com-font-size-title); /* index.css의 모바일 타이틀 규격 준수 */
   }
 
   /* 카드 내부 여백 및 텍스트 축소 */
@@ -176,7 +176,7 @@
 
   /* 버튼 크기 축소 */
   .ptnssearch-primary-button {
-    padding: 8px 16px;
+    padding: var(--com-gap-xs) 16px;
     font-size: var(--com-size-content);
   }
 }

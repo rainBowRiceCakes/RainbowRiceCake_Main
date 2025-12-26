@@ -35,7 +35,7 @@
 }
 
 .mypage-lock-icon {
-  font-size: 48px;
+  font-size: var(--com-size-button-lg);
   margin-bottom: var(--com-gap-md);
 }
 

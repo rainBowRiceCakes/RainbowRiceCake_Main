@@ -1,3 +1,9 @@
+/**
+ * @file src/store/thunks/authThunk.js
+ * @description 인증 관련 텅크
+ * 251216 v1.0.0 sara init 
+ */
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance.js";
 

@@ -9,7 +9,7 @@
   width: 100%;
   overflow: hidden; /* 영역 밖 로고 숨김 */
   background-color: var(--com-color-white); /* 배경색 */
-  padding: 20px 0; /* 위아래 여백 */
+  padding: var(--com-container-padding) 0; /* 위아래 여백 */
   position: relative;
 }
 
@@ -78,7 +78,7 @@
     height: 80px;
     
     /* 좌우 여백을 조금 줄여서 로고를 더 크게 보이게 함 */
-    padding: 0 10px;
+    padding: 0 var(--com-gap-sm);
   }
 
   /* 모바일에서는 애니메이션 속도를 조금 빠르게 */

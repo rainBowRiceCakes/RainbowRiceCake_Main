@@ -1,0 +1,54 @@
+/* Language Toggle Switch - iPhone Style */
+.lang-toggle-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 56px; /* Toggle width */
+  height: var(--com-gap-xl); /* Toggle height */
+  background-color: var(--com-color-bg-light); /* Global light gray background */
+  border-radius: var(--com-radius-pill); /* Full rounded corners */
+  cursor: pointer;
+  padding: 3px;
+  transition: all 0.3s ease;
+  user-select: none;
+  overflow: hidden;
+}
+
+.lang-toggle-container:hover {
+  border-color: var(--com-font-muted);
+  transform: translateY(-1px);
+}
+
+.lang-toggle-handle {
+  width: var(--com-size-icon);
+  height: var(--com-size-icon);
+  background-color: var(--com-color-white);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Realistic shadow */
+  z-index: 2;
+}
+
+/* Background Text (KO/EN) */
+.lang-toggle-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-muted);
+  transition: color 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lang-toggle-text:first-of-type {
+  left: var(--com-gap-xs);
+}
+
+.lang-toggle-text:last-of-type {
+  right: var(--com-gap-xs);
+}
+
+.lang-toggle-text.active {
+  color: var(--com-font-primary-color);
+}

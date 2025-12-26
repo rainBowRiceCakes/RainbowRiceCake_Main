@@ -24,7 +24,9 @@ export default function DeliveryStatusCards({ status = "waiting" }) {
 
   return (
     <div className="dlvsStepper" aria-label="배송 상태 단계">
-      {STEPS.map(({ key, label, Icon }, i) => {
+      {STEPS.map((step, i) => { // Get the whole step object
+        const { key, label } = step;
+        const StepIcon = step.Icon; // Extract Icon separately
         const isDone = i < active;
         const isActive = i === active;
 
@@ -38,7 +40,7 @@ export default function DeliveryStatusCards({ status = "waiting" }) {
               ].join(" ")}
               aria-hidden="true"
             >
-              <Icon />
+              <StepIcon /> {/* Used as a component */}
             </div>
 
             <div

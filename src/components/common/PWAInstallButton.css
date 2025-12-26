@@ -35,13 +35,13 @@
   z-index: 9999;
   
   /* 모바일에서 섹션 패딩이 너무 클 경우를 대비해 약간 조정 */
-  padding-top: 30px;
+  padding-top: var(--com-gap-xl);
   padding-bottom: 40px; 
 }
 
 /* 텍스트 영역 */
 .pwa-content {
-  margin-bottom: 24px;
+  margin-bottom: var(--com-size-icon);
   text-align: center;
 }
 
@@ -49,7 +49,7 @@
   font-size: var(--com-font-size-title);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
-  margin-bottom: 8px;
+  margin-bottom: var(--com-gap-xs);
 }
 
 .pwa-description {
@@ -61,7 +61,7 @@
 /* 버튼 그룹 */
 .pwa-button-group {
   display: flex;
-  gap: 12px;
+  gap: var(--com-radius-md);
   justify-content: space-between;
 }
 
@@ -82,15 +82,15 @@
 
 /* 닫기 버튼 (회색 톤) */
 .pwa-btn-close {
-  background-color: var(--com-color-section-bg);
+  background-color: var(--com-color-bg-section);
   color: var(--com-font-gray);
-  border: 1px solid var(--com-content-border-color);
+  border: 1px solid var(--com-border-default);
 }
 
 /* 설치 버튼 (강조색 - 파란색) */
 .pwa-btn-install {
-  background-color: var(--com-font-blue);
-  color: var(--com-button-content); /* 흰색 텍스트 */
+  background-color: var(--com-color-black);
+  color: var(--com-color-white); /* 흰색 텍스트 */
 }
 
 /* 애니메이션 정의 */
@@ -106,8 +106,8 @@
 /* 아이폰 SE 등 작은 화면 미디어 쿼리 대응 (변수가 이미 처리하지만 추가 보정) */
 @media screen and (max-width: 375px) {
   .pwa-install-container {
-    padding-top: 20px;
-    padding-bottom: 30px;
+    padding-top: var(--com-container-padding);
+    padding-bottom: var(--com-gap-xl);
   }
 }
 
@@ -144,11 +144,11 @@
   /* (선택사항) PC 화면에 맞춰 폰트 크기 약간 키움 */
   .pwa-title {
     font-size: 20px;
-    margin-bottom: 12px;
+    margin-bottom: var(--com-radius-md);
   }
   .pwa-description {
-    font-size: 14px;
-    margin-bottom: 30px;
+    font-size: var(--com-size-sidebar);
+    margin-bottom: var(--com-gap-xl);
   }
 }
 

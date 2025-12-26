@@ -2,6 +2,7 @@
  * @file src/components/main/sections/MainInfo.jsx
  * @description 메인 서비스 안내
  * 251216 v1.0.0 sara init 
+ * 251226 v1.1.0 등급별 사이즈 변경 및 아이콘 추가
  */
 
 import { useContext } from 'react';
@@ -70,39 +71,40 @@ export default function MainInfo() {
             </p>
 
             {/* Size Grid: grid-3 -> maininfo-grid-3 */}
-            <div className="maininfo-grid-3">
-              {/* Item with inline style -> maininfo-size-item */}
-              <div className="maininfo-size-item">
-                <div className="maininfo-size-title-text">{t('infoSizeSmall')}</div>
-                <div className="maininfo-size-desc-text">80 × 75 × 200cm</div>
-              </div>
-              <div className="maininfo-size-item">
-                <div className="maininfo-size-title-text">{t('infoSizeMedium')}</div>
-                <div className="maininfo-size-desc-text">100 × 85 × 220cm</div>
-              </div>
-              <div className="maininfo-size-item">
-                <div className="maininfo-size-title-text">{t('infoSizeLarge')}</div>
-                <div className="maininfo-size-desc-text">140 × 100 × 240cm</div>
-              </div>
-            </div>
-
-            {/* Note Group */}
-            <div className="maininfo-note-group">
-              <div className="maininfo-note-item">
-                <div className="maininfo-note-title-text">{t('infoRestrictionsTitle')}</div>
-                <div className="maininfo-note-desc-text">
-                  {t('infoRestrictionsDesc')}
+              <div className="maininfo-grid-3">
+                {/* Item with inline style -> maininfo-size-item */}
+                <div className="maininfo-size-item">
+                  <div className="maininfo-size-title-text">{t('infoSizeSmall')}</div>
+                  <div className="maininfo-size-desc-text">80 × 75 × 200cm</div>
+                </div>
+                <div className="maininfo-size-item">
+                  <div className="maininfo-size-title-text">{t('infoSizeMedium')}</div>
+                  <div className="maininfo-size-desc-text">100 × 85 × 220cm</div>
+                </div>
+                <div className="maininfo-size-item">
+                  <div className="maininfo-size-title-text">{t('infoSizeLarge')}</div>
+                  <div className="maininfo-size-desc-text">140 × 100 × 240cm</div>
                 </div>
               </div>
 
-              <div className="maininfo-note-item">
-                <div className="maininfo-note-title-text">{t('infoBranchNoticeTitle')}</div>
-                <div className="maininfo-note-desc-text">
-                  {t('infoBranchNoticeDesc')}
+              {/* Note Group */}
+              <div className="maininfo-note-group">
+                <div className="maininfo-note-item">
+                  <div className="maininfo-note-title-text">{t('infoRestrictionsTitle')}</div>
+                  <div className="maininfo-note-desc-text">
+                    {t('infoRestrictionsDesc')}
+                  </div>
+                </div>
+
+                <div className="maininfo-note-item">
+                  <div className="maininfo-note-title-text">{t('infoBranchNoticeTitle')}</div>
+                  <div className="maininfo-note-desc-text">
+                    {t('infoBranchNoticeDesc')}
+                  </div>
                 </div>
               </div>
+              
             </div>
-          </div>
         </div>
       </div>
     </div>
