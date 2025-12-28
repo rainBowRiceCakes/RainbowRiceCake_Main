@@ -16,7 +16,6 @@
 
 /* 2. 공통 섹션 그리드 래퍼 */
 .mainshow-section-wrapper {
-  width: 100%;
   max-width: var(--com-web-max-width);
   margin: 0 auto;
   padding: 0 var(--com-container-padding);
@@ -26,6 +25,16 @@
 /* 3. 섹션 간 간격 조절용 프레임 */
 .mainshow-section-frame {
   padding: var(--com-section-padding) 0;
+}
+
+.mainshow-branches-section-style {
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-lg);
+  margin: var(--com-gap-xl) auto; /* Changed to auto for horizontal centering */
+  padding: var(--com-section-padding);
+  background-color: var(--com-color-white);
+  box-shadow: var(--com-shadow-default);
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 /* 4. 플로팅 내비게이션 (오른쪽 사이드 고정) */
@@ -152,5 +161,13 @@
 @media (max-width: 768px) {
   .mainshow-nav-group {
     display: none;
+  }
+}
+
+/* 📱 아이폰 SE (375px 이하) 전용 사이즈 조정 */
+@media screen and (max-width: 375px) {
+  .mainshow-branches-section-style {
+    width: calc(100% - (2 * var(--com-container-padding))); /* 375 - 2*12 = 351px */
+    margin: var(--com-gap-xl) var(--com-container-padding); /* Align with content area */
   }
 }

@@ -36,6 +36,7 @@
 .header01-left-box {
   display: flex;
   align-items: center;
+  margin-left: -var(--com-container-padding); /* Align flush with the inner-group's edge */
 }
 
 .header01-logo-button {
@@ -54,8 +55,8 @@
 }
 
 .header01-brand-img-container {
-  width: 140px; /* Adjust width based on actual logo aspect ratio */
-  height: 50px; /* Fits within the 80px header */
+  width: 50px; /* Reduced width */
+  height: 40px; /* Reduced height */
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -279,10 +280,14 @@
   .header01-inner-group {
     padding: 0 var(--com-size-subtitle, 16px); /* Use mobile padding if defined, else 16px */
   }
+  
+  .header01-left-box {
+    margin-left: -var(--com-size-subtitle); /* Align flush with mobile padding */
+  }
 
   .header01-brand-img-container {
-    width: 110px; /* Smaller logo for mobile */
-    height: 40px;
+    width: 50px; /* Consistent reduced width for mobile */
+    height: 40px; /* Consistent height */
   }
 
   .header01-desktop-links {

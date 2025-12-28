@@ -8,20 +8,17 @@ import { useMemo, useRef, useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./header01.css";
-import MainlogoImg from "../../assets/main-logo.png";
-import LoginIcon from "../../assets/resource/main-loginIcon.png";
 import Hamburger01 from "./Hamburger01";
-import LanguageToggle from "../../hooks/useLanguageToggle";
+import LanguageToggle from "./LanguageToggle";
 import { LanguageContext } from "../../context/LanguageContext";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
-  { id: "info", key: "navServiceIntro", icon: "info.svg" },
-  { id: "search", key: "navBranchInfo", icon: "search.svg" },
-  { id: "fee", key: "navFeeInfo", icon: "fee.svg" },
-  { id: "dlvs", key: "navDeliveryStatus", icon: "dlvs.svg" },
-  { id: "cs", key: "navCustomerCenter", icon: "cs.svg" },
-  { id: "ptns", key: "navPartnershipInquiry", icon: "ptns.svg" },
+  { id: "plans", key: "navPlans", icon: "info.svg" },
+  { id: "branches", key: "navBranches", icon: "search.svg" },
+  { id: "fee", key: "navFee", icon: "fee.svg" },
+  { id: "support", key: "navSupport", icon: "cs.svg" },
+  { id: "partners", key: "navPartners", icon: "ptns.svg" },
 ];
 
 export default function Header01() {
@@ -29,6 +26,9 @@ export default function Header01() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const mainLogo = "/resource/main-logo.png";
+  const LoginIcon = "/resource/main-loginIcon.png";
   
   // [중요] 드롭다운 영역과 햄버거 버튼 영역을 각각 참조하기 위한 ref
   const dropdownRef = useRef(null);
@@ -84,7 +84,7 @@ export default function Header01() {
         <div className="header01-left-box">
           <button type="button" className="header01-logo-button" onClick={onLogoClick}>
             <div className="header01-brand-img-container">
-              <img src={MainlogoImg} alt="logo" className="header01-brand-img" />
+              <img src={mainLogo} alt="logo" className="header01-brand-img" />
             </div>
           </button>
         </div>

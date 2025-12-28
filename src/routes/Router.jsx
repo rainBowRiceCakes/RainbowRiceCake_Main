@@ -15,7 +15,6 @@ import MainShow from "../components/main/MainShow.jsx";
 import MainCover from '../components/main/sections/MainCover.jsx';
 import MainInfo from '../components/main/sections/MainInfo.jsx';
 import MainFee from '../components/main/sections/MainFee.jsx';
-// import MainDLVS from '../components/main/sections/MainDLVS.jsx';
 import MainCS from '../components/main/sections/MainCS.jsx';
 import MainPTNS from '../components/main/sections/MainPTNS.jsx';
 import MainPTNSSearch from "../components/main/sections/MainPTNSSearch.jsx";
@@ -48,27 +47,23 @@ const router = createBrowserRouter([
         element: <MainCover /> 
       },
       { 
-        path: '/sections/info', 
+        path: '/sections/plans', // DGD Plans section
         element: <MainInfo /> 
       },
       { 
-        path: '/sections/fee', 
+        path: '/sections/fee', // Fee information section
         element: <MainFee /> 
       },
-      // { 
-      //   path: '/sections/dlvs', 
-      //   element: <MainDLVS /> 
-      // },
       { 
-        path: '/sections/cs', 
+        path: '/sections/support', // Customer Support section
         element: <MainCS /> 
       },
       { 
-        path: '/sections/ptns', 
+        path: '/sections/partners', // Partnership inquiry section
         element: <MainPTNS /> 
       },
       { 
-        path: '/sections/ptnssearch', 
+        path: '/sections/branches', // Find Branches section
         element: <MainPTNSSearch /> 
       },
       

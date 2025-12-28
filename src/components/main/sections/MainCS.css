@@ -123,7 +123,9 @@
 
 /* FAQ */
 .maincs-faq-list-group {
-  margin-top: var(--com-radius-md);
+  margin-top: var(--com-size-subtitle);
+  border-top: 1px solid var(--com-color-overlay);
+  padding-top: var(--com-size-sidebar);
   display: grid;
   gap: var(--com-gap-sm);
 }
@@ -211,6 +213,10 @@
   box-shadow: 0 0 0 4px var(--com-color-overlay);
 }
 
+.maincs-field-input::placeholder {
+  color: #d1d5db; /* 연한 회색 */
+}
+
 /* ✅ textarea */
 .maincs-field-textarea {
   width: 100%;
@@ -218,10 +224,15 @@
   border: 1px solid var(--com-border-default);
   padding: var(--com-gap-sm) var(--com-radius-md);
   font-size: var(--com-size-sidebar);
+  font-family: inherit; /* 일관성을 위해 부모 폰트 상속 */
   background-color: var(--com-color-white);
   outline: none;
   resize: vertical;
   line-height: 1.5;
+}
+
+.maincs-field-textarea::placeholder {
+  color: #d1d5db; /* 연한 회색 */
 }
 
 .maincs-field-textarea:focus {
@@ -254,14 +265,34 @@
 }
 
 .maincs-file-preview-item {
+  position: relative; /* For positioning the delete button */
   display: grid;
-  grid-template-columns: 56px 1fr;
+  grid-template-columns: 56px 1fr auto; /* Add column for delete button */
   gap: var(--com-gap-xs);
   align-items: center;
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
   padding: 10px;
 }
+
+.maincs-preview-delete-btn {
+  background: none;
+  border: none;
+  color: var(--com-font-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.maincs-preview-delete-btn:hover {
+  background-color: var(--com-color-red);
+  color: white;
+}
+
 
 .maincs-file-thumb {
   width: 56px;

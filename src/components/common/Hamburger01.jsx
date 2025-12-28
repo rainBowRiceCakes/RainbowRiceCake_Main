@@ -29,7 +29,7 @@ export default function Hamburger01({ navItems, goSection }) {
           {/* 4. 아이콘을 표시하는 영역입니다. */}
           <div className="hamburger01-nav-icon">
             {/* 사용자가 제공할 아이콘 이미지를 렌더링합니다. */}
-            <img src={`/src/assets/resource/nav-icons/${item.icon}`} alt="" />
+            <img src={`/resource/nav-icons/${item.icon}`} alt="" />
           </div>
           {/* 5. 메뉴 항목의 텍스트(레이블)입니다. 다국어 지원을 위해 t 함수를 사용합니다. */}
           <span className="hamburger01-nav-label">{t(item.key)}</span>

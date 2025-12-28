@@ -17,6 +17,7 @@
 
   /* 추가된 변수 from sara */
 
+  
   /* [규격 및 레이아웃] */
   --com-web-max-width-padding: 20px;   /* 좌우 padding 20px + 20px = 40px  */
   --com-web-max-width: 1400px; /* 1440px - 40(좌우 padding)px  = 1400px */
@@ -115,6 +116,10 @@
   --com-gap-xl: 30px; /* 추가된 큰 간격 */
   --com-size-button-lg: 48px; /* 큰 버튼 사이즈 */
   --com-size-button-md: 38px; /* 중간 버튼 사이즈 (모바일용) */
+}
+
+.main-section-padding {
+  padding: var(--com-section-padding) var(--com-container-padding);
 }
 
 /* 📱 아이폰 SE (375px 이하) 전용 가변 변수 덮어쓰기 */

@@ -7,15 +7,15 @@
 import './Carousel.css';
 
 // 이미지 import
-import logo1 from '../../assets/sliders/sliders-logo1.png';
-import logo2 from '../../assets/sliders/sliders-logo2.png';
-import logo3 from '../../assets/sliders/sliders-logo3.png';
-import logo4 from '../../assets/sliders/sliders-logo4.png';
-import logo5 from '../../assets/sliders/sliders-logo5.png';
-import logo6 from '../../assets/sliders/sliders-logo6.png';
-import logo7 from '../../assets/sliders/sliders-logo7.png';
-import logo8 from '../../assets/sliders/sliders-logo8.png';
-import logo9 from '../../assets/sliders/sliders-logo9.png';
+const logo1 = "/sliders/sliders-logo1.png";
+const logo2 = "/sliders/sliders-logo2.png";
+const logo3 = "/sliders/sliders-logo3.png";
+const logo4 = "/sliders/sliders-logo4.png";
+const logo5 = "/sliders/sliders-logo5.png";
+const logo6 = "/sliders/sliders-logo6.png";
+const logo7 = "/sliders/sliders-logo7.png";
+const logo8 = "/sliders/sliders-logo8.png";
+const logo9 = "/sliders/sliders-logo9.png";
 
 // import한 변수를 src에 할당
 const logos = [
@@ -37,12 +37,14 @@ const Carousel = () => {
 
   return (
     <section className="carousel-container">
-      <div className="carousel-track">
-        {loopedLogos.map((logo, index) => (
-          <div className="carousel-item" key={index}>
-            <img src={logo.src} alt={logo.alt} />
-          </div>
-        ))}
+      <div className="mainshow-section-wrapper">
+        <div className="carousel-track">
+          {loopedLogos.map((logo, index) => (
+            <div className="carousel-item" key={index}>
+              <img src={logo.src} alt={logo.alt} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

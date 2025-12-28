@@ -2,11 +2,11 @@ export const footerData = {
   ko: {
     terms: {
       title: "이용 약관 동의",
-      description: "RC 서비스 이용 약관",
+      description: "DGD 서비스 이용 약관",
       articles: [
         {
           heading: "제1조 (목적)",
-          text: "본 약관은 RC(이하 '회사')가 제공하는 짐 배송 및 보관 서비스(이하 '서비스')를 이용함에 있어, 회사와 이용 고객(이하 '고객') 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다."
+          text: "본 약관은 DGD(이하 '회사')가 제공하는 짐 배송 및 보관 서비스(이하 '서비스')를 이용함에 있어, 회사와 이용 고객(이하 '고객') 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다."
         },
         {
           heading: "제2조 (취급 제한 품목 및 거절)",
@@ -53,7 +53,7 @@ export const footerData = {
     },
     privacy: {
       title: "개인정보처리방침",
-      description: "RC(이하 '회사')는 개인정보보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보처리방침을 수립·공개합니다.",
+      description: "DGD(이하 '회사')는 개인정보보호법 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보처리방침을 수립·공개합니다.",
       articles: [
         {
           heading: "1. 개인정보의 처리",
@@ -104,7 +104,7 @@ export const footerData = {
       articles: [
         {
           heading: "제1조 (목적)",
-          text: "본 약관은 RC(이하 “회사”)가 제공하는 짐 배송 및 보관 서비스(이하 “서비스”)와 관련하여, 회사와 이용자(이하 “고객”) 간의 위치정보 이용에 관한 권리, 의무 및 책임사항을 규정함을 목적으로 합니다."
+          text: "본 약관은 DGD(이하 “회사”)가 제공하는 짐 배송 및 보관 서비스(이하 “서비스”)와 관련하여, 회사와 이용자(이하 “고객”) 간의 위치정보 이용에 관한 권리, 의무 및 책임사항을 규정함을 목적으로 합니다."
         },
         {
           heading: "제2조 (이용 목적)",
@@ -145,11 +145,11 @@ export const footerData = {
   en: {
     terms: {
       title: "Agreement to Terms and Conditions",
-      description: "RC Service Terms and Conditions",
+      description: "DGD Service Terms and Conditions",
       articles: [
         {
           heading: "Article 1 (Purpose)",
-          text: "These terms and conditions are intended to define the rights, obligations, and responsibilities between RC (hereinafter referred to as the 'Company') and its users (hereinafter referred to as 'Customers') in using the baggage delivery and storage services (hereinafter referred to as the 'Service') provided by the Company."
+          text: "These terms and conditions are intended to define the rights, obligations, and responsibilities between DGD (hereinafter referred to as the 'Company') and its users (hereinafter referred to as 'Customers') in using the baggage delivery and storage services (hereinafter referred to as the 'Service') provided by the Company."
         },
         {
           heading: "Article 2 (Restricted Items and Refusal)",
@@ -196,7 +196,7 @@ export const footerData = {
     },
     privacy: {
       title: "Privacy Policy",
-      description: "RC (hereinafter referred to as the 'Company') establishes and discloses this Privacy Policy in accordance with Article 30 of the Personal Information Protection Act to protect the personal information of data subjects and to handle related grievances promptly and smoothly.",
+      description: "DGD (hereinafter referred to as the 'Company') establishes and discloses this Privacy Policy in accordance with Article 30 of the Personal Information Protection Act to protect the personal information of data subjects and to handle related grievances promptly and smoothly.",
       articles: [
         {
           heading: "1. Processing of Personal Information",
@@ -247,7 +247,7 @@ export const footerData = {
       articles: [
         {
           heading: "Article 1 (Purpose)",
-          text: "These terms and conditions define the rights, obligations, and responsibilities regarding location information in connection with RC's services."
+          text: "These terms and conditions define the rights, obligations, and responsibilities regarding location information in connection with DGD's services."
         },
         {
           heading: "Article 2 (Purpose of Use)",

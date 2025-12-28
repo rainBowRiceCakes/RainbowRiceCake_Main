@@ -23,39 +23,36 @@ export default function DeliveryStatusCards({ status = "waiting" }) {
   const active = stepIndex(status);
 
   return (
-    <div className="dlvsStepper" aria-label="배송 상태 단계">
-      {STEPS.map((step, i) => { // Get the whole step object
-        const { key, label } = step;
-        const StepIcon = step.Icon; // Extract Icon separately
+    <div className="dlvs-stepper" aria-label="배송 상태 단계">
+      {STEPS.map((step, i) => {
+        const StepIcon = step.Icon;
         const isDone = i < active;
         const isActive = i === active;
 
         return (
-          <div className="dlvsStep" key={key}>
+          <div className="dlvs-step" key={step.key}>
             <div
               className={[
-                "dlvsStepCircle",
+                "dlvs-circle",
                 isDone ? "is-done" : "",
                 isActive ? "is-active" : "",
               ].join(" ")}
               aria-hidden="true"
             >
-              <StepIcon /> {/* Used as a component */}
+              <StepIcon />
             </div>
 
             <div
               className={[
-                "dlvsStepLabel",
+                "dlvs-label",
                 isDone ? "is-done" : "",
                 isActive ? "is-active" : "",
               ].join(" ")}
             >
-              {label}
+              {step.label}
             </div>
 
-            {i !== STEPS.length - 1 && (
-              <div className="dlvsStepLine" aria-hidden="true" />
-            )}
+            {i !== STEPS.length - 1 && <div className="dlvs-line" aria-hidden="true" />}
           </div>
         );
       })}

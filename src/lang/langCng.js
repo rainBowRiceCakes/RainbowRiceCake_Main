@@ -1,28 +1,24 @@
 export const LANG_CNG = {
   // --- src/components/main/MainShow.jsx ---
-  navServiceIntro: {
-    ko: "서비스 소개",
-    en: "Service Introduction",
+  navPlans: {
+    ko: "요금제",
+    en: "Plans",
   },
-  navBranchInfo: {
-    ko: "지점안내",
-    en: "Branch Information",
+  navBranches: {
+    ko: "지점찾기",
+    en: "Branches",
   },
-  navFeeInfo: {
+  navFee: {
     ko: "요금안내",
-    en: "Fee Information",
+    en: "Fee",
   },
-  navDeliveryStatus: {
-    ko: "배송현황",
-    en: "Delivery Status",
+  navSupport: {
+    ko: "고객지원",
+    en: "Support",
   },
-  navCustomerCenter: {
-    ko: "고객센터",
-    en: "Customer Center",
-  },
-  navPartnershipInquiry: {
+  navPartners: {
     ko: "제휴문의",
-    en: "Partnership Inquiry",
+    en: "Partners",
   },
 
   // --- src/components/main/sections/MainCover.jsx ---
@@ -47,88 +43,35 @@ export const LANG_CNG = {
     en: "Go to My Deliveries",
   },
 
-  // --- src/components/main/sections/MainInfo.jsx ---
-  infoTitle: {
-    ko: "서비스 소개",
-    en: "Service Introduction",
+  // --- src/components/main/sections/MainInfo.jsx (Pricing Plans) ---
+  planTitle: {
+    ko: "DGD의 다양한 배송 플랜",
+    en: "DGD's Various Delivery Plans",
   },
-  infoDescription: {
-    ko: "DGD를 이용해 주셔서 감사합니다",
-    en: "A service for simple registration and secure storage/delivery based on QR codes/receipts.",
+  planSelect: {
+    ko: "선택하기",
+    en: "Select Plan",
   },
-  infoFeeGuideButton: {
-    ko: "요금 안내",
-    en: "Fee Info",
+  planSelected: {
+    ko: "선택됨",
+    en: "Selected",
   },
-  infoBranchGuideButton: {
-    ko: "지점 안내",
-    en: "Branch Info",
+  planRecommended: {
+    ko: "Recommended",
+    en: "Recommended",
   },
-  infoHowToUseTitle: {
-    ko: "이용 방법 (Step Flow)",
-    en: "How to Use (Step Flow)",
-  },
-  infoStep1: {
-    ko: "매장 도착 → 제휴 매장/보관소 방문",
-    en: "Arrival → Visit an affiliated store/storage location",
-  },
-  infoStep2: {
-    ko: "Staff 안내에 따라 Form 작성(숙소/연락처 등)",
-    en: "Fill out the form as guided by staff (accommodation/contact, etc.)",
-  },
-  infoStep3: {
-    ko: "픽업/보관 진행(사진 인증 예시)",
-    en: "Proceed with pickup/storage (photo verification example)",
-  },
-  infoStep4: {
-    ko: "호텔/목적지 연계 배송 → 완료 알림(영수증 고유번호)",
-    en: "Linked delivery to hotel/destination → Completion notification (receipt unique number)",
-  },
-  infoTrustFactorTitle: {
-    ko: "신뢰 요소",
-    en: "Trust Factors",
-  },
-  infoTrustFactorDesc: {
-    ko: "staff/관리자 관리, 보관 위치 안내, CCTV 여부, 분실·파손 방지 정책 기반 운영.",
-    en: "Operated based on staff/manager supervision, storage location guidance, CCTV availability, and loss/damage prevention policies.",
-  },
-  infoItemSizeTitle: {
-    ko: "물품 사이즈 안내",
-    en: "Item Size Guide",
-  },
-  infoItemSizeDesc: {
-    ko: "사이즈 및 보관 장소는 지점 상황에 따라 다를 수 있어요.",
-    en: "Sizes and storage availability may vary depending on the branch.",
-  },
-
-  infoSizeSmall: {
-    ko: "소형",
-    en: "Small",
-  },
-  infoSizeMedium: {
-    ko: "중형",
-    en: "Medium",
-  },
-  infoSizeLarge: {
-    ko: "대형",
-    en: "Large",
-  },
-  infoRestrictionsTitle: {
-    ko: "주의/제한",
-    en: "Cautions/Restrictions",
-  },
-  infoRestrictionsDesc: {
-    ko: "현금/귀중품 · 위험물 · 파손 위험 · 음식물(부패 가능)은 보관 불가.",
-    en: "Cash/valuables, hazardous materials, fragile items, and perishable food are not accepted for storage.",
-  },
-  infoBranchNoticeTitle: {
-    ko: "지점 제한 고지",
-    en: "Branch-specific Notices",
-  },
-  infoBranchNoticeDesc: {
-    ko: "지점별 보관 가능 사이즈 상이 · 수량 제한 시 대기 발생 가능.",
-    en: "Available storage sizes may differ by branch. A waiting list may occur if quantity is limited.",
-  },
+  planBasicFeature1: { ko: "물품 1개", en: "1 Item" },
+  planBasicFeature2: { ko: "당일 배송", en: "Same-day" },
+  planBasicFeature3: { ko: "QR 등록", en: "QR Reg" },
+  planStandardFeature1: { ko: "물품 3개", en: "3 Items" },
+  planStandardFeature2: { ko: "체크인 전", en: "Pre-Checkin" },
+  planStandardFeature3: { ko: "QR 등록", en: "QR Reg" },
+  planStandardFeature4: { ko: "프론트 위탁", en: "Front Drop" },
+  planPremiumFeature1: { ko: "물품 5개", en: "5 Items" },
+  planPremiumFeature2: { ko: "시간 지정", en: "Time Slot" },
+  planPremiumFeature3: { ko: "QR 등록", en: "QR Reg" },
+  planPremiumFeature4: { ko: "프론트 위탁", en: "Front Drop" },
+  planPremiumFeature5: { ko: "실시간 추적", en: "Live Track" },
 
   // --- src/components/main/sections/MainPTNSSearch.jsx ---
   ptnsSearchLocationError: {
@@ -687,29 +630,6 @@ export const LANG_CNG = {
     en: "'Your partnership inquiry has been successfully submitted. We will review it and contact you.'",
   },
 
-  // --- General ---
-  generalThankYouMessage: {
-    ko: "DGD를 이용해 주셔서 감사합니다",
-    en: "Thank you for using DGD",
-  },
-
-  pwaTitle: {
-    ko: "앱 설치하기",
-    en: "Install App",
-  },
-  pwaDescription: {
-    ko: "앱을 설치하면 더 빠르고 간편하게 서비스를 이용하실 수 있습니다.",
-    en: "Install the app for faster and easier access to our services.",
-  },
-  pwaLater: {
-    ko: "나중에",
-    en: "Later",
-  },
-  pwaInstall: {
-    ko: "설치하기",
-    en: "Install",
-  },
-
   // --- src/components/main/auth/Login.jsx ---
   loginTitle: {
     ko: "로그인",
@@ -805,11 +725,11 @@ export const LANG_CNG = {
   },
   footerLocation: {
     ko: "위치기반서비스 약관",
-    en: "Location-Based Services Terms",
+    en: "Location Terms",
   },
   footerDaeguBranch: {
-    ko: "RC | RC 대구지점",
-    en: "RC | RC Daegu Branch"
+    ko: "DGD | DGD 대구지점",
+    en: "DGD | DGD Daegu Branch"
   },
   footerCompanyAddress: {
     ko: "41937 대구 중구 중앙대로 394 제일빌딩 5F",

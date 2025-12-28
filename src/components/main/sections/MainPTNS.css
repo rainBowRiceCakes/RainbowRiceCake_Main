@@ -5,242 +5,167 @@
  * 251223 v2.0.0 v2.0.0 jun 라이더, 파트너 form 추가
  */
 
-/* 전체 컨테이너 및 배경 */
 .mainptns-frame {
-  width: 100%;
-  padding: var(--com-section-padding) 0;
-  background-color: var(--com-color-white); /* 전체 배경은 흰색 */
-  display: flex;
-  justify-content: center;
+  padding: 80px 0;
+  background-color: var(--com-color-white);
 }
 
-.mainptns-container {
-  width: 100%;
-  max-width: var(--com-web-max-width);
-  padding: 0 var(--com-web-max-width-padding);
-}
-
-/* 상단 헤더 */
 .mainptns-header-group {
-  margin-bottom: var(--com-gap-xl); /* 30px */
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .mainptns-title-text {
-  font-size: var(--com-size-title); /* 28px */
+  font-size: var(--com-size-title);
   font-weight: var(--com-font-weight-bold);
   color: var(--com-color-black);
-  margin-bottom: var(--com-gap-xs);
 }
 
 .mainptns-desc-text {
-  font-size: var(--com-size-subtitle); /* 16px */
+  font-size: var(--com-size-sidebar);
   color: var(--com-font-muted);
 }
 
-/* 2단 레이아웃 그리드 (왼쪽 폼 : 오른쪽 가이드) */
 .mainptns-grid-2 {
   display: grid;
-  grid-template-columns: 1fr; /* 모바일 기본 1단 */
-  gap: var(--com-gap-xl);
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 
-@media (min-width: 900px) {
-  .mainptns-grid-2 {
-    /* 데스크탑: 1:1 비율 */
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* ----------------------------------------------------------- */
-/* [좌측] 폼 카드 스타일 */
-/* ----------------------------------------------------------- */
 .mainptns-card-box {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
-  padding: var(--com-gap-xl);
-  /* box-shadow 제거: 깔끔한 라인 스타일 (이미지 참조) */
-}
-
-/* 폼 헤더 (타이틀 + 탭 버튼) */
-.form-header-row {
+  box-shadow: var(--com-shadow-default);
+  padding: 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--com-gap-md);
-  flex-wrap: wrap;
-  gap: var(--com-gap-sm);
+  flex-direction: column;
 }
 
 .mainptns-card-title-text {
-  font-size: 18px;
-  font-weight: var(--com-font-weight-bold);
-  color: var(--com-color-black);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  margin-bottom: 30px;
 }
 
-
-
-/* 입력 필드 레이아웃 */
 .mainptns-form-fields-group {
   display: flex;
   flex-direction: column;
-  gap: var(--com-size-icon); /* 필드 간 간격 넓게 */
+  gap: 20px;
 }
 
 .mainptns-input-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--com-radius-md);
+  gap: 15px;
 }
 
 .mainptns-field-label {
-  display: flex;
-  flex-direction: column;
-  gap: var(--com-gap-xs);
-  font-size: var(--com-size-sub-title);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-gray);
+  font-size: 13px;
+  color: var(--com-font-muted);
+  margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .mainptns-field-input {
   width: 100%;
-  padding: var(--com-radius-md) var(--com-size-sidebar);
+  height: 44px;
+  border-radius: var(--com-radius-md);
   border: 1px solid var(--com-border-default);
-  border-radius: 8px;
+  padding: 0 15px;
   font-size: var(--com-size-sidebar);
   outline: none;
-  transition: border-color 0.2s;
 }
 
 .mainptns-field-input:focus {
   border-color: var(--com-color-black);
 }
 
-.mainptns-field-input::placeholder {
-  color: #d1d5db; /* 연한 회색 */
-}
+/* --- 파일 업로드 영역 --- */
+.mainptns-file-hidden { display: none; }
 
-/* 파일 업로드 박스 */
-.mainptns-file-hidden {
-  display: none;
-}
-
-.mainptns-file-box {
+.mainptns-file-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 80px;
-  border: 1px solid var(--com-border-default);
+  height: 100px;
+  border: 1px dashed var(--com-border-default);
   border-radius: 8px;
-  background-color: #fafafa;
-  color: #ccc;
-  font-size: var(--com-size-sub-title);
+  background-color: var(--com-color-bg-light);
+  color: var(--com-font-muted);
   cursor: pointer;
+  font-size: 13px;
 }
 
-/* 하단 버튼 및 약관 */
-.mainptns-form-footer {
-  margin-top: var(--com-gap-sm);
+.mainptns-preview-area {
+  position: relative;
+  width: 100%; height: 100px;
+  border: 1px solid var(--com-border-default);
+  border-radius: 8px; overflow: hidden;
 }
 
-.mainptns-agreement-label {
+.mainptns-thumb { width: 100%; height: 100%; object-fit: contain; }
+
+/* ✅ 요청사항: 우측 하단 배치 + MainCS와 동일한 디자인 */
+.mainptns-delete-btn {
+  position: absolute; 
+  bottom: 8px; /* 하단 배치 */
+  right: 8px;  /* 우측 배치 */
+  background-color: rgba(255, 255, 255, 0.85); /* 이미지 위 가독성을 위한 배경 */
+  border: none; 
+  color: var(--com-font-muted); /* MainCS와 동일한 색상 */
+  border-radius: 50%; 
+  width: 32px; 
+  height: 32px;
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.mainptns-delete-btn:hover {
+  background-color: var(--com-color-red); /* MainCS와 동일한 호버 스타일 */
+  color: white; /* 호버 시 아이콘 흰색 */
+}
+
+/* --- 약관 및 버튼 --- */
+.mainptns-agreement-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.mainptns-checkbox-label {
   display: flex;
   align-items: center;
-  gap: var(--com-gap-xs);
-  margin-bottom: var(--com-gap-xs);
+  gap: 10px;
+  font-size: 13px;
   cursor: pointer;
 }
 
-.mainptns-agreement-text {
-  font-size: var(--com-size-sub-title);
-  color: var(--com-font-gray);
-}
+.required-star { color: #ff0000; font-weight: 900; }
 
 .mainptns-submit-button {
   width: 100%;
-  padding: var(--com-size-subtitle);
-  margin-top: var(--com-size-subtitle);
-  background-color: var(--com-color-black); /* 다크 네이비 */
+  height: 46px;
+  background-color: var(--com-color-black);
   color: var(--com-color-white);
   border: none;
-  border-radius: 8px;
-  font-size: var(--com-size-subtitle);
-  font-weight: var(--com-font-weight-bold);
+  border-radius: var(--com-radius-md);
+  font-weight: 900;
   cursor: pointer;
-  transition: background 0.2s;
+  margin-top: 10px;
 }
 
-.mainptns-submit-button:hover {
-  background-color: var(--com-color-black);
-}
-
-
-/* ----------------------------------------------------------- */
-/* [우측] 가이드 섹션 스타일 */
-/* ----------------------------------------------------------- */
-.mainptns-guide-section {
-  padding-left: var(--com-gap-sm);
-}
-
-.mainptns-section-header {
-  font-size: 18px;
-  font-weight: var(--com-font-weight-bold);
-  margin-bottom: var(--com-gap-md);
-  color: var(--com-font-pr imary-color);
-}
-
-.mainptns-guide-card-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--com-size-subtitle);
-}
-
-.mainptns-guide-card {
-  padding: var(--com-container-padding);
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-md);
-}
-
-.mainptns-guide-title {
-  font-size: 15px;
-  font-weight: var(--com-font-weight-bold);
-  margin-bottom: 6px;
-  color: var(--com-font-primary-color);
-}
-
-.mainptns-guide-desc {
-  font-size: var(--com-size-sub-title);
-  color: var(--com-font-muted);
-  line-height: 1.5;
-}
-
-/* 문의 접수 메시지 박스 (회색 배경) */
-.mainptns-guide-message-box {
-  padding: var(--com-container-padding);
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-md);
-}
-
-.mainptns-guide-message-box::after {
-  content: '';
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-/* --- 모달 스타일 추가 --- */
+/* 모달 레이아웃 */
 .mainptns-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background-color: rgba(0, 0, 0, 0.4); 
   z-index: 9999; 
   display: flex;
@@ -292,50 +217,34 @@
   padding: var(--com-gap-md);
   overflow-y: auto; 
   background-color: var(--com-color-bg-light); 
+  /* 내부 요소(modal-description)밖으로 나가지 못하도록 설정 */
   display: flex;
   flex-direction: column;
 }
 
-.mainptns-modal-description {
-  margin-bottom: var(--com-gap-md);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  border-bottom: 1px dashed var(--com-border-default);
-  padding-bottom: 15px;
-  font-size: var(--com-size-content);
-  word-break: keep-all;
-}
-
-.mainptns-text-content {
+.mainptns-modal-scroll-area { 
   background-color: var(--com-color-white);
   border: 1px solid var(--com-border-default);
-  padding: var(--com-gap-md);
+  padding: var(--com-gap-md); 
   border-radius: var(--com-radius-md); 
   font-size: var(--com-size-content);
   line-height: 1.6;
   color: var(--com-font-primary-color);
   width: 100%;
   box-sizing: border-box;
-  word-break: keep-all;
+  word-break: keep-all; 
   overflow-wrap: break-word;
 }
 
-/* 약관 내부 리스트 스타일 */
-.mainptns-text-content ul {
-  margin: var(--com-gap-sm) 0;
-  padding-left: var(--com-gap-md);
-  list-style-type: disc;
-}
-
-.mainptns-text-content li {
-  margin-bottom: var(--com-gap-xs);
-}
-
-.mainptns-text-content h4 {
+.modal-article { margin-bottom: var(--com-gap-md); } /* Adjusted from 20px */
+.modal-article h4 {
   margin: 15px 0 var(--com-gap-sm);
   color: var(--com-color-black);
   font-weight: var(--com-font-weight-bold);
-  font-size: var(--com-size-sidebar);
+}
+
+.modal-article p {
+  margin-bottom: var(--com-gap-sm);
 }
 
 .mainptns-modal-footer {
@@ -344,56 +253,79 @@
   border-top: 1px solid var(--com-border-default);
   display: flex;
   justify-content: center;
-  gap: var(--com-gap-sm); /* 버튼 간 간격 추가 */
 }
 
-/* 버튼 스타일 (취소 / 동의) */
-.mainptns-btn-cancel {
-  background-color: var(--com-color-bg-light); 
-  color: var(--com-color-black);
-  border: none;
-  padding: var(--com-radius-md) var(--com-size-icon);
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.mainptns-btn-cancel:hover {
-  background-color: var(--com-border-default);
-}
-
-.mainptns-btn-confirm {
-  background-color: var(--com-color-black); 
+.btn-confirm {
+  background-color: var(--com-color-black);
   color: var(--com-color-white);
   border: none;
-  padding: 12px var(--com-gap-xl);
+  height: var(--com-size-button-lg); /* Use large button size for prominence */
   border-radius: var(--com-radius-md);
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
+  font-size: var(--com-size-sidebar); /* Standard sidebar font size */
+  font-weight: var(--com-font-weight-bold); /* Bold font weight */
   cursor: pointer;
-  flex: 1; /* 확인 버튼을 더 크게 */
-  max-width: 200px;
+  transition: all 0.2s ease;
+  box-shadow: var(--com-shadow-xs); /* Subtle shadow for depth */
+  padding: 0 24px; /* Adjust horizontal padding for desired button width */
 }
 
-.mainptns-btn-confirm:hover {
-  opacity: 0.9;
+.btn-confirm:hover {
+  background-color: var(--com-font-gray); /* Slightly lighter black on hover */
+  box-shadow: var(--com-shadow-md); /* More pronounced shadow on hover */
+}
+.btn-cancel {
+  background-color: var(--com-color-bg-light);
+  color: var(--com-color-black);
+  border: none;
+  height: var(--com-size-button-lg); /* Use large button size for prominence */
+  border-radius: var(--com-radius-md);
+  font-size: var(--com-size-sidebar); /* Standard sidebar font size */
+  font-weight: var(--com-font-weight-bold); /* Bold font weight */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--com-shadow-xs); /* Subtle shadow for depth */
+  padding: 0 24px; /* Adjust horizontal padding for desired button width */
+}
+
+.btn-cancel:hover {
+  background-color: var(--com-border-default);
+  box-shadow: var(--com-shadow-md); /* More pronounced shadow on hover */
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(var(--com-gap-md)); 
+  }
+
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 /* 모바일 대응 */
+
+@media screen and (max-width: 900px) {
+
+  .mainptns-grid-2 { grid-template-columns: 1fr; }
+
+}
+
+
+
 @media screen and (max-width: 375px) {
-  .mainptns-input-grid-2 {
-    grid-template-columns: 1fr; /* 모바일에서 그리드 풀기 */
+
+  .mainptns-card-box { padding: 25px 20px; }
+
+  .mainptns-input-grid-2 { grid-template-columns: 1fr; }
+
+  .mainptns-modal-box {
+
+    height: 90vh; /* Take more height on small screens */
+
+    width: 95%; /* Take more width on small screens */
+
   }
-  
-  .mainptns-guide-section {
-    padding-left: 0;
-    margin-top: var(--com-gap-md);
-  }
+
 }

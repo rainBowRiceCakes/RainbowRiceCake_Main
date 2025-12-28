@@ -42,23 +42,72 @@
   border-bottom: 1px solid var(--com-border-default);
 }
 
-.ptnssearch-input-box { position: relative; flex: 1; display: flex; align-items: center; cursor: pointer; }
-
-.input-inner-icon { position: absolute; left: 14px; color: var(--com-color-black); }
-
-.ptnssearch-input-field {
-  width: 100%; padding: 12px 12px 12px 40px !important;
+.ptnssearch-input-box {
+  position: relative; flex: 1; display: flex; align-items: center;
+  cursor: pointer;
+  height: 44px; /* input field와 동일한 높이 */
+  padding: 0 12px; /* input field와 동일한 좌우 패딩 */
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
   background-color: var(--com-color-bg-light);
-  font-size: var(--com-size-sidebar);
-  outline: none;
+  transition: border-color 0.2s ease;
 }
 
-.ptnssearch-modal-close-button { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--com-font-muted); }
+.ptnssearch-input-box:focus-within {
+  border-color: var(--com-color-black);
+}
 
+.input-inner-icon {
+  position: absolute;
+  left: 12px; /* Consistent with box padding */
+  color: var(--com-font-muted); /* More subtle color for icon */
+  z-index: 1; /* Ensure icon is above text */
+}
+
+.ptnssearch-input-text {
+  flex-grow: 1; /* 남은 공간을 채움 */
+  padding-left: 36px; /* 아이콘과의 간격 */
+  font-size: var(--com-size-sidebar);
+  color: var(--com-color-black); /* 기본 텍스트 색상 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ptnssearch-input-text.is-placeholder {
+  color: #d1d5db; /* 연한 회색 */
+}
+
+/* 기존 ptnssearch-input-field 스타일은 제거 */
+
+.ptnssearch-modal-close-button { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--com-font-muted); }
 /* --- 지도 및 임베드 요소 --- */
-.ptnssearch-map-container { flex: 1; position: relative; filter: grayscale(1) contrast(1.1); }
+.ptnssearch-map-container { flex: 1; position: relative; }
+
+.current-location-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  box-shadow: var(--com-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--com-font-gray);
+  transition: all 0.2s ease;
+}
+
+.current-location-btn:hover {
+  transform: scale(1.05);
+  background-color: var(--com-color-bg-light);
+}
 
 .ptnssearch-postcode-embed-wrapper {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -91,10 +140,55 @@
   font-weight: var(--com-font-weight-heavy); font-size: var(--com-size-sidebar);
 }
 
+/* --- Placeholder Content (inside maininfo-card-box) --- */
+.main-section-padding {
+  padding: var(--com-section-padding) var(--com-container-padding);
+}
+
+.mainptnssearch-search-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* padding: var(--com-gap-xl) 0;  Removed as padding is handled by main-section-padding */
+}
+
+.mainptnssearch-search-placeholder-text {
+  font-size: var(--com-size-sub-title);
+  color: var(--com-font-muted);
+  margin-bottom: var(--com-gap-md);
+}
+
+.mainptnssearch-search-find-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--com-gap-sm);
+  padding: 14px 28px;
+  border-radius: var(--com-radius-pill);
+  border: none;
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--com-shadow-xs);
+}
+
+.mainptnssearch-search-find-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--com-shadow-md);
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+}
+
+
 /* --- 모바일 최적화 (iPhone SE) --- */
 @media screen and (max-width: 375px) {
   .ptnssearch-modal-content { height: 90%; }
-  .ptnssearch-input-field { font-size: var(--com-size-content); padding-left: 35px !important; }
   .ptnssearch-detail-card { bottom: 10px; left: 10px; right: 10px; padding: 15px; }
   .detail-title { font-size: var(--com-size-sub-title); }
 }
+
