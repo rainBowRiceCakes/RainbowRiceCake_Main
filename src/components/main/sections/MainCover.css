@@ -4,6 +4,7 @@
  * 251216 v1.0.0 sara init 
  * 251229 v1.1.0 video & motion 추가
  */
+
 .maincover-frame {
   display: flex;
   flex-direction: column;

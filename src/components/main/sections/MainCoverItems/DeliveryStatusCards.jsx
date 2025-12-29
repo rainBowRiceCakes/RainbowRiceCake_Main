@@ -8,10 +8,10 @@ import "./DeliveryStatusCards.css";
 import { FaClipboardCheck, FaUserCheck, FaTruckFast, FaCircleCheck } from "react-icons/fa6";
 
 const STEPS = [
-  { key: "waiting", label: "등록", Icon: FaClipboardCheck },
-  { key: "matched", label: "기사매칭", Icon: FaUserCheck },
-  { key: "pickup", label: "배송중", Icon: FaTruckFast },
-  { key: "complete", label: "배송완료", Icon: FaCircleCheck },
+  { key: "req", label: "등록", Icon: FaClipboardCheck },
+  { key: "match", label: "기사매칭", Icon: FaUserCheck },
+  { key: "pick", label: "배송중", Icon: FaTruckFast },
+  { key: "com", label: "배송완료", Icon: FaCircleCheck },
 ];
 
 const stepIndex = (status) => {
@@ -19,7 +19,7 @@ const stepIndex = (status) => {
   return idx === -1 ? 0 : idx;
 };
 
-export default function DeliveryStatusCards({ status = "waiting" }) {
+export default function DeliveryStatusCards({ status = "req" }) {
   const active = stepIndex(status);
 
   return (

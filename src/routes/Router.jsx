@@ -6,7 +6,8 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App.jsx";
-// import ProtectedRouter from "./ProtectedRouter.jsx"; // 인증/권한 로직 처리
+import ProtectedRouter from "./ProtectedRouter.jsx"; // 인증/권한 로직 처리
+import Social from "../components/main/auth/Social.jsx";
 
 // [main/sections] 디렉토리의 개별 섹션 컴포넌트들
 import MainShow from "../components/main/MainShow.jsx";
@@ -22,7 +23,6 @@ import MainPTNSSearch from "../components/main/sections/MainPTNSSearch.jsx";
 // 신규 인증 및 사용자 관련 컴포넌트
 import Login from "../components/main/auth/Login.jsx";
 import MyPage from "../components/main/auth/MyPage.jsx";
-import Register from "../components/main/auth/Register.jsx";
 
 // 사용자 정의 라우트 객체
 const router = createBrowserRouter([
@@ -73,42 +73,38 @@ const router = createBrowserRouter([
       { 
         path: '/login',
         element: <Login /> // 로그인/회원가입 선택 페이지
-      },      
-      { 
-        path: '/mypage',
-        element: <MyPage /> // 마이페이지
-      }, 
+      },
+      {
+        path: '/callback/social', // Social login callback route
+        element: <Social />
+      },
       // { 
       //   path: '/register',
       //   element: <Register /> // 회원가입 폼
-      // }, 
+      // },
+      //  추가 보호경로 주문 내역등 자리 
 
       // ---------------------------------
-      // 3. 404 처리
+      // 3. 보호된 라우트 그룹 (인증 필수)
+      // ---------------------------------
+      { 
+        element: <ProtectedRouter />, // ProtectedRouter로 하위 경로 보호
+        children: [
+          {
+            path: '/mypage', // 마이페이지는 로그인한 사용자만 접근 가능
+            element: <MyPage /> 
+          },
+        ]
+      },     
+      // ---------------------------------
+      // 4. 404 처리
       // ---------------------------------
       {
         path: '*',
         element: <div>404 Not Found</div>
       },
-
-// // ---------------------------------
-//             // 3. 보호된 라우트 그룹 (ProtectedRouter 사용)
-//             // ---------------------------------
-//             { 
-//                 element: <ProtectedRouter />, 
-//                 children: [
-//                     // *참고: ProtectedRouter 내부의 정규식과 매칭되는 경로를 할당합니다.
-//                     {
-//                         path: '/mypage', // AUTH_REQUIRED_ROUTES에 매칭될 경로
-//                         element: <MyPage /> 
-//                     },
-//                     // 기타 보호가 필요한 경로들을 여기에 추가...
-//                 ]
-//         ]
-//     }
-// ]);
-      ]
-    }
+    ]
+   },
 ]);
 
 export default function Router() {

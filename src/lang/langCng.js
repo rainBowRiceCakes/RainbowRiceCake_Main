@@ -121,8 +121,8 @@ export const LANG_CNG = {
 
   // --- src/components/main/sections/MainFee.jsx ---
   feeTitle: {
-    ko: "가격 및 지점 안내",
-    en: "Pricing and Branch Information",
+    ko: "가격 안내",
+    en: "Pricing Information",
   },
   feeDesc: {
     ko: "합리적인 가격과 신선함을 위한 배송/픽업 지점을 확인하세요.",

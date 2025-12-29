@@ -10,15 +10,15 @@ import { useState, useContext, useMemo, useEffect, useRef } from "react";
 import "./MainCS.css";
 import { LanguageContext } from "../../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
-import { createQuestionThunk } from '../../../store/thunks/questionThunk.js';
-import { clearCreateState } from "../../../store/slices/questionSlice.js";
+import { questionStoreThunk } from '../../../store/thunks/questionStoreThunk.js';
+import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
 import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx';
 
 export default function MainCS() {
   const { t } = useContext(LanguageContext);
   const [openItems, setOpenItems] = useState(new Set());
   const dispatch = useDispatch();
-  const { loading } = useSelector((s) => s.questions.create);
+  const { isLoading: loading, error: questionError } = useSelector((s) => s.questionStore);
   const fileInputRef = useRef(null);
 
   const [inqTitle, setInqTitle] = useState("");
@@ -62,31 +62,33 @@ export default function MainCS() {
       fileInputRef.current.value = "";
     }
   };
+const onInquirySubmit = async (e) => {
+  e.preventDefault();
+  setFormStatus({ state: "idle", message: "" });
+  
+const formData = new FormData();
+  formData.append("subject", inqTitle);
+  formData.append("message", inqContent);
+  
+  // 여러 개의 파일을 반복문으로 추가
+  inqFiles.forEach((file) => {
+    formData.append("files", file); 
+  });
 
-  const onInquirySubmit = async (e) => {
-    e.preventDefault();
-    setFormStatus({ state: "idle", message: "" });
+  const result = await dispatch(questionStoreThunk(formData)); // 생성된 formData 전달
 
-    const result = await dispatch(
-      createQuestionThunk({
-        subject: inqTitle,
-        message: inqContent,
-        files: inqFiles,
-      })
-    );
-
-    if (createQuestionThunk.fulfilled.match(result)) {
-      setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
-      e.currentTarget.reset();
-      setInqTitle("");
-      setInqContent("");
-      setInqFiles([]);
-      dispatch(clearCreateState());
-    } else {
-      const errorMessage = result.payload?.response?.data?.message || result.payload?.message || t("csInquiryFailMsg");
-      setFormStatus({ state: "error", message: errorMessage });
-    }
-  };
+  if (questionStoreThunk.fulfilled.match(result)) {
+    setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
+    setInqTitle("");
+    setInqContent("");
+    setInqFiles([]);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    dispatch(clearQuestionStore());
+  } else {
+    // 에러 메시지 처리 (위에서 수정한 questionError와 연동됨)
+    setFormStatus({ state: "error" });
+  }
+};
 
 return (
   <div className="maincs-frame mainshow-section-wrapper">
@@ -170,6 +172,7 @@ return (
                   onChange={(e) => {
                     setInqContent(e.target.value);
                     setFormStatus({ state: "idle", message: "" });
+                    if (questionError) dispatch(clearQuestionStore()); // 입력 시 Redux 에러도 초기화
                   }}
                   required
                   rows={4}

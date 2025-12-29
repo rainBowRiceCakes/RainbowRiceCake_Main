@@ -11,8 +11,8 @@ import { FaCheck } from "react-icons/fa6";
 
 const plansStructure = [
   { id: 'basic', name: "Basic", price: "5,000", features: ["1 Item Delivery", "Same-day", "QR Registration"] },
-  { id: 'standard', name: "Standard", price: "10,000", features: ["3 Items Delivery", "Pre-Check-in", "QR Registration", "Hotel Drop-off"], recommended: true },
-  { id: 'premium', name: "Premium", price: "20,000", features: ["5 Items Delivery", "Time Selection", "QR Registration", "Live Tracking"] },
+  { id: 'standard', name: "Standard", price: "10,000", features: ["3 Items Delivery", "Pre-Check-in", "Hotel Drop-off"], recommended: true },
+  { id: 'premium', name: "Premium", price: "15,000", features: ["5 Items Delivery", "Time Selection", "Live Tracking"] },
 ];
 
 export default function MainInfo() {

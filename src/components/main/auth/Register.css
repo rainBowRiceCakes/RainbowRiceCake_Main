@@ -103,7 +103,7 @@
   width: 100%;
   padding: var(--com-size-sidebar);
   margin-top: var(--com-gap-md);
-  background-color: var(--com-color-black);
+  background-color: var(--com-font-gray);
   color: var(--com-color-white);
   border: none;
   border-radius: var(--com-gap-xs);

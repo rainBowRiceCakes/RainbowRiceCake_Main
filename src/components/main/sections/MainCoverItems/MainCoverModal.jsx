@@ -64,6 +64,13 @@ export default function MainCoverModal({ isOpen, onClose, order }) {
             <strong className="maincover-modal-v">{order.name}</strong>
           </div>
 
+          {order.driverPhone && (
+            <div className="maincover-modal-row">
+              <span className="maincover-modal-k">기사 연락처</span>
+              <strong className="maincover-modal-v">{order.driverPhone}</strong>
+            </div>
+          )}
+
           <div className="maincover-modal-row no-border">
             <span className="maincover-modal-k">결제 금액</span>
             <strong className="maincover-modal-v maincover-modal-price">

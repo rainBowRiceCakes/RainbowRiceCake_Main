@@ -1,29 +1,31 @@
 /**
  * @file src/components/main/sections/MainInfo.css
- * @description 서비스 소개 및 플랜 선택 UI
+ * @description 서비스 소개 및 플랜 선택 UI (Monochrome Theme)
  * 251228 v2.0.0 wook - Refactored to display pricing plans
+ * 251229 v2.1.0 sara - Applied monochrome theme and new mobile layout
  */
 
- .maininfo-frame {
-  /* padding: 80px 0; */ /* Removed as padding is handled by main-section-padding */
-  background-color: var(--com-color-white);
+.maininfo-header-group {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-
-
-.maininfo-header-group { text-align: center; margin-bottom: 50px; }
-.maininfo-title-text { font-size: 24px; font-weight: var(--com-font-weight-bold); }
+.maininfo-title-text {
+  font-size: 24px;
+  font-weight: var(--com-font-weight-bold);
+}
 
 /* 플랜 컨테이너 */
 .maininfo-plans-container {
   display: flex;
   gap: 20px;
   justify-content: center;
-  align-items: flex-start; /* 펼쳐질 때 상단 정렬 */
+  align-items: stretch; /* 카드의 높이를 동일하게 맞춤 */
 }
 
 /* 개별 카드 디자인 */
 .maininfo-plan-card {
+  position: relative; /* 추천 배지 위치의 기준 */
   flex: 1;
   max-width: 350px;
   background: var(--com-color-white);
@@ -33,69 +35,145 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
 }
 
+/* 추천 배지 (모노크롬) */
+.maininfo-recommended-badge {
+  position: absolute;
+  top: 15px; /* 카드의 상단에서 안쪽으로 위치 조정 */
+  right: -30px; /* 카드 우측에서 튀어나오게 조정 */
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  padding: 5px 30px; /* 리본처럼 보이도록 좌우 패딩 늘림 */
+  border-radius: 0; /* 리본 끝을 직선으로 */
+  font-size: 12px;
+  font-weight: var(--com-font-weight-bold);
+  z-index: 2;
+  transform: rotate(45deg); /* 리본처럼 비스듬히 배치 */
+}
+
+/* 선택된 카드 (모노크롬) */
 .maininfo-plan-card.is-selected {
+  background: var(--com-color-black);
+  color: var(--com-color-white);
   border-color: var(--com-color-black);
-  box-shadow: var(--com-shadow-default);
+  box-shadow: var(--com-shadow-md);
 }
 
-.maininfo-plan-header { text-align: center; margin-bottom: 20px; }
-.maininfo-plan-name { font-size: 14px; color: var(--com-font-muted); margin-bottom: 10px; }
-.maininfo-plan-price { font-size: 32px; font-weight: 900; color: var(--com-color-black); }
+.maininfo-plan-card.is-selected .maininfo-plan-name,
+.maininfo-plan-card.is-selected .maininfo-plan-price,
+.maininfo-plan-card.is-selected .maininfo-feature-item span,
+.maininfo-plan-card.is-selected .maininfo-feature-icon {
+  color: var(--com-color-white);
+}
+
+.maininfo-plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.maininfo-plan-name {
+  font-size: 14px;
+  color: var(--com-font-muted);
+  margin-bottom: 10px;
+}
+
+.maininfo-plan-price {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--com-color-black);
+}
 
 .maininfo-features-list {
-  list-style: none; padding: 0; margin-bottom: 30px;
-  overflow: hidden; /* 애니메이션을 위해 필수 */
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+  overflow: hidden;
+  flex-grow: 1; /* 높이 통일을 위해 추가 */
 }
 
 .maininfo-feature-item {
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 12px; font-size: 13px; color: var(--com-font-gray);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--com-font-gray);
 }
 
-.maininfo-feature-icon { color: var(--com-color-green); font-size: 14px; }
+.maininfo-feature-icon {
+  font-size: 14px;
+}
 
 .maininfo-plan-button {
-  width: 100%; padding: 14px 0; border-radius: var(--com-radius-pill);
-  border: 1px solid var(--com-color-black); background: transparent;
-  font-weight: 900; transition: 0.2s;
+  width: 100%;
+  padding: 14px 0;
+  border-radius: var(--com-radius-pill);
+  border: 1px solid var(--com-color-black);
+  background: transparent;
+  color: var(--com-color-black);
+  font-weight: 900;
+  transition: 0.2s;
+  margin-top: auto; /* 항상 하단에 버튼 고정 */
 }
 
-.maininfo-plan-button.active { background: var(--com-color-black); color: var(--com-color-white); }
+.maininfo-plan-card.is-selected .maininfo-plan-button {
+  background: var(--com-color-white);
+  color: var(--com-color-black);
+}
 
 /* 📱 모바일 환경 (iPhone SE 대응 최적화) */
 @media screen and (max-width: 768px) {
   .maininfo-plans-container {
-    gap: 8px; /* 간격 최소화 */
+    gap: 8px;
     padding: 10px;
   }
 
-  .maininfo-plan-card {
-    padding: 15px 8px; /* 내부 여백 축소 */
-    min-width: 90px; /* 3개가 한 줄에 나오도록 설정 */
-    border-radius: 12px; /* 좀 더 각진 네모 박스 느낌 */
+  /* 모바일에서는 리스트 숨김 */
+  .maininfo-features-list {
+    display: none;
   }
 
+  .maininfo-plan-card {
+    padding: 15px 8px;
+    min-width: 90px;
+    border-radius: 12px;
+  }
+  
   .maininfo-plan-header { margin-bottom: 10px; }
   .maininfo-plan-name { font-size: 11px; }
   .maininfo-plan-price { font-size: 16px; margin-bottom: 5px; }
-  
-  /* 리스트 항목 간격 조정 */
-  .maininfo-feature-item {
-    font-size: 9px;
-    margin-bottom: 6px;
-    gap: 4px;
-  }
 
   .maininfo-plan-button {
     padding: 10px 0;
     font-size: 10px;
-    border-radius: 8px; /* 박스 형태에 맞게 곡선 완화 */
+    border-radius: 8px;
   }
 
+  /* 모바일 추천 배지 */
   .maininfo-recommended-badge {
-    top: -8px; right: 5px; font-size: 8px; padding: 2px 6px;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    font-size: 10px;
+    border-radius: var(--com-radius-md);
+    transform: none; /* 회전 제거 */
+  }
+}
+
+/* 📱 아이폰 SE (375px 이하) 전용 최적화 */
+@media screen and (max-width: 375px) {
+  .maininfo-plans-container {
+    padding: 0 var(--com-container-padding); /* 컨테이너 패딩 적용 */
+  }
+  .maininfo-plan-card {
+    padding: 15px; /* 내부 패딩 조정 */
+  }
+  .maininfo-recommended-badge {
+    top: 8px;
+    right: 8px;
+    padding: 3px 6px;
+    font-size: 9px;
   }
 }

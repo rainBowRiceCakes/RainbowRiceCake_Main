@@ -87,8 +87,8 @@ return (
       <div id="plans" className="mainshow-section-frame"><MainInfo /></div>
 
       {/* 2. 지점 안내 섹션 */}
-      <div className="mainshow-section-frame mainshow-branches-section-style"><MainPTNSSearch /></div>
-
+      <div id="branches" className="mainshow-section-frame"><MainPTNSSearch /></div>
+      
       {/* 3. 요금 안내 섹션 */}
       <div id="fee" className="mainshow-section-frame"><MainFee /></div>
 
