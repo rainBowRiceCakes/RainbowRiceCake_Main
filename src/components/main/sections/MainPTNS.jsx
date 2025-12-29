@@ -6,12 +6,22 @@
  */
 
 import { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
 import { footerData } from '../../../data/footerData'; // 약관 데이터
+import { riderFormThunk } from '../../../store/thunks/formThunk.js';
+import { partnerFormThunk } from '../../../store/thunks/formThunk.js';
 import './MainPTNS.css';
 
 export default function MainPTNS() {
   const { t, language } = useContext(LanguageContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Redux 상태 구독 (로딩 상태, 유저 정보 확인)
+  const { user } = useSelector(state => state.auth);
+
   const [activeTab, setActiveTab] = useState('rider'); // 'rider' | 'partner'
 
   // 미리보기 상태 분리 (라이더용/파트너용)
@@ -51,7 +61,7 @@ export default function MainPTNS() {
     }
   };
 
-  // 모달 열기 (체크박스 클릭 시)
+  // 모달 열기 핸들러 (체크박스 클릭 시)
   const openModal = (e, type) => {
     if (!agreements[type]) {
       setActiveModal(type);
@@ -76,29 +86,86 @@ export default function MainPTNS() {
     }
   };
 
-  // 폼 제출
-  const onSubmit = (e) => {
+  // 폼 제출 핸들러(바로 API 호출)
+  const onSubmit = async (e) => {
     e.preventDefault();
+
+    // 약관 동의 확인
     if (!agreements.terms || !agreements.privacy) {
-      alert(t('ptnsAgreeRequiredAlert'));
+      alert(t('ptnsAgreeRequiredAlert') || "이용약관과 개인정보 수집에 동의해주세요.");
+      return;
+    }
+
+    // 권한 중복 확인 (UX 차원)
+    if (activeTab === 'rider' && user?.role === 'DLV') {
+      alert("이미 라이더 권한을 보유하고 계십니다.");
+      return;
+    }
+    if (activeTab === 'partner' && user?.role === 'PTN') {
+      alert("이미 파트너 권한을 보유하고 계십니다.");
       return;
     }
     
-    // 데이터 로그
+    // 폼 데이터 추출
     const form = new FormData(e.currentTarget);
-    const submitData = {
-      ...Object.fromEntries(form.entries()),
-      agreeTerms: agreements.terms ? 'on' : 'off',
-      agreePrivacy: agreements.privacy ? 'on' : 'off'
-    };
-    console.log("Submit Data:", submitData);
-    alert(t('ptnsSubmitSuccessAlert'));
-    e.currentTarget.reset();
+    const rawData = Object.fromEntries(form.entries());
 
-    // 상태 초기화
-    setAgreements({ terms: false, privacy: false });
-    setLicensePreview(null);
-    setLogoPreview(null);
+    // 백엔드 스펙에 맞게 데이터 매핑
+    let payload = {};
+    let actionThunk = null;
+
+if (activeTab === 'rider') {
+  console.log(rawData)
+      // [라이더 데이터 구성]
+      payload = {
+        // 백엔드 필수 필드
+        licenseNumber: rawData.licenseNumber, 
+        description: rawData.description,
+        
+        // 추가 정보
+        phone: rawData.riderPhone,
+        address: rawData.riderAddress,
+        bankName: rawData.bankName,
+        accountNumber: rawData.accountNumber,
+      };
+      actionThunk = riderFormThunk;
+
+    } else {
+      // [파트너 데이터 구성]
+      payload = {
+        // 백엔드 필수 필드
+        businessNumber: rawData.businessNumber,
+        storeName: rawData.storeNameKr, // 한글 상호명을 기본값으로
+        description: rawData.description,
+        
+        // 추가 정보
+        storeKrName: rawData.storeNameKr,
+        storeEnName: rawData.storeNameEn,
+        manager: rawData.managerName,
+        phone: rawData.partnerPhone,
+        address: rawData.storeAddress,
+      };
+      actionThunk = partnerFormThunk;
+    }
+
+// API Dispatch
+    try {
+      // 선택된 Thunk 실행
+      await dispatch(actionThunk(payload)).unwrap();
+
+      // 성공 시 처리
+      e.currentTarget.reset();
+      setAgreements({ terms: false, privacy: false });
+      setLicensePreview(null);
+      setLogoPreview(null);
+
+      // 신청 내역 확인 페이지로 이동
+      navigate('/mypage');
+
+    } catch (error) {
+      console.error("Submission Error:", error);
+      // 백엔드 Validator에서 걸러진 에러 메시지가 여기서 표시됨
+    }
   };
 
   // 현재 활성화된 모달 데이터

@@ -31,20 +31,22 @@ export default function ProtectedRouter() {
     DLV: 'DLV',
     COM: 'COM'
   };
-  const { ADM, COM, DLV, PTN } = ROLE;
+  const { ADM, DLV, PTN, COM } = ROLE;
 
   // 인증 및 인가가 필요한 라우트
   const AUTH_REQUIRED_ROUTES = [
-    { path: /^\/mypage$/, roles: [ COM, DLV, PTN, ADM ]},
-    // { path: /^\/users\/[0-9]+$/, roles: [ COM, DLV, PTN ]},
-    // { path: /^\/posts\/show\/[0-9]+$/, roles: [ COM, DLV, PTN ]},
-    // { path: /^\/posts\/create$/, roles: [ COM, DLV, PTN ]},
+    { path: /^\/mypage$/, roles: [COM, DLV, PTN, ADM]},
+    { path: /^\/users\/[0-9]+$/, roles: [COM, DLV, PTN]},
+    { path: /^\/sections\/ptns\/[0-9]+$/, roles: [ COM ]},
+    // { path: /^\/posts\/[0-9]+$/, roles: [ COM ]},
+    // { path: /^\/posts\/create$/, roles: [ COM ]},
     // MainShow 관련 경로 추가 (예시)
   ];
 
   // 비로그인 유저 접근 허용 라우트
   const GUEST_ONLY_ROUTES = [
     /^\/login$/,
+    /^\/sections\/ptns$/,
   ];
 
   // 인증 체크 로직 (주석 해제 시 사용)
@@ -69,6 +71,7 @@ export default function ProtectedRouter() {
   //   setIsAuthChecked(true);
   // }, []);
 
+  // ProtectedRouter 재발급 처리 여부 체크
   if (!isAuthChecked) {
     return <></>;
   }
