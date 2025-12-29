@@ -2,14 +2,14 @@
 import "./RiderOrderDetailPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import RiderSubHeader from "../common/RiderSubHeader";
 import dayjs from "dayjs";
-import { useMemo } from "react";
 
 export default function RiderOrderDetailPage() {
   const navigate = useNavigate();
   const { id, orderId } = useParams();
-  
+
   const orders = useSelector((state) => state.orders?.orders ?? []);
 
   const order = useMemo(
@@ -27,6 +27,11 @@ export default function RiderOrderDetailPage() {
         </div>
       </div>
     );
+  }
+
+  function redirectCreateQuestions() {
+    console.log("ID:", id, "OrderID:", orderId); // 값이 제대로 출력되는지 확인!
+    navigate(`/rider/${id}/orders/${orderId}/questions`);
   }
 
   const statusText =
@@ -76,8 +81,8 @@ export default function RiderOrderDetailPage() {
           <div className="rod-row">
             <span className="rod-label">배달 금액</span>
             <span className="rod-value">2000원</span> {/* {order.price}원 */}
-          {/* 쇼핑백 사이즈 Basic X 1 - 2천원 / Standard X 1 - 3천원 / Plus X 1 - 5천원 */}
-          </div> 
+            {/* 쇼핑백 사이즈 Basic X 1 - 2천원 / Standard X 1 - 3천원 / Plus X 1 - 5천원 */}
+          </div>
 
           <div className="rod-row">
             <span className="rod-label">쇼핑백 사이즈</span>
@@ -93,13 +98,13 @@ export default function RiderOrderDetailPage() {
 
         {/* 버튼 - issue report 페이지로 이동 */}
         <button
-            type="button"
-            className="rod-issue-btn"
-            onClick={() => navigate(`/rider/${id}/orders/${order.orderNo}/`)}
-            >
-            주문에 문제가 생겼나요?
+          type="button"
+          className="rod-issue-btn"
+          onClick={redirectCreateQuestions}
+        >
+          주문에 문제가 생겼나요?
         </button>
       </div>
     </div>
-  ); 
+  );
 }

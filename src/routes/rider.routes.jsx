@@ -36,11 +36,11 @@ const riderRoutes = [
 
       // 🔹 주문 상세 / 이슈 (공용 레이아웃)
       {
+        path: "orders",
         element: <RiderOrderDetailLayout />,
         children: [
-          { path: "orders/:orderId", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
-          { path: "orders/:orderId/issue", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
-          { path: "mypage/issue", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } }
+          { path: ":orderId", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
+          { path: ":orderId/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
         ],
       },
       // 👤 마이페이지 그룹 (헤더+바텀탭 고정)
@@ -54,6 +54,7 @@ const riderRoutes = [
           { path: "history", element: <DeliveryHistory />, handle: { title: "배송 히스토리" } },
           { path: "settlement", element: <SettlementList />, handle: { title: "정산 내역" } },
           { path: "help", element: <RiderFaqList />, handle: { title: "자주 묻는 질문" } },
+          { path: "help/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
         ],
       },
     ],

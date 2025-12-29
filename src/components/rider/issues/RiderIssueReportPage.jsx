@@ -1,36 +1,43 @@
 // components/rider/issues/RiderIssueReportPage.jsx
-import { useEffect, useMemo, useRef, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { questionImageUploadThunk, questionStoreThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import "./RiderIssueReportPage.css";
 
 const MAX_PHOTOS = 1;
 
-export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
+export default function RiderIssueReportPage({ reporterTypeFixed = null }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderId } = useParams();
 
-  const orders = useSelector((state) => state.orders?.orders ?? []);
-  const order = useMemo(
-    () => orders.find((o) => String(o.orderNo) === String(orderId)),
-    [orders, orderId]
-  );
+  // Store에서 user 정보 가져오기
+  const user = useSelector((state) => state.auth?.user);
 
-  const reporterTypeLabel = reporterTypeFixed === "PARTNER" ? "매장" : "기사";
+  // props가 있으면 props 우선, 없으면 user.role 사용
+  const reporterType = reporterTypeFixed || user?.role;
 
-  const [message, setMessage] = useState("");
+  const getReporterLabel = (type) => {
+    const labels = {
+      COM: "일반 유저",
+      DLV: "기사",
+      PTN: "매장"
+    };
+    return labels[type] || "사용자";
+  };
 
-  // ✅ 모달 상태: 반드시 handleSubmit 위에 있어야 안전
+  const reporterTypeLabel = getReporterLabel(reporterType);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ✅ 사진 업로드 상태
   const fileRef = useRef(null);
   const [photos, setPhotos] = useState([]); // { file, url, id }
-
-  const openFilePicker = () => {
-    if (photos.length >= MAX_PHOTOS) return;
-    fileRef.current?.click();
-  };
 
   const handleFilesSelected = (e) => {
     const fileList = Array.from(e.target.files || []);
@@ -40,9 +47,7 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
     const picked = fileList.slice(0, remain);
 
     const mapped = picked.map((file) => ({
-      id: `${file.name}-${file.size}-${file.lastModified}-${
-        crypto?.randomUUID?.() ?? Math.random()
-      }`,
+      id: `${Date.now()}-${Math.random()}`,
       file,
       url: URL.createObjectURL(file),
     }));
@@ -70,136 +75,157 @@ export default function RiderIssueReportPage({ reporterTypeFixed = "RIDER" }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ✅ 활성화 조건: "이슈 유형 + 이슈 내용"만
-  const canSubmit = message.trim().length > 0;
+  // ✅ 활성화 조건: "제목 + 이슈 내용"
+  const canSubmit = title.trim() && content.trim();
 
-  const handleSubmit = async () => {
-    if (!canSubmit) return;
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (isSubmitting || !canSubmit) return;
 
-    console.log("ISSUE SUBMIT", {
-      reporterType: reporterTypeFixed,
-      orderNo: order?.orderNo ?? orderId,
-      message: message.trim(),
-      photos,
-    });
+    setIsSubmitting(true);
 
-    setIsSubmitted(true);
-  };
+    try {
+      const requestData = {
+        title,
+        content,
+        orderId,
+        reporterType: reporterTypeFixed
+      };
 
+      if (photos[0]?.file) {
+        try {
+          const uploadResult = await dispatch(
+            questionImageUploadThunk(photos[0].file)
+          ).unwrap();
+
+          if (uploadResult?.data?.path) {
+            requestData.image = uploadResult.data.path;
+          }
+        } catch (uploadError) {
+          console.error('이미지 업로드 실패:', uploadError);
+          // 이미지 업로드 실패 시 사용자에게 선택권 제공
+          const proceedWithoutImage = window.confirm(
+            '이미지 업로드에 실패했습니다.\n이미지 없이 신고를 진행하시겠습니까?'
+          );
+          if (!proceedWithoutImage) {
+            setIsSubmitting(false);
+            return;
+          }
+        }
+      }
+
+      await dispatch(questionStoreThunk(requestData)).unwrap();
+      setIsSubmitted(true);
+
+    } catch (error) {
+      console.error('문의 접수 실패:', error);
+      const errorMsg = error.response?.data?.msg || '문의 접수에 실패했습니다.';
+      alert(errorMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
   return (
-    <div className="rip-wrap">
-      <div className="rip-main">
-        <div className="rip-field">
-          <label className="rip-label">신고자 유형</label>
-          <div className="rip-input readOnly">{reporterTypeLabel}</div>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <div className="rip-wrap">
+        <div className="rip-main">
+          <div className="rip-field">
+            <p className="rip-label">신고자 유형</p>
+            <div className="rip-input readOnly">{reporterTypeLabel}</div>
+          </div>
 
-        <div className="rip-field">
-          <label className="rip-label">
-            이슈 내용 <span className="req">*</span>
-          </label>
-          <textarea
-            className="rip-textarea"
-            placeholder="주문 번호와 이슈 내용을 입력해주세요."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </div>
+          <div className="rip-field">
+            <p className="rip-label">
+              제목 <span className="req">*</span>
+            </p>
+            <input
+              className="rip-input"
+              placeholder="제목을 입력해주세요."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className="rip-field">
+            <p className="rip-label">
+              내용 <span className="req">*</span>
+            </p>
+            <textarea
+              className="rip-textarea"
+              placeholder="주문 번호와 이슈 내용을 입력해주세요."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
 
-        <div className="rip-field rip-photo-block">
-          <label className="rip-label">사진 정보</label>
+          <div className="rip-field rip-photo-block">
+            <p className="rip-label">사진 정보</p>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFilesSelected}
+              style={{ display: "none" }}
+            />
 
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFilesSelected}
-            style={{ display: "none" }}
-          />
+            <div className="rip-photo-grid">
+              {photos.map((p) => (
+                <div key={p.id} className="rip-photo-thumb">
+                  <img src={p.url} alt="첨부 이미지" />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(p.id)}
+                    aria-label="사진 삭제"
+                    className="rip-photo-remove"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
 
-          <div className="rip-photo-grid">
-            {photos.map((p) => (
-              <div
-                key={p.id}
-                className="rip-photo-thumb"
-                style={{ position: "relative" }}
-              >
-                <img src={p.url} alt="첨부 이미지" />
+              {photos.length < MAX_PHOTOS && (
                 <button
                   type="button"
-                  onClick={() => removePhoto(p.id)}
-                  aria-label="사진 삭제"
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    right: 8,
-                    width: 28,
-                    height: 28,
-                    borderRadius: 10,
-                    border: "1px solid rgba(0,0,0,0.08)",
-                    background: "rgba(255,255,255,0.9)",
-                    cursor: "pointer",
-                    fontWeight: 900,
-                    lineHeight: "28px",
-                  }}
+                  className="rip-photo-add"
+                  onClick={() => fileRef.current?.click()}
                 >
-                  ×
+                  <div className="rip-photo-plus">+</div>
                 </button>
-              </div>
-            ))}
+              )}
+            </div>
 
-            {photos.length < MAX_PHOTOS && (
+            <p className="rip-photo-hint">
+              Optional / 최대 {MAX_PHOTOS}장까지 첨부 가능
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            className="rip-submit"
+            disabled={!canSubmit || isSubmitting}
+          >
+            {isSubmitting ? '전송 중...' : '이슈 신고하기'}
+          </button>
+        </div>
+
+        {isSubmitted && (
+          <div className="rip-modal-overlay">
+            <div className="rip-modal">
+              <p className="rip-modal-title">이슈가 신고 완료되었습니다.</p>
+              <p className="rip-modal-desc">
+                담당 부서에서 확인 후 순차적으로 안내드릴 예정입니다.
+              </p>
               <button
                 type="button"
-                className="rip-photo-add"
-                onClick={openFilePicker}
+                className="rip-modal-btn"
+                onClick={() => navigate(-1)}
               >
-                <div className="rip-photo-plus">+</div>
+                확인
               </button>
-            )}
+            </div>
           </div>
-
-          <p
-            style={{
-              margin: "10px 2px 0",
-              fontSize: 12,
-              color: "#6b7280",
-              fontWeight: 700,
-            }}
-          >
-            최대 {MAX_PHOTOS}장까지 첨부할 수 있어요.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          className="rip-submit"
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-        >
-          이슈 신고하기
-        </button>
+        )}
       </div>
-
-      {isSubmitted && (
-        <div className="rip-modal-overlay">
-          <div className="rip-modal">
-            <p className="rip-modal-title">이슈가 신고 완료되었습니다.</p>
-            <p className="rip-modal-desc">
-              담당 부서에서 확인 후 순차적으로 안내드릴 예정입니다.
-            </p>
-            <button
-              type="button"
-              className="rip-modal-btn"
-              onClick={() => navigate(-1)}
-            >
-              확인
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+    </form>
   );
 }
 

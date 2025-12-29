@@ -7,11 +7,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ordersReducer from "./slices/ordersSlice.js";
 import noticesReducer from "./slices/noticesSlice.js";
+import questionsReducer from "./slices/questionsSlice.js";
 
 const store = configureStore({
   reducer: {
     orders: ordersReducer,
     notices: noticesReducer,
+    questions: questionsReducer,
   },
 });
 

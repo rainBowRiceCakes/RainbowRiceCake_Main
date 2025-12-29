@@ -31,7 +31,7 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
 
   console.log("orders props:", orders);
 
-    // 🔍 상태 + 뱃지 매핑 확인용 로그
+  // 🔍 상태 + 뱃지 매핑 확인용 로그
   orders.forEach((o) => {
     console.log(
       "orderNo:", o.orderNo,
@@ -42,7 +42,7 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
 
 
   if (!orders || orders.length === 0) {
-  return <div className="rw-empty">진행 중인 주문이 없습니다</div>;
+    return <div className="rw-empty">진행 중인 주문이 없습니다</div>;
   }
 
 

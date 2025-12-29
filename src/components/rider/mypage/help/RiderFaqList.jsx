@@ -26,9 +26,9 @@ export default function RiderFaqList() {
   const [activeCategory, setActiveCategory] = useState("전체");
   const [openFaqId, setOpenFaqId] = useState(null);
 
-  const categories = useMemo(() => 
+  const categories = useMemo(() =>
     ["전체", ...new Set(dummyFaq.map(item => item.category))]
-  , []);
+    , []);
 
   const filteredFaq = useMemo(() => {
     if (activeCategory === "전체") {
@@ -47,7 +47,7 @@ export default function RiderFaqList() {
   };
 
   const handleNavigateToIssueReport = () => {
-    navigate(`/rider/${id}/mypage/issue`);
+    navigate(`/rider/${id}/mypage/help/questions`);
   };
 
   return (
@@ -73,12 +73,12 @@ export default function RiderFaqList() {
             onToggle={() => handleFaqToggle(item.id)}
           />
         ))}
-        </div>
-        <div className="faq-report-container">
+      </div>
+      <div className="faq-report-container">
         <button className="faq-report-btn" onClick={handleNavigateToIssueReport}>
           이슈 신고 하기
         </button>
-        </div>
+      </div>
     </div>
   );
 }
