@@ -1,0 +1,175 @@
+.partner-dashboard-content {
+  padding: 1rem;
+}
+
+/* KPI 카드 */
+.kpi-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid transparent;
+}
+
+.kpi-card.yellow {
+  border-color: #ffc107;
+}
+
+.kpi-card.pink {
+  border-color: #e83e8c;
+}
+
+.kpi-card.mint {
+  border-color: #20c997;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-weight: 600;
+  color: #555;
+  margin-left: 0.5rem;
+}
+
+.card-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.card-change {
+  font-size: 0.9rem;
+}
+
+.card-change.green {
+  color: #28a745;
+}
+
+.card-change.red {
+  color: #dc3545;
+}
+
+/* 데이터 테이블 */
+.data-table-container {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.table-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table th {
+  font-size: 0.9rem;
+  color: #888;
+  font-weight: 600;
+}
+
+/* 상태 라벨 */
+[class^="status-"] {
+  padding: 0.3rem 0.7rem;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.status-완료 {
+  background-color: #e9f7f1;
+  color: #20c997;
+}
+
+.status-진행중 {
+  background-color: #fdeaf2;
+  color: #e83e8c;
+}
+
+.status-요청 {
+  background-color: #fff8e1;
+  color: #ffc107;
+}
+
+.download-btn {
+  background-color: #f0f2f5;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+  background-color: #dfe3e8;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 0.5rem;
+}
+
+.pagination button {
+  border: 1px solid #e9e9e9;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .kpi-cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .kpi-cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .partner-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

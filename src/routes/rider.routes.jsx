@@ -15,7 +15,7 @@ import SettlementList from "../components/rider/mypage/settlement/SettlementList
 import RiderFaqList from "../components/rider/mypage/help/RiderFaqList.jsx";
 import RiderMyPageLayout from "./layouts/RiderMyPageLayout.jsx";
 import RiderMyPage from "../components/rider/mypage/RiderMyPage.jsx";
-import RiderOrderDetailLayout from "./layouts/RiderOrderDetailLayout copy.jsx";
+import RiderOrderDetailLayout from "./layouts/RiderOrderDetailLayout.jsx";
 
 const riderRoutes = [
   // ✅ /rider 로 들어오면 /rider/1 로 보내기 (개발용)

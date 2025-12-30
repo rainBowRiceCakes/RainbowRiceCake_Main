@@ -1,59 +1,119 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+/* 페이지네이션 */
+.pagination {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: var(--adm-spacing-xs);
+   padding: var(--adm-spacing-m);
+   border-top: 1px solid var(--adm-border-secondary);
+}
+
+.pagination button {
+   background: #FFF;
+   border: 1px solid var(--adm-border-primary);
+   width: 32px;
+   height: 32px;
+   border-radius: var(--adm-radius-small);
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.pagination button:hover:not(:disabled):not(.active) {
+   background: var(--adm-bg-primary);
+}
+
+.pagination button:disabled {
+   opacity: 0.5;
+   cursor: default;
+}
+
+.pagination button.active {
+   background: var(--adm-text-primary);
+   color: #FFF;
+   border-color: var(--adm-text-primary);
+}
+
+/* --- Common Detail Page Styles --- */
+.btn-back-page {
+   position: absolute;
+   top: var(--adm-spacing-xl);
+   right: var(--adm-spacing-xl);
+   background: var(--adm-bg-secondary);
+   border: 1px solid var(--common-border-light);
+   padding: var(--adm-spacing-xs) var(--adm-spacing-s);
+   border-radius: var(--common-border-radius-s);
+   font-size: var(--adm-font-base);
+   font-weight: var(--adm-font-weight-semibold);
+   cursor: pointer;
+   color: var(--common-text-secondary-dark);
+   z-index: 10;
+   transition: all 0.2s;
+}
+
+.btn-back-page:hover {
+   color: var(--adm-text-primary);
+   background-color: var(--common-bg-hover);
+   border-color: #bbb;
 }
 
 :root {
-  /* =========================
+   /* =========================
      Layout
   ========================= */
-  --mng-sidebar-width: 240px;
-  --mng-container-padding: 20px;
+   --mng-sidebar-width: 240px;
+   --mng-container-padding: 20px;
 
-  /* =========================
+   /* =========================
      Radius (Global)
   ========================= */
-  --mng-radius-sm: 8px;
-  --mng-radius-md: 14px;
-  --mng-radius-lg: 20px;
-  
-  /* =========================
+   --mng-radius-sm: 8px;
+   --mng-radius-md: 14px;
+   --mng-radius-lg: 20px;
+
+   /* =========================
      Colors
   ========================= */
-  --mng-color-gray-900: #3f3f3f;
-  --mng-color-gray-400: #adb5bd;
-  --mng-color-gray-300: #c2c7d0;
-  --mng-color-border: #dee2e6;
+   --mng-color-gray-900: #3f3f3f;
+   --mng-color-gray-400: #adb5bd;
+   --mng-color-gray-300: #c2c7d0;
+   --mng-color-border: #dee2e6;
 
-  --mng-color-primary: #b7a8f5;
-  --mng-color-success: #2ecc71;
-  --mng-color-info: #3498db;
-  --mng-color-danger: #e74c3c;
-  --mng-color-white: #ffffff;
+   --mng-color-primary: #b7a8f5;
+   --mng-color-success: #2ecc71;
+   --mng-color-info: #3498db;
+   --mng-color-danger: #e74c3c;
+   --mng-color-white: #ffffff;
 
-  /* =========================
+   /* =========================
      Typography
   ========================= */
-  --mng-font-size-xl: 18px;
-  --mng-font-size-lg: 16px;
-  --mng-font-size-md: 14px;
-  --mng-font-size-sm: 12px;
+   --mng-font-size-xl: 18px;
+   --mng-font-size-lg: 16px;
+   --mng-font-size-md: 14px;
+   --mng-font-size-sm: 12px;
 
-  --mng-font-weight-regular: 400;
-  --mng-font-weight-bold: 900;
+   --mng-font-weight-regular: 400;
+   --mng-font-weight-bold: 900;
 
-  /* =========================
+   /* =========================
      Sidebar
   ========================= */
-  --mng-sidebar-title-color: var(--mng-color-gray-400);
-  --mng-sidebar-item-color: var(--mng-color-gray-300);
+   --mng-sidebar-title-color: var(--mng-color-gray-400);
+   --mng-sidebar-item-color: var(--mng-color-gray-300);
 
-  /* =========================
+   /* =========================
      Button
   ========================= */
-  --mng-btn-bg-primary: var(--mng-color-primary);
-  --mng-btn-txt-primary: var(--mng-color-gray-900);
-  --mng-btn-bg-secondary: var(--mng-color-gray-400);
-  --mng-btn-txt-secondary: var(--mng-color-gray-900);
+   --mng-btn-bg-primary: var(--mng-color-primary);
+   --mng-btn-txt-primary: var(--mng-color-gray-900);
+   --mng-btn-bg-secondary: var(--mng-color-gray-400);
+   --mng-btn-txt-secondary: var(--mng-color-gray-900);
 }

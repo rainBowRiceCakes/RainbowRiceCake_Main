@@ -4,10 +4,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // route groups
 // import mainRoutes from "./main.routes.jsx";
 import riderRoutes from "./rider.routes.jsx";
-// import partnerRoutes from "./partner.routes.jsx";
-
+import partnerRoutes from "./partner.routes.jsx";
 import RiderLayout from "./layouts/RiderLayout.jsx";
-// import PartnerLayout from "./layouts/PartnerLayout.jsx";
+import PartnerLayout from "./layouts/PartnerLayout.jsx";
 
 const router = createBrowserRouter([
   // {
@@ -18,13 +17,13 @@ const router = createBrowserRouter([
   {
     path: "/rider",
     element: <RiderLayout />,
-    children: riderRoutes, // ✅ 여기서 riderRoutes만 사용
+    children: riderRoutes,
   },
-  // {
-  //   path: "/partner",
-  //   element: <PartnerLayout />,
-  //   children: partnerRoutes,
-  // },
+  {
+    path: "/partner",
+    element: <PartnerLayout />,
+    children: partnerRoutes,
+  },
 ]);
 
 export default function Router() {

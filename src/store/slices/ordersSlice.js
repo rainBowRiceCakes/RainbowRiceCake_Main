@@ -1,78 +1,85 @@
 // src/store/slices/ordersSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { ORDER_STATUS } from "../../../src/constants/orderStatus.js";
 import { dummyOrders } from "../../data/dummyOrders.js";
 
-// 로컬 스토리지에서 저장된 탭 값을 읽어오거나, 없으면 'waiting'을 기본값으로 사용
-const savedTab = localStorage.getItem("activeRiderTab") || "waiting";
-
 const initialState = {
-  orders: dummyOrders,
-  activeTab: savedTab, // ✅ 로컬 스토리지 값으로 초기화
+  allOrders: dummyOrders, // 점주/관리자가 chase하는 전체 데이터 소스 내중에 [] 로 바꾸기 
+  activeTab: localStorage.getItem("activeRiderTab") || "waiting",
 };
 
-const ordersSlice = createSlice({
+const orderSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
-    // ✅ 탭 전환 및 로컬 스토리지 저장
+    // --- [통용] 탭 관리 ---
     setActiveTab(state, action) {
-      const newTab = action.payload;
-      state.activeTab = newTab;
-      localStorage.setItem("activeRiderTab", newTab); // 로컬 스토리지에 저장
+      state.activeTab = action.payload;
+      localStorage.setItem("activeRiderTab", action.payload);
+    },
+    // 1. [점주] 주문 생성 (초기 상태: req)
+    createOrder(state, action) {
+      state.allOrders.push({
+        ...action.payload,
+        statusCode: 'req', // 요청됨
+        riderId: null,
+      });
     },
 
-    // REQUESTED -> MATCHED
+    // 2. [기사] 주문 수락 -> 상태: mat (MATCHED)
     acceptOrder(state, action) {
-      const orderNo = action.payload;
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (!target) return;
+      const { orderNo, riderId } = action.payload;
 
-      target.statusCode = ORDER_STATUS.MATCHED;
-      // 수락 시 자동으로 '진행(inProgress)' 탭으로 이동하고 싶다면 
-      // 여기서 state.activeTab = "inProgress"를 해줄 수도 있습니다.
+      const myActiveOrders = state.allOrders.filter(
+        (o) => o.riderId === riderId && o.statusCode !== "com"
+      );
+
+      if (myActiveOrders.length >= 3) {
+        alert("동시에 3개까지만 배송 가능합니다.");
+        return;
+      }
+
+      const target = state.allOrders.find((o) => o.orderNo === orderNo);
+      if (target && !target.riderId) {
+        target.riderId = riderId;
+        target.statusCode = "mat"; // DB 상태: mat로 변경
+      }
     },
 
-    markDelivering(state, action) {
-      const orderNo = action.payload;
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (!target) return;
-      target.statusCode = ORDER_STATUS.DELIVERING;
-    },
-
-    markCompleted(state, action) {
-      const orderNo = action.payload;
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (!target) return;
-
-      target.statusCode = ORDER_STATUS.COMPLETED;
-      target.completedAt = new Date().toISOString();
-    },
-
+    // 3. [기사] 픽업 사진 업로드 -> 상태: pick (PICKED/DELIVERING)
     attachPickupPhoto(state, action) {
       const { orderNo, pickupPhotoUrl } = action.payload;
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (!target) return;
-      target.pickupPhotoUrl = pickupPhotoUrl;
+      const target = state.allOrders.find((o) => o.orderNo === orderNo);
+      if (target) {
+        target.pickupPhotoUrl = pickupPhotoUrl;
+        target.statusCode = "pick"; // 사진 업로드 시 자동 상태 변경
+      }
     },
 
+    // 4. [기사] 완료 사진 업로드 -> 상태: com (COMPLETED)
     attachDropoffPhoto(state, action) {
       const { orderNo, dropoffPhotoUrl } = action.payload;
-      const target = state.orders.find((o) => String(o.orderNo) === String(orderNo));
-      if (!target) return;
-      target.dropoffPhotoUrl = dropoffPhotoUrl;
+      const target = state.allOrders.find((o) => o.orderNo === orderNo);
+      if (target) {
+        target.dropoffPhotoUrl = dropoffPhotoUrl;
+        target.statusCode = "com"; // 최종 완료 상태
+        target.completedAt = new Date().toISOString();
+      }
     },
+
+    // 서버 데이터 동기화용
+    setAllOrders(state, action) {
+      state.allOrders = action.payload;
+    }
   },
 });
 
-// ✅ setActiveTab 내보내기 추가
 export const {
   setActiveTab,
+  createOrder,
   acceptOrder,
-  markDelivering,
-  markCompleted,
   attachPickupPhoto,
   attachDropoffPhoto,
-} = ordersSlice.actions;
+  setAllOrders
+} = orderSlice.actions;
 
-export default ordersSlice.reducer;
+export default orderSlice.reducer;

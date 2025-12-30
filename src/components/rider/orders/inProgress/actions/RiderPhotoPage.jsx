@@ -2,11 +2,10 @@ import "./RiderPhotoPage.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+// 통합된 orderSlice의 액션들로 임포트 경로와 이름을 확인하세요.
 import {
   attachPickupPhoto,
   attachDropoffPhoto,
-  markCompleted,
-  markDelivering, // ✅ 변경
 } from "../../../../../store/slices/ordersSlice.js";
 
 export default function RiderPhotoPage({ mode }) {
@@ -14,7 +13,8 @@ export default function RiderPhotoPage({ mode }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const orders = useSelector((state) => state.orders?.orders ?? []);
+  // 1. 상태 경로 수정: state.orders.allOrders
+  const orders = useSelector((state) => state.orders?.allOrders ?? []);
   const order = useMemo(
     () => orders.find((o) => String(o.orderNo) === String(orderId)),
     [orders, orderId]
@@ -59,28 +59,25 @@ export default function RiderPhotoPage({ mode }) {
     if (!previewUrl || isUploading) return;
 
     setIsUploading(true);
+    // 업로드 시뮬레이션
     await new Promise((r) => setTimeout(r, 600));
 
     if (isPickup) {
+      // 2. 통합 리듀서 로직: 사진을 첨부하면 내부에서 statusCode가 'pick'으로 자동 변경됨
       dispatch(
         attachPickupPhoto({
           orderNo: order.orderNo,
           pickupPhotoUrl: previewUrl,
         })
       );
-
-      // ✅ 픽업 사진 업로드 완료 → 배달 중(DELIVERING)
-      dispatch(markDelivering(order.orderNo));
     } else {
+      // 3. 통합 리듀서 로직: 사진을 첨부하면 내부에서 statusCode가 'com'으로 자동 변경됨
       dispatch(
         attachDropoffPhoto({
           orderNo: order.orderNo,
           dropoffPhotoUrl: previewUrl,
         })
       );
-
-      // ✅ 전달 사진 업로드 완료 → 배달 완료(COMPLETED)
-      dispatch(markCompleted(order.orderNo));
     }
 
     setIsUploading(false);
@@ -88,8 +85,10 @@ export default function RiderPhotoPage({ mode }) {
 
     setTimeout(() => {
       if (isPickup) {
+        // 배송 중 페이지로 이동
         navigate(`/rider/${id}/delivering/${order.orderNo}`);
       } else {
+        // 배송 완료 후 메인 탭으로 이동
         navigate(`/rider/${id}`, { state: { activeTab: "completed" } });
       }
     }, 650);
