@@ -1,0 +1,90 @@
+[
+  {
+    "id": 202512240001,
+    "rider_id": 1004,
+    "partner_id": 55,
+    "hotel_id": 99,
+    "email": "customer@email.com",
+    "name": "홍길동",
+    "price": 15500,
+    "cnt_s": 1,
+    "cnt_m": 2,
+    "cnt_l": 0,
+
+    "status": "matched",
+
+    "rider_name": "김라이더",
+    "rider_phone": "010-1234-5678",
+
+    "photo_pickup": "/assets/dlvs-photo-pickup-01.png",
+    "photo_complete": "/assets/dlvs-photo-complete-01.png",
+
+    "memo": "thunk 불러오는 작업 완료 → 보미님과 연결, DLVS 현재 상태 matched"
+  },
+  {
+    "id": 202512240002,
+    "rider_id": 0,
+    "partner_id": 55,
+    "hotel_id": 99,
+    "email": "guest2@email.com",
+    "name": "김서연",
+    "price": 12000,
+    "cnt_s": 0,
+    "cnt_m": 1,
+    "cnt_l": 0,
+
+    "status": "waiting",
+
+    "rider_name": "-",
+    "rider_phone": "-",
+
+    "photo_pickup": "",
+    "photo_complete": "",
+
+    "memo": "등록만 완료(기사 미매칭)"
+  },
+  {
+    "id": 202512240003,
+    "rider_id": 1011,
+    "partner_id": 77,
+    "hotel_id": 101,
+    "email": "guest3@email.com",
+    "name": "박민수",
+    "price": 19000,
+    "cnt_s": 0,
+    "cnt_m": 1,
+    "cnt_l": 1,
+
+    "status": "pickup",
+
+    "rider_name": "박기사",
+    "rider_phone": "010-7777-8888",
+
+    "photo_pickup": "/assets/dlvs-photo-pickup-02.png",
+    "photo_complete": "",
+
+    "memo": "픽업 사진 등록됨 → 배송중"
+  },
+  {
+    "id": 202512240004,
+    "rider_id": 1030,
+    "partner_id": 77,
+    "hotel_id": 101,
+    "email": "guest4@email.com",
+    "name": "최보미",
+    "price": 13500,
+    "cnt_s": 1,
+    "cnt_m": 0,
+    "cnt_l": 0,
+
+    "status": "complete",
+
+    "rider_name": "정기사",
+    "rider_phone": "010-9999-0000",
+
+    "photo_pickup": "/assets/dlvs-photo-pickup-03.png",
+    "photo_complete": "/assets/dlvs-photo-complete-03.png",
+
+    "memo": "배송완료(완료 사진 등록됨)"
+  }
+]

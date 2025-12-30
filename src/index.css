@@ -17,6 +17,7 @@
 
   /* 추가된 변수 from sara */
 
+  
   /* [규격 및 레이아웃] */
   --com-web-max-width-padding: 20px;   /* 좌우 padding 20px + 20px = 40px  */
   --com-web-max-width: 1400px; /* 1440px - 40(좌우 padding)px  = 1400px */
@@ -35,6 +36,8 @@
   /* [폰트 사이즈] */
   --com-size-title: 28px;
   --com-size-subtitle: 16px;
+  --com-size-sub-title: 13px; 
+  /* 기존 --com-size-sub-title: 13px;  -> --com-size-sub-title: 13px;  */
   --com-size-content: 12px;
   --com-size-sidebar: 14px;
   --com-size-mini: 11px;
@@ -115,11 +118,15 @@
   --com-size-button-md: 38px; /* 중간 버튼 사이즈 (모바일용) */
 }
 
+.main-section-padding {
+  padding: var(--com-section-padding) var(--com-container-padding);
+}
+
 /* 📱 아이폰 SE (375px 이하) 전용 가변 변수 덮어쓰기 */
 @media screen and (max-width: 375px) {
   :root {
     --com-font-size-title: 15px;      /* 모바일 타이틀 축소 */
-    --com-font-size-sub-title: 13px;  /* 모바일 서브타이틀 축소 */
+    --com-size-sub-title: 13px;  /* 모바일 서브타이틀 축소 */
     --com-font-size-content: 11px;    /* 모바일 본문/표 텍스트 축소 */
     --com-container-padding: 12px;    /* 모바일 좌우 여백 축소 */
     --com-section-padding: 30px;      /* 섹션 간격 축소 */

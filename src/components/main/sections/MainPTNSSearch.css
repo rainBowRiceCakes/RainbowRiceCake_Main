@@ -3,160 +3,451 @@
  * @description 제휴업체 검색 페이지 (지도 기반 검색 레이아웃)
  * 251218 v1.0.0 sara init 
  * 251220 v1.1.0 sara add kakao map modal
+ * 251226 useKakaoLoader 기반 지점 검색 (Geocoding 및 현위치 통합)
  */
 
-/* 1. 메인 프레임: 상하 여백 확보 */
-.ptnssearch-frame {
-  padding: var(--com-section-padding) 0;
-  background-color: var(--com-color-white);
+
+/* --- 애니메이션 --- */
+@keyframes ptnssearch-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* 검색 카드 컨테이너 (무채색 카드 규격 적용) */
-.ptnssearch-card-box {
+@keyframes ptnssearch-scale-up {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ptnssearch-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- 모달 전체 --- */
+.ptnssearch-modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  animation: ptnssearch-fade-in 0.3s ease-out;
+}
+
+.ptnssearch-modal-content {
+  width: 95%;
+  height: 85%;
+  max-width: 1100px;
   background: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
-  padding: var(--com-container-padding);
   display: flex;
   flex-direction: column;
-  gap: var(--com-gap-md);
-  box-shadow: var(--com-shadow-default);
-}
-
-/* 검색 바 레이아웃 */
-.ptnssearch-input-group {
-  display: flex;
-  gap: var(--com-gap-sm);
-  width: 100%;
-}
-
-.ptnssearch-input-field {
-  flex: 1;
-  padding: var(--com-radius-md) var(--com-size-subtitle);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-sidebar);
-  background-color: var(--com-color-white);
-  color: var(--com-font-primary-color);
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.ptnssearch-input-field:focus {
-  border-color: var(--com-font-gray);
-  box-shadow: 0 0 0 2px var(--com-color-overlay);
-}
-
-/* 지도 영역 레이아웃 */
-.ptnssearch-map-wrapper {
-  width: 100%;
-  height: 350px;
-  border-radius: var(--com-radius-md);
   overflow: hidden;
   border: 1px solid var(--com-border-default);
+  box-shadow: var(--com-shadow-md);
+  animation: ptnssearch-scale-up 0.3s ease-out;
 }
 
-.ptnssearch-map-placeholder {
-  width: 100%;
-  height: 100%;
-  background-color: var(--com-color-bg-light);
+/* --- 모달 헤더 --- */
+.ptnssearch-modal-header {
+  padding: 16px 24px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ptnssearch-map-content {
-  text-align: center;
-  color: var(--com-font-muted);
-}
-
-.ptnssearch-map-icon {
-  font-size: 32px;
-  display: block;
-  margin-bottom: var(--com-gap-xs);
-}
-
-/* 251220 Gemini: Add styles for map modal */
-.ptnssearch-placeholder-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--com-size-subtitle);
-  padding: 40px var(--com-gap-md);
-  text-align: center;
-  color: var(--com-font-muted);
-}
-
-.map-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.map-modal-content {
-  position: relative;
-  width: 90%;
-  height: 80%;
-  max-width: 800px;
-  background-color: white;
-  border-radius: var(--com-radius-lg);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* Ensures map corners are rounded */
-}
-
-.map-modal-header {
-  padding: 15px;
-  display: flex;
-  gap: var(--com-gap-sm);
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--com-border-default);
 }
 
-.map-modal-header .ptnssearch-input-field {
-  flex-grow: 1;
+.ptnssearch-modal-header-title {
+  font-size: 18px;
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
 }
 
-.map-modal-close-button {
-  background: transparent;
+.ptnssearch-modal-close-button {
+  background: none;
   border: none;
-  font-size: var(--com-size-title);
-  font-weight: bold;
-  color: var(--com-font-gray);
+  font-size: 24px;
   cursor: pointer;
-  padding: 0 var(--com-gap-sm);
+  color: var(--com-font-muted);
 }
-/* End of Gemini's additions */
 
-/* 📱 아이폰 SE (375px) 및 모바일 최적화 */
-@media screen and (max-width: 375px) {
-  .ptnssearch-frame {
-    padding: var(--com-section-padding) 0; /* index.css 가변 변수 30px 적용 */
+.ptnssearch-main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--com-color-white);
+}
+
+.ptnssearch-mobile-sheet-handle {
+  display: none;
+}
+
+/* --- 사이드바 --- */
+.ptnssearch-sidebar {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--com-border-default);
+  animation: ptnssearch-fade-in 0.3s ease-out;
+}
+
+.ptnssearch-sidebar-search-area {
+  padding: 16px;
+  position: relative;
+  background: #fff;
+  border-bottom: 1px solid var(--com-border-default);
+}
+
+.ptnssearch-sidebar-input-wrapper {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--com-border-default);
+  border-radius: 8px;
+  background-color: var(--com-color-bg-light);
+  transition: all 0.2s;
+}
+
+.ptnssearch-sidebar-input-wrapper:focus-within {
+  border-color: var(--com-color-black);
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.ptnssearch-sidebar-search-icon {
+  font-size: 16px;
+  color: var(--com-font-muted);
+  margin-right: 10px;
+}
+
+.ptnssearch-sidebar-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  color: var(--com-color-black);
+}
+
+.ptnssearch-input-clear {
+  background: none;
+  border: none;
+  color: var(--com-font-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* --- 검색 결과 드롭다운 --- */
+.ptnssearch-dropdown-list {
+  position: absolute;
+  top: 65px;
+  left: 16px;
+  right: 16px;
+  background: #fff;
+  border: 1px solid var(--com-border-default);
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ptnssearch-dropdown-list li {
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.ptnssearch-dropdown-list li:hover {
+  background-color: #f9fafb;
+}
+
+.drop-place-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 2px;
+}
+
+.drop-place-addr {
+  font-size: 12px;
+  color: #666;
+}
+
+/* --- 매장 리스트 --- */
+.ptnssearch-sidebar-store-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.ptnssearch-sidebar-store-item {
+  padding: 16px;
+  border-bottom: 1px solid var(--com-border-default);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ptnssearch-sidebar-store-item:hover {
+  background-color: var(--com-color-bg-light);
+}
+
+.ptnssearch-sidebar-store-item.ptnssearch-is-active {
+  background-color: #f3f4f6;
+  border-left: 4px solid var(--com-color-black);
+}
+
+.ptnssearch-store-item-name {
+  font-weight: var(--com-font-weight-bold);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.ptnssearch-store-item-address {
+  font-size: 12px;
+  color: var(--com-font-muted);
+}
+
+.ptnssearch-sidebar-no-result {
+  padding: 40px;
+  text-align: center;
+  color: var(--com-font-muted);
+  font-size: 14px;
+}
+
+/* --- 지도 --- */
+.ptnssearch-map-container {
+  flex: 1;
+  position: relative;
+}
+
+/* --- 현위치 버튼 --- */
+.ptnssearch-current-location-btn {
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--com-color-white);
+  border: 1px solid #f0f0f0;
+  box-shadow: var(--com-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ptnssearch-current-location-btn:hover {
+  background-color: #f8f9fa;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.ptnssearch-current-location-btn:active {
+  transform: scale(0.92);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #e5e7eb;
+  transition: all 0.05s ease;
+}
+
+/* --- 메인 섹션 --- */
+.ptnssearch-section-wrapper {
+  max-width: var(--com-web-max-width);
+  margin: 0 auto;
+  padding: 0 var(--com-container-padding);
+}
+
+.ptnssearch-header-group {
+  margin-bottom: var(--com-gap-md);
+}
+
+.ptnssearch-title-text {
+  font-size: var(--com-size-title);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+}
+
+.ptnssearch-desc-text {
+  font-size: var(--com-size-subtitle);
+  color: var(--com-font-muted);
+}
+
+.ptnssearch-card-box {
+  width: 100%;
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-lg);
+  padding: var(--com-section-padding) 0;
+  background-color: var(--com-color-white);
+  box-shadow: var(--com-shadow-default);
+  box-sizing: border-box;
+}
+
+.ptnssearch-search-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ptnssearch-search-placeholder-text {
+  font-size: var(--com-size-sub-title);
+  color: var(--com-font-muted);
+  margin: var(--com-gap-md);
+}
+
+.ptnssearch-search-find-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--com-gap-sm);
+  padding: 14px 28px;
+  border-radius: var(--com-radius-pill);
+  border: none;
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* --- 커스텀 오버레이 --- */
+.ptnssearch-custom-overlay {
+  position: relative;
+  padding: 8px 12px;
+  background-color: #1e293b;
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.overlay-arrow {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #1e293b;
+}
+
+/* --- 모바일 바텀 시트 --- */
+@media screen and (max-width: 768px) {
+  .ptnssearch-modal-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 
-  .ptnssearch-map-wrapper {
-    height: 220px; /* 모바일 지도 높이 축소 */
-  }
-  
-  .ptnssearch-input-group {
-    gap: 6px;
+  .ptnssearch-main-layout {
+    flex-direction: column;
+    position: relative;
   }
 
-  .ptnssearch-input-field {
-    padding: var(--com-gap-sm);
-    font-size: var(--com-size-content); /* 가변 11px 적용 */
+  .ptnssearch-sidebar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    background: #fff;
+    z-index: 1000;
+    border-right: none;
+    border-top: 1px solid var(--com-border-default);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(calc(100% - 50px));
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .ptnssearch-card-box {
-    padding: var(--com-container-padding); /* 가변 12px 적용 */
+  .ptnssearch-sidebar.ptnssearch-sheet-open {
+    transform: translateY(0);
   }
+
+  .ptnssearch-mobile-sheet-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid var(--com-border-default);
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--com-color-black);
+    font-size: 14px;
+  }
+
+  .ptnssearch-map-container {
+    flex: 1;
+    width: 100%;
+    min-height: 250px;
+    z-index: 1;
+  }
+
+  .ptnssearch-sidebar-search-area {
+    padding: 12px;
+  }
+
+  .ptnssearch-sidebar-store-list {
+    padding-bottom: 20px;
+  }
+}
+/* Styles for partner custom markers */
+.partner-custom-marker {
+  background-color: black;
+  color: white; /* Assuming text or icon inside the marker */
+  width: 30px; /* Example size, adjust as needed */
+  height: 30px; /* Example size, adjust as needed */
+  border-radius: 50%; /* Circular marker */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px; /* Example font size */
+  font-weight: bold;
+}
+
+/* Styles for current location marker */
+.current-location-marker {
+  background: var(--com-gradient-rainbow);
+  color: white; /* Assuming text or icon inside the marker */
+  width: 35px; /* Slightly larger for emphasis */
+  height: 35px; /* Slightly larger for emphasis */
+  border-radius: 50%; /* Circular marker */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px; /* Example font size */
+  font-weight: bold;
+  border: 2px solid white; /* White border for visibility */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+.partner-custom-marker-selected {
+  border: 2px solid var(--com-color-black); /* Highlight with black border */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7); /* Stronger shadow for selection */
+  transform: scale(1.1); /* Slightly enlarge when selected */
+  z-index: 10; /* Bring to front when selected */
 }

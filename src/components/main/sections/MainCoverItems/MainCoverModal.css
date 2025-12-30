@@ -1,0 +1,136 @@
+/**
+ * @file src/components/main/sections/MainCoverItems/MainCoverModal.css
+ * @description 메인커버화면에 들어갈 배송조회 모달 스타일
+ * 251224 v1.0.0 sara init  
+ */
+
+.maincover-modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.62);
+  display: grid;
+  place-items: center;
+  z-index: 5000;
+  backdrop-filter: blur(4px);
+}
+
+.maincover-modal-content{
+  width: 92%;
+  max-width: 440px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 24px;
+  padding: 18px 16px 16px;
+  box-shadow: var(--com-shadow-default);
+  animation: modalPop 0.18s ease-out;
+}
+
+@keyframes modalPop{
+  from{ transform: translateY(8px) scale(0.98); opacity: 0; }
+  to{ transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.maincover-modal-header{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.maincover-modal-title{
+  margin: 0;
+  font-weight: var(--com-font-weight-heavy);
+  font-size: var(--com-size-subtitle);
+  color: var(--com-color-black);
+  letter-spacing: -0.02em;
+}
+
+.maincover-modal-sub{
+  margin: 6px 0 0;
+  color: var(--com-font-muted);
+  font-size: var(--com-size-mini);
+  line-height: 1.4;
+}
+
+.maincover-modal-close{
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+  color: var(--com-color-black);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.maincover-modal-close:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--com-shadow-xs);
+  background: var(--com-color-bg-light);
+}
+
+.maincover-modal-block{
+  padding: 12px 12px 2px;
+  border-radius: 16px;
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-color-overlay);
+}
+
+.maincover-modal-detail{
+  margin-top: 12px;
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-color-overlay);
+  border-radius: 16px;
+  padding: 14px 14px;
+}
+
+.maincover-modal-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--com-color-overlay);
+}
+
+.maincover-modal-row.no-border{
+  border-bottom: none;
+  padding-bottom: 2px;
+}
+
+.maincover-modal-k{
+  color: var(--com-font-muted);
+  font-size: var(--com-size-sub-title);
+}
+
+.maincover-modal-v{
+  color: var(--com-color-black);
+  font-size: var(--com-size-sub-title);
+  font-weight: var(--com-font-weight-heavy);
+}
+
+.maincover-modal-price{
+  color: var(--com-color-black);
+}
+
+.maincover-modal-cta{
+  width: 100%;
+  height: 50px;
+  margin-top: 12px;
+  border: 1px solid var(--com-color-black);
+  border-radius: var(--com-radius-md);
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.maincover-modal-cta:hover{
+  transform: translateY(-1px);
+  box-shadow: var(--com-shadow-default);
+}

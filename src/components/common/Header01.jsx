@@ -8,9 +8,8 @@ import { useMemo, useRef, useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import "./header01.css";
-import MainlogoImg from "../../assets/main-logo.png";
-import LoginIcon from "../../assets/resource/main-loginIcon.png";
 import Hamburger01 from "./Hamburger01";
+import LanguageToggle from "./LanguageToggle";
 import { LanguageContext } from "../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAuth } from '../../store/slices/authSlice.js';
@@ -18,41 +17,20 @@ import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
-  { id: "info", key: "navServiceIntro", icon: "info.svg" },
-  { id: "search", key: "navBranchInfo", icon: "search.svg" },
-  { id: "fee", key: "navFeeInfo", icon: "fee.svg" },
-  { id: "dlvs", key: "navDeliveryStatus", icon: "dlvs.svg" },
-  { id: "cs", key: "navCustomerCenter", icon: "cs.svg" },
-  { id: "ptns", key: "navPartnershipInquiry", icon: "ptns.svg" },
+  { id: "plans", key: "navPlans", icon: "info.svg" },
+  { id: "branches", key: "navBranches", icon: "search.svg" },
+  { id: "fee", key: "navFee", icon: "fee.svg" },
+  { id: "support", key: "navSupport", icon: "cs.svg" },
+  { id: "partners", key: "navPartners", icon: "ptns.svg" },
 ];
-
-// 언어 토글 컴포넌트
-const LanguageToggle = () => {
-  const { lang, setLang } = useContext(LanguageContext);
-  const isKo = lang === 'ko';
-  return (
-    <div 
-      className="lang-toggle-container" 
-      onClick={() => setLang(isKo ? 'en' : 'ko')} 
-      style={{ justifyContent: isKo ? 'flex-start' : 'flex-end' }}
-    >
-      <span className={`lang-toggle-text ${isKo ? 'active' : ''}`}>KO</span>
-      <span className={`lang-toggle-text ${!isKo ? 'active' : ''}`}>EN</span>
-      <motion.div 
-        className="lang-toggle-handle" 
-        layout 
-        transition={{ type: "spring", stiffness: 500, damping: 30 }} 
-      />
-    </div>
-  );
-};
 
 export default function Header01() {
   const { t } = useContext(LanguageContext);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
+  const mainLogo = "/resource/main-logo.png";
+  const LoginIcon = "/resource/main-loginIcon.png";
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(state => state.auth);
   const onlyTitleList = ['/login', '/mypage'];
@@ -134,7 +112,7 @@ export default function Header01() {
         <div className="header01-left-box">
           <button type="button" className="header01-logo-button" onClick={onLogoClick}>
             <div className="header01-brand-img-container">
-              <img src={MainlogoImg} alt="logo" className="header01-brand-img" />
+              <img src={mainLogo} alt="logo" className="header01-brand-img" />
             </div>
           </button>
         </div>
@@ -164,8 +142,6 @@ export default function Header01() {
                 </div>
               )
             }
-            {/* <Link to="/login" className="header01-action-button-link" onClick={() => setIsOpen(false)}>{t('headerLogin')}</Link>
-            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid" onClick={() => setIsOpen(false)}>{t('headerMyPage')}</Link> */}
 
           <div className="header01-mobile-icons-group">
             {/* 모바일에서도 로그인 여부에 따라 아이콘/동작 분기 처리 */}

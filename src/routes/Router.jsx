@@ -6,7 +6,9 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App.jsx";
-// import ProtectedRouter from "./ProtectedRouter.jsx"; // 인증/권한 로직 처리
+import ProtectedRouter from "./ProtectedRouter.jsx"; // 인증/권한 로직 처리
+import Social from "../components/main/auth/Social.jsx";
+import NotFound from "../components/common/NotFound.jsx"; // Import the NotFound component
 
 // [main/sections] 디렉토리의 개별 섹션 컴포넌트들
 import MainShow from "../components/main/MainShow.jsx";
@@ -15,15 +17,13 @@ import MainShow from "../components/main/MainShow.jsx";
 import MainCover from '../components/main/sections/MainCover.jsx';
 import MainInfo from '../components/main/sections/MainInfo.jsx';
 import MainFee from '../components/main/sections/MainFee.jsx';
-import MainDLVS from '../components/main/sections/MainDLVS.jsx';
 import MainCS from '../components/main/sections/MainCS.jsx';
 import MainPTNS from '../components/main/sections/MainPTNS.jsx';
+import MainPTNSSearch from "../components/main/sections/MainPTNSSearch.jsx";
 
 // 신규 인증 및 사용자 관련 컴포넌트
 import Login from "../components/main/auth/Login.jsx";
 import MyPage from "../components/main/auth/MyPage.jsx";
-// import Register from "../components/main/auth/Register.jsx";
-import Social from "../components/main/auth/Social.jsx";
 
 // 사용자 정의 라우트 객체
 const router = createBrowserRouter([
@@ -48,24 +48,24 @@ const router = createBrowserRouter([
         element: <MainCover /> 
       },
       { 
-        path: '/sections/info', 
+        path: '/sections/plans', // DGD Plans section
         element: <MainInfo /> 
       },
       { 
-        path: '/sections/fee', 
+        path: '/sections/fee', // Fee information section
         element: <MainFee /> 
       },
       { 
-        path: '/sections/dlvs', 
-        element: <MainDLVS /> 
-      },
-      { 
-        path: '/sections/cs', 
+        path: '/sections/support', // Customer Support section
         element: <MainCS /> 
       },
       { 
-        path: '/sections/ptns', 
+        path: '/sections/partners', // Partnership inquiry section
         element: <MainPTNS /> 
+      },
+      { 
+        path: '/sections/branches', // Find Branches section
+        element: <MainPTNSSearch /> 
       },
       
       // ---------------------------------
@@ -74,44 +74,31 @@ const router = createBrowserRouter([
       { 
         path: '/login',
         element: <Login /> // 로그인/회원가입 선택 페이지
-      },      
-      { 
-        path: '/mypage',
-        element: <MyPage /> // 마이페이지
-      }, 
-      // { 
-      //   path: '/register',
-      //   element: <Register /> // 회원가입 폼
-      // }, 
+      },
 
       // ---------------------------------
-      // 3. 404 처리
+      // 3. 보호된 라우트 그룹 (인증 필수)
+      // ---------------------------------
+      { 
+        element: <ProtectedRouter />, // ProtectedRouter로 하위 경로 보호
+        children: [
+          {
+            path: '/mypage', // 마이페이지는 로그인한 사용자만 접근 가능
+            element: <MyPage /> 
+          },
+        ]
+      },     
+      // ---------------------------------
+      // 4. 404 처리 or 소설 로그인 콜백
       // ---------------------------------
       {
         path: '*',
-        element: <div>404 Not Found</div>
+        element: <NotFound />
       },
       {
        path: '/callback/social',
        element: <Social /> 
       }
-
-// // ---------------------------------
-//             // 3. 보호된 라우트 그룹 (ProtectedRouter 사용)
-//             // ---------------------------------
-//             { 
-//                 element: <ProtectedRouter />, 
-//                 children: [
-//                     // *참고: ProtectedRouter 내부의 정규식과 매칭되는 경로를 할당합니다.
-//                     {
-//                         path: '/mypage', // AUTH_REQUIRED_ROUTES에 매칭될 경로
-//                         element: <MyPage /> 
-//                     },
-//                     // 기타 보호가 필요한 경로들을 여기에 추가...
-//                 ]
-//         ]
-//     }
-// ]);
       ]
     }
 ]);

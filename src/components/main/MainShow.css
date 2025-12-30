@@ -16,16 +16,22 @@
 
 /* 2. 공통 섹션 그리드 래퍼 */
 .mainshow-section-wrapper {
-  width: 100%;
   max-width: var(--com-web-max-width);
   margin: 0 auto;
-  padding: 0 var(--com-container-padding);
   box-sizing: border-box;
+  padding: 30px 12px; 
+  /* 각 카드 컴포넌트 패딩 */
+
 }
 
 /* 3. 섹션 간 간격 조절용 프레임 */
 .mainshow-section-frame {
   padding: var(--com-section-padding) 0;
+}
+
+.mainshow-branches-section-style {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* 4. 플로팅 내비게이션 (오른쪽 사이드 고정) */
@@ -154,3 +160,5 @@
     display: none;
   }
 }
+
+

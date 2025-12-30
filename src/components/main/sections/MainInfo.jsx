@@ -1,110 +1,88 @@
 /**
  * @file src/components/main/sections/MainInfo.jsx
- * @description 메인 서비스 안내
- * 251216 v1.0.0 sara init 
+ * @description 이미지 스타일을 반영한 플랜 선택 UI (모바일 가로 배열 최적화)
  */
 
-import { useContext } from 'react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion'; 
 import './MainInfo.css';
-import { LanguageContext } from '../../../context/LanguageContext';
+import { useTranslation } from '../../../context/LanguageContext'; //
+import { FaCheck } from "react-icons/fa6";
+
+const plansStructure = [
+  { id: 'basic', nameKey: "planNameBasic", priceKey: "planPriceBasic", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"] },
+  { id: 'standard', nameKey: "planNameStandard", priceKey: "planPriceStandard", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"], recommended: true },
+  { id: 'premium', nameKey: "planNamePremium", priceKey: "planPricePremium", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"] },
+];
 
 export default function MainInfo() {
-  const { t } = useContext(LanguageContext);
+  const { t } = useTranslation();
+  const [selectedPlan, setSelectedPlan] = useState('Standard');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 화면 크기 감지 (모바일 여부 확인)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
-    // section -> div, class, id update
-    <div className="maininfo-frame mainshow-section-frame" id="info"> 
-      <div className="mainshow-section-wrapper">
-        
-        {/* Section Head: section__head -> maininfo-header-group */}
+    <div className="mainshow-section-wrapper main-section-padding">
         <div className="maininfo-header-group">
-          <div>
-            <h2 className="maininfo-title-text">{t('infoTitle')}</h2>
-            <p className="maininfo-desc-text">
-              {t('infoDescription')}
-            </p>
-          </div>
-
-          <div className="maininfo-actions-group">
-            {/* btn -> maininfo-button */}
-            <a className="maininfo-button maininfo-button--primary" href="#fee">
-              {t('infoFeeGuideButton')}
-            </a>
-            <a className="maininfo-button" href="#search">
-              {t('infoBranchGuideButton')}
-            </a>
-          </div>
+          <h2 className="maininfo-title-text">{t('planTitle')}</h2>
         </div>
 
-        {/* Content Grid: grid-2 -> maininfo-grid-2 */}
-        <div className="maininfo-grid-2">
-          {/* Card 1: card -> maininfo-card-box */}
-          <div className="maininfo-card-box maininfo-card-box--step">
-            <h3 className="maininfo-card-title-text">
-              {t('infoHowToUseTitle')}
-            </h3>
-            {/* List remains ol/li, add classes */}
-            <ol className="maininfo-step-list">
-              <li>{t('infoStep1')}</li>
-              <li>{t('infoStep2')}</li>
-              <li>{t('infoStep3')}</li>
-              <li>{t('infoStep4')}</li>
-            </ol>
+        <div className="maininfo-plans-container">
+          {plansStructure.map((plan) => {
+            const isActive = selectedPlan === t(plan.nameKey);
 
-            {/* Inlined box -> maininfo-note-box */}
-            <div className="maininfo-note-box maininfo-note-box--trust">
-              <div className="maininfo-note-title-text">{t('infoTrustFactorTitle')}</div>
-              <p className="maininfo-note-desc-text">
-                {t('infoTrustFactorDesc')}
-              </p>
-            </div>
-          </div>
-
-          {/* Card 2: card -> maininfo-card-box */}
-          <div className="maininfo-card-box maininfo-card-box--size">
-            <h3 className="maininfo-card-title-text">
-              {t('infoItemSizeTitle')}
-            </h3>
-            <p className="maininfo-card-desc-text">
-              {t('infoItemSizeDesc')}
-            </p>
-
-            {/* Size Grid: grid-3 -> maininfo-grid-3 */}
-            <div className="maininfo-grid-3">
-              {/* Item with inline style -> maininfo-size-item */}
-              <div className="maininfo-size-item">
-                <div className="maininfo-size-title-text">{t('infoSizeSmall')}</div>
-                <div className="maininfo-size-desc-text">80 × 75 × 200cm</div>
-              </div>
-              <div className="maininfo-size-item">
-                <div className="maininfo-size-title-text">{t('infoSizeMedium')}</div>
-                <div className="maininfo-size-desc-text">100 × 85 × 220cm</div>
-              </div>
-              <div className="maininfo-size-item">
-                <div className="maininfo-size-title-text">{t('infoSizeLarge')}</div>
-                <div className="maininfo-size-desc-text">140 × 100 × 240cm</div>
-              </div>
-            </div>
-
-            {/* Note Group */}
-            <div className="maininfo-note-group">
-              <div className="maininfo-note-item">
-                <div className="maininfo-note-title-text">{t('infoRestrictionsTitle')}</div>
-                <div className="maininfo-note-desc-text">
-                  {t('infoRestrictionsDesc')}
+            return (
+              <motion.div
+                key={plan.id}
+                layout // 레이아웃 변화 자동 애니메이션
+                className={`maininfo-plan-card ${isActive ? 'is-selected' : ''}`}
+                onClick={() => setSelectedPlan(t(plan.nameKey))}
+              >
+                {plan.recommended && (
+                  <div className="maininfo-recommended-badge">{t('planRecommended')}</div>
+                )}
+                
+                <div className="maininfo-plan-header">
+                  <h3 className="maininfo-plan-name">{t(plan.nameKey)}</h3>
+                  <p className="maininfo-plan-price">
+                    <span className="price-unit">{t('currencyUnit')}</span>{t(plan.priceKey)}
+                  </p>
                 </div>
-              </div>
 
-              <div className="maininfo-note-item">
-                <div className="maininfo-note-title-text">{t('infoBranchNoticeTitle')}</div>
-                <div className="maininfo-note-desc-text">
-                  {t('infoBranchNoticeDesc')}
-                </div>
-              </div>
-            </div>
-          </div>
+                {/* ✅ 모바일일 때는 선택된 카드만 리스트 노출, 웹은 항상 노출 */}
+                <AnimatePresence>
+                  {(!isMobile || isActive) && (
+                    <motion.ul 
+                      className="maininfo-features-list"
+                      initial={isMobile ? { height: 0, opacity: 0 } : false}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {plan.featureKeys.map((featureKey, idx) => (
+                        <li key={idx} className="maininfo-feature-item">
+                          <FaCheck className="maininfo-feature-icon" />
+                          <span>{t(featureKey)}</span>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+
+                <button className={`maininfo-plan-button ${isActive ? 'active' : ''}`}>
+                  {isActive ? t('planSelected') : t('planSelect')}
+                </button>
+              </motion.div>
+            );
+          })}
         </div>
-      </div>
     </div>
   );
 }

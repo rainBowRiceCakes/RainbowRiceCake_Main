@@ -8,7 +8,7 @@ import { useState, useContext } from "react";
 import { LanguageContext } from '../../context/LanguageContext';
 import "./Footer01.css";
 import { footerData } from '../../data/footerData.js';
-import  footerLogoImg  from '../../assets/footer-logo.png'; // 로고 이미지 경로
+const footerLogo = "/resource/footer-logo.png";
 
 export default function Footer01() {
   const { lang, t } = useContext(LanguageContext);
@@ -37,7 +37,7 @@ export default function Footer01() {
           
           {/* 브랜드 로고 영역 */}
           <div className="footer01-brand-group">
-            <img src={footerLogoImg} alt="logo" className="footer01-logo-img" />
+            <img src={footerLogo} alt="logo" className="footer01-logo-img" />
           </div>
 
           {/* 정보 및 링크 영역 */}
@@ -67,7 +67,7 @@ export default function Footer01() {
 
             {/* 카피라이트 */}
             <div className="footer01-copyright-text">
-              Copyright 2025©RC All right reserved.
+              Copyright 2025©DGD All right reserved.
             </div>
           </div>
         </div>

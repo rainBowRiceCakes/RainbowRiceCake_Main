@@ -67,11 +67,6 @@ export default function MainDLVS() {
                 <input className="maindlvs-field-input" name="code" placeholder={t('dlvsCodePlaceholder')} required />
               </label>
 
-              <label className="maindlvs-form-label-group">
-                <div className="maindlvs-field-label">{t('dlvsEmailLabel')}</div>
-                <input className="maindlvs-field-input" name="email" type="email" placeholder={t('dlvsEmailPlaceholder')} required />
-              </label>
-
               <button 
                 className="maindlvs-submit-button maindlvs-submit-button--primary" 
                 type="submit" 
