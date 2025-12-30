@@ -19,6 +19,9 @@
   max-width: var(--com-web-max-width);
   margin: 0 auto;
   box-sizing: border-box;
+  padding: 30px 12px; 
+  /* 각 카드 컴포넌트 패딩 */
+
 }
 
 /* 3. 섹션 간 간격 조절용 프레임 */

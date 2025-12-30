@@ -4,26 +4,34 @@
  * 251224 v1.0.0 sara init
  */
 
+import { useTranslation } from "../../../../context/LanguageContext";
 import "./DeliveryStatusCards.css";
 import { FaClipboardCheck, FaUserCheck, FaTruckFast, FaCircleCheck } from "react-icons/fa6";
 
-const STEPS = [
-  { key: "req", label: "등록", Icon: FaClipboardCheck },
-  { key: "match", label: "기사매칭", Icon: FaUserCheck },
-  { key: "pick", label: "배송중", Icon: FaTruckFast },
-  { key: "com", label: "배송완료", Icon: FaCircleCheck },
+const STEPS_CONFIG = [
+  { key: "req", labelKey: "deliveryStepRegister", Icon: FaClipboardCheck },
+  { key: "match", labelKey: "deliveryStepMatching", Icon: FaUserCheck },
+  { key: "pick", labelKey: "deliveryStepInProgress", Icon: FaTruckFast },
+  { key: "com", labelKey: "deliveryStepCompleted", Icon: FaCircleCheck },
 ];
 
-const stepIndex = (status) => {
-  const idx = STEPS.findIndex((s) => s.key === status);
-  return idx === -1 ? 0 : idx;
-};
-
 export default function DeliveryStatusCards({ status = "req" }) {
+  const { t } = useTranslation();
+
+  const STEPS = STEPS_CONFIG.map(step => ({
+    ...step,
+    label: t(step.labelKey)
+  }));
+
+  const stepIndex = (status) => {
+    const idx = STEPS.findIndex((s) => s.key === status);
+    return idx === -1 ? 0 : idx;
+  };
+
   const active = stepIndex(status);
 
   return (
-    <div className="dlvs-stepper" aria-label="배송 상태 단계">
+    <div className="dlvs-stepper" aria-label={t('deliveryStatusAriaLabel')}>
       {STEPS.map((step, i) => {
         const StepIcon = step.Icon;
         const isDone = i < active;

@@ -47,7 +47,7 @@ export const reissueThunk = createAsyncThunk(
     }
     catch (error) {
       // 💡 "리프레시 토큰 없음" 등의 서버 에러 메시지를 프론트로 전달
-      const errorMessage = error.response?.data?.message || "리프레시 토큰이 없거나 만료되었습니다.";
+      const errorMessage = error.response?.data?.message || "refreshTokenMissingOrExpired";
       return rejectWithValue(errorMessage);
     }
   }

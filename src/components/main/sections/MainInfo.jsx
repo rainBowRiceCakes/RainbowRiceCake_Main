@@ -10,9 +10,9 @@ import { useTranslation } from '../../../context/LanguageContext'; //
 import { FaCheck } from "react-icons/fa6";
 
 const plansStructure = [
-  { id: 'basic', name: "Basic", price: "5,000", features: ["1 Item Delivery", "Same-day", "QR Registration"] },
-  { id: 'standard', name: "Standard", price: "10,000", features: ["3 Items Delivery", "Pre-Check-in", "Hotel Drop-off"], recommended: true },
-  { id: 'premium', name: "Premium", price: "15,000", features: ["5 Items Delivery", "Time Selection", "Live Tracking"] },
+  { id: 'basic', nameKey: "planNameBasic", priceKey: "planPriceBasic", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"] },
+  { id: 'standard', nameKey: "planNameStandard", priceKey: "planPriceStandard", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"], recommended: true },
+  { id: 'premium', nameKey: "planNamePremium", priceKey: "planPricePremium", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"] },
 ];
 
 export default function MainInfo() {
@@ -36,23 +36,23 @@ export default function MainInfo() {
 
         <div className="maininfo-plans-container">
           {plansStructure.map((plan) => {
-            const isActive = selectedPlan === plan.name;
+            const isActive = selectedPlan === t(plan.nameKey);
 
             return (
               <motion.div
                 key={plan.id}
                 layout // 레이아웃 변화 자동 애니메이션
                 className={`maininfo-plan-card ${isActive ? 'is-selected' : ''}`}
-                onClick={() => setSelectedPlan(plan.name)}
+                onClick={() => setSelectedPlan(t(plan.nameKey))}
               >
                 {plan.recommended && (
                   <div className="maininfo-recommended-badge">{t('planRecommended')}</div>
                 )}
                 
                 <div className="maininfo-plan-header">
-                  <h3 className="maininfo-plan-name">{plan.name}</h3>
+                  <h3 className="maininfo-plan-name">{t(plan.nameKey)}</h3>
                   <p className="maininfo-plan-price">
-                    <span className="price-unit">₩</span>{plan.price}
+                    <span className="price-unit">{t('currencyUnit')}</span>{t(plan.priceKey)}
                   </p>
                 </div>
 
@@ -66,10 +66,10 @@ export default function MainInfo() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      {plan.features.map((feature, idx) => (
+                      {plan.featureKeys.map((featureKey, idx) => (
                         <li key={idx} className="maininfo-feature-item">
                           <FaCheck className="maininfo-feature-icon" />
-                          <span>{feature}</span>
+                          <span>{t(featureKey)}</span>
                         </li>
                       ))}
                     </motion.ul>

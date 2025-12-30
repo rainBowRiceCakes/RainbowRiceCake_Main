@@ -51,7 +51,7 @@ export default function MainCover() {
     if (isLoggedIn) {
       navigate('/mypage');
     } else {
-      alert('로그인이 필요한 서비스입니다.');
+      alert(t('coverLoginRequired'));
       navigate('/login'); // 소셜 로그인 유도 
     }
   };
@@ -63,10 +63,10 @@ export default function MainCover() {
   // 에러 발생 시 처리
   useEffect(() => {
     if (error) {
-      alert(`주문 번호를 찾을 수 없습니다: 다시 시도해주세요.`);
+      alert(t('coverOrderNotFound'));
       dispatch(clearDeliveryShow()); //에러 상태를 비워야 다음 검색 시 alert가 중복되지 않음
     }
-  }, [error, dispatch]);
+  }, [error, dispatch, t]);
 
   /** [Motion] 애니메이션 설정 */
   const containerVariants = {
@@ -122,7 +122,7 @@ export default function MainCover() {
                   required 
                 />
                 <button type="submit" className="maincover-submit-button" disabled={loading}>
-                  {loading ? '조회중...' : t('coverTrackButton')}
+                  {loading ? t('coverLoading') : t('coverTrackButton')}
                 </button>
             </div>
             <div className="maincover-link-group">

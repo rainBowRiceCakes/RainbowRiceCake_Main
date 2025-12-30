@@ -11,6 +11,7 @@ import "./MainCS.css";
 import { LanguageContext } from "../../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
 import { questionStoreThunk } from '../../../store/thunks/questionStoreThunk.js';
+import { questionImgStoreThunk } from '../../../store/thunks/questionImgStoreThunk.js'; 
 import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
 import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx';
 
@@ -36,6 +37,7 @@ export default function MainCS() {
     window.location.href = `mailto:support@brand.com?subject=${t("csInquirySubject")}`;
   };
 
+  // 파일 미리보기 로직
   const previews = useMemo(() => {
     return inqFiles.map((f, index) => ({
       id: `${f.name}-${index}`,
@@ -62,33 +64,56 @@ export default function MainCS() {
       fileInputRef.current.value = "";
     }
   };
-const onInquirySubmit = async (e) => {
-  e.preventDefault();
-  setFormStatus({ state: "idle", message: "" });
-  
-const formData = new FormData();
-  formData.append("subject", inqTitle);
-  formData.append("message", inqContent);
-  
-  // 여러 개의 파일을 반복문으로 추가
-  inqFiles.forEach((file) => {
-    formData.append("files", file); 
-  });
 
-  const result = await dispatch(questionStoreThunk(formData)); // 생성된 formData 전달
+  /**
+   * 문의 접수 제출 핸들러
+   * 1. 첨부된 파일들을 순차적으로 업로드하여 서버 경로(path)를 획득합니다.
+   * 2. 획득한 경로 배열과 제목, 내용을 합쳐 JSON으로 최종 제출합니다.
+   */
+  const onInquirySubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus({ state: "idle", message: "" });
 
-  if (questionStoreThunk.fulfilled.match(result)) {
-    setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
-    setInqTitle("");
-    setInqContent("");
-    setInqFiles([]);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-    dispatch(clearQuestionStore());
-  } else {
-    // 에러 메시지 처리 (위에서 수정한 questionError와 연동됨)
-    setFormStatus({ state: "error" });
-  }
-};
+    try {
+      // 1. 파일 업로드 처리 (Multer) - 각 파일의 path를 배열로 수집
+      const uploadedImagePaths = [];
+      
+      if (inqFiles.length > 0) {
+        for (const file of inqFiles) {
+          // postLicenseImageUploadThunk와 동일한 로직으로 개별 파일 업로드
+          const resultUpload = await dispatch(questionImgStoreThunk(file)).unwrap(); 
+          if (resultUpload?.data?.path) {
+            uploadedImagePaths.push(resultUpload.data.path);
+          }
+        }
+      }
+
+      // 2. 최종 전송할 JSON 데이터(Payload) 구성
+      const payload = {
+        subject: inqTitle,
+        message: inqContent,
+        images: uploadedImagePaths, // 업로드 완료된 이미지 경로 리스트
+      };
+
+      // 3. API 전송 (JSON 요청)
+      const result = await dispatch(questionStoreThunk(payload));
+
+      if (questionStoreThunk.fulfilled.match(result)) {
+        setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
+        // 폼 초기화
+        setInqTitle("");
+        setInqContent("");
+        setInqFiles([]);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        dispatch(clearQuestionStore());
+      } else {
+        setFormStatus({ state: "error", message: t("csInquiryErrorMsg") || "Submit Failed" });
+      }
+    } catch (err) {
+      console.error("Submission Error:", err);
+      setFormStatus({ state: "error", message: t('csFileUploadError') });
+    }
+  };
 
 return (
   <div className="maincs-frame mainshow-section-wrapper">

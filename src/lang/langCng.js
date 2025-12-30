@@ -60,18 +60,25 @@ export const LANG_CNG = {
     ko: "Recommended",
     en: "Recommended",
   },
-  planBasicFeature1: { ko: "물품 1개", en: "1 Item" },
-  planBasicFeature2: { ko: "당일 배송", en: "Same-day" },
-  planBasicFeature3: { ko: "QR 등록", en: "QR Reg" },
-  planStandardFeature1: { ko: "물품 3개", en: "3 Items" },
-  planStandardFeature2: { ko: "체크인 전", en: "Pre-Checkin" },
-  planStandardFeature3: { ko: "QR 등록", en: "QR Reg" },
-  planStandardFeature4: { ko: "프론트 위탁", en: "Front Drop" },
-  planPremiumFeature1: { ko: "물품 5개", en: "5 Items" },
-  planPremiumFeature2: { ko: "시간 지정", en: "Time Slot" },
-  planPremiumFeature3: { ko: "QR 등록", en: "QR Reg" },
-  planPremiumFeature4: { ko: "프론트 위탁", en: "Front Drop" },
-  planPremiumFeature5: { ko: "실시간 추적", en: "Live Track" },
+
+  // Plan Names
+  planNameBasic: { ko: "Basic", en: "Basic" },
+  planNameStandard: { ko: "Standard", en: "Standard" },
+  planNamePremium: { ko: "Premium", en: "Premium" },
+
+  // Plan Prices
+  planPriceBasic: { ko: "5,000", en: "5,000" },
+  planPriceStandard: { ko: "10,000", en: "10,000" },
+  planPricePremium: { ko: "15,000", en: "15,000" },
+
+  // Plan Features
+  planFeature1ItemDelivery: { ko: "물품 1개 배송", en: "1 Item Delivery" },
+  planFeatureSameDay: { ko: "당일 배송", en: "Same-day" },
+  planFeatureQRRegistration: { ko: "QR 등록", en: "QR Registration" },
+  
+  // Currency Unit
+  currencyUnit: { ko: "원", en: "KRW" },
+
 
   // --- src/components/main/sections/MainPTNSSearch.jsx ---
   ptnsSearchLocationError: {
@@ -117,6 +124,14 @@ export const LANG_CNG = {
   ptnsMapError: {
     ko: "지도를 불러오는 데 실패했습니다.",
     en: "Failed to load map.",
+  },
+  mainLocationHeadquarters: {
+    ko: "본점 위치",
+    en: "Headquarters"
+  },
+  mainLocationMyLocation: {
+    ko: "내 위치",
+    en: "My Location"
   },
 
   // --- src/components/main/sections/MainFee.jsx ---
@@ -805,4 +820,183 @@ export const LANG_CNG = {
     ko: "회원가입 요청이 접수되었습니다.",
     en: "Your registration request has been received.",
   },
+  // --- src/components/main/sections/MainCoverItems/MainCoverModal.jsx ---
+  "coverModalClose": {
+    "ko": "닫기",
+    "en": "Close"
+  },
+  "coverModalDeliveryNumber": {
+    "ko": "배송 번호",
+    "en": "Delivery Number"
+  },
+  "coverModalRecipient": {
+    "ko": "받는 사람",
+    "en": "Recipient"
+  },
+  "coverModalDriverContact": {
+    "ko": "기사 연락처",
+    "en": "Driver Contact"
+  },
+  "coverModalPaymentAmount": {
+    "ko": "결제 금액",
+    "en": "Payment Amount"
+  },
+  "coverModalCurrency": {
+    "ko": "원",
+    "en": "KRW"
+  },
+  "coverModalTitle": {
+    "ko": "배송 상세 내역",
+    "en": "Delivery Details"
+  },
+  "coverModalSub": {
+    "ko": "백과 조회 기반으로 최신 배송 상태를 표시합니다.",
+    "en": "Displays the latest delivery status based on encyclopedia lookup."
+  },
+  "confirm": {
+    "ko": "확인",
+    "en": "Confirm"
+  },
+  // --- src/components/main/sections/MainCoverItems/DeliveryStatusCards.jsx ---
+  "deliveryStepRegister": {
+    "ko": "등록",
+    "en": "Register"
+  },
+  "deliveryStepMatching": {
+    "ko": "기사매칭",
+    "en": "Driver Matching"
+  },
+  "deliveryStepInProgress": {
+    "ko": "배송중",
+    "en": "In Progress"
+  },
+  "deliveryStepCompleted": {
+    "ko": "배송완료",
+    "en": "Completed"
+  },
+  "deliveryStatusAriaLabel": {
+    "ko": "배송 상태 단계",
+    "en": "Delivery Status Steps"
+  },
+  // --- src/components/main/auth/MyPage.jsx ---
+  "myPageUserName": {
+    "ko": "홍*동",
+    "en": "H*ng"
+  },
+  "myPageUserEmail": {
+    "ko": "hong@ricecake.com",
+    "en": "hong@ricecake.com"
+  },
+  // --- src/components/main/auth/Social.jsx ---
+  "socialLoginFailed": {
+    "ko": "로그인에 실패하였습니다.",
+    "en": "Login failed."
+  },
+  // --- src/components/main/sections/MainCover.jsx ---
+  "coverLoginRequired": {
+    "ko": "로그인이 필요한 서비스입니다.",
+    "en": "This service requires login."
+  },
+  "coverOrderNotFound": {
+    "ko": "주문 번호를 찾을 수 없습니다: 다시 시도해주세요.",
+    "en": "Order number not found: Please try again."
+  },
+  "coverLoading": {
+    "ko": "조회중...",
+    "en": "Loading..."
+  },
+  // --- src/components/admin/PartnerRegistration.jsx ---
+  "adminRegisterBranch": {
+    "ko": "지점 등록 (Kakao Places API)",
+    "en": "Branch Registration (Kakao Places API)"
+  },
+  "adminStoreNamePlaceholder": {
+    "ko": "매장명 입력 (예: 올리브영 대구중앙로점)",
+    "en": "Enter store name (e.g., Olive Young Daegu Jungang-ro)"
+  },
+  "adminDataSaving": {
+    "ko": "데이터 저장 중...",
+    "en": "Saving data..."
+  },
+  "adminRegisterSuccess": {
+    "ko": "등록 성공!",
+    "en": "Registration successful!"
+  },
+  "adminError": {
+    "ko": "에러:",
+    "en": "Error:"
+  },
+  "adminServerError": {
+    "ko": "서버 연결 확인 필요",
+    "en": "Check server connection"
+  },
+  "adminRegisteredStores": {
+    "ko": "현재 등록된 매장 현황",
+    "en": "Current Registered Stores"
+  },
+  // --- src/components/main/sections/MainPTNSSearch.jsx ---
+  "ptnsSearchViewMap": {
+    "ko": "지도 보기",
+    "en": "View Map"
+  },
+  "ptnsSearchViewList": {
+    "ko": "매장 리스트 보기",
+    "en": "View Store List"
+  },
+  // --- src/components/main/sections/MainCS.jsx ---
+  "csFileUploadError": {
+    "ko": "파일 업로드 또는 전송 중 오류가 발생했습니다.",
+    "en": "An error occurred during file upload or transmission."
+  },
+  // --- src/utils/location.js ---
+  "locationNotSupported": {
+    "ko": "이 브라우저에서는 위치 정보 기능을 지원하지 않습니다.",
+    "en": "This browser does not support location information features."
+  },
+  "locationFailedToRetrieve": {
+    "ko": "현재 위치를 가져오는 데 실패했습니다.",
+    "en": "Failed to retrieve current location."
+  },
+  // --- src/utils/address.js ---
+  "kakaoMapServiceNotLoaded": {
+    "ko": "카카오 지도 서비스 라이브러리가 로드되지 않았습니다.",
+    "en": "Kakao Map Service library has not been loaded."
+  },
+  "addressConversionFailed": {
+    "ko": "주소 변환에 실패했거나 결과가 없습니다.",
+    "en": "Address conversion failed or no results."
+  },
+  // --- src/store/thunks/questionStoreThunk.js ---
+  "questionRequestFailed": {
+    "ko": "질문 요청 실패",
+    "en": "Question request failed"
+  },
+  // --- src/store/thunks/partnerStoreThunk.js ---
+  "coordinateCheckDataToServer": {
+    "ko": "📍 [좌표 확인] 서버로 전송할 데이터:",
+    "en": "📍 [Coordinate Check] Data to send to server:"
+  },
+  "networkErrorBackendCheckRequired": {
+    "ko": "❌ 네트워크 에러 발생 (백엔드 확인 필요):",
+    "en": "❌ Network error occurred (backend check required):"
+  },
+  // --- src/store/thunks/authThunk.js ---
+  "refreshTokenMissingOrExpired": {
+    "ko": "리프레시 토큰이 없거나 만료되었습니다.",
+    "en": "Refresh token is missing or expired."
+  },
+  // --- src/routes/Router.jsx ---
+  "notFound": {
+    "ko": "404 Not Found",
+    "en": "404 Not Found"
+  },
+  // --- src/routes/ProtectedRouter.jsx ---
+  "sessionChecking": {
+    "ko": "세션 확인 중...",
+    "en": "Checking session..."
+  },
+  "insufficientPermissions": {
+    "ko": "권한이 부족하여 사용할 수 없습니다.",
+    "en": "You do not have sufficient permissions to use this."
+  }
 };

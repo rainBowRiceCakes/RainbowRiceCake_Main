@@ -4,10 +4,11 @@
  * 251214 v1.0.0 wook init
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { reissueThunk } from "../store/thunks/authThunk.js";
+import { LanguageContext } from "../context/LanguageContext";
 
 // 이 컴포넌트가 라우터 요소로 사용되므로, 함수형으로 export 합니다.
 export default function ProtectedRouter() {
@@ -15,6 +16,7 @@ export default function ProtectedRouter() {
   const { isLoggedIn, user } = useSelector(state => state.auth);
   const location = useLocation();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const { t } = useContext(LanguageContext); // Get translation function
 
   useEffect(() => {
     const checkSession = async () => {
@@ -53,13 +55,13 @@ export default function ProtectedRouter() {
   ];
 
   if (!isAuthChecked) {
-    return <div>세션 확인 중...</div>; // or a spinner component
+    return <div>{t('sessionChecking')}</div>; // or a spinner component
   }
 
   const matchRole = AUTH_REQUIRED_ROUTES.find(item => item.path.test(location.pathname));
 
   if (matchRole && !isLoggedIn) {
-    alert('로그인이 필요한 서비스입니다');
+    alert(t('coverLoginRequired'));
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
@@ -67,7 +69,7 @@ export default function ProtectedRouter() {
     if (user && matchRole.roles.includes(user.role)) {
       return <Outlet/>;
     } else {
-      alert('권한이 부족하여 사용할 수 없습니다.');
+      alert(t('insufficientPermissions'));
       return <Navigate to="/" replace />;
     }
   }

@@ -1,8 +1,7 @@
-/**
- * @file src/utils/address.js
- * @description 주소 검색 및 좌표 변환 관련 유틸리티 함수
- * 251229 v1.1.0 sara init
- */
+export const ADDRESS_ERRORS = {
+  KAKAO_MAP_SERVICE_NOT_LOADED: "KAKAO_MAP_SERVICE_NOT_LOADED",
+  ADDRESS_CONVERSION_FAILED: "ADDRESS_CONVERSION_FAILED",
+};
 
 /**
  * 입력된 주소(도로명/지번)를 카카오 지오코딩 서비스를 이용해 좌표로 변환합니다.
@@ -16,7 +15,7 @@ export function searchAddressToCoords(address, callback) {
   
   // 카카오 지도 SDK 로드 여부 확인
   if (!window.kakao?.maps?.services) {
-    console.error("카카오 지도 서비스 라이브러리가 로드되지 않았습니다.");
+    console.error(ADDRESS_ERRORS.KAKAO_MAP_SERVICE_NOT_LOADED);
     return;
   }
 
@@ -30,7 +29,7 @@ export function searchAddressToCoords(address, callback) {
         lng: parseFloat(result[0].x),
       });
     } else {
-      console.warn("주소 변환에 실패했거나 결과가 없습니다.");
+      console.error(ADDRESS_ERRORS.ADDRESS_CONVERSION_FAILED);
     }
   });
 }

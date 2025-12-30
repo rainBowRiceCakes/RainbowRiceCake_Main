@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App.jsx";
 import ProtectedRouter from "./ProtectedRouter.jsx"; // 인증/권한 로직 처리
 import Social from "../components/main/auth/Social.jsx";
+import NotFound from "../components/common/NotFound.jsx"; // Import the NotFound component
 
 // [main/sections] 디렉토리의 개별 섹션 컴포넌트들
 import MainShow from "../components/main/MainShow.jsx";
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
       // ---------------------------------
       {
         path: '*',
-        element: <div>404 Not Found</div>
+        element: <NotFound />
       },
     ]
    },

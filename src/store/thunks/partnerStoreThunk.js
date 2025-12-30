@@ -35,7 +35,7 @@ export const partnerStoreThunk = createAsyncThunk(
   "partnerStore/partnerStoreThunk",
   async (data, { rejectWithValue }) => {
     // 💡 네트워크 에러가 나더라도 이 로그는 콘솔에 찍힙니다.
-    console.log("📍 [좌표 확인] 서버로 전송할 데이터:", data); 
+    console.log("coordinateCheckDataToServer", data); 
 
     try {
       const url = `/api/admin/partners/`;
@@ -43,7 +43,7 @@ export const partnerStoreThunk = createAsyncThunk(
       return response.data;
     } catch (error) {
       // ERR_NETWORK 발생 시에도 여기 로그가 찍힙니다.
-      console.error("❌ 네트워크 에러 발생 (백엔드 확인 필요):", error.message);
+      console.error("networkErrorBackendCheckRequired", error.message);
       return rejectWithValue(error.response?.data || error.message);
     }
   }

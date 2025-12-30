@@ -6,177 +6,448 @@
  * 251226 useKakaoLoader 기반 지점 검색 (Geocoding 및 현위치 통합)
  */
 
-/* --- 애니메이션 --- */
-@keyframes ptnssearch-fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes ptnssearch-scale-up { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-@keyframes ptnssearch-slide-up { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-/* --- 모달 레이아웃 --- */
+/* --- 애니메이션 --- */
+@keyframes ptnssearch-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ptnssearch-scale-up {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ptnssearch-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- 모달 전체 --- */
 .ptnssearch-modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(17, 24, 39, 0.7);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 2000; backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
   animation: ptnssearch-fade-in 0.3s ease-out;
 }
 
 .ptnssearch-modal-content {
-  width: 95%; height: 85%; max-width: 1100px;
+  width: 95%;
+  height: 85%;
+  max-width: 1100px;
   background: var(--com-color-white);
   border-radius: var(--com-radius-lg);
-  display: flex; flex-direction: column; overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border: 1px solid var(--com-border-default);
   box-shadow: var(--com-shadow-md);
   animation: ptnssearch-scale-up 0.3s ease-out;
 }
 
+/* --- 모달 헤더 --- */
 .ptnssearch-modal-header {
-  padding: var(--com-gap-md);
-  display: flex; gap: var(--com-gap-sm); align-items: center;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid var(--com-border-default);
 }
 
+.ptnssearch-modal-header-title {
+  font-size: 18px;
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
+}
+
+.ptnssearch-modal-close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--com-font-muted);
+}
+
 .ptnssearch-main-layout {
-  display: flex; flex: 1; overflow: hidden;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
   background-color: var(--com-color-white);
 }
 
-/* --- 사이드바 (리스트 영역) --- */
+.ptnssearch-mobile-sheet-handle {
+  display: none;
+}
+
+/* --- 사이드바 --- */
 .ptnssearch-sidebar {
-  width: 320px; display: flex; flex-direction: column;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid var(--com-border-default);
   animation: ptnssearch-fade-in 0.3s ease-out;
 }
 
 .ptnssearch-sidebar-search-area {
-  padding: 12px; display: flex; align-items: center; gap: 8px;
+  padding: 16px;
+  position: relative;
+  background: #fff;
   border-bottom: 1px solid var(--com-border-default);
-  background: var(--com-color-bg-light);
 }
 
-.ptnssearch-sidebar-search-icon { color: var(--com-font-muted); }
+.ptnssearch-sidebar-input-wrapper {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--com-border-default);
+  border-radius: 8px;
+  background-color: var(--com-color-bg-light);
+  transition: all 0.2s;
+}
+
+.ptnssearch-sidebar-input-wrapper:focus-within {
+  border-color: var(--com-color-black);
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.ptnssearch-sidebar-search-icon {
+  font-size: 16px;
+  color: var(--com-font-muted);
+  margin-right: 10px;
+}
 
 .ptnssearch-sidebar-search-input {
-  border: none; background: transparent; width: 100%;
-  font-size: 14px; outline: none;
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  color: var(--com-color-black);
 }
 
-.ptnssearch-sidebar-store-list { flex: 1; overflow-y: auto; }
+.ptnssearch-input-clear {
+  background: none;
+  border: none;
+  color: var(--com-font-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* --- 검색 결과 드롭다운 --- */
+.ptnssearch-dropdown-list {
+  position: absolute;
+  top: 65px;
+  left: 16px;
+  right: 16px;
+  background: #fff;
+  border: 1px solid var(--com-border-default);
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ptnssearch-dropdown-list li {
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.ptnssearch-dropdown-list li:hover {
+  background-color: #f9fafb;
+}
+
+.drop-place-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 2px;
+}
+
+.drop-place-addr {
+  font-size: 12px;
+  color: #666;
+}
+
+/* --- 매장 리스트 --- */
+.ptnssearch-sidebar-store-list {
+  flex: 1;
+  overflow-y: auto;
+}
 
 .ptnssearch-sidebar-store-item {
-  padding: 16px; border-bottom: 1px solid var(--com-border-default);
-  cursor: pointer; transition: background 0.2s;
+  padding: 16px;
+  border-bottom: 1px solid var(--com-border-default);
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.ptnssearch-sidebar-store-item:hover { background-color: var(--com-color-bg-light); }
+.ptnssearch-sidebar-store-item:hover {
+  background-color: var(--com-color-bg-light);
+}
 
 .ptnssearch-sidebar-store-item.ptnssearch-is-active {
-  background-color: #f3f4f6; border-left: 4px solid var(--com-color-black);
+  background-color: #f3f4f6;
+  border-left: 4px solid var(--com-color-black);
 }
 
 .ptnssearch-store-item-name {
-  font-weight: var(--com-font-weight-bold); font-size: 15px;
-  display: flex; align-items: center; gap: 6px; margin-bottom: 4px;
+  font-weight: var(--com-font-weight-bold);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
-.ptnssearch-store-item-address { font-size: 12px; color: var(--com-font-muted); }
-
-.ptnssearch-sidebar-no-result { padding: 40px; text-align: center; color: var(--com-font-muted); font-size: 14px; }
-
-/* --- 검색바 및 입력창 --- */
-.ptnssearch-input-box {
-  position: relative; flex: 1; display: flex; align-items: center;
-  cursor: pointer; height: 44px; padding: 0 12px;
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-md);
-  background-color: var(--com-color-bg-light);
-  transition: border-color 0.2s ease;
+.ptnssearch-store-item-address {
+  font-size: 12px;
+  color: var(--com-font-muted);
 }
 
-.ptnssearch-input-inner-icon { position: absolute; left: 12px; color: var(--com-font-muted); z-index: 1; }
-
-.ptnssearch-input-text {
-  flex-grow: 1; padding-left: 36px; font-size: var(--com-size-sidebar);
-  color: var(--com-color-black); white-space: nowrap;
-  overflow: hidden; text-overflow: ellipsis;
+.ptnssearch-sidebar-no-result {
+  padding: 40px;
+  text-align: center;
+  color: var(--com-font-muted);
+  font-size: 14px;
 }
 
-.ptnssearch-input-text.ptnssearch-is-placeholder { color: #d1d5db; }
+/* --- 지도 --- */
+.ptnssearch-map-container {
+  flex: 1;
+  position: relative;
+}
 
-.ptnssearch-modal-close-button { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--com-font-muted); }
-
-/* --- 지도 및 상세 카드 --- */
-.ptnssearch-map-container { flex: 1; position: relative; }
-
+/* --- 현위치 버튼 --- */
 .ptnssearch-current-location-btn {
-  position: absolute; bottom: 20px; right: 20px; z-index: 100;
-  width: 44px; height: 44px; border-radius: 50%;
-  background-color: var(--com-color-white); border: 1px solid var(--com-border-default);
-  box-shadow: var(--com-shadow-md); display: flex; align-items: center;
-  justify-content: center; cursor: pointer; transition: all 0.2s ease;
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--com-color-white);
+  border: 1px solid #f0f0f0;
+  box-shadow: var(--com-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.ptnssearch-postcode-embed-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 150; background: #fff; }
-
-.ptnssearch-detail-card {
-  position: absolute; bottom: var(--com-gap-md); left: var(--com-gap-md); right: var(--com-gap-md);
-  background: var(--com-color-white); padding: var(--com-gap-md);
-  border-radius: var(--com-radius-md); z-index: 100;
-  border: 1px solid var(--com-color-black); box-shadow: var(--com-shadow-default);
+.ptnssearch-current-location-btn:hover {
+  background-color: #f8f9fa;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
-.ptnssearch-detail-card.ptnssearch-animate-slide-up { animation: ptnssearch-slide-up 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-
-.ptnssearch-detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--com-gap-xs); }
-
-.ptnssearch-detail-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--com-font-muted); }
-
-.ptnssearch-detail-tag { font-size: var(--com-size-mini); background: var(--com-color-black); color: var(--com-color-white); padding: 2px 8px; border-radius: 4px; }
-
-.ptnssearch-detail-title { font-size: var(--com-size-subtitle); font-weight: var(--com-font-weight-bold); margin-bottom: 4px; }
-
-.ptnssearch-detail-address { font-size: var(--com-size-sub-title); color: var(--com-font-muted); margin-bottom: var(--com-gap-sm); }
-
-.ptnssearch-detail-link-btn {
-  display: flex; align-items: center; justify-content: center; gap: var(--com-gap-xs);
-  width: 100%; background: var(--com-color-black); color: var(--com-color-white);
-  padding: 12px; border-radius: var(--com-radius-pill); text-decoration: none;
-  font-weight: var(--com-font-weight-heavy); font-size: var(--com-size-sidebar);
+.ptnssearch-current-location-btn:active {
+  transform: scale(0.92);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #e5e7eb;
+  transition: all 0.05s ease;
 }
 
-/* --- 메인 섹션 스타일 (1400px 대응) --- */
-.ptnssearch-section-wrapper { 
-  max-width: var(--com-web-max-width); 
-  margin: 0 auto; 
+/* --- 메인 섹션 --- */
+.ptnssearch-section-wrapper {
+  max-width: var(--com-web-max-width);
+  margin: 0 auto;
   padding: 0 var(--com-container-padding);
 }
 
-.ptnssearch-header-group { margin-bottom: var(--com-gap-lg); }
+.ptnssearch-header-group {
+  margin-bottom: var(--com-gap-md);
+}
 
-.ptnssearch-title-text { font-size: var(--com-size-title); font-weight: var(--com-font-weight-heavy); color: var(--com-color-black); }
+.ptnssearch-title-text {
+  font-size: var(--com-size-title);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+}
 
-.ptnssearch-desc-text { font-size: var(--com-size-subtitle); color: var(--com-font-muted); }
+.ptnssearch-desc-text {
+  font-size: var(--com-size-subtitle);
+  color: var(--com-font-muted);
+}
 
-.ptnssearch-card-box { 
+.ptnssearch-card-box {
   width: 100%;
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
-  padding: var(--com-section-padding) 0; 
+  padding: var(--com-section-padding) 0;
   background-color: var(--com-color-white);
   box-shadow: var(--com-shadow-default);
   box-sizing: border-box;
 }
 
-.ptnssearch-search-placeholder-content { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-
-.ptnssearch-search-placeholder-text { font-size: var(--com-size-sub-title); color: var(--com-font-muted); margin-bottom: var(--com-gap-md); }
-
-.ptnssearch-search-find-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--com-gap-sm);
-  padding: 14px 28px; border-radius: var(--com-radius-pill); border: none;
-  background-color: var(--com-color-black); color: var(--com-color-white);
-  font-size: var(--com-size-subtitle); font-weight: var(--com-font-weight-heavy);
-  cursor: pointer; transition: all 0.3s ease;
+.ptnssearch-search-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width: 768px) { .ptnssearch-sidebar { display: none; } }
+.ptnssearch-search-placeholder-text {
+  font-size: var(--com-size-sub-title);
+  color: var(--com-font-muted);
+  margin: var(--com-gap-md);
+}
+
+.ptnssearch-search-find-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--com-gap-sm);
+  padding: 14px 28px;
+  border-radius: var(--com-radius-pill);
+  border: none;
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* --- 커스텀 오버레이 --- */
+.ptnssearch-custom-overlay {
+  position: relative;
+  padding: 8px 12px;
+  background-color: #1e293b;
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.overlay-arrow {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #1e293b;
+}
+
+/* --- 모바일 바텀 시트 --- */
+@media screen and (max-width: 768px) {
+  .ptnssearch-modal-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .ptnssearch-main-layout {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .ptnssearch-sidebar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    background: #fff;
+    z-index: 1000;
+    border-right: none;
+    border-top: 1px solid var(--com-border-default);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(calc(100% - 50px));
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ptnssearch-sidebar.ptnssearch-sheet-open {
+    transform: translateY(0);
+  }
+
+  .ptnssearch-mobile-sheet-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid var(--com-border-default);
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--com-color-black);
+    font-size: 14px;
+  }
+
+  .ptnssearch-map-container {
+    flex: 1;
+    width: 100%;
+    min-height: 250px;
+    z-index: 1;
+  }
+
+  .ptnssearch-sidebar-search-area {
+    padding: 12px;
+  }
+
+  .ptnssearch-sidebar-store-list {
+    padding-bottom: 20px;
+  }
+}
+/* Styles for partner custom markers */
+.partner-custom-marker {
+  background-color: black;
+  color: white; /* Assuming text or icon inside the marker */
+  width: 30px; /* Example size, adjust as needed */
+  height: 30px; /* Example size, adjust as needed */
+  border-radius: 50%; /* Circular marker */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px; /* Example font size */
+  font-weight: bold;
+}
+
+/* Styles for current location marker */
+.current-location-marker {
+  background: var(--com-gradient-rainbow);
+  color: white; /* Assuming text or icon inside the marker */
+  width: 35px; /* Slightly larger for emphasis */
+  height: 35px; /* Slightly larger for emphasis */
+  border-radius: 50%; /* Circular marker */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px; /* Example font size */
+  font-weight: bold;
+  border: 2px solid white; /* White border for visibility */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+.partner-custom-marker-selected {
+  border: 2px solid var(--com-color-black); /* Highlight with black border */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7); /* Stronger shadow for selection */
+  transform: scale(1.1); /* Slightly enlarge when selected */
+  z-index: 10; /* Bring to front when selected */
+}

@@ -4,17 +4,19 @@
  * 251229 v1.2.0 최종본
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useKakaoLoader } from 'react-kakao-maps-sdk';
 import axiosInstance from '../../api/axiosInstance.js';
 import { partnerStoreThunk } from '../../store/thunks/partnerStoreThunk.js';
 import { clearPartnerStore } from '../../store/slices/partnerStoreSlice.js';
 import { FaMagnifyingGlass, FaXmark, FaStore } from "react-icons/fa6";
-import '../main/sections/MainPTNSSearch.css'; 
+import '../main/sections/MainPTNSSearch.css';
+import { LanguageContext } from '../../context/LanguageContext.jsx';
 
 export default function PartnerRegistration() {
   const dispatch = useDispatch();
+  const { t } = useContext(LanguageContext);
   
   // 상태 관리
   const [keyword, setKeyword] = useState("");     
@@ -96,13 +98,13 @@ export default function PartnerRegistration() {
 
   return (
     <div className="mainptnssearch-card-box" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
-      <h3 className="detail-title">지점 등록 (Kakao Places API)</h3>
+      <h3 className="detail-title">{t('adminRegisterBranch')}</h3>
       
       <div className="ptnssearch-input-box" style={{ position: 'relative' }}>
         <FaMagnifyingGlass className="input-inner-icon" />
         <input 
           type="text" 
-          placeholder="매장명 입력 (예: 올리브영 대구중앙로점)"
+          placeholder={t('adminStoreNamePlaceholder')}
           value={keyword}
           onChange={(e) => searchPlaces(e.target.value)}
           className="ptnssearch-input-text"
@@ -124,15 +126,15 @@ export default function PartnerRegistration() {
       )}
 
       {/* 상태 메시지 */}
-      {isLoading && <p style={{ color: 'blue', marginTop: '10px' }}>데이터 저장 중...</p>}
-      {lastSaved && <p style={{ color: 'green', marginTop: '10px' }}>✅ {lastSaved.storeName} 등록 성공!</p>}
-      {error && <p style={{ color: 'red', marginTop: '10px' }}>❌ 에러: {typeof error === 'string' ? error : '서버 연결 확인 필요'}</p>}
+      {isLoading && <p style={{ color: 'blue', marginTop: '10px' }}>{t('adminDataSaving')}</p>}
+      {lastSaved && <p style={{ color: 'green', marginTop: '10px' }}>✅ {lastSaved.storeName} {t('adminRegisterSuccess')}</p>}
+      {error && <p style={{ color: 'red', marginTop: '10px' }}>❌ {t('adminError')} {typeof error === 'string' ? error : t('adminServerError')}</p>}
 
       <hr style={{ margin: '20px 0' }} />
 
       {/* 등록된 매장 목록 (린트 에러 해결) */}
       <div className="registered-list">
-        <h4 style={{ marginBottom: '10px' }}><FaStore /> 현재 등록된 매장 현황</h4>
+        <h4 style={{ marginBottom: '10px' }}><FaStore /> {t('adminRegisteredStores')}</h4>
         <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
           {registeredStores.map(store => (
             <div key={store.id} style={{ padding: '8px', borderBottom: '1px solid #eee', fontSize: '12px' }}>

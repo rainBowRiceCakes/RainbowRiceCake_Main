@@ -9,7 +9,10 @@ import { useEffect } from "react";
 import "./MainCoverModal.css";
 import DeliveryStatusCards from "./DeliveryStatusCards";
 
+import { useTranslation } from "../../../../context/LanguageContext";
+
 export default function MainCoverModal({ isOpen, onClose, order }) {
+  const { t } = useTranslation();
   useEffect(() => {
     if (!isOpen) return;
 
@@ -35,14 +38,14 @@ export default function MainCoverModal({ isOpen, onClose, order }) {
         <div className="maincover-modal-header">
           <div>
             <h3 className="maincover-modal-title" id="maincover-modal-title">
-              배송 상세 내역
+              {t('coverModalTitle')}
             </h3>
             <p className="maincover-modal-sub">
-              백과 조회 기반으로 최신 배송 상태를 표시합니다.
+              {t('coverModalSub')}
             </p>
           </div>
 
-          <button className="maincover-modal-close" onClick={onClose} aria-label="닫기">
+          <button className="maincover-modal-close" onClick={onClose} aria-label={t('coverModalClose')}>
             ✕
           </button>
         </div>
@@ -55,32 +58,32 @@ export default function MainCoverModal({ isOpen, onClose, order }) {
         {/* 상세 정보 */}
         <div className="maincover-modal-detail">
           <div className="maincover-modal-row">
-            <span className="maincover-modal-k">배송 번호</span>
+            <span className="maincover-modal-k">{t('coverModalDeliveryNumber')}</span>
             <strong className="maincover-modal-v">{order.id}</strong>
           </div>
 
           <div className="maincover-modal-row">
-            <span className="maincover-modal-k">받는 사람</span>
+            <span className="maincover-modal-k">{t('coverModalRecipient')}</span>
             <strong className="maincover-modal-v">{order.name}</strong>
           </div>
 
           {order.driverPhone && (
             <div className="maincover-modal-row">
-              <span className="maincover-modal-k">기사 연락처</span>
+              <span className="maincover-modal-k">{t('coverModalDriverContact')}</span>
               <strong className="maincover-modal-v">{order.driverPhone}</strong>
             </div>
           )}
 
           <div className="maincover-modal-row no-border">
-            <span className="maincover-modal-k">결제 금액</span>
+            <span className="maincover-modal-k">{t('coverModalPaymentAmount')}</span>
             <strong className="maincover-modal-v maincover-modal-price">
-              {(order.price || 0).toLocaleString()}원
+              {(order.price || 0).toLocaleString()}{t('coverModalCurrency')}
             </strong>
           </div>
         </div>
 
         <button className="maincover-modal-cta" onClick={onClose}>
-          확인
+          {t('confirm')}
         </button>
       </div>
     </div>
