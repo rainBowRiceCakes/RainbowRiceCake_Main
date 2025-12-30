@@ -14,7 +14,7 @@ const partnerRoutes = [
   { path: "orders/:orderId/questions", element: <PartnerIssueReportPage /> },
   { path: "orders/:orderId", element: <PartnerOrderDetailPage /> },
   { path: "orders", element: <PartnerOrderListPage /> },
-  { path: "notices", element: <PartnerNoticeList /> },
+  { path: "notices/role", element: <PartnerNoticeList /> },
   { path: "help", element: <PartnerFaqList /> },
   { path: "help/questions", element: <PartnerIssueReportPage /> },
   { path: "profile", element: <PartnerProfile /> },

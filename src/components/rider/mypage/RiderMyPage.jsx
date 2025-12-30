@@ -54,7 +54,7 @@ export default function RiderMyPage() {
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/mypage/notices`)}>
+          <button className="navigation" onClick={() => nav(`/rider/mypage/notices/role`)}>
             <span className="icon">📢</span>
             <span className="label">공지사항</span>
             <span className="chev">›</span>

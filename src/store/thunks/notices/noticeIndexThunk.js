@@ -10,7 +10,7 @@ export const noticeIndexThunk = createAsyncThunk(
             let query = `?page=${page}&limit=${limit}`;
             if (from) query += `&from=${from}`;
 
-            const response = await axiosInstance.get(`/api/notices${query}`);
+            const response = await axiosInstance.get(`/api/notices/role${query}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error);

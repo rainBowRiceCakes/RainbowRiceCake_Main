@@ -41,7 +41,7 @@ const riderRoutes = [
     element: <RiderMyPageLayout />,
     children: [
       { index: true, element: <RiderMyPage />, handle: { title: "마이페이지" } },
-      { path: "notices", element: <RiderNoticeList />, handle: { title: "공지사항" } },
+      { path: "notices/role", element: <RiderNoticeList />, handle: { title: "공지사항" } },
       { path: "profile", element: <ProfileEdit />, handle: { title: "내 정보" } },
       { path: "history", element: <DeliveryHistory />, handle: { title: "배송 히스토리" } },
       { path: "settlement", element: <SettlementList />, handle: { title: "정산 내역" } },
