@@ -12,8 +12,6 @@ import store from './store/store.js';
 import { LanguageProvider } from './context/LanguageContext.jsx';
 import { injectStoreInAxios } from './api/axiosInstance.js';
 
-// 스토어가 생성되자마자 axiosInstance에 주입
-injectStoreInAxios(store);
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -22,3 +20,6 @@ createRoot(document.getElementById('root')).render(
     </LanguageProvider>
   </Provider>
 )
+
+// 스토어가 생성되자마자 axiosInstance에 주입
+injectStoreInAxios(store);

@@ -111,45 +111,55 @@ export default function MainPTNS() {
     const rawData = Object.fromEntries(form.entries());
 
     // 백엔드 스펙에 맞게 데이터 매핑
-    let payload = {};
+    let payload = new FormData();
+
     let actionThunk = null;
 
-if (activeTab === 'rider') {
-  console.log(rawData)
-      // [라이더 데이터 구성]
-      payload = {
-        // 백엔드 필수 필드
-        licenseNumber: rawData.licenseNumber, 
-        description: rawData.description,
-        
-        // 추가 정보
-        phone: rawData.riderPhone,
-        address: rawData.riderAddress,
-        bankName: rawData.bankName,
-        accountNumber: rawData.accountNumber,
-      };
+  if (activeTab === 'rider') {
+    // [라이더 데이터 구성]
+    payload.append('phone', rawData.riderPhone);
+    payload.append('address', rawData.riderAddress);
+    payload.append('bank', rawData.bankName);
+    payload.append('bankNum', rawData.accountNumber);
+    
+    // ⚠️ 파일 처리: 값이 실제 파일 객체인지 확인
+    if (rawData.licenseImage && rawData.licenseImage.size > 0) {
+        payload.append('licenseImg', rawData.licenseImage); 
+    }
       actionThunk = riderFormThunk;
 
-    } else {
-      // [파트너 데이터 구성]
-      payload = {
-        // 백엔드 필수 필드
-        businessNumber: rawData.businessNumber,
-        storeName: rawData.storeNameKr, // 한글 상호명을 기본값으로
-        description: rawData.description,
-        
-        // 추가 정보
-        storeKrName: rawData.storeNameKr,
-        storeEnName: rawData.storeNameEn,
-        manager: rawData.managerName,
-        phone: rawData.partnerPhone,
-        address: rawData.storeAddress,
-      };
+    }
+    else {
+    // [파트너 데이터 구성]
+    payload.append('manager', rawData.managerName);
+    payload.append('phone', rawData.partnerPhone);
+    payload.append('address', rawData.storeAddress);
+    payload.append('krName', rawData.storeNameKr);
+    payload.append('enName', rawData.storeNameEn);
+    payload.append('businessNum', rawData.businessNumber);
+
+    // ⚠️ [추가] 백엔드 유효성 검사 통과를 위한 위도/경도 추가
+    // 실제 서비스에선 카카오 지도 API 등을 통해 주소 변환된 값을 넣어야 한다.
+    // 현재는 에러 해결을 위해 임시 값(서울 좌표) 입력
+    payload.append('lat', 37.5665); 
+    payload.append('lng', 126.9780);
+    
+    // ⚠️ 파일 처리
+    if (rawData.storeLogo && rawData.storeLogo.size > 0) {
+        payload.append('logoImg', rawData.storeLogo);
+    }
+
       actionThunk = partnerFormThunk;
     }
 
-// API Dispatch
+    // API Dispatch
     try {
+    // 디버깅용 로그 (FormData 내용 확인)
+    console.log(`=== [${activeTab}] 전송 데이터 확인 ===`);
+    for (let pair of payload.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+    }
+
       // 선택된 Thunk 실행
       await dispatch(actionThunk(payload)).unwrap();
 
@@ -159,12 +169,13 @@ if (activeTab === 'rider') {
       setLicensePreview(null);
       setLogoPreview(null);
 
-      // 신청 내역 확인 페이지로 이동
-      navigate('/mypage');
+      // 신청 내역 확인 페이지로 이동(마이패이지 살릴거면 아래 주석 풀기)
+      // navigate('/mypage');
+      navigate('/');
 
     } catch (error) {
-      console.error("Submission Error:", error);
       // 백엔드 Validator에서 걸러진 에러 메시지가 여기서 표시됨
+      console.error("Submission Error:", error);
     }
   };
 
