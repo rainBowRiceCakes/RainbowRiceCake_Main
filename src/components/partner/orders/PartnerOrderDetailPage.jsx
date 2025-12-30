@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import './PartnerOrderDetailPage.css';
 
 const PartnerOrderDetailPage = () => {
-  const { orderNo } = useParams();
+  const { orderId: orderNo } = useParams();
   const navigate = useNavigate();
 
   // Redux에서 해당 주문 데이터 찾기

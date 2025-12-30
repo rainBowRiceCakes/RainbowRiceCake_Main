@@ -109,7 +109,7 @@ const PartnerOrderListPage = () => {
             {currentItems.length > 0 ? (
               currentItems.map((order) => (
                 <tr key={order.orderNo}>
-                  <td className="text_bold clickable_id" onClick={() => navigate(`/history/${order.orderNo}`)}>
+                  <td className="text_bold clickable_id" onClick={() => navigate(`/partner/orders/${order.orderNo}`)}>
                     {order.orderNo}
                   </td>
                   <td>{order.customerName}</td>

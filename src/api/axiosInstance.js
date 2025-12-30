@@ -13,7 +13,7 @@ export function injectStoreInAxios(_store) {
 
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000', // 기본 URL (axios 호출 시, 가장 앞에 자동으로 연결하여 동작)
+  baseURL: '', // 기본 URL (Vite proxy 설정을 사용하기 위해 비워둠)
   headers: {
     // 헤더를 JSON으로 바꿔주는 처리
     'Content-Type': 'application/json'

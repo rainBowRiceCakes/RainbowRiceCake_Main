@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background-color: transparent; /* Let layout handle background */
+  background-color: transparent;
+  /* Let layout handle background */
   height: 100%;
 }
 
@@ -57,7 +58,8 @@
 
 .rnl-label {
   color: #8c8c8c;
-  width: 70px; /* To align the values */
+  width: 70px;
+  /* To align the values */
   flex-shrink: 0;
 }
 
@@ -68,23 +70,30 @@
 
 /* Status-specific styles */
 .rnl-status-ongoing {
-  color: #fa541c; /* A reddish/orange color for "진행중" */
+  color: #fa541c;
+  /* A reddish/orange color for "진행중" */
 }
 
 .rnl-status-completed {
-  color: #597ef7; /* A blue/purple color for "완료" */
+  color: #597ef7;
+  /* A blue/purple color for "완료" */
 }
 
 
 .pagination-container {
   display: flex;
-  justify-content: center; /* 버튼들을 중앙에 배치 */
+  justify-content: center;
+  /* 버튼들을 중앙에 배치 */
   align-items: center;
-  gap: 8px; /* 버튼 사이 간격 */
-  margin-top: 30px; /* 위쪽 여백 */
-  margin-bottom: 20px; /* 아래쪽 여백 */
+  gap: 8px;
+  /* 버튼 사이 간격 */
+  margin-top: 30px;
+  /* 위쪽 여백 */
+  margin-bottom: 20px;
+  /* 아래쪽 여백 */
   padding: 10px 0;
-  border-top: 1px solid #eee; /* 상단 구분선 */
+  border-top: 1px solid #eee;
+  /* 상단 구분선 */
 }
 
 .pagination-container button {
@@ -96,8 +105,10 @@
   font-size: 1rem;
   color: #555;
   transition: all 0.2s ease-in-out;
-  min-width: 40px; /* 버튼 최소 너비 */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* 은은한 그림자 */
+  min-width: 40px;
+  /* 버튼 최소 너비 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* 은은한 그림자 */
 }
 
 .pagination-container button:hover:not(:disabled) {
@@ -115,8 +126,38 @@
 
 /* 활성화된 페이지 버튼 스타일 */
 .pagination-container button.active {
-  background-color: #cdb9ff; /* 파란색 배경 */
-  color: #fff !important; /* 글씨색 흰색 (important로 우선순위 높임) */
+  background-color: #cdb9ff;
+  /* 파란색 배경 */
+  color: #fff !important;
+  /* 글씨색 흰색 (important로 우선순위 높임) */
   border-color: #cdb9ff;
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* 더 강조되는 그림자 */
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+  /* 더 강조되는 그림자 */
+}
+
+/* RiderNoticeList.css에 추가 */
+.rnl-loading,
+.rnl-error,
+.rnl-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.rnl-error {
+  color: #d32f2f;
+}
+
+.rnl-error button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rnl-error button:hover {
+  background-color: #1565c0;
 }

@@ -1,9 +1,8 @@
 // components/rider/common/RiderBottomNav.jsx
 import "./RiderBottomNav.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function RiderBottomNav() {
-  const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -13,18 +12,18 @@ export default function RiderBottomNav() {
   const isActive = (key) => {
     if (key === "home") {
       // /rider/:id (메인) - 보통 여기서는 BottomNav를 안 쓰지만, 혹시라도 대비
-      return pathname === `/rider/${id}` || pathname === `/rider/${id}/`;
+      return pathname === `/rider` || pathname === `/rider/`;
     }
     if (key === "mypage") {
-      return pathname.includes(`/rider/${id}/mypage`);
+      return pathname.includes(`/rider/mypage`);
     }
     return false;
   };
 
   const go = (key) => {
     // ✅ 마이페이지 레이아웃에서 쓸 거라 mypage 기본은 mypage index로
-    if (key === "home") navigate(`/rider/${id}`);
-    if (key === "mypage") navigate(`/rider/${id}/mypage`);
+    if (key === "home") navigate(`/rider`);
+    if (key === "mypage") navigate(`/rider/mypage`);
   };
 
   return (

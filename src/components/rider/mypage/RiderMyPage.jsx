@@ -28,19 +28,19 @@ export default function RiderMyPage() {
       {/* 메뉴 리스트 */}
       <div className="menu">
         <div className="mypageSection">
-          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/profile`)}>
+          <button className="navigation" onClick={() => nav(`/rider/mypage/profile`)}>
             <span className="icon">👤</span>
             <span className="label">내 정보</span>
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/settlement`)}>
+          <button className="navigation" onClick={() => nav(`/rider/mypage/settlement`)}>
             <span className="icon">💸</span>
             <span className="label">정산 내역</span>
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/history`)}>
+          <button className="navigation" onClick={() => nav(`/rider/mypage/history`)}>
             <span className="icon">🕘</span>
             <span className="label">배송 히스토리</span>
             <span className="chev">›</span>
@@ -48,13 +48,13 @@ export default function RiderMyPage() {
         </div>
 
         <div className="mypageSection">
-          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/help`)}>
+          <button className="navigation" onClick={() => nav(`/rider/mypage/help`)}>
             <span className="icon">✅</span>
             <span className="label">자주 묻는 질문</span>
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/rider/${id}/mypage/notices`)}>
+          <button className="navigation" onClick={() => nav(`/rider/mypage/notices`)}>
             <span className="icon">📢</span>
             <span className="label">공지사항</span>
             <span className="chev">›</span>

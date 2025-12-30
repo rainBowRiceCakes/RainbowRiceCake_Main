@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './SideBar.css';
 import { setActiveMenu } from '../../../store/slices/partnerMenuSlice';
 
-const Sidebar = () => {
+const Sidebar = ({ isCollapsed }) => {
   const activeMenu = useSelector((state) => state.menu.activeMenu);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -12,16 +12,13 @@ const Sidebar = () => {
 
   useEffect(() => {
     const path = location.pathname;
+    // 경로에 따른 액티브 메뉴 설정 로직 (기존 유지)
     if (path === '/partner' || path === '/partner/') {
       if (activeMenu !== 'home') dispatch(setActiveMenu('home'));
     } else if (path.includes('/partner/orders')) {
-      if (activeMenu !== 'request' && activeMenu !== 'history') {
-        dispatch(setActiveMenu('history'));
-      }
+      if (activeMenu !== 'request' && activeMenu !== 'history') dispatch(setActiveMenu('history'));
     } else if (path.includes('/partner/notices')) {
       if (activeMenu !== 'notice') dispatch(setActiveMenu('notice'));
-    } else if (path.includes('/partner/policies')) {
-      if (activeMenu !== 'policy') dispatch(setActiveMenu('policy'));
     } else if (path.includes('/partner/help')) {
       if (activeMenu !== 'qna') dispatch(setActiveMenu('qna'));
     } else if (path.includes('/partner/profile')) {
@@ -34,62 +31,50 @@ const Sidebar = () => {
     { id: 'request', label: '배송 요청', icon: '📦' },
     { id: 'history', label: '배송 내역', icon: '📋' },
     { id: 'notice', label: '공지사항', icon: '💬' },
-    { id: 'policy', label: '정책', icon: '📄' },
     { id: 'qna', label: '문의하기', icon: '🚨' },
     { id: 'mypage', label: '마이 페이지', icon: '👤' },
   ];
 
   const handleMenuClick = (id) => {
-    // Redux 상태 업데이트 요청
     dispatch(setActiveMenu(id));
-
-    // 페이지 이동 로직
-    switch (id) {
-      case 'home':
-        navigate('/partner');
-        break;
-      case 'request': // 배송 요청 -> 주문 목록 페이지로 이동 (추후 변경 가능)
-        navigate('/partner/orders');
-        break;
-      case 'history': // 배송 내역 -> 주문 목록 페이지로 이동
-        navigate('/partner/orders');
-        break;
-      case 'notice':
-        navigate('/partner/notices');
-        break;
-      case 'policy':
-        navigate('/partner/policies');
-        break;
-      case 'qna': // 문의하기 -> 도움말/FAQ 페이지로 이동
-        navigate('/partner/help');
-        break;
-      case 'mypage':
-        navigate('/partner/profile');
-        break;
-      default:
-        break;
-    }
+    const paths = {
+      home: '/partner',
+      request: '/partner/orders/new',
+      history: '/partner/orders',
+      notice: '/partner/notices',
+      qna: '/partner/help',
+      mypage: '/partner/profile'
+    };
+    if (paths[id]) navigate(paths[id]);
   };
 
   return (
-    <div className="sidebar">
-      <div className="logo">DGD</div>
-      <nav className="menu-list">
+    // isCollapsed가 true면 collapsed 클래스 추가
+    <nav className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+      <div className="logo">{isCollapsed ? "D" : "DGD"}</div>
+
+      <div className="menu-list">
         {menuItems.map((item) => (
-          <div key={item.id} className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
-            onClick={() => handleMenuClick(item.id)}>
+          <div
+            key={item.id}
+            className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
+            onClick={() => handleMenuClick(item.id)}
+            title={isCollapsed ? item.label : ""} // 접혔을 때 툴팁 제공
+          >
             <span className="icon">{item.icon}</span>
-            <span className="label">{item.label}</span>
+            {/* 접히지 않았을 때만 라벨 표시 */}
+            {!isCollapsed && <span className="label">{item.label}</span>}
           </div>
         ))}
-      </nav>
+      </div>
+
       <div className="logout-section">
         <div className="menu-item">
           <span className="icon">🔓</span>
-          <span className="label">Logout</span>
+          {!isCollapsed && <span className="label">Logout</span>}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -4,9 +4,9 @@ import "./RiderNoticeBar.css";
 import { useSelector } from "react-redux"; // Uncomment useSelector
 
 export default function RiderNoticeBar({ riderId, onNavigateToNotices }) {
-  const todaysNotices = useSelector((state) => state.notices.todaysNotices);
+  const ongoingNotices = useSelector((state) => state.notices.ongoingNotices);
 
-  if (!todaysNotices || todaysNotices.length === 0) {
+  if (!ongoingNotices || ongoingNotices.length === 0) {
     return null; // Return null if no notices for today
   }
 
@@ -15,7 +15,7 @@ export default function RiderNoticeBar({ riderId, onNavigateToNotices }) {
       <div className="rider-notice-bar">
         <div className="rider-notice-marquee">
           <p className="rider-notice-text">
-            {todaysNotices.map(notice => `✓ ${notice.title}, ${notice.issue}`).join(" \u00A0\u00A0")}
+            {ongoingNotices.map(notice => `✓ ${notice.title}, ${notice.content}`).join(" \u00A0\u00A0")}
           </p>
         </div>
       </div>

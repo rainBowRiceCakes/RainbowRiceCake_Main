@@ -1,175 +1,214 @@
-.partner-dashboard-content {
-  padding: 1rem;
+/* 전체 레이아웃 */
+.dashboard_container {
+  padding: 30px;
+  background-color: #f8f9fc;
+  min-height: 100vh;
 }
 
-/* KPI 카드 */
-.kpi-cards-container {
+/* 웰컴 메시지 */
+.welcome_msg h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #202224;
+}
+
+.welcome_msg span {
+  color: #666;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+/* KPI 카드 상단 그리드 */
+.stats_grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
-.kpi-card {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border-left: 5px solid transparent;
+/* 메인 2컬럼 레이아웃 */
+.main_content_grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 25px;
 }
 
-.kpi-card.yellow {
-  border-color: #ffc107;
+/* 주문 현황 섹션 */
+.order_status_section {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  margin-bottom: 25px;
 }
 
-.kpi-card.pink {
-  border-color: #e83e8c;
-}
-
-.kpi-card.mint {
-  border-color: #20c997;
-}
-
-.card-header {
+.section_header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 
-.card-title {
+.status_tabs {
+  background: #f1f3f9;
+  padding: 4px;
+  border-radius: 10px;
+  display: flex;
+}
+
+.status_tabs button {
+  padding: 6px 18px;
+  border-radius: 8px;
+  border: none;
   font-weight: 600;
-  color: #555;
-  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #777;
+  background: transparent;
+  transition: all 0.2s;
 }
 
-.card-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
+.status_tabs button.active {
+  background: white;
+  color: #4d44ff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.card-change {
-  font-size: 0.9rem;
-}
-
-.card-change.green {
-  color: #28a745;
-}
-
-.card-change.red {
-  color: #dc3545;
-}
-
-/* 데이터 테이블 */
-.data-table-container {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.table-title {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-}
-
-.data-table {
+/* 테이블 스타일 */
+.order_table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.data-table th,
-.data-table td {
-  padding: 1rem;
+.order_table th {
   text-align: left;
+  padding: 12px 10px;
+  color: #999;
+  font-size: 13px;
   border-bottom: 1px solid #f0f0f0;
 }
 
-.data-table th {
-  font-size: 0.9rem;
-  color: #888;
+.order_table td {
+  padding: 15px 10px;
+  font-size: 14px;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
   font-weight: 600;
 }
 
-/* 상태 라벨 */
-[class^="status-"] {
-  padding: 0.3rem 0.7rem;
-  border-radius: 15px;
-  font-weight: 600;
-  font-size: 0.8rem;
+.badge.ongoing {
+  background: #eef2ff;
+  color: #4d44ff;
 }
 
-.status-완료 {
-  background-color: #e9f7f1;
-  color: #20c997;
+.badge.delivery {
+  background: #fff4e5;
+  color: #ff9800;
 }
 
-.status-진행중 {
-  background-color: #fdeaf2;
-  color: #e83e8c;
+.badge.delay {
+  background: #ffebee;
+  color: #f44336;
 }
 
-.status-요청 {
-  background-color: #fff8e1;
-  color: #ffc107;
+.btn_detail {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  background: #fdfdfd;
+  cursor: pointer;
+  font-size: 12px;
 }
 
-.download-btn {
-  background-color: #f0f2f5;
+.table_footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.view_all_link {
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
+  color: #4d44ff;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s;
 }
 
-.download-btn:hover {
-  background-color: #dfe3e8;
+/* 오늘 한눈에 섹션 */
+.summary_section_title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #202224;
 }
 
-/* 페이지네이션 */
-.pagination {
+.summary_grid_bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.summary_item {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
   display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.summary_item .icon {
+  font-size: 24px;
+}
+
+.summary_item p {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+.summary_item strong {
+  font-size: 16px;
+  color: #202224;
+}
+
+.summary_item.warning {
+  border: 1px solid #ffeded;
+}
+
+/* 우측 차트 카드 섹션 */
+.right_column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart_card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+.chart_card h4 {
+  font-size: 15px;
+  margin-bottom: 20px;
+  color: #202224;
+}
+
+.chart_placeholder_img {
+  height: 180px;
+  background: #fafbfc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 2rem;
-  gap: 0.5rem;
-}
-
-.pagination button {
-  border: 1px solid #e9e9e9;
-  background-color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.pagination button:hover {
-  background-color: #f0f0f0;
-}
-
-.pagination button.active {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-/* 반응형 */
-@media (max-width: 1200px) {
-  .kpi-cards-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .kpi-cards-container {
-    grid-template-columns: 1fr;
-  }
-
-  .partner-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
+  color: #bdc3c7;
+  font-size: 13px;
+  border: 1px dashed #eee;
 }

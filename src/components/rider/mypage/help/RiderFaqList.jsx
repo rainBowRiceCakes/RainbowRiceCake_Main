@@ -1,7 +1,7 @@
 // src/components/rider/mypage/help/RiderFaqList.jsx
 import "./RiderFaqList.css";
 import { useState, useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { dummyFaq } from "../../../../data/dummyFaq.js";
 
 function FaqItem({ item, isOpen, onToggle }) {
@@ -22,7 +22,6 @@ function FaqItem({ item, isOpen, onToggle }) {
 
 export default function RiderFaqList() {
   const navigate = useNavigate();
-  const { id } = useParams();
   const [activeCategory, setActiveCategory] = useState("전체");
   const [openFaqId, setOpenFaqId] = useState(null);
 
@@ -47,7 +46,7 @@ export default function RiderFaqList() {
   };
 
   const handleNavigateToIssueReport = () => {
-    navigate(`/rider/${id}/mypage/help/questions`);
+    navigate(`/rider/mypage/help/questions`);
   };
 
   return (

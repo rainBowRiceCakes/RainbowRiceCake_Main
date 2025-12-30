@@ -1,11 +1,10 @@
 // components/rider/main/RiderMainPage.jsx
 import "./RiderMainPage.css";
 import { useState, useMemo, useEffect } from "react";
-import { dummyNotices } from "../../../data/dummyNotices.js";
 import {
-  setAllNotices,
-  setTodaysNotices,
+  setOngoingNotices,
 } from "../../../store/slices/noticesSlice.js";
+import { noticeIndexThunk } from "../../../store/thunks/notices/noticeIndexThunk.js";
 
 import RiderInfoBar from "./header/RiderInfoBar.jsx";
 import RiderStatusTabs from "./header/RiderStatusTabs.jsx";
@@ -59,7 +58,7 @@ export default function RiderMainPage() {
   };
 
   const handleNavigateToNotices = () => {
-    navigate(`/rider/${id}/mypage/notices`);
+    navigate(`/rider/mypage/notices`);
   };
   const handleAccept = (order) => {
     const actualOrderNo = typeof order === 'object' ? order.orderNo : order;
@@ -74,20 +73,22 @@ export default function RiderMainPage() {
     });
   };
 
+  const { allNotices } = useSelector((state) => state.notices);
+
+  // 진행 중인 공지사항 필터링 (메모이제이션)
+  const ongoingNotices = useMemo(() => {
+    return allNotices.filter((notice) => notice.status === true);
+  }, [allNotices]);
+
+  // 컴포넌트 마운트 시 공지사항 페칭
   useEffect(() => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const year = today.getFullYear();
-    const todayFormatted = `${year}/${month}/${day}`;
-
-    const filteredTodaysNotices = dummyNotices.filter(
-      (notice) => notice.date === todayFormatted
-    );
-
-    dispatch(setAllNotices(dummyNotices));
-    dispatch(setTodaysNotices(filteredTodaysNotices));
+    dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }));
   }, [dispatch]);
+
+  // ongoingNotices가 변경될 때마다 store 업데이트 (RiderNoticeBar가 store를 사용하므로)
+  useEffect(() => {
+    dispatch(setOngoingNotices(ongoingNotices));
+  }, [dispatch, ongoingNotices]);
 
   return (
     <div className="rider-main">

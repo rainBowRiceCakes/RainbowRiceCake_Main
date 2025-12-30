@@ -10,7 +10,7 @@ export default function RiderInfoBar() {
     "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
 
   const goMyPage = () => {
-    navigate(`/rider/${id}/mypage`);
+    navigate(`/rider/mypage`);
   };
 
   return (

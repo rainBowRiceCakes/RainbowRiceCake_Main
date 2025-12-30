@@ -56,7 +56,7 @@ export default defineConfig({
     proxy: {
       // 경로가 `/api`로 시작하는 요청을 대상으로 proxy 설정
       '/api': {
-        target: 'http://localhost:3000', // Request 대상 서버 주소 (백엔드 서버)
+        target: 'http://127.0.0.1:3000', // localhost 대신 127.0.0.1 사용 (Windows 환경 호환성)
         changeOrigin: true, // Request Header Host 필드 값을 대상 서버 호스트로 변경
         secure: false, // SSL 인증서 검증 무시
         ws: true // WebSoket 프로토콜 사용
