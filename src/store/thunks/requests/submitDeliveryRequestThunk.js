@@ -9,7 +9,7 @@ export const submitDeliveryRequest = createAsyncThunk(
       });
       return response.data; // 성공 시 모달 노출 유도
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );

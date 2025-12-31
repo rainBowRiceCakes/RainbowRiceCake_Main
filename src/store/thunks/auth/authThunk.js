@@ -12,7 +12,7 @@ export const loginThunk = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
@@ -28,7 +28,7 @@ export const reissueThunk = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );

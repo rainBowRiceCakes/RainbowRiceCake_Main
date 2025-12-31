@@ -13,6 +13,7 @@ import riderReducer from "./slices/riderSlice.js";
 import partnerReducer from "./slices/partnerSlice.js";
 import uiReducer from "./slices/partnerUiSlice.js";
 import deliveryReducer from "./slices/parternerDeliverySlice.js";
+import profileReducer from "./slices/profileSlice.js";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     menu: partnerMenuReducer,
     rider: riderReducer,
     partner: partnerReducer,
+    profile: profileReducer,
     ui: uiReducer, // UI 상태 관리 (사이드바 접기/펼치기 등)
     delivery: deliveryReducer, // 배송 요청 상태 관리
   },

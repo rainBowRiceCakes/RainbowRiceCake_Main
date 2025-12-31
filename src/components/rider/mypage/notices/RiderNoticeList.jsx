@@ -38,16 +38,14 @@ export default function RiderNoticeList() {
   const { allNotices, loading, error } = useSelector((state) => state.notices);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 컴포넌트 마운트 시 데이터 로드
   useEffect(() => {
     dispatch(noticeIndexThunk({
       page: 1,
-      limit: 100, // 모든 데이터를 가져와서 클라이언트에서 페이지네이션
+      limit: 100,
       from: 'rider'
     }));
   }, [dispatch]);
 
-  // 클라이언트 사이드 페이지네이션 (기존 로직 유지)
   const pagedNotices = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -56,7 +54,6 @@ export default function RiderNoticeList() {
     return { items, totalPage };
   }, [allNotices, currentPage]);
 
-  // 로딩 상태
   if (loading && allNotices.length === 0) {
     return (
       <div className="rnl-list-container">
@@ -65,7 +62,6 @@ export default function RiderNoticeList() {
     );
   }
 
-  // 에러 상태
   if (error) {
     return (
       <div className="rnl-list-container">
@@ -79,7 +75,6 @@ export default function RiderNoticeList() {
     );
   }
 
-  // 데이터 없음
   if (!loading && allNotices.length === 0) {
     return (
       <div className="rnl-list-container">

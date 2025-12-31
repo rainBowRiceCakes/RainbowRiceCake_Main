@@ -7,6 +7,7 @@ import PartnerNoticeList from "../components/partner/notices/PartnerNoticeList.j
 import PartnerFaqList from "../components/partner/help/PartnerFaqList.jsx";
 import PartnerProfile from "../components/partner/profiles/PartnerProfile.jsx";
 import PartnerDeliveryRequestPage from "../components/partner/requests/PartnerDeliveryRequestPage.jsx";
+// import PartnerMyPage from "../components/partner/mypage/RiderMyPage.jsx";
 
 const partnerRoutes = [
   { index: true, element: <PartnerDashboard /> },
@@ -14,7 +15,8 @@ const partnerRoutes = [
   { path: "orders/:orderId/questions", element: <PartnerIssueReportPage /> },
   { path: "orders/:orderId", element: <PartnerOrderDetailPage /> },
   { path: "orders", element: <PartnerOrderListPage /> },
-  { path: "notices/role", element: <PartnerNoticeList /> },
+  // { path: "mypage", element: <PartnerMyPage /> },
+  { path: "notices", element: <PartnerNoticeList /> },
   { path: "help", element: <PartnerFaqList /> },
   { path: "help/questions", element: <PartnerIssueReportPage /> },
   { path: "profile", element: <PartnerProfile /> },

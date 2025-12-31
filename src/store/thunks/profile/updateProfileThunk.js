@@ -3,19 +3,9 @@ import axios from "axios";
 
 export const updateProfileThunk = createAsyncThunk(
   "profile/updateProfileThunk",
-  async ({ phone, address, userRole }, { rejectWithValue }) => {
+  async ({ phone, address }, { rejectWithValue }) => {
     try {
-      // 1. userRole에 따른 경로 매핑
-      const rolePathMap = {
-        DLV: "rider",
-        PTN: "partner",
-      };
-
-      // 2. 매핑된 경로 가져오기 (기본값 설정 가능)
-      const targetPath = rolePathMap[userRole];
-
-      // 3. API 요청
-      const response = await axios.put(`/api/${targetPath}/profile`, {
+      const response = await axios.put(`/api/profile`, {
         phone,
         address,
       });

@@ -18,7 +18,7 @@ export const questionImageUploadThunk = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
@@ -33,7 +33,7 @@ export const questionStoreThunk = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );

@@ -18,7 +18,7 @@ export const orderPickupImageUploadThunk = createAsyncThunk(
 
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(error);
+			return rejectWithValue(error.response?.data || { message: error.message });
 		}
 	}
 );
@@ -40,7 +40,7 @@ export const orderCompleteImageUploadThunk = createAsyncThunk(
 
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(error);
+			return rejectWithValue(error.response?.data || { message: error.message });
 		}
 	}
 );
@@ -55,7 +55,7 @@ export const orderStoreThunk = createAsyncThunk(
 
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(error);
+			return rejectWithValue(error.response?.data || { message: error.message });
 		}
 	}
 );

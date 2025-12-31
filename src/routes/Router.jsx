@@ -15,12 +15,12 @@ const router = createBrowserRouter([
   //   children: mainRoutes,
   // },
   {
-    path: "/rider",
+    path: "/riders",
     element: <RiderLayout />,
     children: riderRoutes,
   },
   {
-    path: "/partner",
+    path: "/partners",
     element: <PartnerLayout />,
     children: partnerRoutes,
   },

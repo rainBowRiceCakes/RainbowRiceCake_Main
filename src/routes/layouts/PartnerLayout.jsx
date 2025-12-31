@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // 상태만 구독
-import './PartnerLayout.css';
 import SideBar from '../../components/partner/common/SideBar.jsx';
 import Header from '../../components/partner/common/Header.jsx';
+import './PartnerLayout.css';
 
 function PartnerLayout() {
   // UI 상태에서 접힘 여부만 가져옴

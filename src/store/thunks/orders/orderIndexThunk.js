@@ -4,16 +4,14 @@ import axiosInstance from "../../../api/axiosInstance";
 // 주문 리스트
 export const orderIndexThunk = createAsyncThunk(
 	'orders/orderIndexThunk',
-	async ({ page = 1, limit = 9, from }, { rejectWithValue }) => {
+	async (args, { rejectWithValue }) => {
 		try {
-			// 쿼리 파라미터 생성
-			let query = `?page=${page}&limit=${limit}`;
-			if (from) query += `&from=${from}`;
+			const url = '/api/orders';
+			const response = await axiosInstance.get(url, { params: args });
 
-			const response = await axiosInstance.get(`/api/orders${query}`);
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(error);
+			return rejectWithValue(error.response?.data || { message: error.message });
 		}
 	}
 );
