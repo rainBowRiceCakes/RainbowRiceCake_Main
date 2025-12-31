@@ -4,17 +4,18 @@
  * 251217 v1.0.0 jun init 
  */
 
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { reissueThunk } from "../../../store/thunks/authThunk.js";
-import { LanguageContext } from "../../../context/LanguageContext.jsx";
+import { useTranslation } from "../../../context/LanguageContext.js";
+
 
 export default function Social() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useContext(LanguageContext);
-
+  const { t } = useTranslation();
+  
   useEffect(() => {
     async function getAuth() {
       try {

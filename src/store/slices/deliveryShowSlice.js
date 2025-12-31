@@ -5,10 +5,10 @@
  */
 
 import { createSlice } from '@reduxjs/toolkit';
-import { deliveryShowThunk} from '../thunks/deliveryShowThunk.js';
+import { deliveryShowThunk } from '../thunks/deliveryShowThunk.js';
 
 const initialState = {
-  show: null,
+  show: [],
   loading: false,
   error: null,
 };

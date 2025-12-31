@@ -9,7 +9,7 @@ import Router from './routes/Router.jsx';
 import './index.css'
 import { Provider } from 'react-redux';
 import store from './store/store.js';
-import { LanguageProvider } from './context/LanguageContext.jsx';
+import { LanguageProvider } from './context/LanguageProvider.jsx';
 import { injectStoreInAxios } from './api/axiosInstance.js';
 
 
