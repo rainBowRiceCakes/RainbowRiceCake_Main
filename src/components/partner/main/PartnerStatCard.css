@@ -1,0 +1,46 @@
+/* 상위 컨테이너 */
+.stats_grid {
+  display: flex;
+  gap: 15px;
+  /* 카드 사이 간격을 20px -> 15px로 축소 */
+  margin-top: 20px;
+}
+
+/* 개별 카드 */
+.stat_card {
+  flex: 1;
+  background: white;
+  padding: 16px 20px;
+  /* 패딩을 줄여 높이를 낮춤 (기존 24px -> 16px) */
+  border-radius: 12px;
+  /* 모서리 곡률도 크기에 맞춰 살짝 감소 */
+  display: flex;
+  align-items: center;
+  /* 세로 중앙 정렬 */
+  justify-content: space-between;
+  min-height: 100px;
+  /* 명시적인 높이가 있었다면 이 값을 줄이세요 */
+}
+
+.stat_icon_box {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* 이미지의 파스텔 톤 배경색들 */
+.yellow {
+  background-color: #FFF9E6;
+}
+
+.pink {
+  background-color: #FFEBFA;
+}
+
+.mint {
+  background-color: #E6F9F3;
+}

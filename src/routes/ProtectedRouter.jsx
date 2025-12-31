@@ -8,15 +8,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 // 이전에 가정했던 thunks/slices 경로는 사용자의 구조를 따릅니다.
-import { reissueThunk } from "../store/thunks/authThunk.js"; 
-import { clearAuth } from "../store/slices/authSlice.js"; 
+import { reissueThunk } from "../store/thunks/authThunk.js";
+import { clearAuth } from "../store/slices/authSlice.js";
 
 // 이 컴포넌트가 라우터 요소로 사용되므로, 함수형으로 export 합니다.
-export default function ProtectedRouter() { 
+export default function ProtectedRouter() {
   // Redux 상태 및 Hooks 사용 (주석 해제)
-  const { isLoggedIn, user } = useSelector(state => state.auth); 
+  const { isLoggedIn, user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  
+
   // 현재는 Redux 및 API 호출을 주석 처리하고, 필수 변수만 더미로 선언합니다.
   // const isLoggedIn = false; // 더미 값
   // const user = { role: 'COM', DLV, PTN }; // 더미 값
@@ -35,9 +35,9 @@ export default function ProtectedRouter() {
 
   // 인증 및 인가가 필요한 라우트
   const AUTH_REQUIRED_ROUTES = [
-    { path: /^\/mypage$/, roles: [COM, DLV, PTN, ADM]},
-    { path: /^\/users\/[0-9]+$/, roles: [COM, DLV, PTN]},
-    { path: /^\/sections\/ptns\/[0-9]+$/, roles: [ COM ]},
+    { path: /^\/mypage$/, roles: [COM, DLV, PTN, ADM] },
+    { path: /^\/users\/[0-9]+$/, roles: [COM, DLV, PTN] },
+    { path: /^\/sections\/ptns\/[0-9]+$/, roles: [COM] },
     // { path: /^\/posts\/[0-9]+$/, roles: [ COM ]},
     // { path: /^\/posts\/create$/, roles: [ COM ]},
     // MainShow 관련 경로 추가 (예시)
@@ -82,7 +82,7 @@ export default function ProtectedRouter() {
   if (isGuestRoute) {
     if (isLoggedIn) {
       return <Navigate to="/" replace />; // /posts 대신 메인 (/)으로 리다이렉트 가정
-    } 
+    }
   } else {
     // 2. 인증 필수 경로 처리
     const matchRole = AUTH_REQUIRED_ROUTES.find(item => item.path.test(location.pathname));
@@ -91,7 +91,7 @@ export default function ProtectedRouter() {
       if (isLoggedIn) {
         // 2-1. 로그인 O, 권한 체크
         if (matchRole.roles.includes(user.role)) {
-          return <Outlet/>; // 권한 OK, 자식 라우트 렌더링
+          return <Outlet />; // 권한 OK, 자식 라우트 렌더링
         } else {
           // 2-2. 권한 부족
           alert('권한이 부족하여 사용할 수 없습니다.');
@@ -106,5 +106,5 @@ export default function ProtectedRouter() {
   }
 
   // 3. 인증/권한이 필요 없는 일반 라우트 또는 체크가 끝난 인증 필수 라우트의 경우
-  return <Outlet/>;
+  return <Outlet />;
 }
