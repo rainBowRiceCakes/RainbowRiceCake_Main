@@ -246,9 +246,8 @@ export default function MainPTNSSearch() {
                     stores.map((store) => (
                       <div
                         key={store.id}
-                        className={`ptnssearch-sidebar-store-item ${
-                          selectedStore?.id === store.id ? "ptnssearch-is-active" : ""
-                        }`}
+                        className={`ptnssearch-sidebar-store-item ${selectedStore?.id === store.id ? "ptnssearch-is-active" : ""
+                          }`}
                         onClick={() => handleSelectStore(store)}
                       >
                         <div className="ptnssearch-store-item-name">
@@ -288,9 +287,8 @@ export default function MainPTNSSearch() {
                         yAnchor={1.0} // Adjust as needed for correct positioning
                       >
                         <div
-                          className={`partner-custom-marker ${
-                            selectedStore?.id === store.id ? "partner-custom-marker-selected" : ""
-                          }`}
+                          className={`partner-custom-marker ${selectedStore?.id === store.id ? "partner-custom-marker-selected" : ""
+                            }`}
                           onClick={() => handleSelectStore(store)}
                         >
                         </div>

@@ -1,0 +1,32 @@
+/* RiderSubHeader.css */
+.rider-sub-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.rider-sub-back {
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.rider-sub-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.rider-sub-spacer {
+  width: 24px; /* back 버튼과 균형 */
+}

@@ -19,7 +19,7 @@ import { LanguageContext } from '../../context/LanguageContext.jsx';  // en/ko
 export default function MainShow() {
   const { t } = useContext(LanguageContext);
   const [activeSection, setActiveSection] = useState(0);
-  
+
   const sectionConfig = [
     { id: 'plans', key: 'navPlans' },
     { id: 'branches', key: 'navBranches' },
@@ -32,7 +32,7 @@ export default function MainShow() {
   const sectionLabels = sectionConfig.map(s => t(s.key));
 
   const observer = useRef(null);
-  
+
   useEffect(() => {
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -58,17 +58,17 @@ export default function MainShow() {
     };
   }, [sections]);
 
-return (
+  return (
     <div className="mainshow-page-container">
       {/* 커버이미지 + 배송조회 섹션 */}
       <MainCover />
 
-    {/* 우측 플로팅 내비게이션 */}
+      {/* 우측 플로팅 내비게이션 */}
       <nav className="mainshow-floating-nav">
         <div className="mainshow-nav-group">
           {sections.map((id, index) => (
-            <div 
-              key={id} 
+            <div
+              key={id}
               className="mainshow-nav-item"
               onClick={() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' })}
             >
@@ -88,7 +88,7 @@ return (
 
       {/* 2. 지점 안내 섹션 */}
       <div id="branches" className="mainshow-section-frame"><MainPTNSSearch /></div>
-      
+
       {/* 3. 요금 안내 섹션 */}
       <div id="fee" className="mainshow-section-frame"><MainFee /></div>
 

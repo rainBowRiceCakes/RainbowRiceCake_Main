@@ -25,7 +25,7 @@ export default function MainCover() {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   // deliveryShow 슬라이스에서 상태 가져오기
-  const { show: currentOrder, loading, error } = useSelector((state) => 
+  const { show: currentOrder, loading, error } = useSelector((state) =>
     state.deliveryShow
   );
 
@@ -46,7 +46,7 @@ export default function MainCover() {
     dispatch(deliveryShowThunk(orderNumber));
   };
 
-   // 로그인 여부에 따른 마이페이지 이동 로직
+  // 로그인 여부에 따른 마이페이지 이동 로직
   const handleGoToMyDeliveries = () => {
     if (isLoggedIn) {
       navigate('/mypage');
@@ -94,7 +94,7 @@ export default function MainCover() {
 
         {/* 좌측 텍스트 콘텐츠 */}
         <div className="maincover-text-wrapper">
-          <motion.div 
+          <motion.div
             className="maincover-text-content"
             variants={containerVariants}
             initial="hidden"
@@ -106,37 +106,37 @@ export default function MainCover() {
           </motion.div>
         </div>
       </div>
-      
+
       {/* --- 섹션 2: 하단 배송 조회 폼 --- */}
       <div className="maincover-delivery-area">
         <form className="maincover-delivery-form" onSubmit={handleTrackOrder}>
-            <div className="maincover-delivery-title-text">{t('coverDeliveryTracking')}</div>
-            <div className="maincover-input-group">
-                <input 
-                  type="text" 
-                  inputMode="numeric"
-                  value={orderNumber}
-                  onChange={handleOrderNumberChange}
-                  placeholder={t('coverOrderNumberPlaceholder')} 
-                  className="maincover-input-field" 
-                  required 
-                />
-                <button type="submit" className="maincover-submit-button" disabled={loading}>
-                  {loading ? t('coverLoading') : t('coverTrackButton')}
-                </button>
-            </div>
-            <div className="maincover-link-group">
-                <button type="button" className="maincover-more-link" onClick={handleGoToMyDeliveries}>
-                    {t('coverGoToMyDeliveries')}
-                </button>
-            </div>
+          <div className="maincover-delivery-title-text">{t('coverDeliveryTracking')}</div>
+          <div className="maincover-input-group">
+            <input
+              type="text"
+              inputMode="numeric"
+              value={orderNumber}
+              onChange={handleOrderNumberChange}
+              placeholder={t('coverOrderNumberPlaceholder')}
+              className="maincover-input-field"
+              required
+            />
+            <button type="submit" className="maincover-submit-button" disabled={loading}>
+              {loading ? t('coverLoading') : t('coverTrackButton')}
+            </button>
+          </div>
+          <div className="maincover-link-group">
+            <button type="button" className="maincover-more-link" onClick={handleGoToMyDeliveries}>
+              {t('coverGoToMyDeliveries')}
+            </button>
+          </div>
         </form>
       </div>
 
-      <MainCoverModal 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-        order={currentOrder} 
+      <MainCoverModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        order={currentOrder}
       />
     </div>
   );

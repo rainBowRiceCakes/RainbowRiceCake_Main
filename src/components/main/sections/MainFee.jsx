@@ -14,7 +14,7 @@ export default function MainFee() {
 
 return (
     /* 1. 프레임: 섹션 전체 레이아웃 */
-  <div className="mainfee-frame mainshow-section-wrapper"> 
+    <div className="mainfee-frame mainshow-section-wrapper">
       <div className="mainfee-header-group">
         <h2 className="mainfee-title-text">{t('feeTitle')}</h2>
         <p className="mainfee-desc-text">{t('feeDesc')}</p>
@@ -22,7 +22,7 @@ return (
       <div className="mainfee-content-container">
         <div className="mainfee-card-box">
           <h3 className="mainfee-box-title">{t('feeDaeguDeliveryTitle')}</h3>
-          
+
           <div className="mainfee-table-wrapper">
             <div className="mainfee-table-row mainfee-table-header">
               <div className="mainfee-table-cell">{t('feeOrderAmount')}</div>

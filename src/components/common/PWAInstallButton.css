@@ -15,7 +15,8 @@
   z-index: 9998;
   display: flex;
   justify-content: center;
-  align-items: center; /* Center for desktop */
+  align-items: center;
+  /* Center for desktop */
   backdrop-filter: blur(8px);
   animation: pwaFadeIn 0.3s ease-out;
 }
@@ -31,7 +32,8 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  position: relative; /* For the close button */
+  position: relative;
+  /* For the close button */
   animation: pwaScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -46,6 +48,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .pwa-app-icon img {
   width: 50%;
   height: 50%;
@@ -62,7 +65,8 @@
 
 .pwa-description {
   font-size: var(--com-size-sidebar);
-  color: #a1a1a1; /* Light gray for description */
+  color: #a1a1a1;
+  /* Light gray for description */
   line-height: 1.6;
   margin-bottom: var(--com-gap-xl);
 }
@@ -86,6 +90,7 @@
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 .pwa-btn-install:hover {
   transform: scale(1.02);
 }
@@ -98,6 +103,7 @@
   cursor: pointer;
   padding: 8px;
 }
+
 .pwa-btn-later:hover {
   color: var(--com-color-white);
 }
@@ -119,35 +125,57 @@
   align-items: center;
   justify-content: center;
 }
+
 .pwa-close-btn:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
 /* --- Animations --- */
 @keyframes pwaFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes pwaScaleUp {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* --- Mobile Bottom Sheet --- */
 @media screen and (max-width: 767px) {
   .pwa-install-overlay {
-    align-items: flex-end; /* Align to bottom */
+    align-items: flex-end;
+    /* Align to bottom */
   }
+
   .pwa-install-container {
     width: 100%;
-    border-radius: 24px 24px 0 0; /* Top corners rounded */
+    border-radius: 24px 24px 0 0;
+    /* Top corners rounded */
     padding: var(--com-gap-xl) var(--com-container-padding);
     padding-bottom: 40px;
     animation: pwaSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes pwaSlideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
   }
 }

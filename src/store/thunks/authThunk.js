@@ -19,7 +19,6 @@ export const loginThunk = createAsyncThunk(
       const url = '/api/auth/social/login';
       const { email } = args;
 
-      // 소셜 로그인 처리
       const response = await axiosInstance.post(url, { email });
 
       return response.data;

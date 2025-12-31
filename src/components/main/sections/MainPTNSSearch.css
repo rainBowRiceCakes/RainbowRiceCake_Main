@@ -9,18 +9,37 @@
 
 /* --- 애니메이션 --- */
 @keyframes ptnssearch-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes ptnssearch-scale-up {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes ptnssearch-slide-up {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* --- 모달 전체 --- */
@@ -415,39 +434,56 @@
     padding-bottom: 20px;
   }
 }
+
 /* Styles for partner custom markers */
 .partner-custom-marker {
   background-color: black;
-  color: white; /* Assuming text or icon inside the marker */
-  width: 30px; /* Example size, adjust as needed */
-  height: 30px; /* Example size, adjust as needed */
-  border-radius: 50%; /* Circular marker */
+  color: white;
+  /* Assuming text or icon inside the marker */
+  width: 30px;
+  /* Example size, adjust as needed */
+  height: 30px;
+  /* Example size, adjust as needed */
+  border-radius: 50%;
+  /* Circular marker */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px; /* Example font size */
+  font-size: 12px;
+  /* Example font size */
   font-weight: bold;
 }
 
 /* Styles for current location marker */
 .current-location-marker {
   background: var(--com-gradient-rainbow);
-  color: white; /* Assuming text or icon inside the marker */
-  width: 35px; /* Slightly larger for emphasis */
-  height: 35px; /* Slightly larger for emphasis */
-  border-radius: 50%; /* Circular marker */
+  color: white;
+  /* Assuming text or icon inside the marker */
+  width: 35px;
+  /* Slightly larger for emphasis */
+  height: 35px;
+  /* Slightly larger for emphasis */
+  border-radius: 50%;
+  /* Circular marker */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px; /* Example font size */
+  font-size: 14px;
+  /* Example font size */
   font-weight: bold;
-  border: 2px solid white; /* White border for visibility */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+  border: 2px solid white;
+  /* White border for visibility */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  /* Subtle shadow */
 }
 
 .partner-custom-marker-selected {
-  border: 2px solid var(--com-color-black); /* Highlight with black border */
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7); /* Stronger shadow for selection */
-  transform: scale(1.1); /* Slightly enlarge when selected */
-  z-index: 10; /* Bring to front when selected */
+  border: 2px solid var(--com-color-black);
+  /* Highlight with black border */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  /* Stronger shadow for selection */
+  transform: scale(1.1);
+  /* Slightly enlarge when selected */
+  z-index: 10;
+  /* Bring to front when selected */
 }

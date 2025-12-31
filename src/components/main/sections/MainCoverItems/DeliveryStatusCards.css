@@ -5,7 +5,7 @@
  */
 
 /* 4칸 균등 */
-.dlvs-stepper{
+.dlvs-stepper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--com-gap-sm);
@@ -14,7 +14,7 @@
 }
 
 /* step */
-.dlvs-step{
+.dlvs-step {
   position: relative;
   display: grid;
   justify-items: center;
@@ -22,7 +22,7 @@
 }
 
 /* circle */
-.dlvs-circle{
+.dlvs-circle {
   width: 52px;
   height: 52px;
   border-radius: 999px;
@@ -37,7 +37,7 @@
 }
 
 /* label */
-.dlvs-label{
+.dlvs-label {
   font-size: var(--com-size-mini);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-muted);
@@ -46,7 +46,7 @@
 }
 
 /* connector line */
-.dlvs-line{
+.dlvs-line {
   position: absolute;
   top: 26px;
   right: -14px;
@@ -56,30 +56,40 @@
 }
 
 /* done */
-.dlvs-circle.is-done{
+.dlvs-circle.is-done {
   color: var(--com-color-black);
   border-color: var(--com-border-default);
   box-shadow: var(--com-shadow-xs);
 }
-.dlvs-label.is-done{
+
+.dlvs-label.is-done {
   color: var(--com-color-black);
   opacity: 0.72;
 }
 
 /* active */
-.dlvs-circle.is-active{
+.dlvs-circle.is-active {
   border-color: var(--com-color-black);
   color: var(--com-color-black);
   transform: translateY(-1px);
   box-shadow: var(--com-shadow-default);
 }
-.dlvs-label.is-active{
+
+.dlvs-label.is-active {
   color: var(--com-color-black);
   opacity: 1;
 }
 
 /* mobile */
-@media screen and (max-width: 375px){
-  .dlvs-circle{ width: 46px; height: 46px; font-size: 18px; }
-  .dlvs-line{ width: 22px; right: -11px; }
+@media screen and (max-width: 375px) {
+  .dlvs-circle {
+    width: 46px;
+    height: 46px;
+    font-size: 18px;
+  }
+
+  .dlvs-line {
+    width: 22px;
+    right: -11px;
+  }
 }

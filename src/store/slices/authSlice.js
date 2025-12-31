@@ -1,9 +1,3 @@
-/**
- * @file src/store/slices/authSlice.js
- * @description auth 관련 slice
- * 251226 v1.1.0 jun init
- */
-
 import { createSlice } from '@reduxjs/toolkit';
 import { loginThunk, reissueThunk } from '../thunks/authThunk.js';
 

@@ -24,6 +24,10 @@ import MainPTNSSearch from "../components/main/sections/MainPTNSSearch.jsx";
 // 신규 인증 및 사용자 관련 컴포넌트
 import Login from "../components/main/auth/Login.jsx";
 import MyPage from "../components/main/auth/MyPage.jsx";
+import RiderLayout from "./layouts/RiderLayout.jsx";
+import PartnerLayout from "./layouts/PartnerLayout.jsx";
+import riderRoutes from "./rider.routes.jsx";
+import partnerRoutes from "./partner.routes.jsx";
 
 // 사용자 정의 라우트 객체
 const router = createBrowserRouter([
@@ -43,73 +47,78 @@ const router = createBrowserRouter([
       // ---------------------------------
       // 1. MainShow 페이지 라우트
       // ---------------------------------      
-      { 
-        path: '/sections/cover', 
-        element: <MainCover /> 
+      {
+        path: '/sections/cover',
+        element: <MainCover />
       },
-      { 
+      {
         path: '/sections/plans', // DGD Plans section
-        element: <MainInfo /> 
+        element: <MainInfo />
       },
-      { 
+      {
         path: '/sections/fee', // Fee information section
-        element: <MainFee /> 
+        element: <MainFee />
       },
-      { 
+      {
         path: '/sections/support', // Customer Support section
-        element: <MainCS /> 
+        element: <MainCS />
       },
-      { 
+      {
         path: '/sections/partners', // Partnership inquiry section
-        element: <MainPTNS /> 
+        element: <MainPTNS />
       },
-      { 
+      {
         path: '/sections/branches', // Find Branches section
-        element: <MainPTNSSearch /> 
+        element: <MainPTNSSearch />
       },
-      
+
       // ---------------------------------
       // 2. 인증/게스트 라우트
       // ---------------------------------
-      { 
+      {
         path: '/login',
         element: <Login /> // 로그인/회원가입 선택 페이지
       },
-      {
-        path: '/callback/social', // Social login callback route
-        element: <Social />
-      },
-      // { 
-      //   path: '/register',
-      //   element: <Register /> // 회원가입 폼
-      // },
-      //  추가 보호경로 주문 내역등 자리 
 
       // ---------------------------------
       // 3. 보호된 라우트 그룹 (인증 필수)
       // ---------------------------------
-      { 
+      {
         element: <ProtectedRouter />, // ProtectedRouter로 하위 경로 보호
         children: [
           {
             path: '/mypage', // 마이페이지는 로그인한 사용자만 접근 가능
-            element: <MyPage /> 
+            element: <MyPage />
           },
         ]
-      },     
+      },
       // ---------------------------------
-      // 4. 404 처리
+      // 4. 404 처리 or 소설 로그인 콜백
       // ---------------------------------
       {
         path: '*',
         element: <NotFound />
       },
+      {
+        path: '/callback/social',
+        element: <Social />
+      }
     ]
-   },
+  },
+  {
+    path: "/riders",
+    element: <RiderLayout />,
+    children: riderRoutes,
+  },
+  {
+    path: "/partners",
+    element: <PartnerLayout />,
+    children: partnerRoutes,
+  },
 ]);
 
 export default function Router() {
-    return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 };
 
 

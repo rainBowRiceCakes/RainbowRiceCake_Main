@@ -1,0 +1,90 @@
+.policy-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.policy-modal-content {
+  background: white;
+  width: 850px;
+  /* 웹 기준 넓은 폭 */
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.policy-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.policy-modal-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #202224;
+}
+
+.policy-close-x {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.policy-text-area {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #D5D5D5;
+  /* 이미지와 동일한 얇은 테두리 */
+  border-radius: 12px;
+  background: #fff;
+  padding: 25px;
+}
+
+.policy-inner-box pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+  font-family: inherit;
+}
+
+.policy-modal-footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.policy-close-btn {
+  width: 160px;
+  padding: 14px 0;
+  background: #E0E0E0;
+  /* 이미지의 연회색 닫기 버튼 */
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.policy-close-btn:hover {
+  background: #D5D5D5;
+}

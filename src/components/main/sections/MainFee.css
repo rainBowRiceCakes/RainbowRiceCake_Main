@@ -116,24 +116,29 @@
 /* 8. 📱 아이폰 SE (375px) 모바일 최적화 */
 @media screen and (max-width: 375px) {
   .mainfee-frame {
-    padding: var(--com-section-padding) 0; /* index.css 가변 30px 적용 */
+    padding: var(--com-section-padding) 0;
+    /* index.css 가변 30px 적용 */
   }
 
   .mainfee-title-text {
-    font-size: var(--com-font-size-title); /* index.css --com-font-size-title 준수 */
+    font-size: var(--com-font-size-title);
+    /* index.css --com-font-size-title 준수 */
   }
 
   .mainfee-box-title {
-    font-size: var(--com-size-sub-title); /* 13px 적용 */
+    font-size: var(--com-size-sub-title);
+    /* 13px 적용 */
   }
 
   .mainfee-table-cell,
   .mainfee-info-item {
-    font-size: var(--com-size-mini); /* 초소형 화면 가독성 위해 11px 적용 */
+    font-size: var(--com-size-mini);
+    /* 초소형 화면 가독성 위해 11px 적용 */
     padding: var(--com-gap-xs);
   }
 
   .mainfee-card-box {
-    padding: var(--com-container-padding); /* 12px 적용 */
+    padding: var(--com-container-padding);
+    /* 12px 적용 */
   }
 }

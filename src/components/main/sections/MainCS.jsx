@@ -11,7 +11,7 @@ import "./MainCS.css";
 import { LanguageContext } from "../../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
 import { questionStoreThunk } from '../../../store/thunks/questionStoreThunk.js';
-import { questionImgStoreThunk } from '../../../store/thunks/questionImgStoreThunk.js'; 
+import { questionImgStoreThunk } from '../../../store/thunks/questionImgStoreThunk.js';
 import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
 import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx';
 
@@ -57,7 +57,7 @@ export default function MainCS() {
     setInqFiles(picked);
     setFormStatus({ state: "idle", message: "" });
   };
-  
+
   const removeFile = (indexToRemove) => {
     setInqFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
     if (fileInputRef.current) {
@@ -77,11 +77,11 @@ export default function MainCS() {
     try {
       // 1. 파일 업로드 처리 (Multer) - 각 파일의 path를 배열로 수집
       const uploadedImagePaths = [];
-      
+
       if (inqFiles.length > 0) {
         for (const file of inqFiles) {
           // postLicenseImageUploadThunk와 동일한 로직으로 개별 파일 업로드
-          const resultUpload = await dispatch(questionImgStoreThunk(file)).unwrap(); 
+          const resultUpload = await dispatch(questionImgStoreThunk(file)).unwrap();
           if (resultUpload?.data?.path) {
             uploadedImagePaths.push(resultUpload.data.path);
           }
@@ -115,8 +115,8 @@ export default function MainCS() {
     }
   };
 
-return (
-  <div className="maincs-frame mainshow-section-wrapper">
+  return (
+    <div className="maincs-frame mainshow-section-wrapper">
       <div className="maincs-header-group">
         <div>
           <h2 className="maincs-title-text">{t("csTitle")}</h2>

@@ -6,11 +6,14 @@
 
 import { useMemo, useRef, useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import "./header01.css";
 import Hamburger01 from "./Hamburger01";
 import LanguageToggle from "./LanguageToggle";
 import { LanguageContext } from "../../context/LanguageContext";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAuth } from '../../store/slices/authSlice.js';
+import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
@@ -26,9 +29,12 @@ export default function Header01() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
   const mainLogo = "/resource/main-logo.png";
   const LoginIcon = "/resource/main-loginIcon.png";
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const onlyTitleList = ['/login', '/mypage'];
+  const onlyTitleFlg = onlyTitleList.some(path => path === location.pathname);
   
   // [중요] 드롭다운 영역과 햄버거 버튼 영역을 각각 참조하기 위한 ref
   const dropdownRef = useRef(null);
@@ -78,6 +84,28 @@ export default function Header01() {
     setIsOpen(false);
   };
 
+  function redirectSocialLogin() {
+    navigate('/login');
+  }
+
+  function redirectMypage() {
+    navigate('/mypage');
+  }
+
+  async function logout() {
+    try {
+      navigate('/');
+      const result = await dispatch(logoutThunk());
+      if(result.type.endsWith('/rejected')) {
+        throw result.payload;
+      }
+      dispatch(clearAuth());
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
     <header className="header01-frame">
       <div className="header01-inner-group">
@@ -91,15 +119,44 @@ export default function Header01() {
 
         <div className="header01-actions-group">
           <LanguageToggle />
-          <div className="header01-desktop-links">
-            <Link to="/login" className="header01-action-button-link" onClick={() => setIsOpen(false)}>{t('headerLogin')}</Link>
-            <Link to="/mypage" className="header01-action-button-link header01-action-button-link--solid" onClick={() => setIsOpen(false)}>{t('headerMyPage')}</Link>
-          </div>
+            {
+              !onlyTitleFlg && (
+                <div className="header01-desktop-links">
+                {/* 가독성 좋은 삼항 연산자로 변경 */}
+                {isLoggedIn ? (
+                  <>
+                    <button type="button" className="header01-action-button-link" onClick={logout}>
+                      {t('headerLogout')}
+                    </button>
+                    <button type="button" className="header01-action-button-link header01-action-button-link--solid" onClick={redirectMypage}>
+                      {t('headerMyPage')}
+                    </button>
+                  </>
+                  ) : (
+                    <>
+                      <button type="button" className="header01-action-button-link" onClick={redirectSocialLogin}>
+                        {t('headerLogin')}
+                      </button>
+                    </>
+                  )} 
+                </div>
+              )
+            }
 
           <div className="header01-mobile-icons-group">
-            <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>
-              <img src={LoginIcon} alt="login" className="header01-login-img" />
-            </Link>
+            {/* 모바일에서도 로그인 여부에 따라 아이콘/동작 분기 처리 */}
+            {isLoggedIn ? (
+               // 로그인 상태: 클릭 시 로그아웃 실행
+               <button type="button" className="header01-icon-login-btn" onClick={logout}>
+                  {/* 로그아웃 아이콘이 따로 없다면 기존 아이콘 사용하거나 변경 필요 */}
+                  <img src={LoginIcon} alt="logout" className="header01-login-img" />
+               </button>
+            ) : (
+               // 비로그인 상태: 로그인 페이지로 이동
+               <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>
+                 <img src={LoginIcon} alt="login" className="header01-login-img" />
+               </Link>
+            )}
             {/* [중요] 햄버거 버튼에 ref 연결 */}
             <button 
               ref={hamburgerRef}
