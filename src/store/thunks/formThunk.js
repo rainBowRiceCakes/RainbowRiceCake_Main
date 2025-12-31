@@ -6,17 +6,8 @@ export const riderFormThunk = createAsyncThunk(
   "riders/riderform",
   async (formData, { rejectWithValue }) => {
     try {
-      // 디버깅용: formData 내용 확인 (브라우저 콘솔에서 확인 가능)
-      for (let pair of formData.entries()) {
-        console.log(`[RiderThunk Data] ${pair[0]}: ${pair[1]}`);
-      }
-
       // 신청 데이터 전송
-      const response = await axiosInstance.post("/api/users/rider/form", formData, {
-        header: {
-          "Content-Type": "multipart/form-data", // 파일 업로드를 위해 명시
-        },
-      });
+      const response = await axiosInstance.post("/api/users/rider/form", formData);
   
       return response.data;
     }
@@ -32,17 +23,8 @@ export const partnerFormThunk = createAsyncThunk(
   "partners/partnerform",
   async (formData, { rejectWithValue }) => {
     try {
-      // 디버깅용: formData 내용 확인 (브라우저 콘솔에서 확인 가능)
-      for (let pair of formData.entries()) {
-        console.log(`[PartnerThunk Data] ${pair[0]}: ${pair[1]}`);
-      }
-
       // 신청 데이터 전송
-      const response = await axiosInstance.post("/api/users/partner/form", formData, {
-          header: {
-          "Content-Type": "multipart/form-data", // 파일 업로드를 위해 명시
-        },
-      });
+      const response = await axiosInstance.post("/api/users/partner/form", formData);
   
       return response.data;
     }

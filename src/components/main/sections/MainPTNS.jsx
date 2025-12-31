@@ -12,6 +12,8 @@ import { LanguageContext } from '../../../context/LanguageContext';
 import { footerData } from '../../../data/footerData'; // 약관 데이터
 import { riderFormThunk } from '../../../store/thunks/formThunk.js';
 import { partnerFormThunk } from '../../../store/thunks/formThunk.js';
+// 1. 이미지 업로드 Thunk import
+import { riderImageUploadThunk, partnerImageUploadThunk } from '../../../store/thunks/imageUploadThunk.js'; 
 import './MainPTNS.css';
 
 export default function MainPTNS() {
@@ -53,17 +55,14 @@ export default function MainPTNS() {
     }
   };
 
-  // [모달 핸들러 수정] 어떤 폼(target)의 어떤 약관(type)인지 구분
-  // target: 'rider' | 'partner', type: 'terms' | 'privacy'
+  // [모달 핸들러]
   const openModal = (target, type) => {
     const currentAgreements = target === 'rider' ? riderAgreements : partnerAgreements;
     
     if (!currentAgreements[type]) {
-      // 체크가 안 되어 있으면 모달 열기
-      setActiveModal(`${target}_${type}`); // 예: rider_terms
+      setActiveModal(`${target}_${type}`);
       document.body.style.overflow = 'hidden';
     } else {
-      // 이미 체크되어 있으면 해제
       if (target === 'rider') {
         setRiderAgreements(prev => ({ ...prev, [type]: false }));
       } else {
@@ -77,11 +76,9 @@ export default function MainPTNS() {
     document.body.style.overflow = 'auto';
   };
 
-  // [동의 처리 수정] 현재 활성화된 모달에 따라 해당 상태 업데이트
   const confirmModal = () => {
     if (activeModal) {
-      const [target, type] = activeModal.split('_'); // 'rider', 'terms' 분리
-
+      const [target, type] = activeModal.split('_');
       if (target === 'rider') {
         setRiderAgreements(prev => ({ ...prev, [type]: true }));
       } else {
@@ -95,7 +92,6 @@ export default function MainPTNS() {
   const onSubmitRider = async (e) => {
     e.preventDefault();
 
-    // 라이더 약관 확인
     if (!riderAgreements.terms || !riderAgreements.privacy) {
       alert(t('ptnsAgreeRequiredAlert') || "이용약관과 개인정보 수집에 동의해주세요.");
       return;
@@ -103,31 +99,44 @@ export default function MainPTNS() {
     
     const form = new FormData(e.currentTarget);
     const rawData = Object.fromEntries(form.entries());
-    const payload = new FormData();
-
-    payload.append('phone', rawData.riderPhone);
-    payload.append('address', rawData.riderAddress);
-    payload.append('bank', rawData.bankName);
-    payload.append('bankNum', rawData.accountNumber);
-    
-    if (rawData.licenseImage && rawData.licenseImage.size > 0) {
-        payload.append('licenseImg', rawData.licenseImage); 
-    }
 
     try {
+      let licenseImgPath = null;
+
+      // 1. 이미지 선 업로드
+      if (rawData.licenseImage && rawData.licenseImage.size > 0) {
+          // Thunk에는 파일 객체 자체를 넘깁니다. (Thunk 내부에서 FormData 생성)
+          const uploadResult = await dispatch(riderImageUploadThunk(rawData.licenseImage)).unwrap();
+
+          
+          // 백엔드 응답 구조: { success: true, path: "/uploads/..." }
+          licenseImgPath = uploadResult.data.path;
+          console.log("✅ 라이더 이미지 업로드 완료:", licenseImgPath);
+      }
+
+      // 2. 최종 신청 데이터 (JSON) 구성
+      const payload = {
+        phone: rawData.riderPhone,
+        address: rawData.riderAddress,
+        bank: rawData.bankName,
+        bankNum: rawData.accountNumber,
+        licenseImg: licenseImgPath // 이미지 경로(String) 포함
+      };
+
+      // 3. 신청서 제출
       await dispatch(riderFormThunk(payload)).unwrap();
       navigate('/');
+
     } catch (error) {
       console.error(error);
-      alert("이미 라이더 권한을 보유하고 계십니다.");
+      alert("신청 중 오류가 발생했습니다: " + (error.msg || error.message || "알 수 없는 오류"));
     }
   };
 
-  // 🏢 [파트너] 제출 핸들러
+  // 🏢 [파트너] 제출 핸들러 (수정됨)
   const onSubmitPartner = async (e) => {
     e.preventDefault();
 
-    // 파트너 약관 확인
     if (!partnerAgreements.terms || !partnerAgreements.privacy) {
       alert(t('ptnsAgreeRequiredAlert') || "이용약관과 개인정보 수집에 동의해주세요.");
       return;
@@ -135,32 +144,42 @@ export default function MainPTNS() {
 
     const form = new FormData(e.currentTarget);
     const rawData = Object.fromEntries(form.entries());
-    const payload = new FormData();
 
-    payload.append('manager', rawData.managerName);
-    payload.append('phone', rawData.partnerPhone);
-    payload.append('address', rawData.storeAddress);
-    payload.append('krName', rawData.storeNameKr);
-    payload.append('enName', rawData.storeNameEn);
-    payload.append('businessNum', rawData.businessNumber);
-    payload.append('lat', 37.5665); 
-    payload.append('lng', 126.9780);
-
-    if (rawData.storeLogo && rawData.storeLogo.size > 0) {
-        payload.append('logoImg', rawData.storeLogo);
-    }
-    
     try {
+      let logoImgPath = null;
+
+      // 1. 이미지 선 업로드
+      if (rawData.storeLogo && rawData.storeLogo.size > 0) {
+          const uploadResult = await dispatch(partnerImageUploadThunk(rawData.storeLogo)).unwrap();
+          
+          logoImgPath = uploadResult.data.path;
+          console.log("✅ 파트너 이미지 업로드 완료:", logoImgPath);
+      }
+
+      // 2. 최종 신청 데이터 (JSON) 구성
+      const payload = {
+        manager: rawData.managerName,
+        phone: rawData.partnerPhone,
+        address: rawData.storeAddress,
+        krName: rawData.storeNameKr,
+        enName: rawData.storeNameEn,
+        businessNum: rawData.businessNumber,
+        lat: 37.5665, 
+        lng: 126.9780,
+        logoImg: logoImgPath // 이미지 경로(String) 포함
+      };
+
+      // 3. 신청서 제출
       await dispatch(partnerFormThunk(payload)).unwrap();
       navigate('/');
+
     } catch (error) {
       console.error("Submission Error:", error);
-      alert("이미 파트너 권한을 보유하고 계십니다.");
+      alert("신청 중 오류가 발생했습니다: " + (error.msg || error.message || "알 수 없는 오류"));
     }
   };
 
-  // 모달 콘텐츠 매핑 (footerData 키값 매칭)
-  // activeModal이 'rider_terms'라면 'terms' 데이터를 가져옴
+  // 모달 콘텐츠 매핑
   const getModalKey = () => activeModal ? activeModal.split('_')[1] : null;
   const modalKey = getModalKey();
   
@@ -182,42 +201,28 @@ export default function MainPTNS() {
           {/* 메인 폼 그리드 (좌: 라이더 / 우: 파트너) */}
           <div className="mainptns-grid-layout">
             
-            {/* ========================================= */}
-            {/* 🛵 [왼쪽] 라이더 신청 폼 카드 */}
-            {/* ========================================= */}
+            {/* 라이더 폼 */}
             <form className="mainptns-card-box form-section" onSubmit={onSubmitRider}>
               <div className="form-header-row">
-                <h3 className="mainptns-card-title-text">
-                  {t('ptnsFormRiderTitle') || "라이더 제휴 신청"}
-                </h3>
+                <h3 className="mainptns-card-title-text">{t('ptnsFormRiderTitle') || "라이더 제휴 신청"}</h3>
               </div>
-
               <div className="mainptns-form-fields-group">
-                {/* 휴대폰 번호 */}
                 <label className="mainptns-field-label">
                   {t('ptnsPhoneLabel')}
                   <input className="mainptns-field-input" name="riderPhone" required placeholder="010-0000-0000" />
                 </label>
-
-                {/* 주소 */}
                 <label className="mainptns-field-label">
                   {t('ptnsAddressLabel')}
                   <input className="mainptns-field-input" name="riderAddress" required placeholder={t('ptnsAddressPlaceholder')} />
                 </label>
-
-                {/* 은행 이름 */}
                 <label className="mainptns-field-label">
                   {t('ptnsBankNameLabel') || "Bank Name"}
                   <input className="mainptns-field-input" name="bankName" required placeholder={t('ptnsStoreNamePlaceholder')} />
                 </label>
-
-                {/* 계좌 번호 */}
                 <label className="mainptns-field-label">
                   {t('ptnsAccountNumLabel') || "Account Number"}
                   <input className="mainptns-field-input" name="accountNumber" required placeholder={t('ptnsAccountNumber') || "123-45-67890"} />
                 </label>
-
-                {/* 운전 면허 등록 */}
                 <div className="mainptns-field-label">
                   {t('ptnsLicenseLabel') || "Driver License"}
                   <div style={{ marginTop: '8px' }}>
@@ -232,8 +237,6 @@ export default function MainPTNS() {
                   </div>
                 </div>
               </div>
-
-              {/* 라이더 약관 및 제출 버튼 */}
               <div className="mainptns-form-footer" style={{ marginTop: '20px' }}>
                 <label className="mainptns-agreement-label">
                   <input type="checkbox" checked={riderAgreements.terms} onClick={() => openModal('rider', 'terms')} readOnly />
@@ -255,17 +258,11 @@ export default function MainPTNS() {
               </div>
             </form>
 
-
-            {/* ========================================= */}
-            {/* 🏢 [오른쪽] 파트너 신청 폼 카드 */}
-            {/* ========================================= */}
+            {/* 파트너 폼 */}
             <form className="mainptns-card-box form-section" onSubmit={onSubmitPartner}>
               <div className="form-header-row">
-                <h3 className="mainptns-card-title-text">
-                  {t('ptnsFormPartnerTitle') || "파트너 제휴 신청"}
-                </h3>
+                <h3 className="mainptns-card-title-text">{t('ptnsFormPartnerTitle') || "파트너 제휴 신청"}</h3>
               </div>
-
               <div className="mainptns-form-fields-group">
                 <div className="mainptns-input-grid-2">
                   <label className="mainptns-field-label">
@@ -277,7 +274,6 @@ export default function MainPTNS() {
                     <input className="mainptns-field-input" name="partnerPhone" required placeholder="010-0000-0000" />
                   </label>
                 </div>
-
                 <div className="mainptns-input-grid-2">
                   <label className="mainptns-field-label">
                     {t('ptnsStoreNameKrLabel') || "Store Name (KR)"}
@@ -288,17 +284,14 @@ export default function MainPTNS() {
                     <input className="mainptns-field-input" name="storeNameEn" required placeholder={t('ptnsStoreEnNamePlaceholder') || "English Name"} />
                   </label>
                 </div>
-
                 <label className="mainptns-field-label">
                   {t('ptnsBusinessNumLabel') || "Business Number"}
                   <input className="mainptns-field-input" name="businessNumber" required placeholder="000-00-00000" />
                 </label>
-
                 <label className="mainptns-field-label">
                   {t('ptnsAddressLabel')}
                   <input className="mainptns-field-input" name="storeAddress" required placeholder={t('ptnsAddressPlaceholder')} />
                 </label>
-
                 <div className="mainptns-field-label">
                   {t('ptnsStoreLogoLabel') || "Store Logo"}
                   <div style={{ marginTop: '8px' }}>
@@ -313,8 +306,6 @@ export default function MainPTNS() {
                   </div>
                 </div>
               </div>
-
-              {/* 파트너 약관 및 제출 버튼 */}
               <div className="mainptns-form-footer" style={{ marginTop: '20px' }}>
                 <label className="mainptns-agreement-label">
                   <input type="checkbox" checked={partnerAgreements.terms} onClick={() => openModal('partner', 'terms')} readOnly />
@@ -347,7 +338,6 @@ export default function MainPTNS() {
                 </div>
                 <div className="mainptns-modal-body">
                   <div className="mainptns-text-content">
-                    {/* 모달 내용 렌더링 (기존 동일) */}
                     {modalContent.description && <p className="mainptns-modal-description">{modalContent.description}</p>}
                     {modalContent.articles && modalContent.articles.map((article, idx) => (
                       <div key={idx} style={{ marginBottom: '20px' }}>
