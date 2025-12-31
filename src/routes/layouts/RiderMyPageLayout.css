@@ -1,0 +1,28 @@
+/* components/rider/layout/RiderMyPageLayout.css */
+
+:root {
+  --rider-max-width: 480px;
+  --rider-header-h: 56px;
+  --rider-bottomnav-h: 64px;
+}
+
+.rider-mypage-layout {
+  min-height: 100vh;
+  background: #eee; /* 바깥 여백 보이면 앱 느낌 */
+  display: flex;
+  justify-content: center;
+}
+
+.rider-mypage-frame {
+  width: min(var(--rider-max-width), 100%);
+  min-height: 100vh;
+  background: #fff;
+  position: relative;
+}
+
+/* ✅ 본문은 헤더/바텀탭 높이만큼 공간 확보 */
+.rider-mypage-content {
+  /* padding-bottom: calc(var(--rider-bottomnav-h) + env(safe-area-inset-bottom)); */
+  min-height: 100vh;
+  box-sizing: border-box;
+}

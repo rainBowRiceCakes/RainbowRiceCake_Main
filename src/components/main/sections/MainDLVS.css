@@ -146,7 +146,7 @@
 
 .maindlvs-timeline-desc-text {
   color: var(--com-font-muted);
-  font-size: 13px;
+  font-size: var(--com-size-sub-title);
   margin-top: 3px;
 }
 

@@ -1,139 +1,105 @@
-/**
+/* *
  * @file src/components/main/sections/MainPTNS.css
  * @description 제휴 문의 섹션 (Partnership.jsx 스타일 기반)
  * 251216 v1.0.0 sara init
  * 251223 v2.0.0 v2.0.0 jun 라이더, 파트너 form 추가
  */
 
-/* 전체 컨테이너 및 배경 */
+/* --- 기본 레이아웃 --- */
 .mainptns-frame {
-  width: 100%;
-  padding: var(--com-section-padding) 0;
-  background-color: var(--com-color-white); /* 전체 배경은 흰색 */
-  display: flex;
-  justify-content: center;
+  padding: 80px 0;
+  background-color: var(--com-color-white);
 }
 
 .mainptns-container {
   width: 100%;
-  max-width: var(--com-web-max-width);
-  padding: 0 var(--com-web-max-width-padding);
+  max-width: 1280px; /* 컨테이너 최대 너비 설정 */
+  margin: 0 auto;
+  padding: 0 20px; /* 모바일 대응 패딩 */
+  box-sizing: border-box;
 }
 
-/* 상단 헤더 */
 .mainptns-header-group {
-  margin-bottom: var(--com-gap-xl); /* 30px */
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .mainptns-title-text {
-  font-size: var(--com-size-title); /* 28px */
+  font-size: var(--com-size-title);
   font-weight: var(--com-font-weight-bold);
   color: var(--com-color-black);
-  margin-bottom: var(--com-gap-xs);
 }
 
 .mainptns-desc-text {
-  font-size: var(--com-size-subtitle); /* 16px */
+  font-size: var(--com-size-sidebar);
   color: var(--com-font-muted);
 }
 
-/* 2단 레이아웃 그리드 (왼쪽 폼 : 오른쪽 가이드) */
+/* --- 메인 그리드 레이아웃 (변경됨) --- */
 .mainptns-grid-layout {
   display: grid;
-  grid-template-columns: 1fr; /* 모바일 기본 1단 */
-  gap: var(--com-gap-xl);
+  grid-template-columns: 1fr 1fr; /* 1:1 비율로 나란히 배치 */
+  gap: 24px; /* 카드 사이 간격 */
+  align-items: start;
 }
 
-@media (min-width: 900px) {
-  .mainptns-grid-layout {
-    /* 데스크탑: 왼쪽이 조금 더 넓게 (6:4 비율) */
-    grid-template-columns: 1.4fr 1fr;
-    align-items: flex-start;
-  }
+/* 왼쪽 폼 컬럼 (라이더폼 + 파트너폼) */
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* 두 카드 사이의 간격 */
 }
 
-/* ----------------------------------------------------------- */
-/* [좌측] 폼 카드 스타일 */
-/* ----------------------------------------------------------- */
+/* --- 카드 박스 스타일 --- */
 .mainptns-card-box {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
-  padding: 30px;
-  /* box-shadow 제거: 깔끔한 라인 스타일 (이미지 참조) */
-}
-
-/* 폼 헤더 (타이틀 + 탭 버튼) */
-.form-header-row {
+  box-shadow: var(--com-shadow-default);
+  padding: 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--com-gap-md);
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
 }
 
 .mainptns-card-title-text {
-  font-size: 18px;
-  font-weight: var(--com-font-weight-bold);
-  color: var(--com-color-black);
-}
-
-/* 탭 버튼 그룹 */
-.mainptns-tab-group {
-  display: flex;
-  background-color: var(--com-color-bg-light);
-  border-radius: 8px;
-  padding: 4px;
-}
-
-.mainptns-tab-btn {
-  border: none;
-  background: transparent;
-  padding: 6px 14px;
-  font-size: 13px;
+  font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-muted);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
+  margin-bottom: 30px;
+  margin-top: 0;
 }
 
-.mainptns-tab-btn.active {
-  background-color: var(--com-color-black);
-  color: var(--com-color-white);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* 입력 필드 레이아웃 */
+/* --- 폼 필드 공통 --- */
 .mainptns-form-fields-group {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* 필드 간 간격 넓게 */
+  gap: 20px;
 }
 
 .mainptns-input-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 15px;
 }
 
 .mainptns-field-label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   font-size: 13px;
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-gray);
+  color: var(--com-font-muted);
+  margin-bottom: 8px;
+  font-weight: 700;
+  display: block; /* 라벨 블록 처리 */
 }
 
 .mainptns-field-input {
   width: 100%;
-  padding: 12px 14px;
+  height: 44px;
+  border-radius: var(--com-radius-md);
   border: 1px solid var(--com-border-default);
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 0 15px;
+  font-size: var(--com-size-sidebar);
   outline: none;
+  box-sizing: border-box; /* 패딩 포함 너비 계산 */
   transition: border-color 0.2s;
 }
 
@@ -141,11 +107,7 @@
   border-color: var(--com-color-black);
 }
 
-.mainptns-field-input::placeholder {
-  color: #d1d5db; /* 연한 회색 */
-}
-
-/* 파일 업로드 박스 */
+/* --- 파일 업로드 영역 --- */
 .mainptns-file-hidden {
   display: none;
 }
@@ -155,157 +117,167 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 80px;
-  border: 1px solid var(--com-border-default);
+  height: 100px;
+  border: 1px dashed var(--com-border-default);
   border-radius: 8px;
-  background-color: #fafafa;
-  color: #ccc;
-  font-size: 13px;
+  background-color: var(--com-color-bg-light);
+  color: var(--com-font-muted);
   cursor: pointer;
+  font-size: 13px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.2s;
 }
 
-/* 하단 버튼 및 약관 */
+.mainptns-file-box:hover {
+  border-color: var(--com-color-black);
+  background-color: #fafafa;
+}
+
+/* --- 약관 및 버튼 --- */
 .mainptns-form-footer {
-  margin-top: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .mainptns-agreement-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  font-size: 13px;
   cursor: pointer;
+  color: var(--com-font-primary-color);
 }
 
 .mainptns-agreement-text {
-  font-size: 13px;
-  color: var(--com-font-gray);
+  display: flex;
+  align-items: center;
 }
 
 .mainptns-submit-button {
   width: 100%;
-  padding: 16px;
-  margin-top: 16px;
-  background-color: #1a1a2e; /* 다크 네이비 */
+  height: 46px;
+  background-color: var(--com-color-black);
   color: var(--com-color-white);
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: var(--com-font-weight-bold);
+  border-radius: var(--com-radius-md);
+  font-weight: 900;
+  font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s;
+  margin-top: 10px;
+  transition: background-color 0.2s;
 }
 
 .mainptns-submit-button:hover {
-  background-color: #111122;
+  background-color: #333;
 }
 
-
-/* ----------------------------------------------------------- */
-/* [우측] 가이드 섹션 스타일 */
-/* ----------------------------------------------------------- */
+/* --- 우측 가이드 섹션 스타일 --- */
 .mainptns-guide-section {
-  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .mainptns-section-header {
   font-size: 18px;
-  font-weight: var(--com-font-weight-bold);
-  margin-bottom: 20px;
-  color: var(--com-font-pr imary-color);
+  font-weight: 800;
+  margin: 0;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--com-color-black);
 }
 
 .mainptns-guide-card-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 15px;
 }
 
 .mainptns-guide-card {
-  padding: 20px;
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: 12px;
+  padding: 15px;
+  background-color: var(--com-color-bg-light);
+  border-radius: 8px;
 }
 
 .mainptns-guide-title {
-  font-size: 15px;
-  font-weight: var(--com-font-weight-bold);
-  margin-bottom: 6px;
-  color: var(--com-font-primary-color);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: var(--com-color-black);
 }
 
 .mainptns-guide-desc {
   font-size: 13px;
   color: var(--com-font-muted);
   line-height: 1.5;
+  white-space: pre-line;
 }
 
-/* 문의 접수 메시지 박스 (회색 배경) */
 .mainptns-guide-message-box {
-  padding: 20px;
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: 12px;
+  background-color: #f0f7ff; /* 연한 파랑 배경 */
+  border: 1px solid #cce5ff;
+  padding: 15px;
+  border-radius: 8px;
 }
 
-.mainptns-guide-message-box::after {
-  content: '';
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.mainptns-guide-message-box .mainptns-guide-title {
+  color: #004085;
 }
 
-/* --- 모달 스타일 추가 --- */
+.mainptns-guide-message-box .mainptns-guide-desc {
+  color: #004085;
+}
+
+/* --- 모달 레이아웃 --- */
 .mainptns-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); 
-  z-index: 9999; 
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(4px); 
+  backdrop-filter: blur(4px);
 }
 
 .mainptns-modal-box {
   background-color: var(--com-color-white);
   width: 90%;
-  max-width: 600px; 
-  height: 80vh;     
+  max-width: 600px;
+  height: 80vh;
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-default);
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   overflow: hidden;
   animation: modalFadeIn 0.3s ease;
 }
 
 .mainptns-modal-header {
-  padding: var(--com-gap-md) var(--com-container-padding);
+  padding: 20px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--com-border-default); 
+  border-bottom: 1px solid var(--com-border-default);
 }
 
 .mainptns-modal-header h3 {
   margin: 0;
-  font-size: var(--com-size-subtitle);
-  font-weight: var(--com-font-weight-heavy);
+  font-size: 18px;
+  font-weight: 800;
   color: var(--com-color-black);
 }
 
 .mainptns-close-x-btn {
   background: none;
   border: none;
-  font-size: var(--com-size-title);
+  font-size: 24px;
   cursor: pointer;
   color: var(--com-font-primary-color);
   padding: 0;
@@ -313,30 +285,21 @@
 }
 
 .mainptns-modal-body {
-  flex: 1; 
-  padding: var(--com-gap-md);
-  overflow-y: auto; 
-  background-color: var(--com-color-bg-light); 
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: var(--com-color-bg-light);
   display: flex;
   flex-direction: column;
 }
 
-.mainptns-modal-description {
-  margin-bottom: var(--com-gap-md);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  border-bottom: 1px dashed var(--com-border-default);
-  padding-bottom: 15px;
-  font-size: var(--com-size-content);
-  word-break: keep-all;
-}
-
+/* JSX의 클래스명과 일치시킴 (.mainptns-text-content) */
 .mainptns-text-content {
   background-color: var(--com-color-white);
   border: 1px solid var(--com-border-default);
-  padding: var(--com-gap-md);
-  border-radius: var(--com-radius-md); 
-  font-size: var(--com-size-content);
+  padding: 20px;
+  border-radius: var(--com-radius-md);
+  font-size: 14px;
   line-height: 1.6;
   color: var(--com-font-primary-color);
   width: 100%;
@@ -345,22 +308,25 @@
   overflow-wrap: break-word;
 }
 
-/* 약관 내부 리스트 스타일 */
+.mainptns-text-content h4 {
+  margin: 15px 0 10px;
+  color: var(--com-color-black);
+  font-weight: bold;
+  font-size: 15px;
+}
+
 .mainptns-text-content ul {
-  margin: var(--com-gap-sm) 0;
-  padding-left: var(--com-gap-md);
-  list-style-type: disc;
+  padding-left: 20px;
+  margin: 10px 0;
 }
 
 .mainptns-text-content li {
-  margin-bottom: var(--com-gap-xs);
+  margin-bottom: 5px;
 }
 
-.mainptns-text-content h4 {
-  margin: 15px 0 var(--com-gap-sm);
-  color: var(--com-color-black);
-  font-weight: var(--com-font-weight-bold);
-  font-size: 14px;
+.mainptns-modal-description {
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .mainptns-modal-footer {
@@ -369,56 +335,77 @@
   border-top: 1px solid var(--com-border-default);
   display: flex;
   justify-content: center;
-  gap: 10px; /* 버튼 간 간격 추가 */
+  gap: 10px; /* 버튼 사이 간격 추가 */
 }
 
-/* 버튼 스타일 (취소 / 동의) */
-.mainptns-btn-cancel {
-  background-color: var(--com-color-bg-light); 
-  color: var(--com-color-black);
-  border: none;
-  padding: 12px 24px;
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.mainptns-btn-cancel:hover {
-  background-color: var(--com-border-default);
-}
-
+/* JSX 클래스명과 일치시킴 (.mainptns-btn-confirm) */
 .mainptns-btn-confirm {
-  background-color: var(--com-color-black); 
+  background-color: var(--com-color-black);
   color: var(--com-color-white);
   border: none;
-  padding: 12px 30px;
+  height: 44px;
   border-radius: var(--com-radius-md);
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  flex: 1; /* 확인 버튼을 더 크게 */
-  max-width: 200px;
+  transition: all 0.2s ease;
+  padding: 0 24px;
 }
 
 .mainptns-btn-confirm:hover {
-  opacity: 0.9;
+  background-color: #333;
+}
+
+/* JSX 클래스명과 일치시킴 (.mainptns-btn-cancel) */
+.mainptns-btn-cancel {
+  background-color: var(--com-color-bg-light);
+  color: var(--com-color-black);
+  border: 1px solid var(--com-border-default);
+  height: 44px;
+  border-radius: var(--com-radius-md);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0 24px;
+}
+
+.mainptns-btn-cancel:hover {
+  background-color: #e5e5e5;
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* 모바일 대응 */
-@media screen and (max-width: 375px) {
-  .mainptns-input-grid-2 {
-    grid-template-columns: 1fr; /* 모바일에서 그리드 풀기 */
+/* --- 모바일 대응 --- */
+@media screen and (max-width: 900px) {
+  .mainptns-grid-layout {
+    grid-template-columns: 1fr; /* 화면이 작아지면 위아래로 배치 */
   }
   
+  /* 모바일에서는 가이드를 숨기거나 아래로 내릴 수 있음 */
   .mainptns-guide-section {
-    padding-left: 0;
     margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .mainptns-card-box {
+    padding: 25px 20px;
+  }
+  .mainptns-input-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .mainptns-modal-box {
+    height: 90vh;
+    width: 95%;
   }
 }

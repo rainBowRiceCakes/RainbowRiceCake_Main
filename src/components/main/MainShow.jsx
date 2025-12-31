@@ -8,11 +8,10 @@ import { useState, useEffect, useRef, useContext } from 'react';
 
 import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
-import MainPTNSSearch from './sections/MainPTNSSearch.jsx';  // 2. 지점안내
-import MainFee from './sections/MainFee.jsx';                // 3. 요금안내
-// import MainDLVS from './sections/MainDLVS.jsx';              // 4. 배송현황
-import MainCS from './sections/MainCS.jsx';                  // 5. 고객센터
-import MainPTNS from './sections/MainPTNS.jsx';              // 6. 제휴문의
+import MainPTNSSearch from './sections/MainPTNSSearch.jsx';
+import MainFee from './sections/MainFee.jsx';
+import MainCS from './sections/MainCS.jsx';
+import MainPTNS from './sections/MainPTNS.jsx';
 import Carousel from '../common/Carousel.jsx';               // 7. 로고 캐러샐
 import './MainShow.css';
 import { LanguageContext } from '../../context/LanguageContext.jsx';  // en/ko 
@@ -20,21 +19,20 @@ import { LanguageContext } from '../../context/LanguageContext.jsx';  // en/ko
 export default function MainShow() {
   const { t } = useContext(LanguageContext);
   const [activeSection, setActiveSection] = useState(0);
-  
+
   const sectionConfig = [
-    { id: 'info', key: 'navServiceIntro' },
-    { id: 'search', key: 'navBranchInfo' },
-    { id: 'fee', key: 'navFeeInfo' },
-    { id: 'dlvs', key: 'navDeliveryStatus' },
-    { id: 'cs', key: 'navCustomerCenter' },
-    { id: 'ptns', key: 'navPartnershipInquiry' },
+    { id: 'plans', key: 'navPlans' },
+    { id: 'branches', key: 'navBranches' },
+    { id: 'fee', key: 'navFee' },
+    { id: 'support', key: 'navSupport' },
+    { id: 'partners', key: 'navPartners' },
   ];
 
   const sections = sectionConfig.map(s => s.id);
   const sectionLabels = sectionConfig.map(s => t(s.key));
 
   const observer = useRef(null);
-  
+
   useEffect(() => {
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -60,17 +58,17 @@ export default function MainShow() {
     };
   }, [sections]);
 
-return (
+  return (
     <div className="mainshow-page-container">
       {/* 커버이미지 + 배송조회 섹션 */}
       <MainCover />
 
-    {/* 우측 플로팅 내비게이션 */}
+      {/* 우측 플로팅 내비게이션 */}
       <nav className="mainshow-floating-nav">
         <div className="mainshow-nav-group">
           {sections.map((id, index) => (
-            <div 
-              key={id} 
+            <div
+              key={id}
               className="mainshow-nav-item"
               onClick={() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' })}
             >
@@ -85,25 +83,22 @@ return (
         </div>
       </nav>
 
-      {/* 1. 서비스 소개 섹션 */}
-      <div id="info" className="mainshow-section-frame"><MainInfo /></div>
+      {/* 1. 요금제 섹션 */}
+      <div id="plans" className="mainshow-section-frame"><MainInfo /></div>
 
       {/* 2. 지점 안내 섹션 */}
-      <div id="search" className="mainshow-section-frame"><MainPTNSSearch /></div>
+      <div id="branches" className="mainshow-section-frame"><MainPTNSSearch /></div>
 
-      {/* 3. 가격 안내 섹션 */}
+      {/* 3. 요금 안내 섹션 */}
       <div id="fee" className="mainshow-section-frame"><MainFee /></div>
 
-      {/* 4. 배송 조회 섹션
-      <div id="dlvs" className="mainshow-section-frame"><MainDLVS /></div> */}
+      {/* 4. 고객지원 섹션 */}
+      <div id="support" className="mainshow-section-frame"><MainCS /></div>
 
-      {/* 5. 고객센터 섹션 */}
-      <div id="cs" className="mainshow-section-frame"><MainCS /></div>
+      {/* 5. 제휴문의 섹션 */}
+      <div id="partners" className="mainshow-section-frame"><MainPTNS /></div>
 
-      {/* 6. 파트너십 섹션 (제휴 문의) */}
-      <div id="ptns" className="mainshow-section-frame"><MainPTNS /></div>
-
-      {/* 7. 파트너 로고 캐러샐 */}
+      {/* 6. 파트너 로고 캐러샐 */}
       <div><Carousel /></div>
     </div>
   );

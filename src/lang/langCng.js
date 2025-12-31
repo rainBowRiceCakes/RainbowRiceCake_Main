@@ -1,28 +1,24 @@
 export const LANG_CNG = {
   // --- src/components/main/MainShow.jsx ---
-  navServiceIntro: {
-    ko: "서비스 소개",
-    en: "Service Introduction",
+  navPlans: {
+    ko: "요금제",
+    en: "Plans",
   },
-  navBranchInfo: {
-    ko: "지점안내",
-    en: "Branch Information",
+  navBranches: {
+    ko: "지점찾기",
+    en: "Branches",
   },
-  navFeeInfo: {
+  navFee: {
     ko: "요금안내",
-    en: "Fee Information",
+    en: "Fee",
   },
-  navDeliveryStatus: {
-    ko: "배송현황",
-    en: "Delivery Status",
+  navSupport: {
+    ko: "고객지원",
+    en: "Support",
   },
-  navCustomerCenter: {
-    ko: "고객센터",
-    en: "Customer Center",
-  },
-  navPartnershipInquiry: {
+  navPartners: {
     ko: "제휴문의",
-    en: "Partnership Inquiry",
+    en: "Partners",
   },
 
   // --- src/components/main/sections/MainCover.jsx ---
@@ -47,88 +43,42 @@ export const LANG_CNG = {
     en: "Go to My Deliveries",
   },
 
-  // --- src/components/main/sections/MainInfo.jsx ---
-  infoTitle: {
-    ko: "서비스 소개",
-    en: "Service Introduction",
+  // --- src/components/main/sections/MainInfo.jsx (Pricing Plans) ---
+  planTitle: {
+    ko: "DGD의 다양한 배송 플랜",
+    en: "DGD's Various Delivery Plans",
   },
-  infoDescription: {
-    ko: "QR/영수증 기반으로 간편 접수하고 안전하게 보관·배송하는 서비스예요.",
-    en: "A service for simple registration and secure storage/delivery based on QR codes/receipts.",
+  planSelect: {
+    ko: "선택하기",
+    en: "Select Plan",
   },
-  infoFeeGuideButton: {
-    ko: "요금 안내",
-    en: "Fee Information",
+  planSelected: {
+    ko: "선택됨",
+    en: "Selected",
   },
-  infoBranchGuideButton: {
-    ko: "지점 안내",
-    en: "Branch Information",
-  },
-  infoHowToUseTitle: {
-    ko: "이용 방법 (Step Flow)",
-    en: "How to Use (Step Flow)",
-  },
-  infoStep1: {
-    ko: "매장 도착 → 제휴 매장/보관소 방문",
-    en: "Arrival → Visit an affiliated store/storage location",
-  },
-  infoStep2: {
-    ko: "Staff 안내에 따라 Form 작성(숙소/연락처 등)",
-    en: "Fill out the form as guided by staff (accommodation/contact, etc.)",
-  },
-  infoStep3: {
-    ko: "픽업/보관 진행(사진 인증 예시)",
-    en: "Proceed with pickup/storage (photo verification example)",
-  },
-  infoStep4: {
-    ko: "호텔/목적지 연계 배송 → 완료 알림(영수증 고유번호)",
-    en: "Linked delivery to hotel/destination → Completion notification (receipt unique number)",
-  },
-  infoTrustFactorTitle: {
-    ko: "신뢰 요소",
-    en: "Trust Factors",
-  },
-  infoTrustFactorDesc: {
-    ko: "staff/관리자 관리, 보관 위치 안내, CCTV 여부, 분실·파손 방지 정책 기반 운영.",
-    en: "Operated based on staff/manager supervision, storage location guidance, CCTV availability, and loss/damage prevention policies.",
-  },
-  infoItemSizeTitle: {
-    ko: "물품 사이즈 안내",
-    en: "Item Size Guide",
-  },
-  infoItemSizeDesc: {
-    ko: "사이즈 및 보관 장소는 지점 상황에 따라 다를 수 있어요.",
-    en: "Sizes and storage availability may vary depending on the branch.",
+  planRecommended: {
+    ko: "Recommended",
+    en: "Recommended",
   },
 
-  infoSizeSmall: {
-    ko: "소형",
-    en: "Small",
-  },
-  infoSizeMedium: {
-    ko: "중형",
-    en: "Medium",
-  },
-  infoSizeLarge: {
-    ko: "대형",
-    en: "Large",
-  },
-  infoRestrictionsTitle: {
-    ko: "주의/제한",
-    en: "Cautions/Restrictions",
-  },
-  infoRestrictionsDesc: {
-    ko: "현금/귀중품 · 위험물 · 파손 위험 · 음식물(부패 가능)은 보관 불가.",
-    en: "Cash/valuables, hazardous materials, fragile items, and perishable food are not accepted for storage.",
-  },
-  infoBranchNoticeTitle: {
-    ko: "지점 제한 고지",
-    en: "Branch-specific Notices",
-  },
-  infoBranchNoticeDesc: {
-    ko: "지점별 보관 가능 사이즈 상이 · 수량 제한 시 대기 발생 가능.",
-    en: "Available storage sizes may differ by branch. A waiting list may occur if quantity is limited.",
-  },
+  // Plan Names
+  planNameBasic: { ko: "Basic", en: "Basic" },
+  planNameStandard: { ko: "Standard", en: "Standard" },
+  planNamePremium: { ko: "Premium", en: "Premium" },
+
+  // Plan Prices
+  planPriceBasic: { ko: "5,000", en: "5,000" },
+  planPriceStandard: { ko: "10,000", en: "10,000" },
+  planPricePremium: { ko: "15,000", en: "15,000" },
+
+  // Plan Features
+  planFeature1ItemDelivery: { ko: "물품 1개 배송", en: "1 Item Delivery" },
+  planFeatureSameDay: { ko: "당일 배송", en: "Same-day" },
+  planFeatureQRRegistration: { ko: "QR 등록", en: "QR Registration" },
+  
+  // Currency Unit
+  currencyUnit: { ko: "원", en: "KRW" },
+
 
   // --- src/components/main/sections/MainPTNSSearch.jsx ---
   ptnsSearchLocationError: {
@@ -167,11 +117,27 @@ export const LANG_CNG = {
     ko: "위치 정보를 불러오는 중입니다...",
     en: "Loading location information...",
   },
+  ptnsMapLoading: {
+    ko: "지도를 불러오는 중입니다...",
+    en: "Loading map...",
+  },
+  ptnsMapError: {
+    ko: "지도를 불러오는 데 실패했습니다.",
+    en: "Failed to load map.",
+  },
+  mainLocationHeadquarters: {
+    ko: "본점 위치",
+    en: "Headquarters"
+  },
+  mainLocationMyLocation: {
+    ko: "내 위치",
+    en: "My Location"
+  },
 
   // --- src/components/main/sections/MainFee.jsx ---
   feeTitle: {
-    ko: "가격 및 지점 안내",
-    en: "Pricing and Branch Information",
+    ko: "가격 안내",
+    en: "Pricing Information",
   },
   feeDesc: {
     ko: "합리적인 가격과 신선함을 위한 배송/픽업 지점을 확인하세요.",
@@ -455,6 +421,62 @@ export const LANG_CNG = {
     ko: "문의드립니다",
     en: "Inquiry",
   },
+  csInquiryTitle: {
+    ko: "문의",
+    en: "Inquiry",
+  },
+  csInquiryDesc: {
+    ko: "운영시간 외에도 문의를 남기면 확인 후 순차적으로 안내드려요.",
+    en: "If you leave an inquiry outside of business hours, we will check and guide you sequentially.",
+  },
+  csInquirySubjectLabel: {
+    ko: "제목",
+    en: "Subject",
+  },
+  csInquirySubjectPlaceholder: {
+    ko: "예: 배송 완료 사진이 안 보여요",
+    en: "e.g., I can't see the delivery completion photo",
+  },
+  csInquiryContentLabel: {
+    ko: "내용",
+    en: "Content",
+  },
+  csInquiryContentPlaceholder: {
+    ko: "상황을 간단히 적어주세요. (주문번호/지점/시간대 등)",
+    en: "Please briefly describe the situation. (Order number/branch/time, etc.)",
+  },
+  csInquiryFileLabel: {
+    ko: "첨부파일 (선택)",
+    en: "Attachment (Optional)",
+  },
+  csInquirySubmitLoading: {
+    ko: "접수 중...",
+    en: "Submitting...",
+  },
+  csInquirySubmit: {
+    ko: "접수하기",
+    en: "Submit",
+  },
+  csInquirySuccessMsg: {
+    ko: "문의가 접수되었습니다. 확인 후 연락드리겠습니다.",
+    en: "Your inquiry has been received. We will contact you after checking.",
+  },
+  csInquiryFailMsg: {
+    ko: "문의 접수 실패",
+    en: "Failed to submit inquiry",
+  },
+  csFilePlaceholder: {
+    ko: "파일",
+    en: "FILE",
+  },
+  csFileChooseBtn: {
+    ko: "파일 선택",
+    en: "Choose File",
+  },
+  csFileNoFileSelected: {
+    ko: "선택된 파일 없음",
+    en: "No file selected",
+  },
 
   // --- src/components/main/sections/MainPTNS.jsx ---
   // 제휴 신청(form)
@@ -572,6 +594,18 @@ export const LANG_CNG = {
     ko: "개인정보 수집 및 이용에 동의합니다.",
     en: "I agree to the collection and use of my personal information."
   },
+  ptnsRequired: {
+    ko: "(필수)",
+    en: "(Required)"
+  },
+  ptnsModalCancel: {
+    ko: "취소",
+    en: "Cancel"
+  },
+  ptnsModalConfirm: {
+    ko: "동의 및 확인",
+    en: "Agree and Confirm"
+  },
 
   // 제휴 안내
   ptnsGuideTitle: {
@@ -650,6 +684,10 @@ export const LANG_CNG = {
     ko: "로그인",
     en: "LOGIN",
   },
+  headerLogout: {
+    ko: "로그아웃",
+    en: "LOGOUT"
+  },
   headerMyPage: {
     ko: "마이페이지",
     en: "MyPage",
@@ -706,11 +744,11 @@ export const LANG_CNG = {
   },
   footerLocation: {
     ko: "위치기반서비스 약관",
-    en: "Location-Based Services Terms",
+    en: "Location Terms",
   },
   footerDaeguBranch: {
-    ko: "RC | RC 대구지점",
-    en: "RC | RC Daegu Branch"
+    ko: "DGD | DGD 대구지점",
+    en: "DGD | DGD Daegu Branch"
   },
   footerCompanyAddress: {
     ko: "41937 대구 중구 중앙대로 394 제일빌딩 5F",
@@ -786,4 +824,183 @@ export const LANG_CNG = {
     ko: "회원가입 요청이 접수되었습니다.",
     en: "Your registration request has been received.",
   },
+  // --- src/components/main/sections/MainCoverItems/MainCoverModal.jsx ---
+  "coverModalClose": {
+    "ko": "닫기",
+    "en": "Close"
+  },
+  "coverModalDeliveryNumber": {
+    "ko": "배송 번호",
+    "en": "Delivery Number"
+  },
+  "coverModalRecipient": {
+    "ko": "받는 사람",
+    "en": "Recipient"
+  },
+  "coverModalDriverContact": {
+    "ko": "기사 연락처",
+    "en": "Driver Contact"
+  },
+  "coverModalPaymentAmount": {
+    "ko": "결제 금액",
+    "en": "Payment Amount"
+  },
+  "coverModalCurrency": {
+    "ko": "원",
+    "en": "KRW"
+  },
+  "coverModalTitle": {
+    "ko": "배송 상세 내역",
+    "en": "Delivery Details"
+  },
+  "coverModalSub": {
+    "ko": "백과 조회 기반으로 최신 배송 상태를 표시합니다.",
+    "en": "Displays the latest delivery status based on encyclopedia lookup."
+  },
+  "confirm": {
+    "ko": "확인",
+    "en": "Confirm"
+  },
+  // --- src/components/main/sections/MainCoverItems/DeliveryStatusCards.jsx ---
+  "deliveryStepRegister": {
+    "ko": "등록",
+    "en": "Register"
+  },
+  "deliveryStepMatching": {
+    "ko": "기사매칭",
+    "en": "Driver Matching"
+  },
+  "deliveryStepInProgress": {
+    "ko": "배송중",
+    "en": "In Progress"
+  },
+  "deliveryStepCompleted": {
+    "ko": "배송완료",
+    "en": "Completed"
+  },
+  "deliveryStatusAriaLabel": {
+    "ko": "배송 상태 단계",
+    "en": "Delivery Status Steps"
+  },
+  // --- src/components/main/auth/MyPage.jsx ---
+  "myPageUserName": {
+    "ko": "홍*동",
+    "en": "H*ng"
+  },
+  "myPageUserEmail": {
+    "ko": "hong@ricecake.com",
+    "en": "hong@ricecake.com"
+  },
+  // --- src/components/main/auth/Social.jsx ---
+  "socialLoginFailed": {
+    "ko": "로그인에 실패하였습니다.",
+    "en": "Login failed."
+  },
+  // --- src/components/main/sections/MainCover.jsx ---
+  "coverLoginRequired": {
+    "ko": "로그인이 필요한 서비스입니다.",
+    "en": "This service requires login."
+  },
+  "coverOrderNotFound": {
+    "ko": "주문 번호를 찾을 수 없습니다: 다시 시도해주세요.",
+    "en": "Order number not found: Please try again."
+  },
+  "coverLoading": {
+    "ko": "조회중...",
+    "en": "Loading..."
+  },
+  // --- src/components/admin/PartnerRegistration.jsx ---
+  "adminRegisterBranch": {
+    "ko": "지점 등록 (Kakao Places API)",
+    "en": "Branch Registration (Kakao Places API)"
+  },
+  "adminStoreNamePlaceholder": {
+    "ko": "매장명 입력 (예: 올리브영 대구중앙로점)",
+    "en": "Enter store name (e.g., Olive Young Daegu Jungang-ro)"
+  },
+  "adminDataSaving": {
+    "ko": "데이터 저장 중...",
+    "en": "Saving data..."
+  },
+  "adminRegisterSuccess": {
+    "ko": "등록 성공!",
+    "en": "Registration successful!"
+  },
+  "adminError": {
+    "ko": "에러:",
+    "en": "Error:"
+  },
+  "adminServerError": {
+    "ko": "서버 연결 확인 필요",
+    "en": "Check server connection"
+  },
+  "adminRegisteredStores": {
+    "ko": "현재 등록된 매장 현황",
+    "en": "Current Registered Stores"
+  },
+  // --- src/components/main/sections/MainPTNSSearch.jsx ---
+  "ptnsSearchViewMap": {
+    "ko": "지도 보기",
+    "en": "View Map"
+  },
+  "ptnsSearchViewList": {
+    "ko": "매장 리스트 보기",
+    "en": "View Store List"
+  },
+  // --- src/components/main/sections/MainCS.jsx ---
+  "csFileUploadError": {
+    "ko": "파일 업로드 또는 전송 중 오류가 발생했습니다.",
+    "en": "An error occurred during file upload or transmission."
+  },
+  // --- src/utils/location.js ---
+  "locationNotSupported": {
+    "ko": "이 브라우저에서는 위치 정보 기능을 지원하지 않습니다.",
+    "en": "This browser does not support location information features."
+  },
+  "locationFailedToRetrieve": {
+    "ko": "현재 위치를 가져오는 데 실패했습니다.",
+    "en": "Failed to retrieve current location."
+  },
+  // --- src/utils/address.js ---
+  "kakaoMapServiceNotLoaded": {
+    "ko": "카카오 지도 서비스 라이브러리가 로드되지 않았습니다.",
+    "en": "Kakao Map Service library has not been loaded."
+  },
+  "addressConversionFailed": {
+    "ko": "주소 변환에 실패했거나 결과가 없습니다.",
+    "en": "Address conversion failed or no results."
+  },
+  // --- src/store/thunks/questionStoreThunk.js ---
+  "questionRequestFailed": {
+    "ko": "질문 요청 실패",
+    "en": "Question request failed"
+  },
+  // --- src/store/thunks/partnerStoreThunk.js ---
+  "coordinateCheckDataToServer": {
+    "ko": "📍 [좌표 확인] 서버로 전송할 데이터:",
+    "en": "📍 [Coordinate Check] Data to send to server:"
+  },
+  "networkErrorBackendCheckRequired": {
+    "ko": "❌ 네트워크 에러 발생 (백엔드 확인 필요):",
+    "en": "❌ Network error occurred (backend check required):"
+  },
+  // --- src/store/thunks/authThunk.js ---
+  "refreshTokenMissingOrExpired": {
+    "ko": "리프레시 토큰이 없거나 만료되었습니다.",
+    "en": "Refresh token is missing or expired."
+  },
+  // --- src/routes/Router.jsx ---
+  "notFound": {
+    "ko": "404 Not Found",
+    "en": "404 Not Found"
+  },
+  // --- src/routes/ProtectedRouter.jsx ---
+  "sessionChecking": {
+    "ko": "세션 확인 중...",
+    "en": "Checking session..."
+  },
+  "insufficientPermissions": {
+    "ko": "권한이 부족하여 사용할 수 없습니다.",
+    "en": "You do not have sufficient permissions to use this."
+  }
 };

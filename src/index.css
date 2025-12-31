@@ -5,149 +5,311 @@
  */
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+/* 페이지네이션 */
+.pagination {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: var(--adm-spacing-xs);
+   padding: var(--adm-spacing-m);
+   border-top: 1px solid var(--adm-border-secondary);
+}
+
+.pagination button {
+   background: #FFF;
+   border: 1px solid var(--adm-border-primary);
+   width: 32px;
+   height: 32px;
+   border-radius: var(--adm-radius-small);
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.pagination button:hover:not(:disabled):not(.active) {
+   background: var(--adm-bg-primary);
+}
+
+.pagination button:disabled {
+   opacity: 0.5;
+   cursor: default;
+}
+
+.pagination button.active {
+   background: var(--adm-text-primary);
+   color: #FFF;
+   border-color: var(--adm-text-primary);
+}
+
+/* --- Common Detail Page Styles --- */
+.btn-back-page {
+   position: absolute;
+   top: var(--adm-spacing-xl);
+   right: var(--adm-spacing-xl);
+   background: var(--adm-bg-secondary);
+   border: 1px solid var(--common-border-light);
+   padding: var(--adm-spacing-xs) var(--adm-spacing-s);
+   border-radius: var(--common-border-radius-s);
+   font-size: var(--adm-font-base);
+   font-weight: var(--adm-font-weight-semibold);
+   cursor: pointer;
+   color: var(--common-text-secondary-dark);
+   z-index: 10;
+   transition: all 0.2s;
+}
+
+.btn-back-page:hover {
+   color: var(--adm-text-primary);
+   background-color: var(--common-bg-hover);
+   border-color: #bbb;
 }
 
 :root {
-  /* ============================================================================== */
-  /* [공통] 레이아웃 및 규격 (1440px 제한 및 모바일 375px 최적화) */
-  /* ============================================================================== */
+   /* ============================================================================== */
+   /* [공통] 레이아웃 및 규격 (1440px 제한 및 모바일 375px 최적화) */
+   /* ============================================================================== */
 
-  /* 추가된 변수 from sara */
+   /* 추가된 변수 from sara */
 
-  /* [규격 및 레이아웃] */
-  --com-web-max-width-padding: 20px;   /* 좌우 padding 20px + 20px = 40px  */
-  --com-web-max-width: 1400px; /* 1440px - 40(좌우 padding)px  = 1400px */
-  --com-mobile-max-width: 355px; /* 375px - 20px */
-  --com-container-padding: 20px;
-  --com-section-padding: 60px;
-  --com-sidebar-width: 240px;
-  
-  /* [폰트 설정] */
-  --com-font-primary-color: #212529; 
-  --com-font-gray: #343a40;
-  --com-font-muted: #6b7280;
-  --com-font-weight-heavy: 700;
-  --com-font-weight-bold: 900;
 
-  /* [폰트 사이즈] */
-  --com-size-title: 28px;
-  --com-size-subtitle: 16px;
-  --com-size-sub-title: 13px; 
-  /* 기존 --com-size-sub-title: 13px;  -> --com-size-sub-title: 13px;  */
-  --com-size-content: 12px;
-  --com-size-sidebar: 14px;
-  --com-size-mini: 11px;
+   /* [규격 및 레이아웃] */
+   --com-web-max-width-padding: 20px;
+   /* 좌우 padding 20px + 20px = 40px  */
+   --com-web-max-width: 1400px;
+   /* 1440px - 40(좌우 padding)px  = 1400px */
+   --com-mobile-max-width: 355px;
+   /* 375px - 20px */
+   --com-container-padding: 20px;
+   --com-section-padding: 60px;
+   --com-sidebar-width: 240px;
 
-  /* [컬러 팔레트] */
-  --com-color-white: #ffffff;
-  --com-color-bg-light: #f8f8f8;      /* 기존 light-gray */
-  --com-color-bg-section: #f4f7f6;    /* 섹션 배경 */
-  --com-color-blue: #3498db;
-  --com-color-green: #2ecc71;
-  --com-color-red: #e74c3c;
-  --com-color-black: #111827;
-  --com-color-overlay: rgba(15, 23, 42, 0.08); /* 푸터 border, 그림자 등 */
+   /* [폰트 설정] */
+   --com-font-primary-color: #212529;
+   --com-font-gray: #343a40;
+   --com-font-muted: #6b7280;
+   --com-font-weight-heavy: 700;
+   --com-font-weight-bold: 900;
 
-  /* [확장 파스텔 무지개 컬러 - 포인트 및 배경용] */
-  
-  /* Red & Pink */
-  --com-color-pastel-red: #FFADAD;     /* 연한 레드 */
-  --com-color-pastel-rose: #FFC2D1;    /* 로즈 핑크 */
-  --com-color-pastel-pink: #FFD6E0;    /* 소프트 핑크 */
-  --com-color-pastel-magenta: #FFDDF4; /* 연자주색 */
+   /* [폰트 사이즈] */
+   --com-size-title: 28px;
+   --com-size-subtitle: 16px;
+   --com-size-sub-title: 13px;
+   /* 기존 --com-size-sub-title: 13px;  -> --com-size-sub-title: 13px;  */
+   --com-size-content: 12px;
+   --com-size-sidebar: 14px;
+   --com-size-mini: 11px;
 
-  /* Orange & Yellow */
-  --com-color-pastel-orange: #FFD6A5;  /* 연한 주황 */
-  --com-color-pastel-peach: #FDFFB6;   /* 복숭아색 */
-  --com-color-pastel-yellow: #FFFFFC;  /* 크림 옐로우 */
-  --com-color-pastel-gold: #FFECB3;    /* 연한 금색 */
+   /* [컬러 팔레트] */
+   --com-color-white: #ffffff;
+   --com-color-bg-light: #f8f8f8;
+   /* 기존 light-gray */
+   --com-color-bg-section: #f4f7f6;
+   /* 섹션 배경 */
+   --com-color-blue: #3498db;
+   --com-color-green: #2ecc71;
+   --com-color-red: #e74c3c;
+   --com-color-black: #111827;
+   --com-color-overlay: rgba(15, 23, 42, 0.08);
+   /* 푸터 border, 그림자 등 */
 
-  /* Green */
-  --com-color-pastel-lime: #E2F0CB;    /* 라임 그린 */
-  --com-color-pastel-mint: #CAFFBF;    /* 민트 */
-  --com-color-pastel-leaf: #D4E09B;    /* 올리브 리프 */
-  --com-color-pastel-tea: #F1F3C2;     /* 그린티 */
+   /* [확장 파스텔 무지개 컬러 - 포인트 및 배경용] */
 
-  /* Blue & Cyan */
-  --com-color-pastel-cyan: #9BF6FF;    /* 시안 블루 */
-  --com-color-pastel-sky: #A0C4FF;     /* 스카이 블루 */
-  --com-color-pastel-aqua: #B9FBC0;    /* 연한 아쿠아 */
-  --com-color-pastel-ocean: #CFEAFA;   /* 오션 블루 */
+   /* Red & Pink */
+   --com-color-pastel-red: #FFADAD;
+   /* 연한 레드 */
+   --com-color-pastel-rose: #FFC2D1;
+   /* 로즈 핑크 */
+   --com-color-pastel-pink: #FFD6E0;
+   /* 소프트 핑크 */
+   --com-color-pastel-magenta: #FFDDF4;
+   /* 연자주색 */
 
-  /* Purple & Violet */
-  --com-color-pastel-lavender: #BDB2FF; /* 라벤더 */
-  --com-color-pastel-violet: #EDC7FF;   /* 연보라 */
-  --com-color-pastel-lilac: #D0D1FF;    /* 라일락 */
-  --com-color-pastel-indigo: #C7CEEA;   /* 연한 인디고 */
+   /* Orange & Yellow */
+   --com-color-pastel-orange: #FFD6A5;
+   /* 연한 주황 */
+   --com-color-pastel-peach: #FDFFB6;
+   /* 복숭아색 */
+   --com-color-pastel-yellow: #FFFFFC;
+   /* 크림 옐로우 */
+   --com-color-pastel-gold: #FFECB3;
+   /* 연한 금색 */
 
-  /* 파스텔 7색을 조합한 시그니처 무지개 (투명도 0.8 버전) */
-  --com-gradient-rainbow: linear-gradient(135deg, 
-    rgba(255, 173, 173, 0.5), /* Red */
-    rgba(255, 214, 165, 0.5), /* Orange */
-    rgba(253, 255, 182, 0.5), /* Yellow */
-    rgba(202, 255, 191, 0.5), /* Green */
-    rgba(155, 246, 255, 0.5), /* Cyan */
-    rgba(160, 196, 255, 0.5), /* Blue */
-    rgba(189, 178, 255, 0.5)  /* Purple */
-  );
-  
-  /* 카카오 노란색용 */
-  --com-kakao-bg: #FEE500; /* 카카오 공식 노란색 */
+   /* Green */
+   --com-color-pastel-lime: #E2F0CB;
+   /* 라임 그린 */
+   --com-color-pastel-mint: #CAFFBF;
+   /* 민트 */
+   --com-color-pastel-leaf: #D4E09B;
+   /* 올리브 리프 */
+   --com-color-pastel-tea: #F1F3C2;
+   /* 그린티 */
 
-  /* [기타 - 경계선 및 장식] */
-  /* 추가되는 css 공용 변수는 이제 이 아래에 정의  */
-  --com-border-default: #e0e0e0;
-  --com-radius-lg: 18px;    /* 카드류 */
-  --com-radius-md: 12px;    /* 인풋류 */
-  --com-radius-pill: 999px; /* 버튼류 */
-  --com-shadow-xs: 0 4px 8px rgba(2, 6, 23, 0.05); /* 더 작은 그림자 */
-  --com-shadow-default: 0 12px 30px rgba(2, 6, 23, 0.08); /* 기본 그림자 */
-  --com-shadow-md: 0 8px 20px rgba(2, 6, 23, 0.07); /* 중간 그림자 */
-  --com-color-primary: #3498db; /* 예시로 블루 계열 사용 */
-  --com-size-icon: 24px; /* 아이콘 기본 사이즈 */
-  --com-size-mini-icon: 16px; /* 아이콘 미니 사이즈 */
-  --com-gap-sm: 10px; /* 작은 간격 */
-  --com-gap-md: 20px; /* 중간 간격 */
-  --com-gap-xs: 8px; /* 아주 작은 간격 */
-  --com-gap-xl: 30px; /* 추가된 큰 간격 */
-  --com-size-button-lg: 48px; /* 큰 버튼 사이즈 */
-  --com-size-button-md: 38px; /* 중간 버튼 사이즈 (모바일용) */
+   /* Blue & Cyan */
+   --com-color-pastel-cyan: #9BF6FF;
+   /* 시안 블루 */
+   --com-color-pastel-sky: #A0C4FF;
+   /* 스카이 블루 */
+   --com-color-pastel-aqua: #B9FBC0;
+   /* 연한 아쿠아 */
+   --com-color-pastel-ocean: #CFEAFA;
+   /* 오션 블루 */
+
+   /* Purple & Violet */
+   --com-color-pastel-lavender: #BDB2FF;
+   /* 라벤더 */
+   --com-color-pastel-violet: #EDC7FF;
+   /* 연보라 */
+   --com-color-pastel-lilac: #D0D1FF;
+   /* 라일락 */
+   --com-color-pastel-indigo: #C7CEEA;
+   /* 연한 인디고 */
+
+   /* 파스텔 7색을 조합한 시그니처 무지개 (투명도 0.8 버전) */
+   --com-gradient-rainbow: linear-gradient(135deg,
+         rgba(255, 173, 173, 0.5),
+         /* Red */
+         rgba(255, 214, 165, 0.5),
+         /* Orange */
+         rgba(253, 255, 182, 0.5),
+         /* Yellow */
+         rgba(202, 255, 191, 0.5),
+         /* Green */
+         rgba(155, 246, 255, 0.5),
+         /* Cyan */
+         rgba(160, 196, 255, 0.5),
+         /* Blue */
+         rgba(189, 178, 255, 0.5)
+         /* Purple */
+      );
+
+   /* 카카오 노란색용 */
+   --com-kakao-bg: #FEE500;
+   /* 카카오 공식 노란색 */
+
+   /* [기타 - 경계선 및 장식] */
+   /* 추가되는 css 공용 변수는 이제 이 아래에 정의  */
+   --com-border-default: #e0e0e0;
+   --com-radius-lg: 18px;
+   /* 카드류 */
+   --com-radius-md: 12px;
+   /* 인풋류 */
+   --com-radius-pill: 999px;
+   /* 버튼류 */
+   --com-shadow-xs: 0 4px 8px rgba(2, 6, 23, 0.05);
+   /* 더 작은 그림자 */
+   --com-shadow-default: 0 12px 30px rgba(2, 6, 23, 0.08);
+   /* 기본 그림자 */
+   --com-shadow-md: 0 8px 20px rgba(2, 6, 23, 0.07);
+   /* 중간 그림자 */
+   --com-color-primary: #3498db;
+   /* 예시로 블루 계열 사용 */
+   --com-size-icon: 24px;
+   /* 아이콘 기본 사이즈 */
+   --com-size-mini-icon: 16px;
+   /* 아이콘 미니 사이즈 */
+   --com-gap-sm: 10px;
+   /* 작은 간격 */
+   --com-gap-md: 20px;
+   /* 중간 간격 */
+   --com-gap-xs: 8px;
+   /* 아주 작은 간격 */
+   --com-gap-xl: 30px;
+   /* 추가된 큰 간격 */
+   --com-size-button-lg: 48px;
+   /* 큰 버튼 사이즈 */
+   --com-size-button-md: 38px;
+   /* 중간 버튼 사이즈 (모바일용) */
+
+   --mng-sidebar-width: 240px;
+   --mng-container-padding: 20px;
+
+   /* =========================
+     Radius (Global)
+  ========================= */
+   --mng-radius-sm: 8px;
+   --mng-radius-md: 14px;
+   --mng-radius-lg: 20px;
+
+   /* =========================
+     Colors
+  ========================= */
+   --mng-color-gray-900: #3f3f3f;
+   --mng-color-gray-400: #adb5bd;
+   --mng-color-gray-300: #c2c7d0;
+   --mng-color-border: #dee2e6;
+
+   --mng-color-primary: #b7a8f5;
+   --mng-color-success: #2ecc71;
+   --mng-color-info: #3498db;
+   --mng-color-danger: #e74c3c;
+   --mng-color-white: #ffffff;
+
+   /* =========================
+     Typography
+  ========================= */
+   --mng-font-size-xl: 18px;
+   --mng-font-size-lg: 16px;
+   --mng-font-size-md: 14px;
+   --mng-font-size-sm: 12px;
+
+   --mng-font-weight-regular: 400;
+   --mng-font-weight-bold: 900;
+
+   /* =========================
+     Sidebar
+  ========================= */
+   --mng-sidebar-title-color: var(--mng-color-gray-400);
+   --mng-sidebar-item-color: var(--mng-color-gray-300);
+
+   /* =========================
+     Button
+  ========================= */
+   --mng-btn-bg-primary: var(--mng-color-primary);
+   --mng-btn-txt-primary: var(--mng-color-gray-900);
+   --mng-btn-bg-secondary: var(--mng-color-gray-400);
+   --mng-btn-txt-secondary: var(--mng-color-gray-900);
+   --mng-sidebar-width: 240px;
+   --mng-sidebar-title-font-color: #adb5bd;
+   --mng-sidebar-item-font-color: #c2c7d0;
+   --mng-font-size-sidebar: 14px;
+   /* 기존 900px -> 900으로 변경 */
+   --mng-font-weight: 900;
+   --mng-font-gray: #343a40;
+   --mng-font-green: #2ecc71;
+   --mng-font-blue: #3498db;
+   --mng-font-red: #e74c3c;
+   --mng-content-border-bottom: #dee2e6;
+   --mng-button-content: #fff;
+   --mng-font-size-title: 18px;
+   --mng-font-size-sub-title: 16px;
+   --mng-font-size-content: 12px;
+   --mng-container-padding: 20px;
+}
+
+.main-section-padding {
+   padding: var(--com-section-padding) var(--com-container-padding);
 }
 
 /* 📱 아이폰 SE (375px 이하) 전용 가변 변수 덮어쓰기 */
 @media screen and (max-width: 375px) {
-  :root {
-    --com-font-size-title: 15px;      /* 모바일 타이틀 축소 */
-    --com-size-sub-title: 13px;  /* 모바일 서브타이틀 축소 */
-    --com-font-size-content: 11px;    /* 모바일 본문/표 텍스트 축소 */
-    --com-container-padding: 12px;    /* 모바일 좌우 여백 축소 */
-    --com-section-padding: 30px;      /* 섹션 간격 축소 */
-    --com-section-sub-padding: 60px:  /* 섹션 간격 조금 축소 */
-  }
-}
-
-/* ------------------------------------------------------------------------------ */
-/* [기존 wook 변수] */
-/* ------------------------------------------------------------------------------ */
-
-:root {
-  --mng-sidebar-width: 240px;
-  --mng-sidebar-title-font-color: #adb5bd;
-  --mng-sidebar-item-font-color: #c2c7d0;
-  --mng-font-size-sidebar: 14px;
-  /* 기존 900px -> 900으로 변경 */
-  --mng-font-weight: 900; 
-  --mng-font-gray: #343a40;
-  --mng-font-green: #2ecc71;
-  --mng-font-blue: #3498db;
-  --mng-font-red: #e74c3c;
-  --mng-content-border-bottom: #dee2e6;
-  --mng-button-content: #fff;
-  --mng-font-size-title: 18px;
-  --mng-font-size-sub-title: 16px;
-  --mng-font-size-content: 12px;
-  --mng-container-padding: 20px;
+   :root {
+      --com-font-size-title: 15px;
+      /* 모바일 타이틀 축소 */
+      --com-size-sub-title: 13px;
+      /* 모바일 서브타이틀 축소 */
+      --com-font-size-content: 11px;
+      /* 모바일 본문/표 텍스트 축소 */
+      --com-container-padding: 12px;
+      /* 모바일 좌우 여백 축소 */
+      --com-section-padding: 30px;
+      /* 섹션 간격 축소 */
+      --com-section-sub-padding: 60px:
+         /* 섹션 간격 조금 축소 */
+   }
 }

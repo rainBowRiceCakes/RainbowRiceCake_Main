@@ -4,56 +4,63 @@
  * 251224 v1.0.0 sara init
  */
 
+import { useTranslation } from "../../../../context/LanguageContext";
 import "./DeliveryStatusCards.css";
 import { FaClipboardCheck, FaUserCheck, FaTruckFast, FaCircleCheck } from "react-icons/fa6";
 
-const STEPS = [
-  { key: "waiting", label: "등록", Icon: FaClipboardCheck },
-  { key: "matched", label: "기사매칭", Icon: FaUserCheck },
-  { key: "pickup", label: "배송중", Icon: FaTruckFast },
-  { key: "complete", label: "배송완료", Icon: FaCircleCheck },
+const STEPS_CONFIG = [
+  { key: "req", labelKey: "deliveryStepRegister", Icon: FaClipboardCheck },
+  { key: "match", labelKey: "deliveryStepMatching", Icon: FaUserCheck },
+  { key: "pick", labelKey: "deliveryStepInProgress", Icon: FaTruckFast },
+  { key: "com", labelKey: "deliveryStepCompleted", Icon: FaCircleCheck },
 ];
 
-const stepIndex = (status) => {
-  const idx = STEPS.findIndex((s) => s.key === status);
-  return idx === -1 ? 0 : idx;
-};
+export default function DeliveryStatusCards({ status = "req" }) {
+  const { t } = useTranslation();
 
-export default function DeliveryStatusCards({ status = "waiting" }) {
+  const STEPS = STEPS_CONFIG.map(step => ({
+    ...step,
+    label: t(step.labelKey)
+  }));
+
+  const stepIndex = (status) => {
+    const idx = STEPS.findIndex((s) => s.key === status);
+    return idx === -1 ? 0 : idx;
+  };
+
   const active = stepIndex(status);
 
   return (
-    <div className="dlvsStepper" aria-label="배송 상태 단계">
-      {STEPS.map(({ key, label, Icon }, i) => {
+    <div className="dlvs-stepper" aria-label={t('deliveryStatusAriaLabel')}>
+      {STEPS.map((step, i) => {
+        const StepIcon = step.Icon;
         const isDone = i < active;
         const isActive = i === active;
 
         return (
-          <div className="dlvsStep" key={key}>
+          <div className="dlvs-step" key={step.key}>
             <div
               className={[
-                "dlvsStepCircle",
+                "dlvs-circle",
                 isDone ? "is-done" : "",
                 isActive ? "is-active" : "",
               ].join(" ")}
               aria-hidden="true"
             >
-              <Icon />
+              <StepIcon />
             </div>
 
             <div
               className={[
-                "dlvsStepLabel",
+                "dlvs-label",
                 isDone ? "is-done" : "",
                 isActive ? "is-active" : "",
               ].join(" ")}
             >
-              {label}
+              {step.label}
             </div>
 
-            {i !== STEPS.length - 1 && (
-              <div className="dlvsStepLine" aria-hidden="true" />
-            )}
+            {i !== STEPS.length - 1 && <div className="dlvs-line" aria-hidden="true" />}
           </div>
         );
       })}

@@ -36,6 +36,7 @@
 .header01-left-box {
   display: flex;
   align-items: center;
+  margin-left: -var(--com-container-padding); /* Align flush with the inner-group's edge */
 }
 
 .header01-logo-button {
@@ -54,8 +55,8 @@
 }
 
 .header01-brand-img-container {
-  width: 140px; /* Adjust width based on actual logo aspect ratio */
-  height: 50px; /* Fits within the 80px header */
+  width: 50px; /* Reduced width */
+  height: 40px; /* Reduced height */
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -75,60 +76,7 @@
   gap: var(--com-radius-md); /* Space between action elements */
 }
 
-/* Language Toggle Switch - iPhone Style */
-.lang-toggle-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 56px; /* Toggle width */
-  height: var(--com-gap-xl); /* Toggle height */
-  background-color: var(--com-color-bg-light); /* Global light gray background */
-  border-radius: var(--com-radius-pill); /* Full rounded corners */
-  cursor: pointer;
-  padding: 3px;
-  transition: all 0.3s ease;
-  user-select: none;
-  overflow: hidden;
-}
 
-.lang-toggle-container:hover {
-  border-color: var(--com-font-muted);
-  transform: translateY(-1px);
-}
-
-.lang-toggle-handle {
-  width: var(--com-size-icon);
-  height: var(--com-size-icon);
-  background-color: var(--com-color-white);
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Realistic shadow */
-  z-index: 2;
-}
-
-/* Background Text (KO/EN) */
-.lang-toggle-text {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-muted);
-  transition: color 0.3s ease, opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.lang-toggle-text:first-of-type {
-  left: var(--com-gap-xs);
-}
-
-.lang-toggle-text:last-of-type {
-  right: var(--com-gap-xs);
-}
-
-.lang-toggle-text.active {
-  color: var(--com-font-primary-color);
-}
 
 /* Desktop Links (Login / MyPage) */
 .header01-desktop-links {
@@ -161,7 +109,7 @@
 }
 
 .header01-action-button-link--solid:hover {
-  background-color: var(--com-color-primary-hover); /* Changed from #333 to global var */
+  background-color: var(--com-color-black); /* Changed from #333 to global var */
   transform: translateY(-1px);
   box-shadow: var(--com-shadow-xs);
 }
@@ -332,10 +280,14 @@
   .header01-inner-group {
     padding: 0 var(--com-size-subtitle, 16px); /* Use mobile padding if defined, else 16px */
   }
+  
+  .header01-left-box {
+    margin-left: -var(--com-size-subtitle); /* Align flush with mobile padding */
+  }
 
   .header01-brand-img-container {
-    width: 110px; /* Smaller logo for mobile */
-    height: 40px;
+    width: 50px; /* Consistent reduced width for mobile */
+    height: 40px; /* Consistent height */
   }
 
   .header01-desktop-links {

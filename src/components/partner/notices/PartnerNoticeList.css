@@ -1,0 +1,94 @@
+.notice_page {
+  padding: 20px;
+}
+
+.notice_title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+.notice_list_container {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  padding: 10px 20px;
+}
+
+.notice_item {
+  padding: 25px 10px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.notice_header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.notice_badge {
+  background: #7A7FD3;
+  /* 이미지의 보라색 */
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.notice_subject {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.new_badge {
+  background: #605bff;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.notice_date {
+  margin-left: auto;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.comment_icon {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.notice_summary {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+  padding-left: 55px;
+  /* 공지 뱃지 위치만큼 들여쓰기 */
+}
+
+/* 페이지네이션 */
+.notice_pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.page_btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #eee;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.page_btn.active {
+  background: white;
+  color: #7A7FD3;
+  border-color: #7A7FD3;
+}

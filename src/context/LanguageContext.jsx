@@ -6,13 +6,14 @@
 
 import { createContext, useState, useMemo } from 'react';
 import { LANG_CNG } from '../lang/langCng';
+import { useContext } from 'react';
 
 // 1. Create Context
 const LanguageContext = createContext();
 
 // 2. Create Provider Component
 function LanguageProvider({ children }) {
-  const [lang, setLang] = useState('ko'); // Default language is Korean
+  const [lang, setLang] = useState('en'); // Default language is Korean
 
   const t = useMemo(() => {
     return (key) => {
@@ -34,5 +35,13 @@ function LanguageProvider({ children }) {
     </LanguageContext.Provider>
   );
 }
+
+export const useTranslation = () => {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error('useTranslation must be used within a LanguageProvider');
+  }
+  return context;
+};
 
 export { LanguageContext, LanguageProvider };

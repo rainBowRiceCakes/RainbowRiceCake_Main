@@ -8,7 +8,7 @@
 .footer01-frame {
   width: 100%;
   background-color: var(--com-color-white);
-  padding: var(--com-section-padding) 0;
+  padding: var(--com-gap-xl) 0; /* Reduced vertical padding */
   border-top: 1px solid var(--com-border-default);
   color: var(--com-font-primary-color);
 }
@@ -24,12 +24,12 @@
   flex-direction: column; /* 요소들을 세로로 배치 (로고가 위, 텍스트가 아래) */
   justify-content: center;
   align-items: center; /* 가로 방향 중앙 정렬 */
-  gap: 30px; /* 로고와 텍스트 정보 사이의 간격 */
+  gap: var(--com-gap-xl); /* 로고와 텍스트 정보 사이의 간격 */
 }
 
 /* 로고 스타일 */
 .footer01-brand-group {
-  margin-bottom: 10px; /* 텍스트와의 추가 간격 미세 조정 (필요 시) */
+  margin-bottom: var(--com-gap-sm); /* 텍스트와의 추가 간격 미세 조정 (필요 시) */
 }
 
 .footer01-logo-img {
@@ -129,16 +129,18 @@
 
   /* 5. 링크 그룹(이용약관 등) 높이 및 폰트 조절 */
   .footer01-links-group {
-    flex-wrap: wrap;
-    flex-direction: column;
+    flex-wrap: nowrap; /* Prevent wrapping to a new line */
+    justify-content: center;
+    align-items: center;
   }
 
   .footer01-separator {
-    display: none;
+    display: block; /* Ensure separator is visible */
   }
 
   .footer01-links-group a {
-    font-size: var(--com-size-content);
+    font-size: 10px; /* Adjust font size to fit */
+    white-space: nowrap; /* Prevent text from wrapping */
   }
 
   /* 6. 상세 정보 텍스트(주소 등) 높이 조절 */

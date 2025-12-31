@@ -1,0 +1,56 @@
+/* components/rider/common/RiderBottomNav.css */
+
+.rider-bottom-nav {
+  position: sticky;
+  bottom: 0;
+  z-index: 60;
+
+  width: 100%;
+  height: 64px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  border-top: 1px solid #eee;
+  background: #fff;
+
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+}
+
+.rbn-item {
+  flex: 1;
+  height: 64px;
+
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  color: #8b8b8b;
+}
+
+.rbn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.rbn-label {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rbn-item.active {
+  color: #111;
+}
+
+.rbn-item:active {
+  transform: scale(0.98);
+}

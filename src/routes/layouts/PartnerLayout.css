@@ -1,0 +1,51 @@
+/* 전체를 감싸는 컨테이너 */
+.app_wrapper {
+    display: flex;
+    /* 사이드바와 메인 영역을 가로로 배치 */
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    /* 이미지의 연한 배경색 */
+}
+
+/* 오른쪽 메인 영역 */
+.main_container {
+    display: flex;
+    flex-direction: column;
+    /* 헤더와 Outlet을 세로로 배치 */
+    flex-grow: 1;
+    /* 남은 가로 공간을 모두 차지 */
+    overflow-x: hidden;
+}
+
+/* 실제 Outlet 코드가 들어가는 곳 */
+.content_area {
+    padding: 30px 40px;
+    /* 이미지처럼 여백 확보 */
+    flex-grow: 1;
+}
+
+.app_wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f8f9fc;
+}
+
+/* 메인 영역 기본 스타일 */
+.main_container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+    /* 사이드바와 속도를 맞춤 */
+}
+
+/* 사이드바가 접혔을 때 콘텐츠 영역 패딩이나 여백 조정 가능 */
+.content_area {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* 선택 사항: 헤더의 너비나 위치도 사이드바 상태에 따라 반응하게 조절 */

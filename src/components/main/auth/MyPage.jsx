@@ -32,8 +32,8 @@ export default function MyPage({ isLoggedIn = false }) {
       <div className="mypage-profile-card">
         <div className="mypage-profile-circle">👤</div>
         <div>
-          <div className="mypage-user-name">홍*동</div>
-          <div className="mypage-user-email">hong@ricecake.com</div>
+          <div className="mypage-user-name">{t('myPageUserName')}</div>
+          <div className="mypage-user-email">{t('myPageUserEmail')}</div>
         </div>
       </div>
 

@@ -1,0 +1,158 @@
+.faq_page {
+  padding: 40px 20px;
+  max-width: 1000px;
+  /* 웹용 적정 너비 */
+  margin: 0 auto;
+}
+
+.faq_header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq_title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #202224;
+  margin-bottom: 10px;
+}
+
+.faq_subtitle {
+  color: #888;
+  font-size: 16px;
+}
+
+.faq_container {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #EAEAEA;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.faq_item {
+  border-bottom: 1px solid #F1F3F9;
+}
+
+.faq_item:last-child {
+  border-bottom: none;
+}
+
+.faq_question {
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.faq_question:hover {
+  background: #F9FAFF;
+}
+
+.faq_cat_badge {
+  background: #EEF0FF;
+  color: #7A7FD3;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 20px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.faq_q_text {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+}
+
+.faq_arrow {
+  color: #7A7FD3;
+  font-weight: bold;
+}
+
+/* 답변 애니메이션 */
+.faq_answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: #FCFCFE;
+}
+
+.faq_answer.show {
+  max-height: 300px;
+  /* 답변 내용에 맞게 조절 */
+}
+
+.faq_a_inner {
+  padding: 25px 30px 25px 130px;
+  /* 카테고리 뱃지 위치만큼 들여쓰기 */
+  display: flex;
+  gap: 15px;
+}
+
+.faq_a_icon {
+  font-weight: 900;
+  color: #7A7FD3;
+  font-size: 18px;
+}
+
+.faq_a_inner p {
+  margin: 0;
+  line-height: 1.7;
+  color: #555;
+  font-size: 15px;
+}
+
+/* 하단 푸터 영역 */
+.faq_footer {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.support_box {
+  background: #F1F3F9;
+  padding: 30px;
+  border-radius: 16px;
+}
+
+.support_box p {
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.support_btn_group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn_report,
+.btn_contact {
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s;
+}
+
+.btn_report {
+  background: #FFF;
+  color: #FF5B5B;
+  border: 1px solid #FF5B5B;
+}
+
+.btn_contact {
+  background: #7A7FD3;
+  color: white;
+}
+
+.btn_report:hover,
+.btn_contact:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}

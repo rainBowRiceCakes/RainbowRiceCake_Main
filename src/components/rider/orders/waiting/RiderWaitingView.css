@@ -1,0 +1,78 @@
+/* components/rider/main/waiting/RiderWaitingView.css */
+
+/* empty */
+.rw-empty {
+  text-align: center;
+  color: #868e96;
+  font-size: 14px;
+  margin: 40px;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #dee2e6;
+}
+
+/* wrapper */
+.rider-waiting-view {
+  padding: 12px 16px 16px;
+}
+
+/* item */
+.rw-item {
+  list-style: none;
+  margin-bottom: 12px;
+}
+
+/* card */
+.rw-card {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 12px;
+  background: #f3f3f3;
+  border-radius: 18px;
+  padding: 15px;
+}
+
+/* left text */
+.rw-left {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rw-time {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #868e96;
+}
+
+.rw-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: #212529;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* accept button */
+.rw-accept {
+  flex: 0 0 auto;
+  width: 52px;
+  border: none;
+  border-radius: 12px;
+  background: #cdb9ff;
+  color: #1f1f1f;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.rw-accept:active {
+  transform: scale(0.98);
+}
