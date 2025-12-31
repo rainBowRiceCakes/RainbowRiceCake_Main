@@ -1,10 +1,13 @@
 // components/rider/main/RiderMainPage.jsx
 import "./RiderMainPage.css";
+import dayjs from "dayjs";
+
 import { useState, useMemo, useEffect } from "react";
 import {
   setOngoingNotices,
 } from "../../../store/slices/noticesSlice.js";
 import { noticeIndexThunk } from "../../../store/thunks/notices/noticeIndexThunk.js";
+import { orderIndexThunk } from "../../../store/thunks/orders/orderIndexThunk.js";
 
 import RiderInfoBar from "./header/RiderInfoBar.jsx";
 import RiderStatusTabs from "./header/RiderStatusTabs.jsx";
@@ -16,7 +19,6 @@ import RiderCompletedView from "../orders/completed/RiderCompletedView.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { ORDER_STATUS } from "../../../../src/constants/orderStatus.js";
 import { acceptOrder, setActiveTab } from "../../../store/slices/ordersSlice.js";
 
@@ -25,6 +27,9 @@ export default function RiderMainPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const profileData = useSelector((state) => state.profile?.profileData);
+  const profile = profileData?.rider_user;
+
   const orders = useSelector((state) => state.orders?.orders ?? []);
   const activeTab = useSelector((state) => state.orders.activeTab);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,6 +37,12 @@ export default function RiderMainPage() {
 
   // 1. 페이지네이션과 필터링 로직을 하나의 useMemo로 통합
   const pagedOrders = useMemo(() => {
+    // 1. 오늘 날짜 데이터만 필터링
+    const today = dayjs();
+    const todayOrders = orders.filter((order) =>
+      dayjs(order.createdAt).isSame(today, "day")
+    );
+
     const filterByStatus = {
       waiting: (o) => o.statusCode === ORDER_STATUS.REQUESTED,
       inProgress: (o) =>
@@ -39,7 +50,7 @@ export default function RiderMainPage() {
       completed: (o) => o.statusCode === ORDER_STATUS.COMPLETED,
     };
 
-    const currentTabOrders = orders.filter(
+    const currentTabOrders = todayOrders.filter(
       filterByStatus[activeTab] || (() => true)
     );
     const totalPage = Math.ceil(currentTabOrders.length / itemsPerPage);
@@ -80,9 +91,10 @@ export default function RiderMainPage() {
     return allNotices.filter((notice) => notice.status === true);
   }, [allNotices]);
 
-  // 컴포넌트 마운트 시 공지사항 페칭
+  // 컴포넌트 마운트 시 공지사항 및 주문 페칭
   useEffect(() => {
     dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }));
+    dispatch(orderIndexThunk());
   }, [dispatch]);
 
   // ongoingNotices가 변경될 때마다 store 업데이트 (RiderNoticeBar가 store를 사용하므로)
@@ -98,7 +110,7 @@ export default function RiderMainPage() {
 
       <div className="rider-content-area">
         {activeTab === "waiting" && (
-          <RiderWaitingView orders={pagedOrders.items} onAccept={handleAccept} />
+          <RiderWaitingView orders={pagedOrders.items} onAccept={handleAccept} currentTab={activeTab} />
         )}
         {activeTab === "inProgress" && (
           <RiderInProgressView orders={pagedOrders.items} />

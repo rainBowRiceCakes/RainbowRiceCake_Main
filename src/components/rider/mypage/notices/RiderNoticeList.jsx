@@ -42,7 +42,6 @@ export default function RiderNoticeList() {
     dispatch(noticeIndexThunk({
       page: 1,
       limit: 100,
-      from: 'rider'
     }));
   }, [dispatch]);
 
@@ -67,7 +66,7 @@ export default function RiderNoticeList() {
       <div className="rnl-list-container">
         <div className="rnl-error">
           <p>{error}</p>
-          <button onClick={() => dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }))}>
+          <button onClick={() => dispatch(noticeIndexThunk({ page: 1, limit: 100 }))}>
             다시 시도
           </button>
         </div>

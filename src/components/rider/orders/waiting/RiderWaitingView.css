@@ -76,3 +76,39 @@
 .rw-accept:active {
   transform: scale(0.98);
 }
+
+.rw-tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+.rw-tabs button {
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: #888;
+}
+
+.rw-tabs button.active {
+  color: #000;
+  border-bottom: 2px solid #000;
+  /* 활성화 표시 */
+}
+
+.rip-modal-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.rip-modal-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}

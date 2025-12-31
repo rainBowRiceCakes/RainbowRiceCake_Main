@@ -8,7 +8,7 @@ const PartnerOrderDetailPage = () => {
 
   // Redux에서 해당 주문 데이터 찾기
   const order = useSelector((state) =>
-    state.orders.allOrders.find(o => String(o.orderNo) === String(orderNo))
+    state.orders.orders.find(o => String(o.orderNo) === String(orderNo))
   );
 
   // 데이터가 없을 경우 처리

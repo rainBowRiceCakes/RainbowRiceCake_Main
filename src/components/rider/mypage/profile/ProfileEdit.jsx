@@ -131,7 +131,7 @@ export default function ProfileEdit() {
         <div className="pe-card">
           <div className="pe-field">
             <label className="pe-label">이름(기사)</label>
-            <p className="pe-value">{profile.name}</p>
+            <p className="pe-value">{profile?.name || ""}</p>
           </div>
 
           {renderEditableField("phone", "핸드폰 번호")}

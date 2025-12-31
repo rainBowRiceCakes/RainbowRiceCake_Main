@@ -6,7 +6,7 @@ import './PartnerOrderListPage.css';
 const PartnerOrderListPage = () => {
   const navigate = useNavigate();
   // Redux 스토어에서 전체 주문 데이터를 가져옵니다.
-  const allOrders = useSelector((state) => state.orders.allOrders);
+  const allOrders = useSelector((state) => state.orders.orders);
   const [searchTerm, setSearchTerm] = useState("");
 
   // --- 페이지네이션 로직 추가 ---
@@ -120,7 +120,7 @@ const PartnerOrderListPage = () => {
                       {order.orderDetail}
                     </div>
                   </td>
-                  <td>{order.requestedAt}</td>
+                  <td>{order.createdAt}</td>
                   <td>{renderStatusBadge(order.statusCode)}</td>
                 </tr>
               ))

@@ -3,7 +3,6 @@
 import "./DeliveryHistory.css";
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { dummyDeliveryHistory } from "../../../../data/dummyOrders.js";
 import dayjs from "dayjs";
 import 'dayjs/locale/ko'; // Import Korean locale
 
@@ -20,7 +19,7 @@ export default function DeliveryHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
   const { id } = useParams();
-  
+
   // Read from localStorage on initial render, or default to "한 달"
   const [activeFilter, setActiveFilter] = useState(() => {
     const savedFilter = localStorage.getItem('deliveryHistoryActiveFilter');
@@ -32,22 +31,22 @@ export default function DeliveryHistory() {
     localStorage.setItem('deliveryHistoryActiveFilter', activeFilter);
   }, [activeFilter]);
 
-  
+
   // const orders = useSelector((state) => state.orders?.orders ?? []);
 
   // const order = useMemo(
   //   () => orders.find((o) => String(o.orderNo) === String(orderId)),
   //   [orders, orderId]
-  // );
+  // ); 
 
   // Filter and paginate history data
   const { groupedPaginatedHistory, totalPages, totalFilteredItems } = useMemo(() => {
     const daysToFilter = FILTERS[activeFilter];
     const cutoffDate = dayjs().subtract(daysToFilter, 'day').startOf('day');
-    
-    const filteredData = dummyDeliveryHistory.filter(item => 
-      dayjs(item.completedAt).isAfter(cutoffDate)
-    );
+
+    // const filteredData = dummyDeliveryHistory.filter(item => 
+    //   dayjs(item.completedAt).isAfter(cutoffDate)
+    // );
 
     const calculatedTotalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -99,7 +98,7 @@ export default function DeliveryHistory() {
             <h3 className="dh-group-header">{date}</h3>
             <div className="dh-history-list">
               {items.map((item) => (
-                                <div
+                <div
                   key={item.id}
                   className="dh-history-item"
                   onClick={() => navigate(`/rider/${id}/orders/${item.id}`)}
@@ -128,13 +127,13 @@ export default function DeliveryHistory() {
 
       {totalPages > 1 && (
         <div className="pagination-container">
-          <button 
-            disabled={currentPage === 1} 
+          <button
+            disabled={currentPage === 1}
             onClick={() => setCurrentPage(prev => prev - 1)}
           >
             이전
           </button>
-          
+
           {[...Array(totalPages)].map((_, i) => (
             <button
               key={i + 1}
@@ -145,8 +144,8 @@ export default function DeliveryHistory() {
             </button>
           ))}
 
-          <button 
-            disabled={currentPage === totalPages} 
+          <button
+            disabled={currentPage === totalPages}
             onClick={() => setCurrentPage(prev => prev + 1)}
           >
             다음

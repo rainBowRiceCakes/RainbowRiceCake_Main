@@ -1,17 +1,23 @@
 // components/rider/main/waiting/RiderWaitingView.jsx
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import dayjs from "dayjs";
 import "./RiderWaitingView.css";
 
-export default function RiderWaitingView({ orders, onAccept }) {
-
-  
-  // 모달 오픈 여부와 선택된 주문 정보를 관리할 상태
+export default function RiderWaitingView({ orders = [], currentTab, onAccept }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  if (!orders || orders.length === 0) {
-    return <div className="rw-empty">대기 중인 주문이 없습니다</div>;
-  }
+  // 1. 오늘 날짜 데이터만 필터링 후, 현재 탭 상태에 맞춰 한 번 더 필터링
+  const filteredOrders = useMemo(() => {
+    return orders.filter((order) => {
+      // 탭 상태 매칭 (날짜 필터링은 부모 컴포넌트에서 이미 처리됨)
+      if (currentTab === "waiting") return order.statusCode === "REQ";
+      if (currentTab === "inProgress") return order.statusCode === "PICK";
+      if (currentTab === "completed") return order.statusCode === "COM";
+
+      return false;
+    });
+  }, [orders, currentTab]);
 
   // 수락 버튼 클릭 시 모달 열기
   const handleOpenModal = (order) => {
@@ -19,26 +25,27 @@ export default function RiderWaitingView({ orders, onAccept }) {
     setIsModalOpen(true);
   };
 
-  // 모달에서 '네' 클릭 시 실행
+  // 모달 확인 클릭
   const handleConfirm = () => {
-    // 부모로부터 받은 onAccept 실행 (필요 시 선택된 주문 전달)
     if (!selectedOrder) return;
-    if (onAccept) {onAccept(selectedOrder.orderNo);}
-  
+    if (onAccept) onAccept(selectedOrder.orderNo);
     setIsModalOpen(false);
+  };
 
-  // 벡틱(`)과 ${} 문법을 확인하세요!
-};
+  if (filteredOrders.length === 0) {
+    return <div className="rw-empty">내역이 없습니다.</div>;
+  }
 
   return (
     <div className="rider-waiting-view">
-      {orders.map((order) => (
+      {filteredOrders.map((order) => (
         <div key={order.orderNo} className="rw-item">
           <div className="rw-card">
             <div className="rw-left">
               <p className="rw-time">
-                <span>요청된 시간 </span>
-                {order?.requestedAt?.slice?.(11, 16) ?? "-"}
+                <span>요청 시간 </span>
+                {/* dayjs로 포맷팅하면 더 안정적입니다 */}
+                {order.createdAt ? dayjs(order.createdAt).format("HH:mm") : "-"}
               </p>
 
               <p className="rw-title">
@@ -46,18 +53,21 @@ export default function RiderWaitingView({ orders, onAccept }) {
               </p>
             </div>
 
-            <button
-              type="button"
-              className="rw-accept"
-              onClick={() => handleOpenModal(order)}
-            >
-              수락
-            </button>
+            {/* 대기 중(waiting) 탭일 때만 수락 버튼 노출 */}
+            {currentTab === "waiting" && (
+              <button
+                type="button"
+                className="rw-accept"
+                onClick={() => handleOpenModal(order)}
+              >
+                수락
+              </button>
+            )}
           </div>
         </div>
       ))}
 
-      {/* 모달 UI 부분 */}
+      {/* 모달 UI */}
       {isModalOpen && (
         <div className="rip-modal-overlay">
           <div className="rip-modal">
@@ -65,13 +75,13 @@ export default function RiderWaitingView({ orders, onAccept }) {
             <p className="rip-modal-desc">
               [{selectedOrder?.pickupPlaceName}] 오더를 시작합니다.
             </p>
-            
+
             <div className="rip-modal-btns" style={{ display: "flex", gap: "8px", marginTop: "20px" }}>
               <button
                 type="button"
                 className="rip-modal-btn cancel"
                 onClick={() => setIsModalOpen(false)}
-                style={{ flex: 1, backgroundColor: "#f0f0f0", color: "#333" }}
+                style={{ flex: 1, backgroundColor: "#f0f0f0", color: "#333", border: "none", borderRadius: "8px", padding: "12px" }}
               >
                 아니오
               </button>
@@ -79,7 +89,7 @@ export default function RiderWaitingView({ orders, onAccept }) {
                 type="button"
                 className="rip-modal-btn"
                 onClick={handleConfirm}
-                style={{ flex: 1 }}
+                style={{ flex: 1, backgroundColor: "#000", color: "#fff", border: "none", borderRadius: "8px", padding: "12px" }}
               >
                 네
               </button>

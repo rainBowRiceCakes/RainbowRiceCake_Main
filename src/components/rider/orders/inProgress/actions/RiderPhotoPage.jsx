@@ -13,8 +13,8 @@ export default function RiderPhotoPage({ mode }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 1. 상태 경로 수정: state.orders.allOrders
-  const orders = useSelector((state) => state.orders?.allOrders ?? []);
+  // 1. 상태 경로 수정: state.orders.orders (allOrders에서 변경)
+  const orders = useSelector((state) => state.orders?.orders ?? []);
   const order = useMemo(
     () => orders.find((o) => String(o.orderNo) === String(orderId)),
     [orders, orderId]
