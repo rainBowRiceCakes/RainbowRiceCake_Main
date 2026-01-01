@@ -149,11 +149,11 @@ export default function ProfileEdit() {
           <h3 className="pe-section-title">정산 계좌 정보</h3>
           <div className="pe-field">
             <label className="pe-label">은행</label>
-            <p className="pe-value">{profile.bankName || "정보 없음"}</p>
+            <p className="pe-value">{profile.bank || "정보 없음"}</p>
           </div>
           <div className="pe-field">
             <label className="pe-label">계좌번호</label>
-            <p className="pe-value">{profile.accountNumber || "정보 없음"}</p>
+            <p className="pe-value">{profile.bankNum || "정보 없음"}</p>
           </div>
         </div>
 

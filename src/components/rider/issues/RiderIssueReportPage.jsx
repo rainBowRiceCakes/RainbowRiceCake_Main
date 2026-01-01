@@ -85,29 +85,31 @@ export default function RiderIssueReportPage({ reporterTypeFixed = null }) {
     setIsSubmitting(true);
 
     try {
+      // 1. 기본 텍스트 데이터 준비
+      // 현재 Questions 테이블에 order_id/dlv_id 컬럼이 없으므로
+      // 백엔드에서 찾을 수 있게 내용(content)에 주문 번호를 포함시키는 것이 안전합니다.
       const requestData = {
-        title,
-        content,
-        orderId,
-        reporterType: reporterTypeFixed
+        title: title.trim(),
+        content: `[주문번호: ${orderId}] ${content.trim()}`,
       };
 
-      if (photos[0]?.file) {
+      console.log("보내는 데이터:", requestData);
+
+
+      // 2. 이미지 업로드 처리
+      if (photos.length > 0 && photos[0].file) {
         try {
           const uploadResult = await dispatch(
             questionImageUploadThunk(photos[0].file)
           ).unwrap();
 
+          // 서비스단에서 createData.qnaImg를 찾으므로 키 이름을 qnaImg로 맞춤
           if (uploadResult?.data?.path) {
-            requestData.image = uploadResult.data.path;
+            requestData.qnaImg = uploadResult.data.path;
           }
         } catch (uploadError) {
           console.error('이미지 업로드 실패:', uploadError);
-          // 이미지 업로드 실패 시 사용자에게 선택권 제공
-          const proceedWithoutImage = window.confirm(
-            '이미지 업로드에 실패했습니다.\n이미지 없이 신고를 진행하시겠습니까?'
-          );
-          if (!proceedWithoutImage) {
+          if (!window.confirm('이미지 업로드에 실패했습니다. 이미지 없이 진행할까요?')) {
             setIsSubmitting(false);
             return;
           }

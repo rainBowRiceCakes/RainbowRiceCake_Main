@@ -3,25 +3,26 @@ import { createSlice } from "@reduxjs/toolkit";
 import { orderIndexThunk } from "../thunks/orders/orderIndexThunk";
 
 const initialState = {
-  orders: [], // 점주/관리자가 chase하는 전체 데이터 소스 (allOrders에서 이름 변경)
+  orders: [],
   loading: false,
   error: null,
   pagination: {
     currentPage: 1,
     totalPages: 1,
     totalItems: 0,
-    itemsPerPage: 10
+    itemsPerPage: 5 // RiderMainPage의 IITEMS_PER_PAGE와 맞춤
   },
   activeTab: localStorage.getItem("activeRiderTab") || "waiting",
 };
 
-const orderSlice = createSlice({
+const ordersSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
     // --- [통용] 탭 관리 ---
     setActiveTab(state, action) {
       state.activeTab = action.payload;
+      state.orders = [];
       localStorage.setItem("activeRiderTab", action.payload);
     },
     // 1. [점주] 주문 생성 (초기 상태: req)
@@ -35,45 +36,23 @@ const orderSlice = createSlice({
 
     // 2. [기사] 주문 수락 -> 상태: mat (MATCHED)
     acceptOrder(state, action) {
-      const { orderNo, riderId } = action.payload;
+      const { id, riderId } = action.payload;
 
-      const myActiveOrders = state.orders.filter(
-        (o) => o.riderId === riderId && o.statusCode !== "com"
-      );
+      // const myActiveOrders = state.orders.filter(
+      //   (o) => o.riderId === riderId && o.status !== "com"
+      // );
 
-      if (myActiveOrders.length >= 3) {
-        alert("동시에 3개까지만 배송 가능합니다.");
-        return;
-      }
+      // if (myActiveOrders.length >= 3) {
+      //   alert("동시에 3개까지만 배송 가능합니다.");
+      //   return;
+      // }
 
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (target && !target.riderId) {
+      const target = state.orders.find((o) => o.id === id);
+      if (target) {
         target.riderId = riderId;
-        target.statusCode = "mat"; // DB 상태: mat로 변경
+        target.status = "mat"; // DB 상태: mat로 변경
       }
     },
-
-    // 3. [기사] 픽업 사진 업로드 -> 상태: pick (PICKED/DELIVERING)
-    attachPickupPhoto(state, action) {
-      const { orderNo, pickupPhotoUrl } = action.payload;
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (target) {
-        target.pickupPhotoUrl = pickupPhotoUrl;
-        target.statusCode = "pick"; // 사진 업로드 시 자동 상태 변경
-      }
-    },
-
-    // 4. [기사] 완료 사진 업로드 -> 상태: com (COMPLETED)
-    attachDropoffPhoto(state, action) {
-      const { orderNo, dropoffPhotoUrl } = action.payload;
-      const target = state.orders.find((o) => o.orderNo === orderNo);
-      if (target) {
-        target.dropoffPhotoUrl = dropoffPhotoUrl;
-        target.statusCode = "com"; // 최종 완료 상태
-        target.completedAt = new Date().toISOString();
-      }
-    },
-
     // 서버 데이터 동기화용
     setAllOrders(state, action) {
       state.orders = action.payload;
@@ -87,20 +66,35 @@ const orderSlice = createSlice({
       })
       .addCase(orderIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-        // 백엔드 응답 구조에 따라 조정 (data 배열 또는 전체 payload가 배열인 경우)
-        state.orders = action.payload.data || action.payload.orders || (Array.isArray(action.payload) ? action.payload : []);
 
-        if (action.payload.pagination) {
+        const payload = action.payload;
+
+        // 1. 데이터 추출 고도화 (배열 찾기)
+        // 상황에 따라 payload 자체가 배열이거나, data/rows/orders 필드 안에 있을 수 있음
+        let extractedOrders = [];
+        if (Array.isArray(payload)) {
+          extractedOrders = payload;
+        } else if (payload?.data && Array.isArray(payload.data)) {
+          extractedOrders = payload.data;
+        } else if (payload?.data?.rows && Array.isArray(payload.data.rows)) {
+          extractedOrders = payload.data.rows;
+        } else if (payload?.rows && Array.isArray(payload.rows)) {
+          extractedOrders = payload.rows;
+        } else if (payload?.orders && Array.isArray(payload.orders)) {
+          extractedOrders = payload.orders;
+        }
+
+        state.orders = extractedOrders;
+
+        // 2. 페이지네이션 정보 추출
+        const p = payload?.pagination || payload?.data || payload;
+
+        if (p) {
           state.pagination = {
-            ...state.pagination,
-            ...action.payload.pagination
-          };
-        } else if (action.payload.totalPages !== undefined) {
-          state.pagination = {
-            ...state.pagination,
-            currentPage: action.payload.currentPage || 1,
-            totalPages: action.payload.totalPages || 1,
-            totalItems: action.payload.totalItems || 0,
+            currentPage: Number(p.currentPage || p.page) || 1,
+            totalPages: Number(p.totalPages || p.totalPage) || 1,
+            totalItems: Number(p.totalItems || p.count || p.totalCount) || extractedOrders.length,
+            itemsPerPage: Number(p.itemsPerPage || p.limit) || state.pagination.itemsPerPage
           };
         }
       })
@@ -115,9 +109,7 @@ export const {
   setActiveTab,
   createOrder,
   acceptOrder,
-  attachPickupPhoto,
-  attachDropoffPhoto,
   setAllOrders
-} = orderSlice.actions;
+} = ordersSlice.actions;
 
-export default orderSlice.reducer;
+export default ordersSlice.reducer;

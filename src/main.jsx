@@ -11,7 +11,6 @@ import { Provider } from 'react-redux';
 import store from './store/store.js';
 import { LanguageProvider } from './context/LanguageProvider.jsx';
 import { injectStoreInAxios } from './api/axiosInstance.js';
-import store from './store/store.js';
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <LanguageProvider>

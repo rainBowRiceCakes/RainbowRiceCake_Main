@@ -1,23 +1,17 @@
 // components/rider/main/waiting/RiderWaitingView.jsx
-import { useState, useMemo } from "react";
-import dayjs from "dayjs";
 import "./RiderWaitingView.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { acceptOrder } from "../../../../store/slices/ordersSlice.js";
+import axiosInstance from "../../../../api/axiosInstance.js";
+import dayjs from "dayjs";
 
-export default function RiderWaitingView({ orders = [], currentTab, onAccept }) {
+export default function RiderWaitingView({ orders = [], onAccept }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  // 1. 오늘 날짜 데이터만 필터링 후, 현재 탭 상태에 맞춰 한 번 더 필터링
-  const filteredOrders = useMemo(() => {
-    return orders.filter((order) => {
-      // 탭 상태 매칭 (날짜 필터링은 부모 컴포넌트에서 이미 처리됨)
-      if (currentTab === "waiting") return order.statusCode === "REQ";
-      if (currentTab === "inProgress") return order.statusCode === "PICK";
-      if (currentTab === "completed") return order.statusCode === "COM";
-
-      return false;
-    });
-  }, [orders, currentTab]);
 
   // 수락 버튼 클릭 시 모달 열기
   const handleOpenModal = (order) => {
@@ -26,43 +20,63 @@ export default function RiderWaitingView({ orders = [], currentTab, onAccept }) 
   };
 
   // 모달 확인 클릭
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!selectedOrder) return;
-    if (onAccept) onAccept(selectedOrder.orderNo);
+
+    const onAccept = async (orderId, riderId) => {
+      console.log('🚀 accept order:', orderId);
+      await axiosInstance.post(`/api/orders/${orderId}`); // 서버 상태 변경
+      dispatch(
+        acceptOrder({
+          id: orderId,
+          riderId: riderId,
+        })
+      );
+    };
+
+    // ✅ 기존 수락 로직 유지 (API 호출이 있다면)
+    if (onAccept) {
+      await onAccept(selectedOrder.id);
+    }
+
+    // ✅ RiderNavFlowPage로 이동
+    navigate(`/riders/${selectedOrder.id}/nav`, {
+      state: {
+        justAccepted: true,
+        message: "배달이 시작됐어요 🚴‍♂️"
+      }
+    });
+
     setIsModalOpen(false);
   };
 
-  if (filteredOrders.length === 0) {
+  if (orders.length === 0) {
     return <div className="rw-empty">내역이 없습니다.</div>;
   }
 
   return (
     <div className="rider-waiting-view">
-      {filteredOrders.map((order) => (
-        <div key={order.orderNo} className="rw-item">
+      {orders.map((order) => (
+        <div key={order.id} className="rw-item">
           <div className="rw-card">
             <div className="rw-left">
               <p className="rw-time">
-                <span>요청 시간 </span>
-                {/* dayjs로 포맷팅하면 더 안정적입니다 */}
-                {order.createdAt ? dayjs(order.createdAt).format("HH:mm") : "-"}
+                <span>요청 시간: </span>
+                {dayjs(order.createdAt).format('A hh:mm')}
               </p>
-
+              {/* TODO: 어떤게 제일 따끈따끈한 신 오더인지 알아보게 좀 하자 ㅠㅠ */}
               <p className="rw-title">
-                {order.pickupPlaceName} → {order.destinationHotelName}
+                {order.order_partner?.krName || "가게"} → {order.order_hotel?.krName || "호텔"}
               </p>
             </div>
 
-            {/* 대기 중(waiting) 탭일 때만 수락 버튼 노출 */}
-            {currentTab === "waiting" && (
-              <button
-                type="button"
-                className="rw-accept"
-                onClick={() => handleOpenModal(order)}
-              >
-                수락
-              </button>
-            )}
+            <button
+              type="button"
+              className="rw-accept"
+              onClick={() => handleOpenModal(order)}
+            >
+              수락
+            </button>
           </div>
         </div>
       ))}
@@ -73,7 +87,7 @@ export default function RiderWaitingView({ orders = [], currentTab, onAccept }) 
           <div className="rip-modal">
             <p className="rip-modal-title">이 오더를 수락하시겠습니까?</p>
             <p className="rip-modal-desc">
-              [{selectedOrder?.pickupPlaceName}] 오더를 시작합니다.
+              [{selectedOrder?.order_partner?.krName}] → [{selectedOrder?.order_hotel?.krName}] 오더를 시작합니다.
             </p>
 
             <div className="rip-modal-btns" style={{ display: "flex", gap: "8px", marginTop: "20px" }}>

@@ -1,146 +1,109 @@
 import "./RiderPhotoPage.css";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-// 통합된 orderSlice의 액션들로 임포트 경로와 이름을 확인하세요.
-import {
-  attachPickupPhoto,
-  attachDropoffPhoto,
-} from "../../../../../store/slices/ordersSlice.js";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { uploadPickupPhoto, uploadCompletePhoto } from "../../../../../store/thunks/orders/orderPicsThunk.js";
+import { useNavigate } from "react-router-dom";
 
-export default function RiderPhotoPage({ mode }) {
-  const { id, orderId } = useParams();
-  const navigate = useNavigate();
+export default function RiderPhotoPage({ mode, order, onClose }) {
   const dispatch = useDispatch();
-
-  // 1. 상태 경로 수정: state.orders.orders (allOrders에서 변경)
-  const orders = useSelector((state) => state.orders?.orders ?? []);
-  const order = useMemo(
-    () => orders.find((o) => String(o.orderNo) === String(orderId)),
-    [orders, orderId]
-  );
-
   const fileRef = useRef(null);
+  const navigate = useNavigate();
+
+  const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
-  const isPickup = mode === "pickup";
-  const previewAlt = isPickup ? "pickup preview" : "dropoff preview";
+  const isPickup = order?.status === "mat";
 
+  // 메모리 누수 방지
   useEffect(() => {
-    return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-    };
+    return () => { if (previewUrl) URL.revokeObjectURL(previewUrl); };
   }, [previewUrl]);
 
-  if (!order) {
-    return (
-      <div style={{ padding: 16 }}>
-        <p>주문 정보를 찾을 수 없어요 😭</p>
-        <p>orderId: {orderId}</p>
-      </div>
-    );
-  }
-
-  const openCamera = () => fileRef.current?.click();
-
   const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
 
+    // 간단한 프론트엔드 파일 크기 체크 (백엔드 limits와 동기화: 5MB)
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      alert("파일 크기는 5MB 이하여야 합니다.");
+      return;
+    }
+
+    setFile(selectedFile);
     if (previewUrl) URL.revokeObjectURL(previewUrl);
-
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
+    setPreviewUrl(URL.createObjectURL(selectedFile));
   };
 
   const handleUpload = async () => {
-    if (!previewUrl || isUploading) return;
-
+    if (!file || isUploading) return;
     setIsUploading(true);
-    // 업로드 시뮬레이션
-    await new Promise((r) => setTimeout(r, 600));
 
-    if (isPickup) {
-      // 2. 통합 리듀서 로직: 사진을 첨부하면 내부에서 statusCode가 'pick'으로 자동 변경됨
-      dispatch(
-        attachPickupPhoto({
-          orderNo: order.orderNo,
-          pickupPhotoUrl: previewUrl,
-        })
+    try {
+      const formData = new FormData();
+      // ✅ 중요: 백엔드 .single("image")와 동일한 필드명 사용
+      formData.append("image", file);
+
+      const isPickup = order.status === "mat";
+      // Thunk 실행 (백엔드 라우터: /:orderId/pickup-photo 또는 /complete-photo)
+      const resultAction = await dispatch(
+        isPickup
+          ? uploadPickupPhoto({ orderId: order.id, formData })  // 픽업 단계
+          : uploadCompletePhoto({ orderId: order.id, formData }) // 드롭오프 단계
       );
-    } else {
-      // 3. 통합 리듀서 로직: 사진을 첨부하면 내부에서 statusCode가 'com'으로 자동 변경됨
-      dispatch(
-        attachDropoffPhoto({
-          orderNo: order.orderNo,
-          dropoffPhotoUrl: previewUrl,
-        })
-      );
-    }
 
-    setIsUploading(false);
-    setIsSuccess(true);
+      if (uploadPickupPhoto.fulfilled.match(resultAction) || uploadCompletePhoto.fulfilled.match(resultAction)) {
+        // 성공 시 팝업 닫기 -> 부모 컴포넌트가 바뀐 status(pick/com)를 감지해 UI 전환
+        // ✅ 3. 분기 처리 로직 추가
+        if (!isPickup) {
+          // 'pick' 상태에서 올렸다면 이제 배달 완료(com)이므로 대시보드로 이동
+          alert("배달이 완료되었습니다!");
+          navigate("/riders"); // 대시보드 주소로 설정 (프로젝트 경로에 맞게 수정)
+        } else {
+          // 픽업 단계라면 다음 단계(호텔 이동)를 위해 팝업만 닫기
+          onClose();
+        }
 
-    setTimeout(() => {
-      if (isPickup) {
-        // 배송 중 페이지로 이동
-        navigate(`/rider/${id}/delivering/${order.orderNo}`);
-      } else {
-        // 배송 완료 후 메인 탭으로 이동
-        navigate(`/rider/${id}`, { state: { activeTab: "completed" } });
+      } else if (resultAction.payload) {
+        alert(`업로드 실패: ${resultAction.payload.message}`);
       }
-    }, 650);
+    } catch (error) {
+      alert("네트워크 오류가 발생했습니다.");
+    } finally {
+      setIsUploading(false);
+    }
   };
-
-  if (isSuccess) {
-    return (
-      <div className="rpp-success-page">
-        <div className="rpp-success-card">
-          <div className="rpp-check">✓</div>
-          <p className="rpp-success-text">업로드 성공</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="rpp-page">
       <header className="rpp-header">
-        <h1 className="rpp-title">사진 촬영</h1>
+        <h1 className="rpp-title">{isPickup ? "수령 인증 (가게)" : "배달 완료 (호텔)"}</h1>
       </header>
 
       <div className="rpp-main">
-        <button type="button" className="rpp-upload-box" onClick={openCamera}>
+        <button type="button" className="rpp-upload-box" onClick={() => fileRef.current?.click()}>
           {previewUrl ? (
-            <img className="rpp-preview" src={previewUrl} alt={previewAlt} />
+            <img className="rpp-preview" src={previewUrl} alt="preview" />
           ) : (
             <>
               <div className="rpp-plus">+</div>
-              <p className="rpp-hint">사진 업로드 해주세요!</p>
+              <p className="rpp-hint">인증 사진 촬영하기</p>
             </>
           )}
         </button>
-
         <input
           ref={fileRef}
-          className="rpp-file"
           type="file"
           accept="image/*"
           capture="environment"
+          style={{ display: "none" }}
           onChange={handleFileChange}
         />
       </div>
 
       <div className="rpp-footer">
-        <button
-          type="button"
-          className="rpp-submit"
-          disabled={!previewUrl || isUploading}
-          onClick={handleUpload}
-        >
-          {isUploading ? "업로드 중..." : "업로드 완료"}
+        <button className="rpp-submit" disabled={!file || isUploading} onClick={handleUpload}>
+          {isUploading ? "업로드 중..." : "인증 완료"}
         </button>
       </div>
     </div>

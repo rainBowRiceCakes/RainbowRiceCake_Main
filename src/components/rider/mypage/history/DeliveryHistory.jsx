@@ -5,8 +5,12 @@ import { useState, useMemo, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import 'dayjs/locale/ko'; // Import Korean locale
+import { useDispatch, useSelector } from "react-redux";
+import { orderIndexThunk } from "../../../../store/thunks/orders/orderIndexThunk.js";
 
 dayjs.locale('ko');
+
+const ITEMS_PER_PAGE = 5;
 
 const FILTERS = {
   "한 달": 30,
@@ -16,47 +20,56 @@ const FILTERS = {
 
 export default function DeliveryHistory() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // Number of items per page
+  const itemsPerPage = 5; // 한 페이지에 보여줄 개수
   const { id } = useParams();
 
-  // Read from localStorage on initial render, or default to "한 달"
+  const { orders, loading, error } = useSelector((state) => state.orders);
+  const { user } = useSelector((state) => state.auth);
+
   const [activeFilter, setActiveFilter] = useState(() => {
     const savedFilter = localStorage.getItem('deliveryHistoryActiveFilter');
     return savedFilter || "한 달";
   });
 
-  // Save activeFilter to localStorage whenever it changes
+  // Fetch orders with pagination from backend
+  useEffect(() => {
+    if (!user?.id) return;
+    dispatch(orderIndexThunk({
+      riderId: user.id,
+      status: 'com',
+      page: currentPage,
+      limit: ITEMS_PER_PAGE,
+    }));
+  }, [dispatch, user?.id, currentPage]);
+
   useEffect(() => {
     localStorage.setItem('deliveryHistoryActiveFilter', activeFilter);
   }, [activeFilter]);
 
-
-  // const orders = useSelector((state) => state.orders?.orders ?? []);
-
-  // const order = useMemo(
-  //   () => orders.find((o) => String(o.orderNo) === String(orderId)),
-  //   [orders, orderId]
-  // ); 
-
-  // Filter and paginate history data
+  // 프론트에서 날짜 필터링 + 그룹핑만 처리
   const { groupedPaginatedHistory, totalPages, totalFilteredItems } = useMemo(() => {
+    const orderList = Array.isArray(orders) ? orders : (orders?.rows || []);
+
+    if (!orderList) {
+      return { groupedPaginatedHistory: {}, totalPages: 0, totalFilteredItems: 0 };
+    }
+
     const daysToFilter = FILTERS[activeFilter];
     const cutoffDate = dayjs().subtract(daysToFilter, 'day').startOf('day');
 
-    // const filteredData = dummyDeliveryHistory.filter(item => 
-    //   dayjs(item.completedAt).isAfter(cutoffDate)
-    // );
+    // 백엔드에서 받은 데이터를 날짜로 필터링
+    const filteredData = orderList.filter(item =>
+      dayjs(item.completedAt).isAfter(cutoffDate)
+    );
 
-    const calculatedTotalPages = Math.ceil(filteredData.length / itemsPerPage);
+    const totalCount = orders?.count || 0;
+    const calculatedTotalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedData = filteredData.slice(startIndex, endIndex);
-
-    // Group the paginated data by date
-    const groups = paginatedData.reduce((acc, item) => {
-      const date = dayjs(item.completedAt).format("MM/DD (ddd)"); // Use formatted date as key
+    // 날짜별로 그룹핑
+    const groups = filteredData.reduce((acc, item) => {
+      const date = dayjs(item.completedAt).format("MM/DD (ddd)");
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -69,9 +82,22 @@ export default function DeliveryHistory() {
       totalPages: calculatedTotalPages,
       totalFilteredItems: filteredData.length,
     };
-  }, [activeFilter, currentPage]);
+  }, [orders, activeFilter]);
 
-  // Removed useEffect for setCurrentPage(1) on filter change
+  // 필터 변경 시 페이지 리셋
+  const handleFilterChange = (filter) => {
+    setActiveFilter(filter);
+    setCurrentPage(1);
+  };
+
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="dh-container">
@@ -81,7 +107,7 @@ export default function DeliveryHistory() {
             key={filter}
             className={`dh-filter-btn ${activeFilter === filter ? "active" : ""}`}
             onClick={() => {
-              setActiveFilter(filter);
+              handleFilterChange(filter);
               setCurrentPage(1); // Reset page when filter changes
             }}
           >
@@ -101,19 +127,19 @@ export default function DeliveryHistory() {
                 <div
                   key={item.id}
                   className="dh-history-item"
-                  onClick={() => navigate(`/rider/${id}/orders/${item.id}`)}
+                  onClick={() => navigate(`/riders/mypage/orders/${item.id}`)}
                 >
                   <div className="dh-item-time">
-                    {dayjs(item.completedAt).format("HH:mm")}
+                    {dayjs(item.updatedAt).format("HH:mm")}
                   </div>
                   <div className="dh-item-details">
-                    <p className="dh-details-main">{item.pickup} - {item.dropoff}</p>
-                    <p className="dh-details-sub">
-                      {{
-                        small: "베이직",
-                        medium: "스탠다드",
-                        large: "플러스",
-                      }[item.bagSize] || "-"} - {item.bagCount}개</p>
+                    <p className="dh-details-main">{item.order_partner.krName} - {item.order_hotel.krName}</p>
+                    <div className="dh-details-sub">
+                      {item.cntS > 0 && <span>베이직 {item.cntS}개 </span>}
+                      {item.cntM > 0 && <span>스탠다드 {item.cntM}개 </span>}
+                      {item.cntL > 0 && <span>플러스 {item.cntL}개 </span>}
+                      {!(item.cntS > 0 || item.cntM > 0 || item.cntL > 0) && <span>-</span>}
+                    </div>
                   </div>
                   <div className="dh-item-chevron">›</div>
                 </div>

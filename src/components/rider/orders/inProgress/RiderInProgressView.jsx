@@ -1,32 +1,22 @@
 // components/rider/main/inProgress/RiderInProgressView.jsx
-import {
-  getInProgressBadgeText,
-  getNavModeByStatus,
-} from "../../../../../src/constants/orderStatus.js";
+import { getInProgressBadgeText } from "../../../../constants/orderStatus.js";
 import "./RiderInProgressView.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 export default function RiderInProgressView({ orders = [], onOpenDetail }) {
   const navigate = useNavigate();
-  const { id } = useParams();
 
-  const handleOpenDetail = (orderNo) => {
-    if (onOpenDetail) return onOpenDetail(orderNo);
-    console.log("open order detail:", orderNo);
+  const handleOpenDetail = (order) => {
+    if (onOpenDetail) return onOpenDetail(order.id);
   };
 
   const handleOpenNavFlow = (e, order) => {
     e.stopPropagation();
 
-    const mode = getNavModeByStatus(order.statusCode);
-    const orderNo = order.orderNo;
+    const orderId = order.id;
 
-    navigate(
-      mode === "pickup"
-        ? `/rider/${id}/navigate/${orderNo}`
-        : `/rider/${id}/delivering/${orderNo}`
-    );
+    navigate(`/riders/orders/${orderId}/nav`);
   };
 
   console.log("orders props:", orders);
@@ -34,12 +24,11 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
   // 🔍 상태 + 뱃지 매핑 확인용 로그
   orders.forEach((o) => {
     console.log(
-      "orderNo:", o.orderNo,
-      "statusCode:", o.statusCode,
-      "badge:", getInProgressBadgeText(o.statusCode)
+      "id:", o.id,
+      "status:", o.status,
+      "badge:", getInProgressBadgeText(o.status)
     );
   });
-
 
   if (!orders || orders.length === 0) {
     return <div className="rw-empty">진행 중인 주문이 없습니다</div>;
@@ -49,8 +38,8 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
   return (
     <div className="rip-wrap">
       {orders.map((order) => {
-        const orderId = order.orderNo;
-        const title = `${order.pickupPlaceName} → ${order.destinationHotelName}`;
+        const orderId = order.id;
+        const title = `${order.order_partner.krName} → ${order.order_hotel.krName}`;
         const badgeText = getInProgressBadgeText(order.statusCode);
 
         return (
@@ -58,7 +47,7 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
             key={orderId}
             type="button"
             className="rip-card"
-            onClick={() => handleOpenDetail(orderId)}
+            onClick={() => handleOpenDetail(order)}
           >
             <div className="rip-left">
               <span className="rip-label">주문번호</span>

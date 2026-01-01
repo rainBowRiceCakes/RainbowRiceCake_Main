@@ -15,13 +15,13 @@ const Sidebar = ({ isCollapsed }) => {
     // 경로에 따른 액티브 메뉴 설정 로직 (기존 유지)
     if (path === '/partner' || path === '/partner/') {
       if (activeMenu !== 'home') dispatch(setActiveMenu('home'));
-    } else if (path.includes('/partner/orders')) {
+    } else if (path.includes('/partners/orders')) {
       if (activeMenu !== 'request' && activeMenu !== 'history') dispatch(setActiveMenu('history'));
-    } else if (path.includes('/partner/notices')) {
+    } else if (path.includes('/partners/notices')) {
       if (activeMenu !== 'notice') dispatch(setActiveMenu('notice'));
-    } else if (path.includes('/partner/help')) {
+    } else if (path.includes('/partners/help')) {
       if (activeMenu !== 'qna') dispatch(setActiveMenu('qna'));
-    } else if (path.includes('/partner/profile')) {
+    } else if (path.includes('/partners/profile')) {
       if (activeMenu !== 'mypage') dispatch(setActiveMenu('mypage'));
     }
   }, [location.pathname, activeMenu, dispatch]);
@@ -38,12 +38,12 @@ const Sidebar = ({ isCollapsed }) => {
   const handleMenuClick = (id) => {
     dispatch(setActiveMenu(id));
     const paths = {
-      home: '/partner',
-      request: '/partner/orders/new',
-      history: '/partner/orders',
-      notice: '/partner/notices',
-      qna: '/partner/help',
-      mypage: '/partner/profile'
+      home: '/partners',
+      request: '/partners/orders/new',
+      history: '/partners/orders',
+      notice: '/partners/notices',
+      qna: '/partners/help',
+      mypage: '/partners/profile'
     };
     if (paths[id]) navigate(paths[id]);
   };

@@ -19,6 +19,8 @@ import formReducer from './slices/formSlice.js';
 import questionStoreReducer from "./slices/questionStoreSlice.js";
 import deliveryShowReducer from './slices/deliveryShowSlice.js';
 import partnerStoreReducer from './slices/partnerStoreSlice.js';
+import orderPicsReducer from './slices/orderPicsSlice.js';
+import ordersDetailReducer from './slices/ordersDetailSlice.js';
 
 const store = configureStore({
   reducer: {
@@ -36,6 +38,8 @@ const store = configureStore({
     profile: profileReducer,
     ui: uiReducer, // UI 상태 관리 (사이드바 접기/펼치기 등)
     delivery: deliveryReducer, // 배송 요청 상태 관리
+    orderPics: orderPicsReducer,
+    ordersDetail: ordersDetailReducer,
   },
 });
 

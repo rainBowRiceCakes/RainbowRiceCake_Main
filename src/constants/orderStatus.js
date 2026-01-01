@@ -15,12 +15,12 @@ export const IN_PROGRESS_BADGE_TEXT = {
 };
 
 // 3️⃣ 진행중 뱃지 텍스트 helper
-export function getInProgressBadgeText(statusCode) {
-  return IN_PROGRESS_BADGE_TEXT[statusCode] ?? "";
+export function getInProgressBadgeText(status) {
+  return IN_PROGRESS_BADGE_TEXT[status] ?? "";
 }
 
 // 4️⃣ 네비게이션 mode 결정용
-export function getNavModeByStatus(statusCode) {
+export function getNavModeByStatus(status) {
   if (statusCode === ORDER_STATUS.MATCHED) return "pickup";
   if (statusCode === ORDER_STATUS.DELIVERING) return "deliver";
   return "pickup";

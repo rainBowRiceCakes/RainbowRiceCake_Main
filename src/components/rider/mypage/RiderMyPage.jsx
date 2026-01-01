@@ -54,7 +54,7 @@ export default function RiderMyPage() {
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/riders/mypage/history`)}>
+          <button className="navigation" onClick={() => nav(`/riders/mypage/orders`)}>
             <span className="icon">🕘</span>
             <span className="label">배송 히스토리</span>
             <span className="chev">›</span>

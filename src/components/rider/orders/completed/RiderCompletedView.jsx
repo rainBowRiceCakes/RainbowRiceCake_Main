@@ -1,28 +1,29 @@
 // components/rider/main/completed/RiderCompletedView.jsx
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./RiderCompletedView.css";
+import dayjs from "dayjs";
+import 'dayjs/locale/ko';
+dayjs.locale('ko');
 
 function CompletedOrderRow({ order }) {
-  const timeText = order?.completedAt?.slice(11, 16) ?? "--:--";
   const navigate = useNavigate();
-  const { id } = useParams();
 
   return (
     <button
       type="button"
       className="cor-row"
-      onClick={() => navigate(`/rider/${id}/orders/${order.orderNo}/`)}
+      onClick={() => navigate(`/riders/orders/${order.id}`)}
     >
       <div className="cor-left">
         <p className="cor-time">
-          <span>완료된 시간 </span>
-          {timeText}
+          <span>완료된 시간: </span>
+          {dayjs(order.updatedAt).format('A hh:mm')}
         </p>
         <p className="cor-title">
-          {order.pickupPlaceName} → {order.destinationHotelName}
+          {order.order_partner.krName} → {order.order_hotel.krName}
         </p>
       </div>
-      <span className="cor-chevron" aria-hidden="true">
+      <span className="cor-chevron">
         ›
       </span>
     </button>
