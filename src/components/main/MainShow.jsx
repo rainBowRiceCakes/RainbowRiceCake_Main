@@ -4,7 +4,7 @@
  * 251216 v1.0.0 sara init 
  */
 
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
@@ -14,10 +14,10 @@ import MainCS from './sections/MainCS.jsx';
 import MainPTNS from './sections/MainPTNS.jsx';
 import Carousel from '../common/Carousel.jsx';               // 7. 로고 캐러샐
 import './MainShow.css';
-import { LanguageContext } from '../../context/LanguageContext.jsx';  // en/ko 
+import { useTranslation } from "../../context/LanguageContext.js";  // en/ko 
 
 export default function MainShow() {
-  const { t } = useContext(LanguageContext);
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState(0);
 
   const sectionConfig = [

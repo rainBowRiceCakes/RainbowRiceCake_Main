@@ -12,7 +12,7 @@ import { LanguageContext } from '../../../context/LanguageContext';
 export default function MainFee() {
   const { t } = useContext(LanguageContext);
 
-  return (
+return (
     /* 1. 프레임: 섹션 전체 레이아웃 */
     <div className="mainfee-frame mainshow-section-wrapper">
       <div className="mainfee-header-group">
@@ -61,6 +61,6 @@ export default function MainFee() {
           </div>
         </div>
       </div>
-    </div>
+  </div>
   );
 };

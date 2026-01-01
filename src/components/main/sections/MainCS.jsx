@@ -10,8 +10,8 @@ import { useState, useContext, useMemo, useEffect, useRef } from "react";
 import "./MainCS.css";
 import { LanguageContext } from "../../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
-import { questionStoreThunk } from '../../../store/thunks/questionStoreThunk.js';
-import { questionImgStoreThunk } from '../../../store/thunks/questionImgStoreThunk.js';
+import { questionStoreThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
+import { questionImageUploadThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
 import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx';
 
@@ -24,7 +24,7 @@ export default function MainCS() {
 
   const [inqTitle, setInqTitle] = useState("");
   const [inqContent, setInqContent] = useState("");
-  const [inqFiles, setInqFiles] = useState([]);
+  const [inqFiles, setInqFiles] = useState(null);
   const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
 
   const FAQ_DATA = [
@@ -39,13 +39,14 @@ export default function MainCS() {
 
   // 파일 미리보기 로직
   const previews = useMemo(() => {
-    return inqFiles.map((f, index) => ({
-      id: `${f.name}-${index}`,
-      name: f.name,
-      type: f.type,
-      size: f.size,
-      url: URL.createObjectURL(f),
-    }));
+    if (!inqFiles) return [];
+    return [{
+      id: inqFiles.name,
+      name: inqFiles.name,
+      type: inqFiles.type,
+      size: inqFiles.size,
+      url: URL.createObjectURL(inqFiles),
+    }];
   }, [inqFiles]);
 
   useEffect(() => {
@@ -53,13 +54,13 @@ export default function MainCS() {
   }, [previews]);
 
   const onPickFiles = (e) => {
-    const picked = Array.from(e.target.files || []);
-    setInqFiles(picked);
+    const pickedFile = e.target.files ? e.target.files[0] : null;
+    setInqFiles(pickedFile);
     setFormStatus({ state: "idle", message: "" });
   };
 
-  const removeFile = (indexToRemove) => {
-    setInqFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
+  const removeFile = () => {
+    setInqFiles(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -75,24 +76,22 @@ export default function MainCS() {
     setFormStatus({ state: "idle", message: "" });
 
     try {
-      // 1. 파일 업로드 처리 (Multer) - 각 파일의 path를 배열로 수집
-      const uploadedImagePaths = [];
+      // 1. 파일 업로드 처리 (Multer) - 단일 파일의 path를 획득
+      let uploadedImagePath = null;
 
-      if (inqFiles.length > 0) {
-        for (const file of inqFiles) {
-          // postLicenseImageUploadThunk와 동일한 로직으로 개별 파일 업로드
-          const resultUpload = await dispatch(questionImgStoreThunk(file)).unwrap();
-          if (resultUpload?.data?.path) {
-            uploadedImagePaths.push(resultUpload.data.path);
-          }
+      if (inqFiles) {
+        // postLicenseImageUploadThunk와 동일한 로직으로 개별 파일 업로드
+        const resultUpload = await dispatch(questionImageUploadThunk(inqFiles)).unwrap();
+        if (resultUpload?.data?.path) {
+          uploadedImagePath = resultUpload.data.path;
         }
       }
 
       // 2. 최종 전송할 JSON 데이터(Payload) 구성
       const payload = {
-        subject: inqTitle,
-        message: inqContent,
-        images: uploadedImagePaths, // 업로드 완료된 이미지 경로 리스트
+        title: inqTitle,
+        content: inqContent,
+        qnaImg: uploadedImagePath, // 업로드 완료된 단일 이미지 경로
       };
 
       // 3. API 전송 (JSON 요청)
@@ -103,7 +102,7 @@ export default function MainCS() {
         // 폼 초기화
         setInqTitle("");
         setInqContent("");
-        setInqFiles([]);
+        setInqFiles(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
         dispatch(clearQuestionStore());
       } else {
@@ -212,8 +211,8 @@ export default function MainCS() {
                     {t('csFileChooseBtn')}
                   </label>
                   <span className="maincs-custom-file-name">
-                    {inqFiles.length > 0
-                      ? inqFiles.map(f => f.name).join(', ')
+                    {inqFiles
+                      ? inqFiles.name
                       : t('csFileNoFileSelected')}
                   </span>
                   <input
@@ -221,16 +220,15 @@ export default function MainCS() {
                     id="custom-file-input"
                     className="maincs-field-file"
                     type="file"
-                    multiple
                     accept="image/*,.pdf"
                     onChange={onPickFiles}
                   />
                 </div>
               </div>
 
-              {previews.length > 0 && (
+              {inqFiles && previews.length > 0 && (
                 <div className="maincs-file-preview">
-                  {previews.map((p, index) => (
+                  {previews.map((p) => (
                     <div className="maincs-file-preview-item" key={p.id}>
                       {p.type.startsWith("image/") ? (
                         <img className="maincs-file-thumb" src={p.url} alt={p.name} />
@@ -244,7 +242,7 @@ export default function MainCS() {
                           {(p.size / 1024).toFixed(0)} KB
                         </div>
                       </div>
-                      <button type="button" className="maincs-preview-delete-btn" onClick={() => removeFile(index)}>
+                      <button type="button" className="maincs-preview-delete-btn" onClick={removeFile}>
                         <TrashBinBoldShort size={22} />
                       </button>
                     </div>
@@ -276,6 +274,6 @@ export default function MainCS() {
           </div>
         </div>
       </div>
-    </div>
+  </div> 
   );
 }

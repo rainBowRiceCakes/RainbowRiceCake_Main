@@ -188,15 +188,13 @@ export default function MainPTNS() {
     : null;
 
   return (
-    <>
-      <div className="mainptns-frame" id="partners">
-        <div className="mainptns-container">
-          
-          {/* 상단 헤더 */}
-          <div className="mainptns-header-group">
-            <h2 className="mainptns-title-text">{t('ptnsTitle')}</h2>
-            <p className="mainptns-desc-text">{t('ptnsDesc')}</p>
-          </div>
+   <> 
+    <div className="mainptns-frame mainshow-section-frame" id="partners">
+      <div className="mainshow-section-wrapper">
+        <div className="mainptns-header-group">
+          <h2 className="mainptns-title-text">{t('ptnsTitle')}</h2>
+          <p className="mainptns-desc-text">{t('ptnsDesc')}</p>
+        </div>
 
           {/* 메인 폼 그리드 (좌: 라이더 / 우: 파트너) */}
           <div className="mainptns-grid-layout">

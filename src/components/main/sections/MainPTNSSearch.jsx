@@ -199,7 +199,6 @@ export default function MainPTNSSearch() {
         </div>
       </div>
 
-      {/* 7. 모달: 지도 및 실시간 검색 인터페이스 */}
       {isModalOpen && (
         <div className="ptnssearch-modal-overlay">
           <div className="ptnssearch-modal-content">
