@@ -12,17 +12,17 @@
   align-items: center;
   /* 헤더/푸터 높이를 제외한 영역에서 중앙 배치를 위해 최소 높이 설정 (필요에 따라 조절) */
   min-height: calc(100vh - 200px); 
-  padding: 40px 20px;
+  padding: 40px var(--com-container-padding);
   background-color: transparent; /* 배경색이 필요하면 설정 */
 }
 
 /* 흰색 로그인 박스 디자인 */
 .login-box {
-  background-color: #ffffff;
+  background-color: var(--com-color-white);
   width: 100%;
   max-width: 460px; /* 이미지와 비슷한 넓이 설정 */
   padding: 50px 40px;
-  border-radius: 16px; /* 둥근 모서리 */
+  border-radius: var(--com-radius-lg); /* 둥근 모서리 */
   /* 이미지의 옅은 테두리와 그림자 효과 */
   border: 1px solid #f0f0f0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -45,9 +45,9 @@
   background-color: var(--com-kakao-bg);
   color: #191919; /* 카카오 공식 텍스트 색상 (검정 계열) */
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
+  border-radius: var(--com-gap-xs);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
   display: flex;
   justify-content: center; /* 텍스트 중앙 정렬 */
@@ -62,7 +62,7 @@
 /* 아이콘 왼쪽 고정 배치를 위한 래퍼 */
 .kakao-icon-wrapper {
   position: absolute;
-  left: 20px; /* 왼쪽에서의 위치 */
+  left: var(--com-container-padding); /* 왼쪽에서의 위치 */
   top: 50%;
   transform: translateY(-50%); /* 수직 중앙 정렬 */
   display: flex;

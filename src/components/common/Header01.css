@@ -4,39 +4,38 @@
  * 251216 v1.0.0 sara init 
  */
 
-/* Header01.css */
+/**
+ * @file src/components/common/Header01.css
+ */
 
-/* Header Main Frame - Sticky & Blur Effect */
 .header01-frame {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
-  height: 80px; /* Desktop header height */
+  height: 80px;
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent white background */
-  backdrop-filter: blur(20px) saturate(1.8); /* Strong blur for frosted glass effect */
-  border-bottom: 1px solid var(--com-color-overlay); /* Subtle bottom border using global var */
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid var(--com-color-overlay);
   transition: all 0.3s ease-in-out;
 }
 
-/* Inner Container for Max Width & Padding */
 .header01-inner-group {
-  max-width: var(--com-web-max-width); /* Global max-width setting */
+  max-width: var(--com-web-max-width);
   width: 100%;
-  margin: 0 auto; /* Center alignment */
-  padding: 0 var(--com-container-padding); /* Global padding setting */
+  margin: 0 auto;
+  padding: 0 var(--com-container-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Left Side - Logo Section */
 .header01-left-box {
   display: flex;
   align-items: center;
-  margin-left: -var(--com-container-padding); /* Align flush with the inner-group's edge */
+  margin-left: -var(--com-container-padding);
 }
 
 .header01-logo-button {
@@ -49,14 +48,9 @@
   height: 100%;
 }
 
-.header01-logo-button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
 .header01-brand-img-container {
-  width: 50px; /* Reduced width */
-  height: 40px; /* Reduced height */
+  width: 50px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -65,138 +59,121 @@
 .header01-brand-img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Ensures logo is fully visible without distortion */
-  pointer-events: none;
+  object-fit: contain;
 }
 
-/* Right Side - Actions Group (Lang, Auth, Menu) */
 .header01-actions-group {
   display: flex;
   align-items: center;
-  gap: var(--com-radius-md); /* Space between action elements */
-}
-
-
-
-/* Desktop Links (Login / MyPage) */
-.header01-desktop-links {
-  display: flex;
-  align-items: center;
   gap: var(--com-gap-sm);
+  padding: 20px;
 }
 
+/* 데스크탑 버튼 스타일 */
 .header01-action-button-link {
-  padding: var(--com-gap-xs) var(--com-size-subtitle);
-  border-radius: var(--com-gap-md);
+  padding: var(--com-gap-xs) var(--com-gap-md);
+  border-radius: var(--com-radius-pill);
   font-size: var(--com-size-sidebar);
   font-weight: var(--com-font-weight-heavy);
-  text-decoration: none;
   color: var(--com-font-primary-color);
-  border: 1px solid var(--com-border-default);
+  border: 1px solid transparent;
+  background: var(--com-color-white);
+  cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
 }
 
 .header01-action-button-link:hover {
-  background-color: var(--com-color-bg-light);
+  background: var(--com-gradient-rainbow);
   transform: translateY(-1px);
 }
 
 .header01-action-button-link--solid {
   background-color: var(--com-color-black);
   color: var(--com-color-white);
-  border: 1px solid var(--com-color-black);
 }
 
 .header01-action-button-link--solid:hover {
-  background-color: var(--com-color-black); /* Changed from #333 to global var */
-  transform: translateY(-1px);
-  box-shadow: var(--com-shadow-xs);
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
 }
 
-/* Mobile Icons Group (Login Icon / Hamburger) */
+/* 모바일 아이콘 그룹 */
 .header01-mobile-icons-group {
-  display: none; /* Hidden on desktop */
+  display: none;
   align-items: center;
-  gap: var(--com-gap-sm);
+  gap: var(--com-gap-xs);
 }
 
-.header01-icon-login-btn {
+/* 모바일 아이콘 버튼 공통 스타일 */
+.header01-icon-login-btn,
+.header01-icon-mypage-btn,
+.header01-icon-logout-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: var(--com-radius-pill);
   background-color: var(--com-color-bg-light);
-  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.header01-icon-login-btn:hover {
+.header01-icon-login-btn:hover,
+.header01-icon-mypage-btn:hover,
+.header01-icon-logout-btn:hover {
   background-color: var(--com-border-default);
 }
 
 .header01-login-img {
-  width: var(--com-gap-md);
-  height: var(--com-gap-md);
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
-/* Hamburger Button (Mobile Menu Trigger) */
+/* MdExitToApp 아이콘 스타일 */
+.header01-logout-icon {
+  font-size: 22px;
+  color: var(--com-color-black);
+}
+
+/* 햄버거 버튼 */
 .header01-hamburger-button {
-  display: none; /* Hidden on desktop */
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 4px;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--com-border-default);
+  /* border: 1px solid var(--com-border-default); */
   border-radius: var(--com-gap-xs);
   background: transparent;
   cursor: pointer;
-  padding: var(--com-gap-xs);
-  transition: all 0.3s ease;
-}
-
-.header01-hamburger-button:hover {
-  background-color: var(--com-color-bg-light);
 }
 
 .header01-bar {
-  width: var(--com-gap-md);
+  width: 20px;
   height: 2px;
   background-color: var(--com-color-black);
-  border-radius: 2px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
 
-/* Hamburger Active State (X shape animation) */
-.header01-hamburger-button.is-active .header01-bar:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
+.header01-hamburger-button.is-active .header01-bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.header01-hamburger-button.is-active .header01-bar:nth-child(2) { opacity: 0; }
+.header01-hamburger-button.is-active .header01-bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-.header01-hamburger-button.is-active .header01-bar:nth-child(2) {
-  opacity: 0;
-  transform: translateX(-10px);
-}
-
-.header01-hamburger-button.is-active .header01-bar:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
-}
-
-/* Mobile Dropdown Menu Frame (Fixed Right Side Drawer) */
+/* 모바일 드롭다운 */
 .header01-mobile-dropdown-frame {
   position: fixed;
   top: 0;
   right: 0;
-  width: 85%; /* Covers 85% of the screen from the right */
-  height: 100vh; /* Full height */
+  width: 85%;
+  height: 100vh;
   background-color: var(--com-color-white);
-  z-index: 10001; /* Highest priority */
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-  overflow-y: auto; /* Scrollable content */
-  border-left: 1px solid var(--com-color-overlay);
+  z-index: 10001;
+  box-shadow: var(--com-shadow-md);
 }
 
 .header01-mobile-inner-group {
@@ -206,99 +183,8 @@
   gap: var(--com-gap-xl);
 }
 
-/* Mobile Menu Header (Title & Close Button) */
-.header01-mobile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: var(--com-gap-md);
-  border-bottom: 1px solid var(--com-color-overlay);
-}
-
-.header01-mobile-title-text {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--com-font-primary-color);
-  border-left: 4px solid var(--com-color-black);
-  padding-left: 15px;
-}
-
-.header01-close-btn {
-  background: none;
-  border: none;
-  font-size: var(--com-size-title);
-  cursor: pointer;
-  color: var(--com-font-muted);
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-}
-
-.header01-close-btn:hover {
-  color: var(--com-color-black);
-}
-
-.header01-desktop-links .header01-action-button-link {
-  border-color: transparent;
-  background: var(--com-color-white);
-}
-
-/* ✅ 로그인 버튼(기본): 무지개 라인 느낌(hover 시 채움) */
-.header01-desktop-links .header01-action-button-link:hover {
-  background: var(--com-gradient-rainbow);
-  border-color: transparent;
-  box-shadow: var(--com-shadow-md);
-  transform: translateY(-1px);
-}
-
-/* ✅ 마이페이지 버튼: 기본은 블랙, 호버 시 무지개 */
-.header01-desktop-links .header01-action-button-link--solid {
-  background: var(--com-color-black);
-  border-color: transparent;
-  color: var(--com-color-white);
-  box-shadow: var(--com-shadow-md);
-}
-
-/* ✅ 호버 시 nav-item과 동일한 무지개 톤 + 블랙 텍스트 */
-.header01-desktop-links .header01-action-button-link--solid:hover {
-  background: var(--com-gradient-rainbow);
-  border-color: transparent;
-  color: var(--com-color-black);
-  box-shadow: var(--com-shadow-md);
-  transform: translateY(-1px);
-}
-
-/* Mobile Responsive - Tablet & Mobile (≤ 768px) */
 @media screen and (max-width: 768px) {
-  .header01-frame {
-    height: var(--com-section-sub-padding); /* Reduced header height for mobile */
-    padding: 6px 0; 
-  }
-
-  .header01-inner-group {
-    padding: 0 var(--com-size-subtitle, 16px); /* Use mobile padding if defined, else 16px */
-  }
-  
-  .header01-left-box {
-    margin-left: -var(--com-size-subtitle); /* Align flush with mobile padding */
-  }
-
-  .header01-brand-img-container {
-    width: 50px; /* Consistent reduced width for mobile */
-    height: 40px; /* Consistent height */
-  }
-
-  .header01-desktop-links {
-    display: none; /* Hide desktop links */
-  }
-
-  .header01-mobile-icons-group {
-    display: flex; /* Show mobile icons (Login Icon & Hamburger) */
-  }
-
-  .header01-hamburger-button {
-    display: flex; /* Show hamburger button */
-  }
+  .header01-frame { height: 60px; }
+  .header01-desktop-links { display: none; }
+  .header01-mobile-icons-group { display: flex; }
 }

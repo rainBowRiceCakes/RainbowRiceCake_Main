@@ -13,7 +13,7 @@ export const deliveryShowThunk = createAsyncThunk(
   async (dlvId, { rejectWithValue }) => {
     try {
       // 서버에서 작성한 deliverystatus 엔드포인트를 호출
-      const url = `/api/orders/deliverystatus/${dlvId}`;
+      const url = `/api/orders/${dlvId}`;
       const response = await axiosInstance.get(url);
 
      return response.data;

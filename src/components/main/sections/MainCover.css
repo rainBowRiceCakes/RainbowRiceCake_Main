@@ -124,7 +124,7 @@
 
 .maincover-input-field {
   flex-grow: 1;
-  padding: 16px;
+  padding: var(--com-size-subtitle);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md) 0 0 var(--com-radius-md);
   outline: none;
@@ -134,7 +134,7 @@
 .maincover-submit-button {
   background-color: var(--com-color-black);
   color: var(--com-color-white);
-  padding: 0 30px;
+  padding: 0 var(--com-gap-xl);
   cursor: pointer;
   border-radius: 0 var(--com-radius-md) var(--com-radius-md) 0;
   border: none;
@@ -177,12 +177,12 @@
   .maincover-input-group {
     flex-direction: column;
     max-width: 100%;
-    gap: 8px;
+    gap: var(--com-gap-xs);
   }
 
   .maincover-input-field,
   .maincover-submit-button {
     border-radius: var(--com-radius-md);
-    padding: 14px;
+    padding: var(--com-size-sidebar);
   }
 }

@@ -10,14 +10,14 @@ import { useTranslation } from '../../../context/LanguageContext'; //
 import { FaCheck } from "react-icons/fa6";
 
 const plansStructure = [
-  { id: 'basic', nameKey: "planNameBasic", priceKey: "planPriceBasic", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"] },
-  { id: 'standard', nameKey: "planNameStandard", priceKey: "planPriceStandard", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"], recommended: true },
-  { id: 'premium', nameKey: "planNamePremium", priceKey: "planPricePremium", featureKeys: ["planFeature1ItemDelivery", "planFeatureSameDay", "planFeatureQRRegistration"] },
+  { id: 'basic', nameKey: "planNameBasic", priceKey: "planPriceBasic", featureKeys: ["planFeature1ItemDelivery"] },
+  { id: 'standard', nameKey: "planNameStandard", priceKey: "planPriceStandard", featureKeys: ["planFeature2ItemDelivery"], recommended: true },
+  { id: 'premium', nameKey: "planNamePremium", priceKey: "planPricePremium", featureKeys: ["planFeature3ItemDelivery"] },
 ];
 
 export default function MainInfo() {
   const { t } = useTranslation();
-  const [selectedPlan, setSelectedPlan] = useState('Standard');
+  const [selectedPlan, setSelectedPlan] = useState('standard');
   const [isMobile, setIsMobile] = useState(false);
 
   // 화면 크기 감지 (모바일 여부 확인)
@@ -34,16 +34,25 @@ export default function MainInfo() {
           <h2 className="maininfo-title-text">{t('planTitle')}</h2>
         </div>
 
+        {/* 당일 배송 보장 알림 배너 */}
+        <div className="maininfo-plans-alert">
+          <div className="maininfo-alert-inner">
+            <p className="maininfo-alert-message">
+              <strong>{t('maininfoDeliveryGuaranteed')}</strong>
+            </p>
+          </div>
+        </div>
+
         <div className="maininfo-plans-container">
           {plansStructure.map((plan) => {
-            const isActive = selectedPlan === t(plan.nameKey);
+            const isActive = selectedPlan === plan.id;
 
             return (
               <motion.div
                 key={plan.id}
                 layout // 레이아웃 변화 자동 애니메이션
                 className={`maininfo-plan-card ${isActive ? 'is-selected' : ''}`}
-                onClick={() => setSelectedPlan(t(plan.nameKey))}
+                onClick={() => setSelectedPlan(plan.id)}
               >
                 {plan.recommended && (
                   <div className="maininfo-recommended-badge">{t('planRecommended')}</div>
@@ -52,11 +61,11 @@ export default function MainInfo() {
                 <div className="maininfo-plan-header">
                   <h3 className="maininfo-plan-name">{t(plan.nameKey)}</h3>
                   <p className="maininfo-plan-price">
-                    <span className="price-unit">{t('currencyUnit')}</span>{t(plan.priceKey)}
+                    {t(plan.priceKey)}
+                    <span className="maininfo-price-unit">{t('currencyUnit')}</span>
                   </p>
                 </div>
 
-                {/* ✅ 모바일일 때는 선택된 카드만 리스트 노출, 웹은 항상 노출 */}
                 <AnimatePresence>
                   {(!isMobile || isActive) && (
                     <motion.ul 
@@ -75,10 +84,6 @@ export default function MainInfo() {
                     </motion.ul>
                   )}
                 </AnimatePresence>
-
-                <button className={`maininfo-plan-button ${isActive ? 'active' : ''}`}>
-                  {isActive ? t('planSelected') : t('planSelect')}
-                </button>
               </motion.div>
             );
           })}

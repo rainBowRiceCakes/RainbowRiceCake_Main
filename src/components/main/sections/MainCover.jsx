@@ -31,6 +31,11 @@ export default function MainCover() {
 
   const isModalOpen = !!currentOrder;
 
+  // 이 컴포넌트가 마운트될 때, 이전 배송 조회 결과(show)를 초기화
+  useEffect(() => {
+    dispatch(clearDeliveryShow());
+  }, [dispatch]);
+
   const handleOrderNumberChange = (e) => {
     const value = e.target.value;
     const numericValue = value.replace(/[^0-9]/g, ''); // 숫자만 입력가능

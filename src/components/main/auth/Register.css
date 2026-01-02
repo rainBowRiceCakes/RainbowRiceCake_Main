@@ -20,10 +20,10 @@
   max-width: 400px;
   padding: 40px var(--com-gap-xl);
   border: 1px solid var(--com-border-default);
-  border-radius: var(--com-size-subtitle);
+  border-radius: var(--com-radius-md);
   text-align: center;
   background-color: var(--com-color-white);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--com-shadow-xs);
 }
 
 /* 3. 타이틀: Login 타이포 스케일 통일 */

@@ -6,7 +6,8 @@
 
 import { useMemo, useRef, useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { MdExitToApp } from "react-icons/md"; // 로그아웃 아이콘 추가 TODO: 이름변경 알기쉽게
 import "./header01.css";
 import Hamburger01 from "./Hamburger01";
 import LanguageToggle from "./LanguageToggle";
@@ -40,6 +41,16 @@ export default function Header01() {
   const dropdownRef = useRef(null);
   const hamburgerRef = useRef(null);
 
+  const hamburgerNavItems = useMemo(() => {
+    const items = [
+      ...NAV_ITEMS_CONFIG,
+    ];
+    if (isLoggedIn) {
+      items.push({ id: "mypage", key: "headerMyPage", icon: "info.svg", path: "/mypage" });
+    }
+    return items;
+  }, [isLoggedIn]);
+
   const isMainShow = useMemo(() => location.pathname === "/" || location.pathname === "/home", [location.pathname]);
 
   // [핵심 수정] 강력한 외부 클릭 감지 로직
@@ -68,8 +79,10 @@ export default function Header01() {
   };
 
   // 섹션 이동 및 메뉴 닫기 함수
-  const goSection = (sectionId) => {
-    if (!isMainShow) {
+  const goSection = (sectionId, path) => {
+    if (path) {
+      navigate(path);
+    } else if (!isMainShow) {
       navigate(`/#${sectionId}`);
     } else {
       const el = document.getElementById(sectionId);
@@ -84,26 +97,16 @@ export default function Header01() {
     setIsOpen(false);
   };
 
-  function redirectSocialLogin() {
-    navigate('/login');
-  }
-
-  function redirectMypage() {
-    navigate('/mypage');
-  }
-
   async function logout() {
-    try {
-      navigate('/');
-      const result = await dispatch(logoutThunk());
-      if(result.type.endsWith('/rejected')) {
-        throw result.payload;
+      try {
+         await dispatch(logoutThunk());
+      } catch (error) {
+        console.log('Logout failed:', error);
+      } finally {
+        dispatch(clearAuth());
+        navigate('/');
+        setIsOpen(false);
       }
-      dispatch(clearAuth());
-    }
-    catch(error) {
-      console.log(error);
-    }
   }
 
   return (
@@ -122,42 +125,40 @@ export default function Header01() {
             {
               !onlyTitleFlg && (
                 <div className="header01-desktop-links">
-                {/* 가독성 좋은 삼항 연산자로 변경 */}
-                {isLoggedIn ? (
+                 {isLoggedIn ? (
                   <>
                     <button type="button" className="header01-action-button-link" onClick={logout}>
                       {t('headerLogout')}
                     </button>
-                    <button type="button" className="header01-action-button-link header01-action-button-link--solid" onClick={redirectMypage}>
+                    <button type="button" className="header01-action-button-link header01-action-button-link--solid" onClick={() => navigate('/mypage')}>
                       {t('headerMyPage')}
                     </button>
                   </>
-                  ) : (
-                    <>
-                      <button type="button" className="header01-action-button-link" onClick={redirectSocialLogin}>
-                        {t('headerLogin')}
-                      </button>
-                    </>
-                  )} 
-                </div>
-              )
-            }
+                ) : (
+                  <button type="button" className="header01-action-button-link" onClick={() => navigate('/login')}>
+                    {t('headerLogin')}
+                  </button>
+                )} 
+              </div>
+            )}
 
-          <div className="header01-mobile-icons-group">
-            {/* 모바일에서도 로그인 여부에 따라 아이콘/동작 분기 처리 */}
+           <div className="header01-mobile-icons-group">
             {isLoggedIn ? (
-               // 로그인 상태: 클릭 시 로그아웃 실행
-               <button type="button" className="header01-icon-login-btn" onClick={logout}>
-                  {/* 로그아웃 아이콘이 따로 없다면 기존 아이콘 사용하거나 변경 필요 */}
-                  <img src={LoginIcon} alt="logout" className="header01-login-img" />
-               </button>
+              <>
+                {/* 로그인 상태: 마이페이지 버튼 (LoginIcon 사용) */}
+                <Link to="/mypage" className="header01-icon-mypage-btn" onClick={() => setIsOpen(false)}>
+                  <img src={LoginIcon} alt="mypage" className="header01-login-img" />
+                </Link>
+                {/* 로그인 상태: 로그아웃 버튼 (MdExitToApp 아이콘 사용) */}
+                <button type="button" className="header01-icon-logout-btn" onClick={logout}>
+                  <MdExitToApp className="header01-logout-icon" />
+                </button>
+              </>
             ) : (
-               // 비로그인 상태: 로그인 페이지로 이동
                <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>
                  <img src={LoginIcon} alt="login" className="header01-login-img" />
                </Link>
             )}
-            {/* [중요] 햄버거 버튼에 ref 연결 */}
             <button 
               ref={hamburgerRef}
               type="button" 
@@ -175,21 +176,19 @@ export default function Header01() {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            ref={dropdownRef} // [중요] 드롭다운 영역에 ref 연결
+            ref={dropdownRef}
             className="header01-mobile-dropdown-frame"
-            initial={{ x: "100%" }} // 오른쪽에서 등장
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }} // 오른쪽으로 퇴장
+            exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
           >
             <div className="header01-mobile-inner-group">
               <div className="header01-mobile-header">
                 <div className="header01-mobile-title-text">{t('headerMenuTitle')}</div>
-                {/* 닫기 버튼 */}
                 <button className="header01-close-btn" onClick={() => setIsOpen(false)}>✕</button>
               </div>
-              {/* Hamburger01에 설정값과 이동 함수 전달 */}
-              <Hamburger01 navItems={NAV_ITEMS_CONFIG} goSection={goSection} />
+              <Hamburger01 navItems={hamburgerNavItems} goSection={goSection} />
             </div>
           </motion.div>
         )}

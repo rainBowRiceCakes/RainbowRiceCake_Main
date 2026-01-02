@@ -48,6 +48,10 @@ export const LANG_CNG = {
     ko: "DGD의 다양한 배송 플랜",
     en: "DGD's Various Delivery Plans",
   },
+  maininfoDeliveryGuaranteed: {
+    ko: "당일 3시간 이내 무조건 배송!",
+    en: "3H Express Delivery!",
+  },
   planSelect: {
     ko: "선택하기",
     en: "Select Plan",
@@ -68,14 +72,14 @@ export const LANG_CNG = {
 
   // Plan Prices
   planPriceBasic: { ko: "5,000", en: "5,000" },
-  planPriceStandard: { ko: "10,000", en: "10,000" },
-  planPricePremium: { ko: "15,000", en: "15,000" },
+  planPriceStandard: { ko: "8,000", en: "8,000" },
+  planPricePremium: { ko: "10,000", en: "10,000" },
 
   // Plan Features
   planFeature1ItemDelivery: { ko: "물품 1개 배송", en: "1 Item Delivery" },
-  planFeatureSameDay: { ko: "당일 배송", en: "Same-day" },
-  planFeatureQRRegistration: { ko: "QR 등록", en: "QR Registration" },
-  
+  planFeature2ItemDelivery: { ko: "물품 2개 배송", en: "2 Item Delivery" },
+  planFeature3ItemDelivery: { ko: "물품 3개 배송", en: "3 Item Delivery" },
+
   // Currency Unit
   currencyUnit: { ko: "원", en: "KRW" },
 
@@ -95,7 +99,7 @@ export const LANG_CNG = {
   },
   ptnsSearchDesc: {
     ko: "가까운 제휴 매장 및 보관소를 검색하고 위치를 확인해보세요.",
-    en: "Search for nearby affiliated stores and storage locations to check their positions.",
+    en: "Search for nearby affiliated stores to check their positions.",
   },
   ptnsSearchPlaceholder: {
     ko: "버튼을 눌러 내 주변 제휴점을 찾아보세요.",
@@ -140,8 +144,8 @@ export const LANG_CNG = {
     en: "Pricing Information",
   },
   feeDesc: {
-    ko: "합리적인 가격과 신선함을 위한 배송/픽업 지점을 확인하세요.",
-    en: "Check our delivery/pickup locations for reasonable prices and freshness.",
+    ko: "DGD의 서비스 가격과 배송에 대한 상세 가격을 확인하세요.",
+    en: "Check detailed pricing for DGD's rates and delivery services.",
   },
   feeDaeguDeliveryTitle: {
     ko: "대구 지역 배송료 안내",
@@ -457,6 +461,14 @@ export const LANG_CNG = {
     ko: "접수하기",
     en: "Submit",
   },
+  csInquirySubmitSuccess: {
+    ko: "문의가 성공적으로 접수되었습니다.",
+    en: "Inquiry successfully submitted.",
+  },
+  csInquiryErrorMsg: {
+    ko: "문의 접수 중 오류 발생",
+    en: "Error submitting inquiry",
+  },
   csInquirySuccessMsg: {
     ko: "문의가 접수되었습니다. 확인 후 연락드리겠습니다.",
     en: "Your inquiry has been received. We will contact you after checking.",
@@ -546,8 +558,8 @@ export const LANG_CNG = {
     en: "Account Number (Required)",
   },
   ptnsAccountNumber: {
-    ko: "예) 792-XXXX-XXXX-XX",
-    en: "ex) 792-XXXX-XXXX-XX"
+    ko: "예) 792XXXXXXXXXX",
+    en: "ex) 792XXXXXXXXXX"
   },
   ptnsLicenseLabel: {
     ko: "운전 면허 등록 (필수)",
@@ -891,6 +903,22 @@ export const LANG_CNG = {
     "ko": "hong@ricecake.com",
     "en": "hong@ricecake.com"
   },
+  "my Delivery History": {
+    "ko": "내 배송 내역",
+    "en": "My Delivery History"
+  },
+  "my Question History": {
+    "ko": "내 문의 내역",
+    "en": "My Question History"
+  },
+  "noDeliveryHistory": {
+    "ko": "배송 내역이 없습니다.",
+    "en": "No delivery history available."
+  },
+  "noQuestionHistory": {
+    "ko": "문의 내역이 없습니다.",
+    "en": "No question history available."
+  },
   // --- src/components/main/auth/Social.jsx ---
   "socialLoginFailed": {
     "ko": "로그인에 실패하였습니다.",
@@ -946,6 +974,10 @@ export const LANG_CNG = {
   "ptnsSearchViewList": {
     "ko": "매장 리스트 보기",
     "en": "View Store List"
+  },
+  "No results found": {
+    "ko": "검색 결과가 없습니다",
+    "en": "No results found"
   },
   // --- src/components/main/sections/MainCS.jsx ---
   "csFileUploadError": {

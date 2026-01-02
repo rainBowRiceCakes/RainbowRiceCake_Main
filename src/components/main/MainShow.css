@@ -19,7 +19,7 @@
   max-width: var(--com-web-max-width);
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 30px 12px; 
+  padding: var(--com-gap-xl) var(--com-radius-md); 
   /* 각 카드 컴포넌트 패딩 */
 
 }
@@ -92,7 +92,7 @@
   border-radius: 50px;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(10px); /* 살짝 오른쪽에서 나타나는 효과 */
+  transform: translateX(var(--com-gap-sm)); /* 살짝 오른쪽에서 나타나는 효과 */
   transition: all 0.3s ease-in-out;
   z-index: 1;
 }

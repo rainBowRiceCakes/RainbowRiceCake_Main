@@ -32,7 +32,7 @@
 
 @keyframes ptnssearch-slide-up {
   from {
-    transform: translateY(20px);
+    transform: translateY(var(--com-gap-md));
     opacity: 0;
   }
 
@@ -81,7 +81,7 @@
 }
 
 .ptnssearch-modal-header-title {
-  font-size: 18px;
+  font-size: var(--com-radius-lg);
   font-weight: var(--com-font-weight-bold);
   color: var(--com-color-black);
 }
@@ -89,7 +89,7 @@
 .ptnssearch-modal-close-button {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: var(--com-size-icon);
   cursor: pointer;
   color: var(--com-font-muted);
 }
@@ -115,7 +115,7 @@
 }
 
 .ptnssearch-sidebar-search-area {
-  padding: 16px;
+  padding: var(--com-size-subtitle);
   position: relative;
   background: #fff;
   border-bottom: 1px solid var(--com-border-default);
@@ -125,9 +125,9 @@
   display: flex;
   align-items: center;
   height: 44px;
-  padding: 0 12px;
+  padding: 0 var(--com-radius-md);
   border: 1px solid var(--com-border-default);
-  border-radius: 8px;
+  border-radius: var(--com-gap-xs);
   background-color: var(--com-color-bg-light);
   transition: all 0.2s;
 }
@@ -139,16 +139,16 @@
 }
 
 .ptnssearch-sidebar-search-icon {
-  font-size: 16px;
+  font-size: var(--com-size-subtitle);
   color: var(--com-font-muted);
-  margin-right: 10px;
+  margin-right: var(--com-gap-sm);
 }
 
 .ptnssearch-sidebar-search-input {
   flex: 1;
   border: none;
   background: transparent;
-  font-size: 14px;
+  font-size: var(--com-size-sidebar);
   font-weight: 500;
   outline: none;
   color: var(--com-color-black);
@@ -167,11 +167,11 @@
 .ptnssearch-dropdown-list {
   position: absolute;
   top: 65px;
-  left: 16px;
-  right: 16px;
+  left: var(--com-size-subtitle);
+  right: var(--com-size-subtitle);
   background: #fff;
   border: 1px solid var(--com-border-default);
-  border-radius: 8px;
+  border-radius: var(--com-gap-xs);
   max-height: 250px;
   overflow-y: auto;
   z-index: 1000;
@@ -179,7 +179,7 @@
 }
 
 .ptnssearch-dropdown-list li {
-  padding: 12px;
+  padding: var(--com-radius-md);
   border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
 }
@@ -189,14 +189,14 @@
 }
 
 .drop-place-name {
-  font-size: 14px;
+  font-size: var(--com-size-sidebar);
   font-weight: bold;
   color: #111;
   margin-bottom: 2px;
 }
 
 .drop-place-addr {
-  font-size: 12px;
+  font-size: var(--com-size-content);
   color: #666;
 }
 
@@ -207,7 +207,7 @@
 }
 
 .ptnssearch-sidebar-store-item {
-  padding: 16px;
+  padding: var(--com-size-subtitle);
   border-bottom: 1px solid var(--com-border-default);
   cursor: pointer;
   transition: background 0.2s;
@@ -232,7 +232,7 @@
 }
 
 .ptnssearch-store-item-address {
-  font-size: 12px;
+  font-size: var(--com-size-content);
   color: var(--com-font-muted);
 }
 
@@ -240,7 +240,7 @@
   padding: 40px;
   text-align: center;
   color: var(--com-font-muted);
-  font-size: 14px;
+  font-size: var(--com-size-sidebar);
 }
 
 /* --- 지도 --- */
@@ -253,7 +253,7 @@
 .ptnssearch-current-location-btn {
   position: absolute;
   bottom: 60px;
-  right: 20px;
+  right: var(--com-container-padding);
   z-index: 100;
   width: 44px;
   height: 44px;
@@ -319,6 +319,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: var(--com-gap-xl);
 }
 
 .ptnssearch-search-placeholder-text {
@@ -327,12 +328,28 @@
   margin: var(--com-gap-md);
 }
 
+/* 검색창 input placeholder 스타일 */
+.ptnssearch-input::placeholder {
+  color: var(--com-font-muted); /* #6b7280 */
+  font-size: var(--com-size-content); /* 12px */
+  opacity: 0.7;
+}
+
+/* 결과 없음 메시지 스타일 */
+.ptnssearch-sidebar-no-result {
+  color: var(--com-font-muted); /* */
+  font-size: var(--com-size-content); /* */
+  font-weight: var(--com-font-weight-heavy); /* 700 */
+  text-align: center;
+  padding: var(--com-gap-xl); /* 30px */
+}
+
 .ptnssearch-search-find-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--com-gap-sm);
-  padding: 14px 28px;
+  padding: var(--com-size-sidebar) var(--com-size-title);
   border-radius: var(--com-radius-pill);
   border: none;
   background-color: var(--com-color-black);
@@ -346,9 +363,9 @@
 /* --- 커스텀 오버레이 --- */
 .ptnssearch-custom-overlay {
   position: relative;
-  padding: 8px 12px;
+  padding: var(--com-gap-xs) var(--com-radius-md);
   background-color: #1e293b;
-  color: #fff;
+  color: var(--com-color-white);
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   font-size: 13px;
@@ -392,7 +409,7 @@
     z-index: 1000;
     border-right: none;
     border-top: 1px solid var(--com-border-default);
-    border-radius: 20px 20px 0 0;
+    border-radius: var(--com-gap-md) var(--com-gap-md) 0 0;
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
     transform: translateY(calc(100% - 50px));
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -406,17 +423,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--com-gap-xs);
     width: 100%;
     height: 50px;
     background: #fff;
     border: none;
     border-bottom: 1px solid var(--com-border-default);
-    border-radius: 20px 20px 0 0;
+    border-radius: var(--com-gap-md) var(--com-gap-md) 0 0;
     cursor: pointer;
     font-weight: bold;
     color: var(--com-color-black);
-    font-size: 14px;
+    font-size: var(--com-size-sidebar);
   }
 
   .ptnssearch-map-container {
@@ -427,11 +444,11 @@
   }
 
   .ptnssearch-sidebar-search-area {
-    padding: 12px;
+    padding: var(--com-radius-md);
   }
 
   .ptnssearch-sidebar-store-list {
-    padding-bottom: 20px;
+    padding-bottom: var(--com-gap-md);
   }
 }
 
@@ -440,16 +457,16 @@
   background-color: black;
   color: white;
   /* Assuming text or icon inside the marker */
-  width: 30px;
+  width: var(--com-gap-xl);
   /* Example size, adjust as needed */
-  height: 30px;
+  height: var(--com-gap-xl);
   /* Example size, adjust as needed */
   border-radius: 50%;
   /* Circular marker */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--com-size-content);
   /* Example font size */
   font-weight: bold;
 }
@@ -468,7 +485,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: var(--com-size-sidebar);
   /* Example font size */
   font-weight: bold;
   border: 2px solid white;

@@ -54,8 +54,6 @@ export default function MainPTNSSearch() {
     libraries: ["services"],
   });
 
-
-
   const normalizeStore = useCallback(
     async (s) => {
       // x,y가 있으면 좌표로 파싱
@@ -258,7 +256,7 @@ export default function MainPTNSSearch() {
                       </div>
                     ))
                   ) : (
-                    <div className="ptnssearch-sidebar-no-result">{t("ptnsSearchNoStores")}</div>
+                    <div className="ptnssearch-sidebar-no-result">{t("No results found")}</div>
                   )}
                 </div>
               </div>

@@ -279,11 +279,14 @@
   align-items: center;
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
-  padding: 10px;
+  padding: var(--com-gap-sm);
 }
 
 .maincs-preview-delete-btn {
-  background: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
   border: none;
   color: var(--com-font-muted);
   cursor: pointer;
@@ -293,11 +296,20 @@
   justify-content: center;
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s;
+  z-index: 5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .maincs-preview-delete-btn:hover {
   background-color: var(--com-color-red);
-  color: white;
+  color: var(--com-color-white);
+}
+
+.is-required {
+  color: #ee0000;
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 900;
 }
 
 
@@ -305,25 +317,25 @@
   width: 56px;
   height: 56px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--com-gap-sm);
 }
 
 .maincs-file-nonimg {
   width: 56px;
   height: 56px;
-  border-radius: 10px;
+  border-radius: var(--com-gap-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px dashed var(--com-border-default);
   color: var(--com-font-muted);
   font-weight: 800;
-  font-size: 12px;
+  font-size: var(--com-size-content);
 }
 
 .maincs-file-name {
   font-weight: var(--com-font-weight-bold);
-  font-size: 12px;
+  font-size: var(--com-size-content);
   color: var(--com-color-black);
   overflow: hidden;
   text-overflow: ellipsis;

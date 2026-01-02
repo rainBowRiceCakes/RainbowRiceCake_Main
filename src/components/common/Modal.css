@@ -13,9 +13,9 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--com-color-white);
   padding: 24px;
-  border-radius: 12px;
+  border-radius: var(--com-radius-md);
   width: 90%;
   max-width: 500px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -40,7 +40,7 @@
 .modal-close-btn {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: var(--com-size-title);
   cursor: pointer;
   color: #8c8c8c;
   line-height: 1;
@@ -60,7 +60,7 @@
 
 @keyframes slide-up {
   from {
-    transform: translateY(30px);
+    transform: translateY(var(--com-gap-xl));
     opacity: 0;
   }
   to {

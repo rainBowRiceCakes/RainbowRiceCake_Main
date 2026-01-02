@@ -59,7 +59,7 @@ export const logoutThunk = createAsyncThunk(
   'auth/logoutThunk',
   async (_, { rejectWithValue }) => {
     try {
-      const url = '/api/auth/logout';
+      const url = '/api/auth/user/logout';
       const response = await axiosInstance.post(url);
       
       return response.data;

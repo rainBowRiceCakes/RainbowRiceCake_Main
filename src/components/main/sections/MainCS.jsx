@@ -4,6 +4,7 @@
  * 251216 v1.0.0 sara init
  * 251224 v1.0.1 update (챗봇 제거 → 문의 접수 폼(title,context,img))
  * 251225 v1.0.2 update (문의 접수 폼(email 칸 off/on 권한에 따른 작성 여부 + FAQ)
+ * 260102 v1.0.3 update (파일 첨부 미리보기 + 에러/성공 메시지 UI 개선)
  */
 
 import { useState, useContext, useMemo, useEffect, useRef } from "react";
@@ -96,7 +97,6 @@ export default function MainCS() {
 
       // 3. API 전송 (JSON 요청)
       const result = await dispatch(questionStoreThunk(payload));
-
       if (questionStoreThunk.fulfilled.match(result)) {
         setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
         // 폼 초기화

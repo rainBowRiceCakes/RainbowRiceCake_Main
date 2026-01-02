@@ -26,7 +26,6 @@ const LanguageToggle = () => {
       padding: '3px',
       userSelect: 'none',
       overflow: 'hidden',
-      border: '1px solid transparent',
       // 핸들 위치를 justify-content로 간단히 제어
       justifyContent: isKo ? 'flex-start' : 'flex-end',
     },

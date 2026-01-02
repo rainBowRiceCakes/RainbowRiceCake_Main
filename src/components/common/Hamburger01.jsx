@@ -19,10 +19,10 @@ export default function Hamburger01({ navItems, goSection }) {
         // 3. 각 메뉴 항목 링크입니다. 클릭 시 기본 동작(페이지 이동)을 막고 goSection 함수를 호출합니다.
         <a 
           key={item.id} 
-          href={`#${item.id}`} 
+          href={item.path || `#${item.id}`} 
           onClick={(e) => {
             e.preventDefault();
-            goSection(item.id);
+            goSection(item.id, item.path);
           }} 
           className="hamburger01-nav-item"
         >
