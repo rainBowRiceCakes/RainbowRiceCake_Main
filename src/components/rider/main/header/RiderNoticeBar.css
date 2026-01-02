@@ -3,7 +3,8 @@
 .rider-notice-bar-container {
   cursor: pointer;
   margin: 10px 16px 0;
-  padding: 8px 0; /* Add some padding */
+  padding: 8px 0;
+  /* Add some padding */
 }
 
 .rider-notice-bar {
@@ -34,7 +35,7 @@
 .rider-notice-text {
   display: inline-block;
   padding-left: 100%;
-  animation: rider-marquee 20s linear infinite;
+  animation: rider-marquee 25s linear infinite;
 }
 
 /* 애니메이션 */
@@ -42,6 +43,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-100%);
   }

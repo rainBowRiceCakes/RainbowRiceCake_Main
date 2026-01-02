@@ -1,6 +1,10 @@
 import './Header.css';
+import { useSelector } from 'react-redux';
+
 
 const Header = () => {
+  const profile = useSelector((state) => state.profile.profileData);
+
   return (
     <div className="main-header">
       <div className="header-left">
@@ -11,7 +15,7 @@ const Header = () => {
           <span className="badge">6</span>
         </div>
         <div className="user-profile">
-          <span className="store-name">올리브영 동성로점</span>
+          <span className="store-name">{profile?.krName || '로딩 중...'}</span>
           <span className="arrow-down">▼</span>
         </div>
       </div>

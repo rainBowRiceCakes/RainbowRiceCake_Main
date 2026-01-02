@@ -40,7 +40,7 @@ export default function RiderWaitingView({ orders = [], onAccept }) {
     }
 
     // ✅ RiderNavFlowPage로 이동
-    navigate(`/riders/${selectedOrder.id}/nav`, {
+    navigate(`/riders/orders/${selectedOrder.id}/nav`, {
       state: {
         justAccepted: true,
         message: "배달이 시작됐어요 🚴‍♂️"
@@ -61,7 +61,7 @@ export default function RiderWaitingView({ orders = [], onAccept }) {
           <div className="rw-card">
             <div className="rw-left">
               <p className="rw-time">
-                <span>요청 시간: </span>
+                <span>접수된 시간: </span>
                 {dayjs(order.createdAt).format('A hh:mm')}
               </p>
               {/* TODO: 어떤게 제일 따끈따끈한 신 오더인지 알아보게 좀 하자 ㅠㅠ */}

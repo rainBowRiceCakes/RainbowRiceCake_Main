@@ -15,7 +15,7 @@ export default function RiderNoticeBar({ riderId, onNavigateToNotices }) {
       <div className="rider-notice-bar">
         <div className="rider-notice-marquee">
           <p className="rider-notice-text">
-            {ongoingNotices.map(notice => `✓ ${notice.title}, ${notice.content}`).join(" \u00A0\u00A0")}
+            {ongoingNotices.map(notice => `✓ ${notice.title}`).join(" \u00A0\u00A0")}
           </p>
         </div>
       </div>

@@ -1,20 +1,28 @@
 // components/rider/mypage/RiderMyPage.jsx
-import { useNavigate, useParams } from "react-router-dom";
-import { getProfileThunk } from "../../../store/thunks/profile/getProfileThunk.js";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import "./RiderMyPage.css";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getProfileThunk } from "../../../store/thunks/profile/getProfileThunk.js";
+import { logoutThunk } from "../../../store/thunks/authThunk.js";
 
 const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
 
 export default function RiderMyPage() {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { id } = useParams();
 
   const profileData = useSelector((state) => state.profile?.profileData);
   const profile = profileData?.rider_user;
+
+  const handleLogout = () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+
+      dispatch(logoutThunk());
+      nav("/", { replace: true });
+      alert("로그아웃 되었습니다.");
+    }
+  };
 
   useEffect(() => {
     if (!profile) {
@@ -76,7 +84,7 @@ export default function RiderMyPage() {
         </div>
 
         <div className="mypageSection">
-          <button className="navigation navigationLogout" onClick={() => nav("/logout")}>
+          <button className="navigation navigationLogout" onClick={handleLogout}>
             <span className="icon iconLogout">🚪</span>
             <span className="label">로그아웃</span>
             <span className="chev">›</span>

@@ -1,6 +1,7 @@
 // src/store/slices/ordersSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { orderIndexThunk } from "../thunks/orders/orderIndexThunk";
+import { uploadCompletePhoto, uploadPickupPhoto } from "../thunks/orders/orderPicsThunk.js";
 
 const initialState = {
   orders: [],
@@ -101,6 +102,26 @@ const ordersSlice = createSlice({
       .addCase(orderIndexThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "주문 리스트를 불러오는데 실패했습니다.";
+      })
+      // --- 🚀 [추가] 사진 업로드 성공 시 상태 업데이트 로직 ---
+
+      // 2. 픽업 사진 업로드 성공 시 (mat -> pick)
+      .addCase(uploadPickupPhoto.fulfilled, (state, action) => {
+        // action.payload에 서버가 보낸 orderId나 updatedOrder가 들어있어야 합니다.
+        const targetId = action.payload?.orderId || action.payload?.id;
+        const target = state.orders.find((o) => String(o.id) === String(targetId));
+        if (target) {
+          target.status = "pick"; // 이제 RiderNavFlowPage가 이 변화를 감지합니다!
+        }
+      })
+
+      // 3. 배달 완료 사진 업로드 성공 시 (pick -> com)
+      .addCase(uploadCompletePhoto.fulfilled, (state, action) => {
+        const targetId = action.payload?.orderId || action.payload?.id;
+        const target = state.orders.find((o) => String(o.id) === String(targetId));
+        if (target) {
+          target.status = "com";
+        }
       });
   },
 });

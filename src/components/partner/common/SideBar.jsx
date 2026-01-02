@@ -1,8 +1,10 @@
+import './SideBar.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './SideBar.css';
 import { setActiveMenu } from '../../../store/slices/partnerMenuSlice';
+import { logoutThunk } from '../../../store/thunks/authThunk.js';
+import { clearAuth } from '../../../store/slices/authSlice.js';
 
 const Sidebar = ({ isCollapsed }) => {
   const activeMenu = useSelector((state) => state.menu.activeMenu);
@@ -27,12 +29,13 @@ const Sidebar = ({ isCollapsed }) => {
   }, [location.pathname, activeMenu, dispatch]);
 
   const menuItems = [
-    { id: 'home', label: '홈', icon: '🏠' },
-    { id: 'request', label: '배송 요청', icon: '📦' },
-    { id: 'history', label: '배송 내역', icon: '📋' },
-    { id: 'notice', label: '공지사항', icon: '💬' },
-    { id: 'qna', label: '문의하기', icon: '🚨' },
-    { id: 'mypage', label: '마이 페이지', icon: '👤' },
+    { id: 'home', label: '홈', icon: '🏠', path: '/partners' },
+    { id: 'request', label: '배송 요청', icon: '📦', path: '/partners/orders/new' },
+    { id: 'history', label: '배송 내역', icon: '📋', path: '/partners/orders' },
+    { id: 'notice', label: '공지사항', icon: '💬', path: '/partners/notices' },
+    { id: 'qna', label: '문의하기', icon: '🚨', path: '/partners/help' },
+    { id: 'settlement', label: '정산하기', icon: '💰', path: '/partners/settlement' },
+    { id: 'mypage', label: '마이 페이지', icon: '👤', path: '/partners/profile' },
   ];
 
   const handleMenuClick = (id) => {
@@ -43,15 +46,25 @@ const Sidebar = ({ isCollapsed }) => {
       history: '/partners/orders',
       notice: '/partners/notices',
       qna: '/partners/help',
+      settlement: '/partners/settlement',
       mypage: '/partners/profile'
     };
     if (paths[id]) navigate(paths[id]);
   };
 
+  // ★ 로그아웃 핸들러
+  const handleLogout = async () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      await dispatch(logoutThunk());
+      dispatch(clearAuth()); // 1. Redux 상태 초기화
+      navigate('/');         // 2. 로그인 화면으로 이동
+    }
+  };
+
   return (
     // isCollapsed가 true면 collapsed 클래스 추가
     <nav className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
-      <div className="logo">{isCollapsed ? "D" : "DGD"}</div>
+      <div className="logo" onClick={() => navigate('/partners')}>{isCollapsed ? "D" : "DGD"}</div>
 
       <div className="menu-list">
         {menuItems.map((item) => (
@@ -69,7 +82,7 @@ const Sidebar = ({ isCollapsed }) => {
       </div>
 
       <div className="logout-section">
-        <div className="menu-item">
+        <div className="menu-item logout-btn" onClick={handleLogout}>
           <span className="icon">🔓</span>
           {!isCollapsed && <span className="label">Logout</span>}
         </div>

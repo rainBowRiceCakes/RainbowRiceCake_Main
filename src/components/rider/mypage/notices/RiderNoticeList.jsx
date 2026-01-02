@@ -7,8 +7,10 @@ import { noticeIndexThunk } from "../../../../store/thunks/notices/noticeIndexTh
 const ITEMS_PER_PAGE = 9;
 
 function NoticeItem({ notice }) {
-  const statusClass = notice.status ? 'rnl-status-ongoing' : 'rnl-status-completed';
-  const statusText = notice.status ? '진행중' : '완료';
+  const isOngoing = notice.status === true;
+
+  const statusClass = isOngoing ? 'rnl-status-ongoing' : 'rnl-status-completed';
+  const statusText = isOngoing ? '진행중' : '완료';
 
   return (
     <article className="rnl-item-card">

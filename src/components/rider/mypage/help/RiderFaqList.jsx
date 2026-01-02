@@ -46,7 +46,7 @@ export default function RiderFaqList() {
   };
 
   const handleNavigateToIssueReport = () => {
-    navigate(`/rider/mypage/help/questions`);
+    navigate(`/riders/mypage/help/questions`);
   };
 
   return (
@@ -75,7 +75,7 @@ export default function RiderFaqList() {
       </div>
       <div className="faq-report-container">
         <button className="faq-report-btn" onClick={handleNavigateToIssueReport}>
-          이슈 신고 하기
+          원하는 답변이 없나요?
         </button>
       </div>
     </div>

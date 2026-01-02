@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateProfileThunk } from "../thunks/profile/updateProfileThunk";
-import { getProfileThunk } from "../thunks/profile/getProfileThunk";
+import { updateProfileThunk } from "../thunks/profile/updateProfileThunk.js";
+import { getProfileThunk } from "../thunks/profile/getProfileThunk.js";
 
 const profileSlice = createSlice({
     name: "profile",
@@ -21,7 +21,8 @@ const profileSlice = createSlice({
             })
             .addCase(getProfileThunk.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload;
+                // action.payload가 {code, msg} 형태라면 msg만 저장
+                state.error = action.payload?.msg || "프로필을 불러오지 못했습니다.";
             })
             .addCase(updateProfileThunk.pending, (state) => {
                 state.isLoading = true;

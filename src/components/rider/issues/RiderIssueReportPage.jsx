@@ -85,16 +85,10 @@ export default function RiderIssueReportPage({ reporterTypeFixed = null }) {
     setIsSubmitting(true);
 
     try {
-      // 1. 기본 텍스트 데이터 준비
-      // 현재 Questions 테이블에 order_id/dlv_id 컬럼이 없으므로
-      // 백엔드에서 찾을 수 있게 내용(content)에 주문 번호를 포함시키는 것이 안전합니다.
       const requestData = {
         title: title.trim(),
-        content: `[주문번호: ${orderId}] ${content.trim()}`,
+        content: content.trim(),
       };
-
-      console.log("보내는 데이터:", requestData);
-
 
       // 2. 이미지 업로드 처리
       if (photos.length > 0 && photos[0].file) {

@@ -102,7 +102,7 @@ export default function RiderMainPage() {
   };
 
   const handleNavigateToNotices = () => {
-    navigate(`/rider/mypage/notices`);
+    navigate(`/riders/mypage/notices`);
   };
 
   const { allNotices } = useSelector((state) => state.notices);
