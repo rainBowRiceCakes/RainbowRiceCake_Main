@@ -6,15 +6,14 @@
  * 260110 v1.2.0 sara - delivery tracking error handling
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "../../../context/LanguageContext";
-import { deliveryShowThunk } from '../../../store/thunks/deliveryShowThunk.js';
-import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js'; // 주문 내역 초기화용 thunk
-import { clearDeliveryShow } from '../../../store/slices/deliveryShowSlice.js';
-import { setAllOrders } from '../../../store/slices/ordersSlice.js'; // 데이터 초기화용 액션
-import MainCoverModal from "../sections/MainCoverItems/MainCoverModal.jsx";
+import { ORDER_STATUS } from "../../../constants/orderStatus";
+import { orderIndexThunk } from "../../../store/thunks/orders/orderIndexThunk.js";
+// ✅ allOrders를 세팅하는 액션이 있는 슬라이스에서 가져와야 함 (경로는 프로젝트에 맞게 수정)
+import { setAllOrders } from "../../../store/slices/ordersSlice.js";
 import "./MyPage.css";
 
 export default function MyPage() {
@@ -23,33 +22,31 @@ export default function MyPage() {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("delivery"); // 'delivery' | 'question'
-  // 슬라이스에서 전체 배송 목록 가져오기
-  const { allOrders } = useSelector((state) => state.orders);
-  // 상세 조회용 상태
-  const { show: currentOrder } = useSelector((state) => state.deliveryShow);
-  const isModalOpen = !!currentOrder;
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
-  
-  // 로그인 상태일 때 배송 히스토리 로드
+
+  const { allOrders = [] } = useSelector((state) => state.orders || {});
+  const { isLoggedIn, user } = useSelector((state) => state.auth || {});
+
+  // ✅ 질문 히스토리 더미(일단 에러 방지용)
+  const dummyQuestions = useMemo(() => [], []);
+
   useEffect(() => {
-    if (isLoggedIn && user && activeTab === "delivery") {
-      // 제공해주신 텅크를 사용하여 일반 유저(COM)의 히스토리 요청
-      dispatch(orderIndexThunk({ userId: user.id, role: 'COM' }))
+    // 로그인 + 유저 존재 + 배송 탭일 때만 호출
+    if (!isLoggedIn || !user || activeTab !== "delivery") return;
+
+    dispatch(orderIndexThunk({ userId: user.id, role: "COM" }))
       .unwrap()
       .then((res) => {
-        // 서버에서 받은 목록을 슬라이스에 저장
-        dispatch(setAllOrders(res.data)); 
+        // res.data가 배열인지 확실치 않으면 안전 처리
+        const list = Array.isArray(res?.data) ? res.data : [];
+        dispatch(setAllOrders(list));
+      })
+      .catch(() => {
+        // 에러 나도 UI는 살아있게
+        dispatch(setAllOrders([]));
       });
-    }
   }, [isLoggedIn, user, activeTab, dispatch]);
-  
-  const handleOrderClick = (id) => {
-    dispatch(deliveryShowThunk(id));
-  };
 
-  
-  
-  // 1. 비로그인 상태 UI (기본 디자인 유지)
+  // 1) 비로그인
   if (!isLoggedIn) {
     return (
       <div className="mypage-frame mypage-frame--unauth">
@@ -64,71 +61,82 @@ export default function MyPage() {
     );
   }
 
-  // 2. 로그인 상태 UI (배송/질문 히스토리 탭 구조)
+  // 2) 로그인
   return (
-    <>
-      <div className="mypage-frame mypage-frame--auth">
-        {/* 프로필 카드 */}
-        <div className="mypage-profile-card">
-          <div className="mypage-profile-circle">👤</div>
-          <div>
-            <div className="mypage-user-name">{user?.name || t('myPageUserName')}</div>
-            <div className="mypage-user-email">{user?.email || t('myPageUserEmail')}</div>
-          </div>
-        </div>
-
-        {/* 탭 네비게이션 */}
-        <div className="mypage-tab-nav">
-          <button 
-            className={activeTab === "delivery" ? "is-active" : ""} 
-            onClick={() => setActiveTab("delivery")}
-          >
-            {t('my Delivery History')}
-          </button>
-          <button 
-            className={activeTab === "question" ? "is-active" : ""} 
-            onClick={() => setActiveTab("question")}
-          >
-            {t('my Question History')}
-          </button>
-        </div>
-
-        <div className="mypage-tab-content">
-          {activeTab === "delivery" ? (
-            <div className="mypage-history-list">
-              {/* 히스토리 카드 목록 (DB 컬럼 매핑: id, status, price) */}
-              {allOrders && allOrders.length > 0 ? (
-                allOrders.map((order) => (
-                  <div key={order.id} className="mypage-order-card" onClick={() => handleOrderClick(order.id)}>
-                    <div className="order-card-header">
-                      <span className="order-no">No. {order.id}</span>
-                      <span className={`status-badge is-${order.status}`}>
-                        {order.status === 'com' ? '✓ 완료' : order.status === 'match' ? '진행중' : '대기중'}
-                      </span>
-                    </div>
-                    <div className="order-card-body">
-                      <strong className="order-name">{order.name}</strong>
-                      <span className="order-price">{order.price?.toLocaleString()}원</span>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="empty-msg">{t('noDeliveryHistory')}</div>
-              )}
-            </div>
-          ) : (
-            <div className="mypage-history-list">
-              <div className="empty-msg">{t('noQuestionHistory')}</div>
-            </div>
-          )}
+    <div className="mypage-frame mypage-frame--auth">
+      {/* 프로필 카드 */}
+      <div className="mypage-profile-card">
+        <div className="mypage-profile-circle">👤</div>
+        <div>
+          <div className="mypage-user-name">{user?.name || t("myPageUserName")}</div>
+          <div className="mypage-user-email">{user?.email || t("myPageUserEmail")}</div>
         </div>
       </div>
 
-      <MainCoverModal
-        isOpen={isModalOpen}
-        onClose={() => dispatch(clearDeliveryShow())}
-        order={currentOrder}
-      />
-    </>
+      {/* 탭 네비게이션 */}
+      <div className="mypage-tab-nav">
+        <button className={activeTab === "delivery" ? "is-active" : ""} onClick={() => setActiveTab("delivery")}>
+          {t("myDeliveryHistory")}
+        </button>
+        <button className={activeTab === "question" ? "is-active" : ""} onClick={() => setActiveTab("question")}>
+          {t("myQuestionHistory")}
+        </button>
+      </div>
+
+      <div className="mypage-tab-content">
+        {activeTab === "delivery" ? (
+          <div className="mypage-history-list">
+            {allOrders.length > 0 ? (
+              allOrders.map((order) => {
+                const isCompleted = order.status === ORDER_STATUS.COMPLETED;
+                return (
+                  <div key={order.id} className="mypage-order-card">
+                    <div className="order-card-header">
+                      <span className="order-no">No. {order.id}</span>
+                      <span className={`status-badge ${isCompleted ? "is-completed" : "is-pending"}`}>
+                        {isCompleted ? "✓ " : ""}
+                        {t(`orderStatus.${order.status}`)}
+                      </span>
+                    </div>
+                    <div className="order-card-body">
+                      <strong className="order-name">{order.name || "-"}</strong>
+                      <span className="order-price">
+                        {typeof order.price === "number" ? order.price.toLocaleString() : "-"}원
+                      </span>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="empty-msg">{t("noDeliveryHistory")}</div>
+            )}
+          </div>
+        ) : (
+          <div className="mypage-history-list">
+            {dummyQuestions.length > 0 ? (
+              dummyQuestions.map((question) => (
+                <div key={question.id} className="mypage-question-card">
+                  <div className="question-card-header">
+                    <span className="question-title">{question.title}</span>
+                    <span
+                      className={`status-badge ${
+                        question.status === "답변 완료" ? "is-completed" : "is-pending"
+                      }`}
+                    >
+                      {question.status}
+                    </span>
+                  </div>
+                  <div className="question-card-body">
+                    <strong className="question-content">{question.content}</strong>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="empty-msg">{t("noQuestionHistory")}</div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

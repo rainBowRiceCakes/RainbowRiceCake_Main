@@ -1,7 +1,7 @@
 /**
  * @file src/components/main/auth/MyPage.css
- * @description 마이 페이지 및 배송 상태 가이드(step img) 
- * 251217 v1.0.0 sara init 
+ * @description 마이 페이지 및 배송 상태 가이드(step img)
+ * 251217 v1.0.0 sara init
  * 260102 v1.1.0 sara - 배송 상태 가이드 스타일 추가
  * 260102 v1.2.0 sara - 로그인/ 비로그인 상태 스타일 분리
  */
@@ -11,6 +11,7 @@
   max-width: var(--com-web-max-width);
   margin: 0 auto;
   padding: var(--com-section-padding) var(--com-container-padding);
+  box-sizing: border-box;
 }
 
 /* 2. 비로그인 상태 (잠금 화면) */
@@ -80,6 +81,7 @@
   background: var(--com-color-white);
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-xs);
+  box-sizing: border-box;
 }
 
 .mypage-profile-circle {
@@ -129,28 +131,44 @@
   border-bottom: 3px solid var(--com-color-black);
 }
 
-/* 5. 배송 히스토리 카드 목록 */
-.mypage-order-card {
+/* 5. 탭 컨텐츠 */
+.mypage-tab-content {
+  box-sizing: border-box;
+}
+
+.mypage-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-sm);
+}
+
+/* 6. 배송/문의 카드 공통 */
+.mypage-order-card,
+.mypage-question-card {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
   padding: var(--com-gap-md);
-  margin-top: var(--com-gap-sm);
   cursor: pointer;
   box-shadow: var(--com-shadow-xs);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  box-sizing: border-box;
 }
 
-.mypage-order-card:hover {
+.mypage-order-card:hover,
+.mypage-question-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--com-shadow-md);
   border-color: var(--com-font-primary-color);
 }
 
-.order-card-header {
+/* 카드 헤더 */
+.order-card-header,
+.question-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--com-gap-sm);
   margin-bottom: var(--com-gap-xs);
 }
 
@@ -159,6 +177,7 @@
   color: var(--com-font-gray);
 }
 
+/* 상태 배지 */
 .status-badge {
   font-size: var(--com-size-mini);
   font-weight: var(--com-font-weight-heavy);
@@ -166,8 +185,21 @@
   border-radius: var(--com-radius-pill);
   background: var(--com-color-bg-section);
   color: var(--com-font-muted);
+  white-space: nowrap;
 }
 
+/* JSX에서 사용하는 상태 클래스 매칭 */
+.status-badge.is-completed {
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+}
+
+.status-badge.is-pending {
+  background: var(--com-color-bg-section);
+  color: var(--com-font-muted);
+}
+
+/* (기존 클래스가 다른 곳에서 쓰일 수 있어 유지) */
 .status-badge.is-com {
   background: var(--com-color-black);
   color: var(--com-color-white);
@@ -176,25 +208,39 @@
 .status-badge.is-match {
   color: var(--com-color-green);
   border: 1px solid var(--com-color-green);
+  background: transparent;
 }
 
-.order-card-body {
+/* 카드 바디 */
+.order-card-body,
+.question-card-body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--com-gap-md);
 }
 
-.order-name {
+.order-name,
+.question-title {
   font-size: var(--com-size-subtitle);
   font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+}
+
+.question-content {
+  font-size: var(--com-size-content);
+  font-weight: var(--com-font-weight-regular);
+  color: var(--com-font-primary-color);
 }
 
 .order-price {
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-color-black);
   font-size: var(--com-size-sidebar);
+  white-space: nowrap;
 }
 
+/* empty message */
 .empty-msg {
   text-align: center;
   padding: var(--com-section-padding) 0;
@@ -208,7 +254,34 @@
     max-width: var(--com-mobile-max-width);
     padding: var(--com-gap-md);
   }
+
   .mypage-lock-title {
     font-size: var(--com-font-size-title);
+  }
+
+  .mypage-profile-circle {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+
+  .mypage-tab-nav button {
+    padding: 12px;
+  }
+
+  .mypage-order-card,
+  .mypage-question-card {
+    padding: var(--com-gap-md);
+  }
+
+  .order-card-body,
+  .question-card-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-price {
+    width: 100%;
+    text-align: right;
   }
 }
