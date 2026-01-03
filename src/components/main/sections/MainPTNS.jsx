@@ -1,47 +1,42 @@
-/**
- * @file src/components/main/sections/MainPTNS.jsx
- * @description 제휴업체 페이지 
- * 251216 v1.0.0 sara init
- * 251223 v2.0.0 jun 라이더, 파트너 form 추가
- * 260102 v2.1.0 sara 미리보기 사진 삭제 기능 removeFile 복구, 주소 변환 부분 searchAddressToCoords 유틸로 분리
- */
-
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
 import { footerData } from '../../../data/footerData';
-import { riderFormThunk } from '../../../store/thunks/formThunk.js';
-import { partnerFormThunk } from '../../../store/thunks/formThunk.js';
+import { riderFormThunk, partnerFormThunk } from '../../../store/thunks/formThunk.js';
 import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx'; // 휴지통 아이콘
 import { riderImageUploadThunk, partnerImageUploadThunk } from '../../../store/thunks/imageUploadThunk.js'; 
-import './MainPTNS.css';
 import { useKakaoLoader } from 'react-kakao-maps-sdk';
-import { searchAddressToCoords } from '../../../utils/searchAddressToCoords.js';
+import { searchAddressToCoords } from '../../../utils/searchAddressToCoords.js'; // 주소 -> 좌표 변환 유틸
+import './MainPTNS.css';
 
 export default function MainPTNS() {
   const { t, language } = useContext(LanguageContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 1. 프리뷰 상태 관리
+  // 1. 프리뷰 및 실제 파일 상태 관리
+  const [licenseFile, setLicenseFile] = useState(null);
   const [licensePreview, setLicensePreview] = useState(null);
+  const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState(null);
 
-  // 2. 약관 동의 상태
+  // 2. Input 초기화를 위한 Ref
+  const riderFileInputRef = useRef(null);
+  const partnerFileInputRef = useRef(null);
+
+  // 3. 약관 동의 및 모달 상태
   const [riderAgreements, setRiderAgreements] = useState({ terms: false, privacy: false });
   const [partnerAgreements, setPartnerAgreements] = useState({ terms: false, privacy: false });
-
-  // 3. 모달 상태
   const [activeModal, setActiveModal] = useState(null);
 
-  // 카카오 API 로더
+  // 4. 카카오 API 로더
   useKakaoLoader({
     appkey: import.meta.env.VITE_KAKAO_MAP_API_KEY,
     libraries: ["services"],
   });
 
-  // 메모리 누수 방지 (Object URL 해제)
+  // 5. 메모리 누수 방지 (Object URL 해제)
   useEffect(() => {
     return () => {
       if (licensePreview) URL.revokeObjectURL(licensePreview);
@@ -49,33 +44,38 @@ export default function MainPTNS() {
     };
   }, [licensePreview, logoPreview]);
 
-  // 이미지 삭제 핸들러
+  // 6. 이미지 삭제 핸들러
   const removeFile = (type) => {
-    if (type === 'licenseImg') {
+    if (type === 'license') {
       if (licensePreview) URL.revokeObjectURL(licensePreview);
       setLicensePreview(null);
-      const input = document.getElementById('licenseImg');
-      if (input) input.value = ''; // input 초기화로 동일 파일 재선택 가능케 함
-    } else if (type === 'storeLogo') {
+      setLicenseFile(null);
+      if (riderFileInputRef.current) riderFileInputRef.current.value = '';
+    } else if (type === 'logo') {
       if (logoPreview) URL.revokeObjectURL(logoPreview);
       setLogoPreview(null);
-      const input = document.getElementById('storeLogo');
-      if (input) input.value = '';
+      setLogoFile(null);
+      if (partnerFileInputRef.current) partnerFileInputRef.current.value = '';
     }
   };
 
-  // 파일 선택 핸들러
+  // 7. 파일 선택 핸들러
   const changeFiles = (e) => {
     const file = e.target.files[0];
     const name = e.target.name;
     if (file) {
       const objectUrl = URL.createObjectURL(file);
-      if (name === 'licenseImg') setLicensePreview(objectUrl);
-      else if (name === 'storeLogo') setLogoPreview(objectUrl);
+      if (name === 'licenseImg') {
+        setLicenseFile(file);
+        setLicensePreview(objectUrl);
+      } else if (name === 'storeLogo') {
+        setLogoFile(file);
+        setLogoPreview(objectUrl);
+      }
     }
   };
 
-  // 약관 모달 핸들러
+  // 8. 약관 모달 핸들러
   const openModal = (target, type) => {
     const currentAgreements = target === 'rider' ? riderAgreements : partnerAgreements;
     if (!currentAgreements[type]) {
@@ -94,14 +94,14 @@ export default function MainPTNS() {
 
   const confirmModal = () => {
     if (activeModal) {
-      const [target, type] = activeModal.split('_');
+      const [target, type] = activeModal.split('_'); 
       const setter = target === 'rider' ? setRiderAgreements : setPartnerAgreements;
       setter(prev => ({ ...prev, [type]: true }));
       closeModal();
     }
   };
 
-  // 🛵 라이더 제출
+  // 9. 라이더 제휴 폼 제출
   const onSubmitRider = async (e) => {
     e.preventDefault();
     if (!riderAgreements.terms || !riderAgreements.privacy) {
@@ -113,8 +113,8 @@ export default function MainPTNS() {
 
     try {
       let licenseImgPath = null;
-      if (rawData.licenseImg && rawData.licenseImg.size > 0) {
-        const uploadResult = await dispatch(riderImageUploadThunk(rawData.licenseImg)).unwrap();
+      if (licenseFile) {
+        const uploadResult = await dispatch(riderImageUploadThunk(licenseFile)).unwrap();
         licenseImgPath = uploadResult.data.path;
       }
 
@@ -129,11 +129,11 @@ export default function MainPTNS() {
       await dispatch(riderFormThunk(payload)).unwrap();
       navigate('/');
     } catch (error) {
-      alert("오류 발생: " + (error.msg || error.message));
+      alert(t('ptnsErrorAlert') + (error.msg || error.message));
     }
   };
 
-  // 🏢 파트너 제출
+  // 10. 파트너 제휴 폼 제출
   const onSubmitPartner = async (e) => {
     e.preventDefault();
     if (!partnerAgreements.terms || !partnerAgreements.privacy) {
@@ -145,12 +145,12 @@ export default function MainPTNS() {
 
     try {
       let logoImgPath = null;
-      if (rawData.storeLogo && rawData.storeLogo.size > 0) {
-        const uploadResult = await dispatch(partnerImageUploadThunk(rawData.storeLogo)).unwrap();
+      if (logoFile) {
+        const uploadResult = await dispatch(partnerImageUploadThunk(logoFile)).unwrap();
         logoImgPath = uploadResult.data.path;
       }
 
-      // 주소 좌표 변환 로직
+      // 11. 주소 좌표 변환 로직
       const coords = await searchAddressToCoords(rawData.storeAddress);
 
       const payload = {
@@ -168,12 +168,13 @@ export default function MainPTNS() {
       await dispatch(partnerFormThunk(payload)).unwrap();
       navigate('/');
     } catch (error) {
-      alert("오류 발생: " + (error.msg || error.message));
+      alert(t('ptnsErrorAlert') + (error.msg || error.message));
     }
   };
 
-  const modalContent = activeModal 
-    ? (footerData[language]?.[activeModal.split('_')[1]] || footerData['ko']?.[activeModal.split('_')[1]])
+  const modalType = activeModal ? activeModal.split('_')[1] : null;
+  const modalContent = modalType
+    ? footerData[language]?.[modalType] || footerData.ko?.[modalType]
     : null;
 
   return (
@@ -207,7 +208,7 @@ export default function MainPTNS() {
                 <div className="mainptns-field-label">
                   {t('ptnsLicenseLabel')}
                   <div style={{ marginTop: '8px', position: 'relative' }}>
-                    <input type="file" onChange={changeFiles} name="licenseImg" id="licenseImg" className="mainptns-file-hidden" accept="image/*" required />
+                    <input type="file" onChange={changeFiles} name="licenseImg" id="licenseImg" className="mainptns-file-hidden" accept="image/*" required ref={riderFileInputRef} />
                     <label htmlFor="licenseImg" className="mainptns-file-box" style={{
                         backgroundImage: licensePreview ? `url("${licensePreview}")` : 'none',
                         backgroundSize: 'contain', height: licensePreview ? '200px' : '80px',
@@ -226,11 +227,11 @@ export default function MainPTNS() {
               <div className="mainptns-form-footer">
                 <label className="mainptns-agreement-label">
                   <input type="checkbox" checked={riderAgreements.terms} onClick={() => openModal('rider', 'terms')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">(필수)</span></span>
+                  <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
                 </label>
                 <label className="mainptns-agreement-label">
                   <input type="checkbox" checked={riderAgreements.privacy} onClick={() => openModal('rider', 'privacy')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">(필수)</span></span>
+                  <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
                 </label>
                 <button className="mainptns-submit-button" type="submit">{t('ptnsRiderSubmit')}</button>
               </div>
@@ -267,7 +268,7 @@ export default function MainPTNS() {
                 <div className="mainptns-field-label">
                   {t('ptnsStoreLogoLabel')}
                   <div style={{ marginTop: '8px', position: 'relative' }}>
-                    <input type="file" onChange={changeFiles} name="storeLogo" id="storeLogo" className="mainptns-file-hidden" accept="image/*" required />
+                    <input type="file" onChange={changeFiles} name="storeLogo" id="storeLogo" className="mainptns-file-hidden" accept="image/*" required ref={partnerFileInputRef} />
                     <label htmlFor="storeLogo" className="mainptns-file-box" style={{
                         backgroundImage: logoPreview ? `url("${logoPreview}")` : 'none',
                         backgroundSize: 'contain', height: logoPreview ? '200px' : '80px',
@@ -286,11 +287,11 @@ export default function MainPTNS() {
               <div className="mainptns-form-footer">
                 <label className="mainptns-agreement-label">
                   <input type="checkbox" checked={partnerAgreements.terms} onClick={() => openModal('partner', 'terms')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">(필수)</span></span>
+                  <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
                 </label>
                 <label className="mainptns-agreement-label">
                   <input type="checkbox" checked={partnerAgreements.privacy} onClick={() => openModal('partner', 'privacy')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">(필수)</span></span>
+                  <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
                 </label>
                 <button className="mainptns-submit-button" type="submit">{t('ptnsPartnerSubmit')}</button>
               </div>
@@ -318,8 +319,8 @@ export default function MainPTNS() {
                   </div>
                 </div>
                 <div className="mainptns-modal-footer">
-                  <button className="mainptns-btn-cancel" onClick={closeModal}>취소</button>
-                  <button className="mainptns-btn-confirm" onClick={confirmModal}>동의 및 확인</button>
+                  <button className="mainptns-btn-cancel" onClick={closeModal}>{t('ptnsModalCancel')}</button>
+                  <button className="mainptns-btn-confirm" onClick={confirmModal}>{t('ptnsModalConfirm')}</button>
                 </div>
               </div>
             </div>

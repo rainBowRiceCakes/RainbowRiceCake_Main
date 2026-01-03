@@ -33,7 +33,7 @@
 .maininfo-alert-inner {
   display: inline-flex;
   align-items: center;
-  padding: var(--com-gap-sm) var(--com-gap-xl);
+  padding: 10px 30px 15px 30px;
   background-color: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-pill);
@@ -65,24 +65,35 @@
 .maininfo-plans-container {
   display: flex;
   gap: var(--com-gap-md);
-  justify-content: center;
-  align-items: stretch; /* 카드의 높이를 동일하게 맞춤 */
+  margin-top: var(--com-gap-xl);
+  align-items: flex-start; /* 카드 높이가 달라도 위쪽 정렬 */
+}
+
+@media screen and (max-width: 768px) {
+  .maininfo-plans-container {
+    flex-direction: column;
+    align-items: stretch; /* 카드들이 가로로 꽉 차도록 */
+    gap: var(--com-gap-md); /* 모바일에서는 세로 간격으로 사용 */
+    padding: var(--com-gap-sm) 0; /* 좌우 패딩을 줄여서 더 넓게 보이도록 */
+  }
 }
 
 /* 개별 카드 디자인 */
 .maininfo-plan-card {
   position: relative;
   flex: 1;
-  max-width: 351px;
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-lg);
-  padding: var(--com-gap-xl) var(--com-container-padding);
+  border-radius: var(--com-radius-lg); /* ptnssearch-card-box 참고 */
+  padding: var(--com-gap-xl) var(--com-container-padding); /* ptnssearch-card-box 참고 */
+  box-shadow: var(--com-shadow-default); /* ptnssearch-card-box 참고 */
   display: flex;
   flex-direction: column;
   cursor: pointer;
   transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
   overflow: hidden;
+  text-align: center; /* 내부 콘텐츠 중앙 정렬 */
+  width: 100%; /* 너비를 꽉 채우도록 */
 }
 
 /* 추천 배지 */
@@ -95,8 +106,9 @@
   padding: 5px 30px;
   font-size: var(--com-size-content);
   font-weight: var(--com-font-weight-bold);
-  z-index: 2;
+  z-index: 0; /* level 0 */
   transform: rotate(45deg);
+  box-shadow: var(--com-shadow-sm);
 }
 
 /* 선택된 카드 */
@@ -109,6 +121,7 @@
 
 .maininfo-plan-card.is-selected .maininfo-plan-name,
 .maininfo-plan-card.is-selected .maininfo-plan-price,
+.maininfo-plan-card.is-selected .maininfo-features-list, /* 추가: 기능 목록 전체 색상 변경 */
 .maininfo-plan-card.is-selected .maininfo-feature-item span,
 .maininfo-plan-card.is-selected .maininfo-feature-icon {
   color: var(--com-color-white);
@@ -132,9 +145,9 @@
 }
 
 .maininfo-features-list {
-  display: flex;              /* 플렉스 박스 활성화 */
-  flex-direction: column;     /* 세로 방향 정렬 */
-  align-items: center;        /* ✅ 핵심: 자식 요소(li)들을 수평 중앙으로 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0;
   margin-bottom: var(--com-gap-xl);
   overflow: hidden;
@@ -143,13 +156,13 @@
 
 .maininfo-feature-item {
   display: flex;
-  align-items: center;        /* 체크 아이콘과 텍스트를 세로 중앙 정렬 */
-  justify-content: center;    /* 아이콘과 텍스트 묶음을 중앙 정렬 */
+  align-items: center;
+  justify-content: center;
   gap: var(--com-gap-xs);
   margin-bottom: var(--com-radius-md);
   font-size: var(--com-size-sub-title);
   color: var(--com-font-gray);
-  width: fit-content;         /* 내용물 너비만큼만 차지하게 설정 */
+  width: fit-content;
 }
 
 .maininfo-feature-icon {
@@ -165,7 +178,7 @@
   color: var(--com-color-black);
   font-weight: var(--com-font-weight-bold);
   transition: 0.2s;
-  margin-top: auto; /* 항상 하단에 버튼 고정 */
+  margin-top: auto;
 }
 
 .maininfo-plan-card.is-selected .maininfo-plan-button {
@@ -175,22 +188,18 @@
 
 .price-unit {
   font-size: var(--com-size-subtitle);
-  margin-left: 2px; 
-  font-weight: var(--com-font-weight-heavy); /* */
+  margin-left: 2px;
+  font-weight: var(--com-font-weight-heavy);
 }
 
 /* 📱 모바일 환경 (768px 이하) 대응 */
 @media screen and (max-width: 768px) {
-  .maininfo-plans-container {
-    gap: var(--com-gap-xs);
-    padding: var(--com-gap-sm);
-  }
+  /* .maininfo-plans-container 부분은 이미 위에서 변경됨 */
 
   .maininfo-plan-card {
-    padding: 15px var(--com-gap-xs);
-    min-width: 90px;
-    border-radius: var(--com-radius-md);
-    /* 리본 자락이 카드 밖으로 나가지 않도록 필수 설정 */
+    padding: var(--com-gap-md); /* 모바일 패딩 조정 */
+    min-width: auto; /* 너비가 꽉 차도록 */
+    border-radius: var(--com-radius-lg); /* ptnssearch-card-box 참고 */
     overflow: hidden;
   }
 
@@ -207,17 +216,32 @@
     padding: 4px 0;
     font-size: var(--com-gap-sm);
     font-weight: var(--com-font-weight-bold);
-    z-index: 2;
+    z-index: 0; /* level 0 */
     /* 회전 효과 유지 */
     transform: rotate(45deg);
     border-radius: 0;
   }
-  
-  .maininfo-features-list { display: none; }
-  .maininfo-plan-header { margin-bottom: var(--com-gap-sm); }
-  .maininfo-plan-name { font-size: var(--com-size-mini); }
-  .maininfo-plan-price { font-size: var(--com-size-sidebar); margin-bottom: 5px; }
-  .maininfo-price-unit { font-size: var(--com-size-sidebar); }
+
+  .maininfo-features-list {
+    display: none;
+  }
+
+  .maininfo-plan-header {
+    margin-bottom: var(--com-gap-md);
+  }
+
+  .maininfo-plan-name {
+    font-size: var(--com-size-sidebar);
+  }
+
+  .maininfo-plan-price {
+    font-size: var(--com-size-subtitle); /* 기존 var(--com-size-sidebar) 에서 변경 */
+    margin-bottom: 5px;
+  }
+
+  .maininfo-price-unit {
+    font-size: var(--com-size-subtitle);
+  }
 
 
   .maininfo-plan-button {
@@ -235,14 +259,14 @@
   }
 
   .maininfo-plan-card {
-    padding: 15px var(--com-gap-xs);
-    min-width: 90px;
+    padding: var(--com-gap-md); /* 모바일 패딩 조정 */
+    min-width: auto;
   }
 
   /* 추천 배지: 375px 전용 초소형 리본 스타일 */
   .maininfo-recommended-badge {
     width: 100px;
-    top: 12px;
+    top: 20px;
     right: -28px;
     font-size: 9px;
     padding: 3px 0;

@@ -29,7 +29,7 @@
   /* 영상이 차지하는 너비 (자연스럽게 조절 가능) */
   height: 100%;
   object-fit: cover;
-  z-index: 0;
+  z-index: 0; /* level 0 */
   /* 채도를 살짝 낮춰 배경색과 더 잘 어우러지게 함 */
   filter: saturate(0.85) brightness(0.9);
 }
@@ -46,13 +46,13 @@
       var(--com-color-black) 35%,
       rgba(17, 24, 39, 0.6) 55%,
       rgba(17, 24, 39, 0) 75%);
-  z-index: 1;
+  z-index: 0; /* level 0 */
 }
 
 /* 텍스트 배치 */
 .maincover-text-wrapper {
   position: relative;
-  z-index: 2;
+  z-index: 0; /* level 0 */
   width: 100%;
   max-width: var(--com-web-max-width);
   height: 100%;

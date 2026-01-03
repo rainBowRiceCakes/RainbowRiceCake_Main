@@ -8,7 +8,7 @@
   position: fixed;
   right: var(--com-container-padding);
   bottom: var(--com-gap-md); /* Adjusted from 24px */
-  z-index: 95;
+  z-index: 3; /* level 3 */
 
   width: var(--com-size-button-lg);
   height: var(--com-size-button-lg);

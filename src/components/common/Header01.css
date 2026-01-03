@@ -2,16 +2,13 @@
  * @file src/components/common/Header01.css
  * @description header01 css
  * 251216 v1.0.0 sara init 
- */
-
-/**
- * @file src/components/common/Header01.css
+ * 260103 v1.0.1 sara 모바일 햄버거 버튼 스타일 수정, padding 조정
  */
 
 .header01-frame {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 50; /* level 5 */
   width: 100%;
   height: 80px;
   display: flex;
@@ -66,7 +63,14 @@
   display: flex;
   align-items: center;
   gap: var(--com-gap-sm);
-  padding: 20px;
+  padding: 20px 0 20px 20px;
+}
+
+/* 데스크탑 링크 컨테이너: 버튼 사이의 간격 추가 */
+.header01-desktop-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* 데스크탑 버튼 스타일 */
@@ -144,25 +148,41 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 4px;
   width: 40px;
   height: 40px;
-  /* border: 1px solid var(--com-border-default); */
-  border-radius: var(--com-gap-xs);
-  background: transparent;
+  background-color: var(--com-color-bg-light);
+  border-radius: var(--com-radius-md);
+  border: none;
   cursor: pointer;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.header01-hamburger-button:hover{
+  background-color: var(--com-border-default);
+}
+
+.header01-hamburger-button:active{
+  background-color: var(--com-border-default);
+  transform: scale(0.95);
 }
 
 .header01-bar {
-  width: 20px;
+  width: 18px;
   height: 2px;
   background-color: var(--com-color-black);
   transition: all 0.3s ease;
 }
 
-.header01-hamburger-button.is-active .header01-bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.header01-hamburger-button.is-active .header01-bar:nth-child(2) { opacity: 0; }
-.header01-hamburger-button.is-active .header01-bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.header01-hamburger-button.is-active .header01-hamburger-bar1 { 
+  transform: translateY(6px) rotate(45deg); 
+}
+.header01-hamburger-button.is-active .header01-hamburger-bar2 { 
+  opacity: 0; 
+}
+.header01-hamburger-button.is-active .header01-hamburger-bar3 { 
+  transform: translateY(-6px) rotate(-45deg); 
+}
 
 /* 모바일 드롭다운 */
 .header01-mobile-dropdown-frame {
@@ -172,7 +192,7 @@
   width: 85%;
   height: 100vh;
   background-color: var(--com-color-white);
-  z-index: 10001;
+  z-index: 7; /* level 7 */
   box-shadow: var(--com-shadow-md);
 }
 
@@ -181,6 +201,36 @@
   display: flex;
   flex-direction: column;
   gap: var(--com-gap-xl);
+}
+
+.header01-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header01-mobile-title-text {
+  font-size: var(--com-size-title);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+}
+
+.header01-close-btn {
+  font-size: var(--com-size-icon);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--com-font-primary-color);
+}
+
+.header01-close-btn:hover {
+  background-color: var(--com-border-default);
+  border-radius: var(--com-radius-pill);
 }
 
 @media screen and (max-width: 768px) {

@@ -18,11 +18,11 @@ import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
-  { id: "plans", key: "navPlans", icon: "info.svg" },
-  { id: "branches", key: "navBranches", icon: "search.svg" },
-  { id: "fee", key: "navFee", icon: "fee.svg" },
-  { id: "support", key: "navSupport", icon: "cs.svg" },
-  { id: "partners", key: "navPartners", icon: "ptns.svg" },
+  { id: "plans", key: "navPlans", icon: "info" },
+  { id: "branches", key: "navBranches", icon: "search" },
+  { id: "fee", key: "navFee", icon: "fee" },
+  { id: "support", key: "navSupport", icon: "cs" },
+  { id: "partners", key: "navPartners", icon: "ptns" },
 ];
 
 export default function Header01() {
@@ -46,7 +46,7 @@ export default function Header01() {
       ...NAV_ITEMS_CONFIG,
     ];
     if (isLoggedIn) {
-      items.push({ id: "mypage", key: "headerMyPage", icon: "info.svg", path: "/mypage" });
+      items.push({ id: "mypage", key: "headerMyPage", icon: "mypage", path: "/mypage" });
     }
     return items;
   }, [isLoggedIn]);
@@ -165,9 +165,9 @@ export default function Header01() {
               className={`header01-hamburger-button ${isOpen ? "is-active" : ""}`} 
               onClick={toggleMenu}
             >
-              <span className="header01-bar" />
-              <span className="header01-bar" />
-              <span className="header01-bar" />
+              <span className="header01-bar header01-hamburger-bar1" />
+              <span className="header01-bar header01-hamburger-bar2" />
+              <span className="header01-bar header01-hamburger-bar3" />
             </button>
           </div>
         </div>

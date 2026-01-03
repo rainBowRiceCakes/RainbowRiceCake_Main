@@ -71,6 +71,7 @@
 .dlvs-circle.is-active {
   border-color: var(--com-color-black);
   color: var(--com-color-black);
+  border-width: 2px;
   transform: translateY(-1px);
   box-shadow: var(--com-shadow-default);
 }
