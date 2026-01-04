@@ -83,10 +83,15 @@ export default function MainPTNSSearch() {
   // 주변 제휴업체 데이터 로드 (Live API)
   const fetchNearbyStores = useCallback(async (lat, lng) => {
     try {
-      const response = await axiosInstance.get("/api/partners", {
+      const response = await axiosInstance.get("/api/partners/location", {
         params: { lat, lng, radius: SEARCH_RADIUS },
       });
-      const normalized = response.data.data.map(normalizeStoreData);
+      const storesData = Array.isArray(response.data.data) ? response.data.data : response.data;
+      if (!Array.isArray(storesData)) {
+        console.error("API response is not an array:", storesData);
+        throw new Error("API response is not an array");
+      }
+      const normalized = storesData.map(normalizeStoreData);
       setStores(normalized);
     } catch (error) {
       console.error("제휴업체 데이터 로드 실패:", error);
@@ -128,9 +133,7 @@ export default function MainPTNSSearch() {
 
       if (window.innerWidth <= MOBILE_BREAKPOINT) {
         const sheetHeight = window.innerHeight * 0.4;
-        const popupHeight = 150; 
-        const totalOffset = (sheetHeight / 2) + (popupHeight / 2);
-        map.panBy(0, -totalOffset / 2);
+        map.panBy(0, sheetHeight / 2);
       }
     }
     setCenter(newCenter);
@@ -212,7 +215,7 @@ export default function MainPTNSSearch() {
                       </div>
                     ))
                   ) : (
-                    <div className="ptnssearch-sidebar-no-result">{t("No results found")}</div>
+                    <div className="ptnssearch-sidebar-no-result">{t("noResultsFound")}</div>
                   )}
                 </div>
               </div>
@@ -226,7 +229,7 @@ export default function MainPTNSSearch() {
                       <MapMarker
                         position={myLocation}
                         image={{
-                          src: '/resource/marker_black.png',
+                          src: '/resource/main-loginIcon.png',
                           size: { width: 32, height: 32 },
                           options: { offset: { x: 16, y: 32 } },
                         }}
@@ -239,7 +242,7 @@ export default function MainPTNSSearch() {
                         position={{ lat: store.lat, lng: store.lng }}
                         onClick={() => handleSelectStore(store)}
                         image={{
-                          src: selectedStore?.id === store.id ? '/resource/main-logo.png' : '/resource/marker_black.png',
+                          src: selectedStore?.id === store.id ? '/resource/main-logo.png' : '/resource/main-loginIcon.png',
                           size: selectedStore?.id === store.id ? { width: 48, height: 48 } : { width: 28, height: 28 },
                         }}
                         zIndex={selectedStore?.id === store.id ? 100 : 1}
