@@ -7,10 +7,11 @@
 import { useMemo, useRef, useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { MdExitToApp } from "react-icons/md"; // 로그아웃 아이콘 추가 TODO: 이름변경 알기쉽게
+import { MdExitToApp } from "react-icons/md";
 import "./header01.css";
 import Hamburger01 from "./Hamburger01";
 import LanguageToggle from "./LanguageToggle";
+import CustomAlertModal from "./CustomAlertModal"; // Import the custom modal
 import { LanguageContext } from "../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAuth } from '../../store/slices/authSlice.js';
@@ -18,16 +19,17 @@ import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
-  { id: "plans", key: "navPlans", icon: "info" },
+  { id: "plans", key: "navPlans", icon: "plans" },
   { id: "branches", key: "navBranches", icon: "search" },
-  { id: "fee", key: "navFee", icon: "fee" },
   { id: "support", key: "navSupport", icon: "cs" },
+  { id: "promotion", key: "navPromotion", icon: "promotion" },
   { id: "partners", key: "navPartners", icon: "ptns" },
 ];
 
 export default function Header01() {
   const { t } = useContext(LanguageContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [alertModal, setAlertModal] = useState({ isOpen: false, message: '' }); // State for custom modal
   const location = useLocation();
   const navigate = useNavigate();
   const mainLogo = "/resource/main-logo.png";
@@ -37,7 +39,6 @@ export default function Header01() {
   const onlyTitleList = ['/login', '/mypage'];
   const onlyTitleFlg = onlyTitleList.some(path => path === location.pathname);
   
-  // [중요] 드롭다운 영역과 햄버거 버튼 영역을 각각 참조하기 위한 ref
   const dropdownRef = useRef(null);
   const hamburgerRef = useRef(null);
 
@@ -53,32 +54,24 @@ export default function Header01() {
 
   const isMainShow = useMemo(() => location.pathname === "/" || location.pathname === "/home", [location.pathname]);
 
-  // [핵심 수정] 강력한 외부 클릭 감지 로직
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      // 메뉴가 열려있고,
       if (isOpen && 
-          // 클릭한 곳이 드롭다운 메뉴 내부가 아니고,
           dropdownRef.current && !dropdownRef.current.contains(e.target) &&
-          // 클릭한 곳이 햄버거 버튼 자체도 아닐 때만 닫음
           hamburgerRef.current && !hamburgerRef.current.contains(e.target)) {
         setIsOpen(false);
       }
     };
     
-    // 마우스를 누르는 순간 감지
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, [isOpen]); // isOpen 상태가 변할 때마다 리스너 업데이트
+  }, [isOpen]);
 
-  // 메뉴 토글 함수
   const toggleMenu = (e) => {
-    // 이벤트 전파 중단 (부모 요소로 클릭 이벤트가 퍼지는 것 방지)
     e?.stopPropagation?.();
     setIsOpen((prev) => !prev);
   };
 
-  // 섹션 이동 및 메뉴 닫기 함수
   const goSection = (sectionId, path) => {
     if (path) {
       navigate(path);
@@ -98,101 +91,111 @@ export default function Header01() {
   };
 
   async function logout() {
-      try {
-         await dispatch(logoutThunk());
-      } catch (error) {
-        console.log('Logout failed:', error);
-      } finally {
-        dispatch(clearAuth());
-        navigate('/');
-        setIsOpen(false);
-      }
+    try {
+       await dispatch(logoutThunk());
+       setAlertModal({ isOpen: true, message: t('logoutSuccess') });
+    } catch (error) {
+      console.log('Logout failed:', error);
+      setAlertModal({ isOpen: true, message: t('logoutFailed') });
+    }
   }
 
+  const handleLogoutAlertClose = () => {
+    setAlertModal({ isOpen: false, message: '' });
+    dispatch(clearAuth());
+    navigate('/');
+    setIsOpen(false);
+  };
+
   return (
-    <header className="header01-frame">
-      <div className="header01-inner-group">
-        <div className="header01-left-box">
-          <button type="button" className="header01-logo-button" onClick={onLogoClick}>
-            <div className="header01-brand-img-container">
-              <img src={mainLogo} alt="logo" className="header01-brand-img" />
-            </div>
-          </button>
-        </div>
-
-        <div className="header01-actions-group">
-          <LanguageToggle />
-            {
-              !onlyTitleFlg && (
-                <div className="header01-desktop-links">
-                 {isLoggedIn ? (
-                  <>
-                    <button type="button" className="header01-action-button-link" onClick={logout}>
-                      {t('headerLogout')}
-                    </button>
-                    <button type="button" className="header01-action-button-link header01-action-button-link--solid" onClick={() => navigate('/mypage')}>
-                      {t('headerMyPage')}
-                    </button>
-                  </>
-                ) : (
-                  <button type="button" className="header01-action-button-link" onClick={() => navigate('/login')}>
-                    {t('headerLogin')}
-                  </button>
-                )} 
+    <>
+      <header className="header01-frame">
+        <div className="header01-inner-group">
+          <div className="header01-left-box">
+            <button type="button" className="header01-logo-button" onClick={onLogoClick}>
+              <div className="header01-brand-img-container">
+                <img src={mainLogo} alt="logo" className="header01-brand-img" />
               </div>
-            )}
-
-           <div className="header01-mobile-icons-group">
-            {isLoggedIn ? (
-              <>
-                {/* 로그인 상태: 마이페이지 버튼 (LoginIcon 사용) */}
-                <Link to="/mypage" className="header01-icon-mypage-btn" onClick={() => setIsOpen(false)}>
-                  <img src={LoginIcon} alt="mypage" className="header01-login-img" />
-                </Link>
-                {/* 로그인 상태: 로그아웃 버튼 (MdExitToApp 아이콘 사용) */}
-                <button type="button" className="header01-icon-logout-btn" onClick={logout}>
-                  <MdExitToApp className="header01-logout-icon" />
-                </button>
-              </>
-            ) : (
-               <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>
-                 <img src={LoginIcon} alt="login" className="header01-login-img" />
-               </Link>
-            )}
-            <button 
-              ref={hamburgerRef}
-              type="button" 
-              className={`header01-hamburger-button ${isOpen ? "is-active" : ""}`} 
-              onClick={toggleMenu}
-            >
-              <span className="header01-bar header01-hamburger-bar1" />
-              <span className="header01-bar header01-hamburger-bar2" />
-              <span className="header01-bar header01-hamburger-bar3" />
             </button>
           </div>
-        </div>
-      </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            ref={dropdownRef}
-            className="header01-mobile-dropdown-frame"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          >
-            <div className="header01-mobile-inner-group">
-              <div className="header01-mobile-header">
-                <div className="header01-mobile-title-text">{t('headerMenuTitle')}</div>
-                <button className="header01-close-btn" onClick={() => setIsOpen(false)}>✕</button>
-              </div>
-              <Hamburger01 navItems={hamburgerNavItems} goSection={goSection} />
+          <div className="header01-actions-group">
+            <LanguageToggle />
+              {
+                !onlyTitleFlg && (
+                  <div className="header01-desktop-links">
+                  {isLoggedIn ? (
+                    <>
+                      <button type="button" className="header01-action-button-link" onClick={logout}>
+                        {t('headerLogout')}
+                      </button>
+                      <button type="button" className="header01-action-button-link header01-action-button-link--solid" onClick={() => navigate('/mypage')}>
+                        {t('headerMyPage')}
+                      </button>
+                    </>
+                  ) : (
+                    <button type="button" className="header01-action-button-link" onClick={() => navigate('/login')}>
+                      {t('headerLogin')}
+                    </button>
+                  )} 
+                </div>
+              )}
+
+            <div className="header01-mobile-icons-group">
+              {isLoggedIn ? (
+                <>
+                  <Link to="/mypage" className="header01-icon-mypage-btn" onClick={() => setIsOpen(false)}>
+                    <img src={LoginIcon} alt="mypage" className="header01-login-img" />
+                  </Link>
+                  <button type="button" className="header01-icon-logout-btn" onClick={logout}>
+                    <MdExitToApp className="header01-logout-icon" />
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>
+                  <img src={LoginIcon} alt="login" className="header01-login-img" />
+                </Link>
+              )}
+              <button 
+                ref={hamburgerRef}
+                type="button" 
+                className={`header01-hamburger-button ${isOpen ? "is-active" : ""}`} 
+                onClick={toggleMenu}
+              >
+                <span className="header01-bar header01-hamburger-bar1" />
+                <span className="header01-bar header01-hamburger-bar2" />
+                <span className="header01-bar header01-hamburger-bar3" />
+              </button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              ref={dropdownRef}
+              className="header01-mobile-dropdown-frame"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            >
+              <div className="header01-mobile-inner-group">
+                <div className="header01-mobile-header">
+                  <div className="header01-mobile-title-text">{t('headerMenuTitle')}</div>
+                  <button className="header01-close-btn" onClick={() => setIsOpen(false)}>✕</button>
+                </div>
+                <Hamburger01 navItems={hamburgerNavItems} goSection={goSection} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+      <CustomAlertModal 
+        isOpen={alertModal.isOpen} 
+        onClose={handleLogoutAlertClose} 
+        message={alertModal.message}
+      />
+    </>
   );
 }

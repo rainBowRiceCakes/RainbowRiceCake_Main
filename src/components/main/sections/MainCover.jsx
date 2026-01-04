@@ -105,9 +105,11 @@ export default function MainCover() {
             initial="hidden"
             animate="visible"
           >
-            <motion.h1 className="maincover-hero-title" variants={itemVariants}>
-              Leave the heavy behind,<br /> <span className="maincover-hero-subtitle">take your travel beyond.</span>
-            </motion.h1>
+            <motion.h1 
+              className="maincover-hero-title" 
+              variants={itemVariants}
+              dangerouslySetInnerHTML={{ __html: t('coverHeroTitle') }}
+            />
           </motion.div>
         </div>
       </div>

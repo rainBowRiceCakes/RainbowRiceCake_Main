@@ -2,6 +2,7 @@
  * @file src/components/main/MainShow.jsx
  * @description 메인 페이지(app) 
  * 251216 v1.0.0 sara init 
+ * 260104 v1.0.1 sara - MainFee -> MainPromotion 섹션 추가
  */
 
 import { useState, useEffect, useRef } from 'react';
@@ -9,7 +10,7 @@ import { useState, useEffect, useRef } from 'react';
 import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
 import MainPTNSSearch from './sections/MainPTNSSearch.jsx';
-import MainFee from './sections/MainFee.jsx';
+import MainPromotion from './sections/MainPromotion.jsx';
 import MainCS from './sections/MainCS.jsx';
 import MainPTNS from './sections/MainPTNS.jsx';
 import Carousel from '../common/Carousel.jsx';               // 7. 로고 캐러샐
@@ -21,10 +22,10 @@ export default function MainShow() {
   const [activeSection, setActiveSection] = useState(0);
 
   const sectionConfig = [
-    { id: 'plans', key: 'navPlans' },
+    { id: 'plans', key: 'navPlans' } ,
     { id: 'branches', key: 'navBranches' },
-    { id: 'fee', key: 'navFee' },
     { id: 'support', key: 'navSupport' },
+    { id: 'promotion', key: 'navPromotion' },
     { id: 'partners', key: 'navPartners' },
   ];
 
@@ -89,11 +90,11 @@ export default function MainShow() {
       {/* 2. 지점 안내 섹션 */}
       <div id="branches" className="mainshow-section-frame"><MainPTNSSearch /></div>
 
-      {/* 3. 요금 안내 섹션 */}
-      <div id="fee" className="mainshow-section-frame"><MainFee /></div>
-
-      {/* 4. 고객지원 섹션 */}
+      {/* 3. 고객지원 섹션 */}
       <div id="support" className="mainshow-section-frame"><MainCS /></div>
+
+      {/* 4. 제휴업체 프로모션 안내 섹션 */}
+      <div id="promotion" className="mainshow-section-frame"><MainPromotion /></div>
 
       {/* 5. 제휴문의 섹션 */}
       <div id="partners" className="mainshow-section-frame"><MainPTNS /></div>

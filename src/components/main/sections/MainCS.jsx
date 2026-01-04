@@ -1,26 +1,29 @@
 /**
  * @file src/components/main/sections/MainCS.jsx
  * @description 고객센터 페이지
- * 251216 v1.0.0 sara init
- * 251224 v1.0.1 update (챗봇 제거 → 문의 접수 폼(title,context,img))
- * 251225 v1.0.2 update (문의 접수 폼(email 칸 off/on 권한에 따른 작성 여부 + FAQ)
- * 260102 v1.0.3 update (파일 첨부 미리보기 + 에러/성공 메시지 UI 개선)
+ * 260103 v1.0.5 update (비로그인 UI 개선: 오버레이 + 로그인 버튼 추가)
  */
 
 import { useState, useContext, useMemo, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./MainCS.css";
 import { LanguageContext } from "../../../context/LanguageContext";
 import { useDispatch, useSelector } from "react-redux";
 import { questionStoreThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import { questionImageUploadThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
-import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx';
+import TrashBinIcon from '../../common/icons/TrashBinIcon.jsx';
 
 export default function MainCS() {
   const { t } = useContext(LanguageContext);
-  const [openItems, setOpenItems] = useState(new Set());
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  // 로그인 상태 및 로딩 상태
+  const { isLoggedIn } = useSelector((s) => s.auth);
   const { isLoading: loading, error: questionError } = useSelector((s) => s.questionStore);
+
+  const [openItems, setOpenItems] = useState(new Set());
   const fileInputRef = useRef(null);
 
   const [inqTitle, setInqTitle] = useState("");
@@ -55,6 +58,7 @@ export default function MainCS() {
   }, [previews]);
 
   const onPickFiles = (e) => {
+    if (!isLoggedIn) return;
     const pickedFile = e.target.files ? e.target.files[0] : null;
     setInqFiles(pickedFile);
     setFormStatus({ state: "idle", message: "" });
@@ -67,39 +71,32 @@ export default function MainCS() {
     }
   };
 
-  /**
-   * 문의 접수 제출 핸들러
-   * 1. 첨부된 파일들을 순차적으로 업로드하여 서버 경로(path)를 획득합니다.
-   * 2. 획득한 경로 배열과 제목, 내용을 합쳐 JSON으로 최종 제출합니다.
-   */
   const onInquirySubmit = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      alert(t('coverLoginRequired'));
+      return;
+    }
     setFormStatus({ state: "idle", message: "" });
 
     try {
-      // 1. 파일 업로드 처리 (Multer) - 단일 파일의 path를 획득
       let uploadedImagePath = null;
-
       if (inqFiles) {
-        // postLicenseImageUploadThunk와 동일한 로직으로 개별 파일 업로드
         const resultUpload = await dispatch(questionImageUploadThunk(inqFiles)).unwrap();
         if (resultUpload?.data?.path) {
           uploadedImagePath = resultUpload.data.path;
         }
       }
 
-      // 2. 최종 전송할 JSON 데이터(Payload) 구성
       const payload = {
         title: inqTitle,
         content: inqContent,
-        qnaImg: uploadedImagePath, // 업로드 완료된 단일 이미지 경로
+        qnaImg: uploadedImagePath,
       };
 
-      // 3. API 전송 (JSON 요청)
       const result = await dispatch(questionStoreThunk(payload));
       if (questionStoreThunk.fulfilled.match(result)) {
         setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
-        // 폼 초기화
         setInqTitle("");
         setInqContent("");
         setInqFiles(null);
@@ -121,7 +118,6 @@ export default function MainCS() {
           <h2 className="maincs-title-text">{t("csTitle")}</h2>
           <p className="maincs-subtitle-text">{t("csDesc")}</p>
         </div>
-
         <div className="maincs-actions-group">
           <button
             className="maincs-button maincs-button--primary"
@@ -136,7 +132,6 @@ export default function MainCS() {
       <div className="maincs-grid-2">
         <div className="maincs-card-box maincs-card-box--faq">
           <h3 className="maincs-card-title-text">{t("csFaqTitle")}</h3>
-
           <div className="maincs-faq-list-group">
             {FAQ_DATA.map((x, idx) => (
               <div key={idx} className="maincs-faq-item">
@@ -155,12 +150,10 @@ export default function MainCS() {
                 >
                   {x.q}
                 </button>
-
                 {openItems.has(idx) && <div className="maincs-faq-body-text">{x.a}</div>}
               </div>
             ))}
           </div>
-
           <div className="maincs-info-box">
             <div className="maincs-info-title-text">{t("csOperatingHoursTitle")}</div>
             <div className="maincs-info-desc-text">{t("csOperatingHoursTime")}</div>
@@ -168,7 +161,15 @@ export default function MainCS() {
           </div>
         </div>
 
-        <div className="maincs-card-box maincs-card-box--callback">
+        <div className={`maincs-card-box maincs-card-box--callback ${!isLoggedIn ? 'maincs-disabled' : ''}`}>
+          {!isLoggedIn && (
+            <div className="maincs-disabled-overlay">
+              <span className="maincs-disabled-text">{t('coverLoginRequired')}</span>
+              <button className="maincs-disabled-login-btn" onClick={() => navigate('/login')}>
+                {t('headerLogin')}
+              </button>
+            </div>
+          )}
           <h3 className="maincs-card-title-text">{t("csInquiryTitle")}</h3>
           <div className="maincs-callback-area">
             <p className="maincs-callback-desc-text">{t("csInquiryDesc")}</p>
@@ -179,12 +180,10 @@ export default function MainCS() {
                   className="maincs-field-input"
                   name="title"
                   value={inqTitle}
-                  onChange={(e) => {
-                    setInqTitle(e.target.value);
-                    setFormStatus({ state: "idle", message: "" });
-                  }}
+                  onChange={(e) => setInqTitle(e.target.value)}
                   required
                   placeholder={t("csInquirySubjectPlaceholder")}
+                  disabled={!isLoggedIn}
                 />
               </label>
               <label className="maincs-form-label-group">
@@ -193,14 +192,11 @@ export default function MainCS() {
                   className="maincs-field-textarea"
                   name="content"
                   value={inqContent}
-                  onChange={(e) => {
-                    setInqContent(e.target.value);
-                    setFormStatus({ state: "idle", message: "" });
-                    if (questionError) dispatch(clearQuestionStore()); // 입력 시 Redux 에러도 초기화
-                  }}
+                  onChange={(e) => setInqContent(e.target.value)}
                   required
                   rows={4}
                   placeholder={t("csInquiryContentPlaceholder")}
+                  disabled={!isLoggedIn}
                 />
               </label>
 
@@ -211,9 +207,7 @@ export default function MainCS() {
                     {t('csFileChooseBtn')}
                   </label>
                   <span className="maincs-custom-file-name">
-                    {inqFiles
-                      ? inqFiles.name
-                      : t('csFileNoFileSelected')}
+                    {inqFiles ? inqFiles.name : t('csFileNoFileSelected')}
                   </span>
                   <input
                     ref={fileInputRef}
@@ -222,6 +216,7 @@ export default function MainCS() {
                     type="file"
                     accept="image/*,.pdf"
                     onChange={onPickFiles}
+                    disabled={!isLoggedIn}
                   />
                 </div>
               </div>
@@ -235,7 +230,6 @@ export default function MainCS() {
                       ) : (
                         <div className="maincs-file-nonimg">{t("csFilePlaceholder")}</div>
                       )}
-
                       <div className="maincs-file-meta">
                         <div className="maincs-file-name">{p.name}</div>
                         <div className="maincs-file-size">
@@ -243,7 +237,7 @@ export default function MainCS() {
                         </div>
                       </div>
                       <button type="button" className="maincs-preview-delete-btn" onClick={removeFile}>
-                        <TrashBinBoldShort size={22} />
+                        <TrashBinIcon size={22} />
                       </button>
                     </div>
                   ))}
@@ -253,8 +247,8 @@ export default function MainCS() {
               <button
                 className="maincs-button maincs-button--primary"
                 type="submit"
-                disabled={loading}
-                style={{ height: 44, borderRadius: 12, margin: 5, opacity: loading ? 0.7 : 1 }}
+                disabled={loading || !isLoggedIn}
+                style={{ height: 44, borderRadius: 12, margin: 5, opacity: (loading || !isLoggedIn) ? 0.7 : 1 }}
               >
                 {loading ? t("csInquirySubmitLoading") : t("csInquirySubmit")}
               </button>
@@ -264,7 +258,6 @@ export default function MainCS() {
                   {formStatus.message}
                 </div>
               )}
-
               {formStatus.state === 'success' && (
                 <div className="maincs-form-note-text">
                   {formStatus.message}

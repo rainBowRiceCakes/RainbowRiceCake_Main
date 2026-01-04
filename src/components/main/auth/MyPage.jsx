@@ -1,19 +1,18 @@
 /**
  * @file src/components/main/auth/MyPage.jsx
- * @description 마이 페이지 및 배송 상태 가이드(step img) 
- * 251217 v1.0.0 sara init 
- * 260102 v1.1.0 sara - add delivery tracking feature
- * 260110 v1.2.0 sara - delivery tracking error handling
+ * @description 마이 페이지, 내 문의/배송 내역 조회
+ * 251217 v1.0.0 sara init
+ * 260103 v2.0.0 sara - question history feature
  */
-
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "../../../context/LanguageContext";
 import { ORDER_STATUS } from "../../../constants/orderStatus";
 import { orderIndexThunk } from "../../../store/thunks/orders/orderIndexThunk.js";
-// ✅ allOrders를 세팅하는 액션이 있는 슬라이스에서 가져와야 함 (경로는 프로젝트에 맞게 수정)
+import { getMyQuestionsThunk } from "../../../store/thunks/questions/getMyQuestionsThunk.js";
 import { setAllOrders } from "../../../store/slices/ordersSlice.js";
+import { clearQuestions } from "../../../store/slices/questionsSlice.js";
 import "./MyPage.css";
 
 export default function MyPage() {
@@ -21,32 +20,51 @@ export default function MyPage() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("delivery"); // 'delivery' | 'question'
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('myPageActiveTab') || 'delivery');
 
-  const { allOrders = [] } = useSelector((state) => state.orders || {});
-  const { isLoggedIn, user } = useSelector((state) => state.auth || {});
+  // Redux state
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { allOrders } = useSelector((state) => state.orders);
+  const { questions, loading: questionsLoading } = useSelector((state) => state.questions);
 
-  // ✅ 질문 히스토리 더미(일단 에러 방지용)
-  const dummyQuestions = useMemo(() => [], []);
-
+  // Persist active tab to localStorage
   useEffect(() => {
-    // 로그인 + 유저 존재 + 배송 탭일 때만 호출
-    if (!isLoggedIn || !user || activeTab !== "delivery") return;
+    localStorage.setItem('myPageActiveTab', activeTab);
+  }, [activeTab]);
 
-    dispatch(orderIndexThunk({ userId: user.id, role: "COM" }))
-      .unwrap()
-      .then((res) => {
-        // res.data가 배열인지 확실치 않으면 안전 처리
-        const list = Array.isArray(res?.data) ? res.data : [];
-        dispatch(setAllOrders(list));
-      })
-      .catch(() => {
-        // 에러 나도 UI는 살아있게
-        dispatch(setAllOrders([]));
-      });
-  }, [isLoggedIn, user, activeTab, dispatch]);
+  // Fetch data based on the active tab
+  useEffect(() => {
+    if (!isLoggedIn) return; // Only check isLoggedIn here. ProtectedRouter ensures user is available.
 
-  // 1) 비로그인
+    // If user object is not yet fully populated, wait for next render cycle.
+    // This handles potential race conditions where isLoggedIn is true but user details are still loading.
+    if (isLoggedIn && !user) return; 
+
+    if (activeTab === "delivery") {
+      dispatch(orderIndexThunk({ userId: user?.id, role: "COM" })) // Safely access user.id
+        .unwrap()
+        .then((res) => {
+          const list = Array.isArray(res?.data) ? res.data : [];
+          dispatch(setAllOrders(list));
+        })
+        .catch((error) => {
+          console.error("Failed to fetch orders:", error);
+          dispatch(setAllOrders([]));
+        });
+    } else if (activeTab === "question") {
+      dispatch(getMyQuestionsThunk()); // getMyQuestionsThunk likely handles user ID internally or via token.
+    }
+
+    // Cleanup function to clear data when component unmounts or tab changes
+    return () => {
+      if (activeTab === "question") {
+        dispatch(clearQuestions());
+      }
+      // Consider adding clearAllOrders if necessary when tab changes from delivery
+    };
+  }, [isLoggedIn, activeTab, dispatch, user]); // Added user back to deps to ensure re-fetch when user object fully loads
+
+  // Render non-authenticated view
   if (!isLoggedIn) {
     return (
       <div className="mypage-frame mypage-frame--unauth">
@@ -61,10 +79,9 @@ export default function MyPage() {
     );
   }
 
-  // 2) 로그인
+  // Render authenticated view
   return (
     <div className="mypage-frame mypage-frame--auth">
-      {/* 프로필 카드 */}
       <div className="mypage-profile-card">
         <div className="mypage-profile-circle">👤</div>
         <div>
@@ -73,7 +90,6 @@ export default function MyPage() {
         </div>
       </div>
 
-      {/* 탭 네비게이션 */}
       <div className="mypage-tab-nav">
         <button className={activeTab === "delivery" ? "is-active" : ""} onClick={() => setActiveTab("delivery")}>
           {t("myDeliveryHistory")}
@@ -113,24 +129,43 @@ export default function MyPage() {
           </div>
         ) : (
           <div className="mypage-history-list">
-            {dummyQuestions.length > 0 ? (
-              dummyQuestions.map((question) => (
-                <div key={question.id} className="mypage-question-card">
-                  <div className="question-card-header">
-                    <span className="question-title">{question.title}</span>
-                    <span
-                      className={`status-badge ${
-                        question.status === "답변 완료" ? "is-completed" : "is-pending"
-                      }`}
-                    >
-                      {question.status}
-                    </span>
+            {questionsLoading ? (
+              <div className="empty-msg">Loading...</div>
+            ) : questions.length > 0 ? (
+              questions.map((q) => {
+                let imageUrl = null;
+                if (q.qnaImg) {
+                  try {
+                    const imgData = JSON.parse(q.qnaImg);
+                    imageUrl = imgData.url || q.qnaImg;
+                  } catch (e) {
+                    imageUrl = q.qnaImg;
+                  }
+                }
+                console.log('Question:', q);
+                console.log('q.qnaImg:', q.qnaImg);
+                console.log('Parsed imageUrl:', imageUrl);
+
+                return (
+                  <div key={q.id} className="mypage-question-card">
+                    <div className="question-card-header">
+                      <span className="question-title">{q.title}</span>
+                      <span className={`status-badge ${q.isAnswered ? "is-completed" : "is-pending"}`}>
+                        {q.isAnswered ? t('questionAnswered') : t('questionPending')}
+                      </span>
+                    </div>
+                    <div className="question-card-body">
+                      <p className="question-content">{q.content}</p>
+                      {imageUrl && <img src={imageUrl} alt="Question attachment" className="question-image" />}
+                    </div>
+                    {q.isAnswered && q.answer && (
+                      <div className="question-card-footer">
+                        <p className="question-answer">{q.answer}</p>
+                      </div>
+                    )}
                   </div>
-                  <div className="question-card-body">
-                    <strong className="question-content">{question.content}</strong>
-                  </div>
-                </div>
-              ))
+                );
+              })
             ) : (
               <div className="empty-msg">{t("noQuestionHistory")}</div>
             )}

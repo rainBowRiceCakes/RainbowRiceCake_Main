@@ -1,140 +1,162 @@
 /**
  * @file src/components/main/sections/MainPTNSSearch.jsx
  * @description 제휴업체 검색 페이지 (지도 기반 검색 레이아웃)
- * 251218 v1.0.0 sara init
- * 251220 v1.1.0 sara add kakao map modal
- * 251226 v1.2.0 useKakaoLoader 기반 지점 검색 (Geocoding 및 현위치 통합)
- * 251229 v1.3.0 429 에러 해결을 위한 서버 데이터 연동 및 지오코딩 로직 제거 + 커스텀 오버레이 생성
- * 260103 v1.4.0 z-index 정렬(1-100) 및 모바일 레이아웃 최적화
+ * @date 2026-01-05
+ * @description v2.1.0 Refactored by Senior Full-stack Developer
+ * - 백엔드 API 연동 복구 및 useMemo 최적화 적용
  */
 
-import { useState, useContext, useCallback } from "react";
+import { useState, useContext, useCallback, useMemo } from "react";
 import { Map, MapMarker, CustomOverlayMap, useKakaoLoader } from "react-kakao-maps-sdk";
-import axiosInstance from "../../../api/axiosInstance.js"; //
-import { searchAddressToCoords } from "../../../utils/address.js";
-import { ptnsData } from "../../../data/ptnsdata.js";
+import axiosInstance from "../../../api/axiosInstance.js";
 import "./MainPTNSSearch.css";
 import { LanguageContext } from "../../../context/LanguageContext";
-import { FaLocationDot, FaXmark, FaMagnifyingGlass, FaStore, FaChevronUp, FaChevronDown } from "react-icons/fa6";
-import CrosshairIcon from "../../common/icons/CrosshairIcon";
+import { FaLocationDot, FaXmark, FaMagnifyingGlass, FaStore, FaChevronUp, FaChevronDown, FaPhone, FaMap } from "react-icons/fa6";
+import GpsIcon from "../../common/icons/GpsIcon";
 import ToastNotification from "../../common/ToastNotification.jsx";
 
-const DEFAULT_LOCATION = { lat: 35.86905, lng: 128.59433 };
-const SEARCH_RADIUS = 5000; //
+// 상수 정의
+const DEFAULT_LOCATION = { lat: 35.86905, lng: 128.59433 }; // 기본 위치 (대구 그린컴퓨터)
+const SEARCH_RADIUS = 5000; // 검색 반경 (5km)
+const MOBILE_BREAKPOINT = 768; // 모바일 분기점
 
-function getLangText(field, language) {
-  if (!field) return "";
-  if (typeof field === "string") return field;
-  return field?.[language] ?? field?.ko ?? field?.en ?? "";
-}
+// 상세 정보 팝업 컴포넌트
+const StoreDetailPopup = ({ store, onClose, onNavigate }) => {
+  const { t } = useContext(LanguageContext);
+  if (!store) return null;
+
+  return (
+    <div className="ptnssearch-detail-popup">
+      <button onClick={onClose} className="ptnssearch-detail-close-button"><FaXmark /></button>
+      <div className="ptnssearch-detail-header">
+        <img src={store.logoImg || '/resource/main-logo.png'} alt={store.storeName} className="ptnssearch-detail-logo" />
+        <h4 className="ptnssearch-detail-title">{store.storeName}</h4>
+      </div>
+      <div className="ptnssearch-detail-body">
+        <p className="ptnssearch-detail-info">{store.address}</p>
+        <p className="ptnssearch-detail-info"><FaPhone /> {store.phone || t('noPhoneInfo')}</p>
+      </div>
+      <div className="ptnssearch-detail-footer">
+        <button onClick={onNavigate} className="ptnssearch-detail-nav-btn">
+          <FaMap /> {t('kakaoMapNavigate')}
+        </button>
+      </div>
+    </div>
+  );
+};
+
 
 export default function MainPTNSSearch() {
-  const { t, language } = useContext(LanguageContext);
-
+  const { t } = useContext(LanguageContext);
+  
+  // 상태 관리
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [center, setCenter] = useState(DEFAULT_LOCATION);
-  const [myLocation, setMyLocation] = useState(DEFAULT_LOCATION);
-  const [stores, setStores] = useState([]);
+  const [myLocation, setMyLocation] = useState(null);
+  const [stores, setStores] = useState([]); // API에서 가져온 원본 데이터
   const [selectedStore, setSelectedStore] = useState(null);
-  const [searchedPlace, setSearchedPlace] = useState(null);
   const [keyword, setKeyword] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [map, setMap] = useState(null);
 
+  // 카카오맵 SDK 로더
   const [loading] = useKakaoLoader({
     appkey: import.meta.env.VITE_KAKAO_MAP_API_KEY,
     libraries: ["services"],
   });
 
-  const normalizeStore = useCallback(async (s) => {
-    if (s?.x && s?.y) {
-      return { ...s, lat: Number.parseFloat(s.y), lng: Number.parseFloat(s.x) };
-    }
-    const addr = getLangText(s?.address, language);
-    return new Promise((resolve) => {
-      searchAddressToCoords(addr, (coords) => {
-        resolve({
-          ...s,
-          lat: coords?.lat ?? DEFAULT_LOCATION.lat,
-          lng: coords?.lng ?? DEFAULT_LOCATION.lng,
-        });
-      });
-    });
-  }, [language]);
+  // 백엔드 데이터 -> 컴포넌트 내부 스키마로 정규화
+  const normalizeStoreData = (backendData) => {
+    return {
+      id: backendData.id,
+      storeName: backendData.kr_name,
+      address: backendData.address,
+      lat: Number.parseFloat(backendData.lat),
+      lng: Number.parseFloat(backendData.lng),
+      logoImg: backendData.logo_img,
+      phone: backendData.phone,
+      manager: backendData.manager,
+    };
+  };
 
-  // 서버 통신 로직 복구 및 lat, lng 체크
+  // 주변 제휴업체 데이터 로드 (Live API)
   const fetchNearbyStores = useCallback(async (lat, lng) => {
     try {
       const response = await axiosInstance.get("/api/partners", {
         params: { lat, lng, radius: SEARCH_RADIUS },
       });
-      const serverData = response?.data?.data ?? [];
-      const combinedData = serverData.length > 0 ? serverData : ptnsData;
-      const processed = await Promise.all(combinedData.map(normalizeStore));
-      setStores(processed);
+      const normalized = response.data.data.map(normalizeStoreData);
+      setStores(normalized);
     } catch (error) {
-      console.error("제휴업체 데이터 로드 실패 (로컬 데이터 전환):", error); 
-      const processed = await Promise.all(ptnsData.map(normalizeStore));
-      setStores(processed);
+      console.error("제휴업체 데이터 로드 실패:", error);
+      setShowToast({ message: t('ptnsDataLoadError'), type: 'error' }); // 유저에게 에러 알림
+      setStores([]); // 실패 시 빈 배열로 초기화
     }
-  }, [normalizeStore]);
+  }, [t]);
 
+  // 모달 열기 및 데이터 로드
   const openModalWithData = () => {
     setIsModalOpen(true);
-    fetchNearbyStores(myLocation.lat, myLocation.lng);
-    setCenter(myLocation);
-  };
-
-  const handleKeywordSearch = (query) => {
-    setKeyword(query);
-    if (!query.trim()) {
-      setSearchResults([]);
-      setIsDropdownOpen(false);
-      return;
-    }
-    if (!loading && window.kakao?.maps?.services) {
-      const placesService = new window.kakao.maps.services.Places();
-      placesService.keywordSearch(query, (data, status) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          setSearchResults(data);
-          setIsDropdownOpen(true);
-        }
-      });
+    if (myLocation) {
+      fetchNearbyStores(myLocation.lat, myLocation.lng);
+      setCenter(myLocation);
+    } else {
+      fetchNearbyStores(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng);
+      setCenter(DEFAULT_LOCATION);
     }
   };
 
-  const handleSelectPlace = (place) => {
-    const coords = { lat: Number.parseFloat(place.y), lng: Number.parseFloat(place.x) };
-    setKeyword(place.place_name);
-    setCenter(coords);
-    setIsDropdownOpen(false);
-    setSearchedPlace(place);
-    setSelectedStore(null);
-    fetchNearbyStores(coords.lat, coords.lng); // 검색 장소 기준으로 재조회
-    if (map) map.setCenter(new window.kakao.maps.LatLng(coords.lat, coords.lng));
-  };
+  // 클라이언트 사이드 검색 처리 (useMemo 최적화)
+  const filteredStores = useMemo(() => {
+    if (!keyword.trim()) {
+      return stores;
+    }
+    const lowercasedKeyword = keyword.toLowerCase();
+    return stores.filter(store =>
+      store.storeName.toLowerCase().includes(lowercasedKeyword)
+    );
+  }, [keyword, stores]);
 
+  // 업체 선택 핸들러
   const handleSelectStore = (store) => {
     setSelectedStore(store);
-    setSearchedPlace(null);
-    setCenter({ lat: store.lat, lng: store.lng });
-    setIsSheetOpen(false);
-    if (map) map.panTo(new window.kakao.maps.LatLng(store.lat, store.lng));
-  };
+    const newCenter = { lat: store.lat, lng: store.lng };
+    
+    if (map) {
+      map.panTo(new window.kakao.maps.LatLng(newCenter.lat, newCenter.lng));
 
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        const sheetHeight = window.innerHeight * 0.4;
+        const popupHeight = 150; 
+        const totalOffset = (sheetHeight / 2) + (popupHeight / 2);
+        map.panBy(0, -totalOffset / 2);
+      }
+    }
+    setCenter(newCenter);
+  };
+  
+  // 내 위치 찾기
   const findMyCurrentLocation = () => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const newLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      setMyLocation(newLoc);
-      setCenter(newLoc);
-      if (map) map.setCenter(new window.kakao.maps.LatLng(newLoc.lat, newLoc.lng));
-      if (!isModalOpen) setIsModalOpen(true);
-      fetchNearbyStores(newLoc.lat, newLoc.lng);
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const newLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          setMyLocation(newLoc);
+          setCenter(newLoc);
+          if(map) map.setCenter(new window.kakao.maps.LatLng(newLoc.lat, newLoc.lng));
+          if (!isModalOpen) setIsModalOpen(true);
+          fetchNearbyStores(newLoc.lat, newLoc.lng);
+        },
+        () => {
+          setShowToast({ message: t('locationFailedToRetrieve'), type: 'error' });
+          openModalWithData();
+        }
+      );
+    } else {
+      setShowToast({ message: t('locationNotSupported'), type: 'error' });
+      openModalWithData();
+    }
   };
 
   return (
@@ -146,8 +168,7 @@ export default function MainPTNSSearch() {
         </div>
         <div className="ptnssearch-card-box">
           <div className="ptnssearch-search-placeholder-content">
-            <p className="ptnssearch-search-placeholder-text">{t("ptnsSearchDesc")}</p>
-            <button className="ptnssearch-search-find-btn" onClick={openModalWithData}>
+            <button className="ptnssearch-search-find-btn" onClick={findMyCurrentLocation}>
               <FaLocationDot />
               <span>{t("ptnsSearchFindNearMe")}</span>
             </button>
@@ -166,31 +187,28 @@ export default function MainPTNSSearch() {
               <div className={`ptnssearch-sidebar ${isSheetOpen ? "ptnssearch-sheet-open" : ""}`}>
                 <button className="ptnssearch-mobile-sheet-handle" onClick={() => setIsSheetOpen(!isSheetOpen)}>
                   {isSheetOpen ? <FaChevronDown /> : <FaChevronUp />}
-                  <span>{isSheetOpen ? t("ptnsSearchViewMap") : t("ptnsSearchViewList")}</span>
                 </button>
                 <div className="ptnssearch-sidebar-search-area">
                   <div className="ptnssearch-sidebar-input-wrapper">
                     <FaMagnifyingGlass className="ptnssearch-sidebar-search-icon" />
-                    <input className="ptnssearch-sidebar-search-input" placeholder={t("ptnsSearchPlaceholder")} value={keyword} onChange={(e) => handleKeywordSearch(e.target.value)} />
+                    <input 
+                      className="ptnssearch-sidebar-search-input" 
+                      placeholder={t("ptnsSearchInputPlaceholder")} 
+                      value={keyword} 
+                      onChange={(e) => setKeyword(e.target.value)} 
+                    />
                     {!!keyword && <FaXmark className="ptnssearch-input-clear" onClick={() => setKeyword("")} />}
                   </div>
-                  {isDropdownOpen && searchResults.length > 0 && (
-                    <ul className="ptnssearch-dropdown-list">
-                      {searchResults.map((place) => (
-                        <li key={place.id} onClick={() => handleSelectPlace(place)}>
-                          <div className="drop-place-name">{place.place_name}</div>
-                          <div className="drop-place-addr">{place.road_address_name || place.address_name}</div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                 </div>
                 <div className="ptnssearch-sidebar-store-list">
-                  {stores.length > 0 ? (
-                    stores.map((store) => (
-                      <div key={store.id} className={`ptnssearch-sidebar-store-item ${selectedStore?.id === store.id ? "ptnssearch-is-active" : ""}`} onClick={() => handleSelectStore(store)}>
-                        <div className="ptnssearch-store-item-name"><FaStore />{getLangText(store.storeName, language)}</div>
-                        <div className="ptnssearch-store-item-address">{getLangText(store.address, language)}</div>
+                  {filteredStores.length > 0 ? (
+                    filteredStores.map((store) => (
+                      <div 
+                        key={store.id} 
+                        className={`ptnssearch-sidebar-store-item ${selectedStore?.id === store.id ? "ptnssearch-is-active" : ""}`} 
+                        onClick={() => handleSelectStore(store)}>
+                        <div className="ptnssearch-store-item-name"><FaStore />{store.storeName}</div>
+                        <div className="ptnssearch-store-item-address">{store.address}</div>
                       </div>
                     ))
                   ) : (
@@ -200,43 +218,46 @@ export default function MainPTNSSearch() {
               </div>
 
               <div className="ptnssearch-map-container">
-                {!loading && (
+                {loading ? (
+                  <div className="ptnssearch-map-loading">{t('mapLoading')}</div>
+                ) : (
                   <Map center={center} style={{ width: "100%", height: "100%" }} level={5} onCreate={setMap}>
-                    <CustomOverlayMap position={myLocation} yAnchor={1.0} zIndex={40}>
-                      <div className="current-location-marker" onClick={findMyCurrentLocation} />
-                    </CustomOverlayMap>
-                    <CustomOverlayMap position={myLocation} yAnchor={2.3} zIndex={40}>
-                      <div className="ptnssearch-custom-overlay ptnssearch-my-location-overlay">
-                        {myLocation.lat === DEFAULT_LOCATION.lat && myLocation.lng === DEFAULT_LOCATION.lng ? t("mainLocationHeadquarters") : t("mainLocationMyLocation")}
-                        <div className="overlay-arrow" />
-                      </div>
-                    </CustomOverlayMap>
-                    {stores.map((store) => (
-                      <CustomOverlayMap key={store.id} position={{ lat: store.lat, lng: store.lng }} yAnchor={1.0} zIndex={selectedStore?.id === store.id ? 21 : 10}>
-                        <div className={`partner-custom-marker ${selectedStore?.id === store.id ? "partner-custom-marker-selected" : ""}`} onClick={() => handleSelectStore(store)} />
-                      </CustomOverlayMap>
+                    {myLocation && (
+                      <MapMarker
+                        position={myLocation}
+                        image={{
+                          src: '/resource/marker_black.png',
+                          size: { width: 32, height: 32 },
+                          options: { offset: { x: 16, y: 32 } },
+                        }}
+                        zIndex={10}
+                      />
+                    )}
+                    {filteredStores.map((store) => (
+                       <MapMarker
+                        key={store.id}
+                        position={{ lat: store.lat, lng: store.lng }}
+                        onClick={() => handleSelectStore(store)}
+                        image={{
+                          src: selectedStore?.id === store.id ? '/resource/main-logo.png' : '/resource/marker_black.png',
+                          size: selectedStore?.id === store.id ? { width: 48, height: 48 } : { width: 28, height: 28 },
+                        }}
+                        zIndex={selectedStore?.id === store.id ? 100 : 1}
+                      />
                     ))}
-                    {!!selectedStore && (
-                      <CustomOverlayMap position={{ lat: selectedStore.lat, lng: selectedStore.lng }} yAnchor={3.2} zIndex={22}>
-                        <div className="ptnssearch-custom-overlay ptnssearch-store-overlay">
-                          {getLangText(selectedStore.storeName, language)}
-                          <div className="overlay-arrow" />
-                        </div>
-                      </CustomOverlayMap>
-                    )}
-                    {!!searchedPlace && (
-                      <>
-                        <MapMarker position={{ lat: searchedPlace.y, lng: searchedPlace.x }} zIndex={30} image={{ src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_black.png", size: { width: 64, height: 69 }, options: { offset: { x: 27, y: 69 } } }} />
-                        <CustomOverlayMap position={{ lat: searchedPlace.y, lng: searchedPlace.x }} yAnchor={3.0} zIndex={31}>
-                          <a href={`https://map.kakao.com/link/to/${searchedPlace.id}`} target="_blank" rel="noreferrer" className="ptnssearch-custom-overlay ptnssearch-searched-place-overlay" onClick={() => setShowToast(true)}>
-                            {searchedPlace.place_name}<div className="overlay-arrow" />
-                          </a>
-                        </CustomOverlayMap>
-                      </>
-                    )}
-                    <button className="ptnssearch-current-location-btn" onClick={findMyCurrentLocation} style={{ zIndex: 50 }}>
-                      <CrosshairIcon />
+                    <button 
+                      className={`ptnssearch-current-location-btn ${isSheetOpen ? "sheet-open" : ""}`} 
+                      onClick={findMyCurrentLocation}
+                    >
+                      <GpsIcon />
                     </button>
+                    {selectedStore && (
+                      <StoreDetailPopup 
+                        store={selectedStore}
+                        onClose={() => setSelectedStore(null)}
+                        onNavigate={() => window.open(`https://map.kakao.com/link/to/${selectedStore.storeName},${selectedStore.lat},${selectedStore.lng}`, '_blank')}
+                      />
+                    )}
                   </Map>
                 )}
               </div>
@@ -244,7 +265,7 @@ export default function MainPTNSSearch() {
           </div>
         </div>
       )}
-      {showToast && <ToastNotification message={t("ptnsSearchRedirectionToast")} onClose={() => setShowToast(false)} />}
+      {showToast && <ToastNotification message={showToast.message} onClose={() => setShowToast(false)} />}
     </>
   );
 }

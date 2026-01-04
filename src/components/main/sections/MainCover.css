@@ -94,7 +94,7 @@
 .maincover-delivery-area {
   width: 100%;
   padding: var(--com-section-padding) var(--com-container-padding);
-  background-color: var(--com-color-bg-light);
+  background-color: var(--com-color-gray);
   display: flex;
   justify-content: center;
 }
@@ -155,7 +155,6 @@
   .maincover-visual-area {
     height: 45vh;
   }
-
   /* 모바일에서는 비디오를 전체로 깔고 중앙 정렬 텍스트로 변경하는 것이 가독성이 좋습니다 */
   .maincover-video {
     width: 100%;

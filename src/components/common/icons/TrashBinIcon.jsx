@@ -1,4 +1,4 @@
-export default function TrashBinBoldShort({ size = 22, color = "currentColor", strokeWidth = 13, className = "", ...props }) {
+export default function TrashBinIcon({ size = 22, color = "currentColor", strokeWidth = 13, className = "", ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

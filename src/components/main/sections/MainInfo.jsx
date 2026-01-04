@@ -1,13 +1,13 @@
 /**
  * @file src/components/main/sections/MainInfo.jsx
  * @description 이미지 스타일을 반영한 플랜 선택 UI (모바일 가로 배열 최적화)
- */
+ * 20260105 
+*/
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'; 
 import './MainInfo.css';
 import { useTranslation } from '../../../context/LanguageContext'; //
 import { FaCheck } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 const plansStructure = [
   { id: 'basic', nameKey: "planNameBasic", priceKey: "planPriceBasic", featureKeys: ["planFeature1ItemDelivery"] },
@@ -17,16 +17,6 @@ const plansStructure = [
 
 export default function MainInfo() {
   const { t } = useTranslation();
-  const [selectedPlan, setSelectedPlan] = useState('standard');
-  const [isMobile, setIsMobile] = useState(false);
-
-  // 화면 크기 감지 (모바일 여부 확인)
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   return (
     <div className="mainshow-section-wrapper main-section-padding">
@@ -45,45 +35,37 @@ export default function MainInfo() {
 
         <div className="maininfo-plans-container">
           {plansStructure.map((plan) => {
-            const isActive = selectedPlan === plan.id;
-
             return (
               <motion.div
                 key={plan.id}
                 layout // 레이아웃 변화 자동 애니메이션
-                className={`maininfo-plan-card ${isActive ? 'is-selected' : ''}`}
-                onClick={() => setSelectedPlan(plan.id)}
+                className={`maininfo-plan-card ${plan.recommended ? 'is-recommended' : ''}`}
               >
                 {plan.recommended && (
                   <div className="maininfo-recommended-badge">{t('planRecommended')}</div>
                 )}
                 
                 <div className="maininfo-plan-header">
-                  <h3 className="maininfo-plan-name">{t(plan.nameKey)}</h3>
                   <p className="maininfo-plan-price">
                     {t(plan.priceKey)}
                     <span className="maininfo-price-unit">{t('currencyUnit')}</span>
                   </p>
+                  <h3 className="maininfo-plan-name">{t(plan.nameKey)}</h3>
                 </div>
 
-                <AnimatePresence>
-                  {(!isMobile || isActive) && (
-                    <motion.ul 
-                      className="maininfo-features-list"
-                      initial={isMobile ? { height: 0, opacity: 0 } : false}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {plan.featureKeys.map((featureKey, idx) => (
-                        <li key={idx} className="maininfo-feature-item">
-                          <FaCheck className="maininfo-feature-icon" />
-                          <span>{t(featureKey)}</span>
-                        </li>
-                      ))}
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
+                <motion.ul 
+                  className="maininfo-features-list"
+                  initial={false}
+                  animate={{ height: "auto", opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {plan.featureKeys.map((featureKey, idx) => (
+                    <li key={idx} className="maininfo-feature-item">
+                      <FaCheck className="maininfo-feature-icon" />
+                      <span>{t(featureKey)}</span>
+                    </li>
+                  ))}
+                </motion.ul>
               </motion.div>
             );
           })}

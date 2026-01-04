@@ -1,4 +1,4 @@
-export default function CrosshairSimpleBold({
+export default function GpsIcon({
   size = 24,
   color = "currentColor",
   className = "",

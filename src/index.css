@@ -113,6 +113,7 @@
    /* 섹션 배경 */
    --com-color-blue: #3498db;
    --com-color-green: #2ecc71;
+   --com-color-gray: rgba(107, 114, 128, 0.1);
    --com-color-red: #e74c3c;
    --com-color-black: #111827;
    --com-color-overlay: rgba(15, 23, 42, 0.08);

@@ -1,12 +1,11 @@
 /**
  * @file src/components/main/auth/Login.jsx
  * @description 소셜 로그인 페이지
- * 251217 v1.0.0 sara init
- * 251222 v2.0.0 jun 카카오 소셜 로그인으로 통합
+ * 260103 v3.0.0 jun - 메인으로 돌아가기 버튼 추가
  */
 
 import { useContext } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
 import "./Login.css";
 
@@ -19,7 +18,7 @@ const KakaoSvgIcon = () => (
 // ------------------------------------
 
 export default function Login() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { t } = useContext(LanguageContext);
 
   const handleKakaoLogin = () => {
@@ -39,6 +38,11 @@ export default function Login() {
             <KakaoSvgIcon />
           </span>
           <span className="kakao-btn-text">{t('loginWithKakao')}</span>
+        </button>
+
+        {/* 메인으로 돌아가기 버튼 */}
+        <button className="login-goto-main-btn" onClick={() => navigate('/')}>
+          {t('loginGoToMain')}
         </button>
       </div>
     </div>

@@ -1,0 +1,52 @@
+/**
+ * @file src/components/common/PartnerApplyButton01.css
+ * @description Styles for the floating partnership apply button.
+ */
+
+.partner-apply-button {
+  position: fixed;
+  right: var(--com-container-padding);
+  /* Position it above the TopButton01 */
+  bottom: calc(var(--com-gap-md) + var(--com-size-button-lg) + var(--com-gap-sm));
+  z-index: 3;
+
+  width: var(--com-size-button-lg);
+  height: var(--com-size-button-lg);
+  border-radius: var(--com-radius-pill);
+  
+  background: var(--com-color-black);
+  border: 2px solid transparent;
+  
+  backdrop-filter: blur(10px);
+  box-shadow: var(--com-shadow-default);
+  cursor: pointer;
+
+  color: var(--com-color-white);
+  
+  display: grid;
+  place-items: center;
+  transition: all 0.3s ease;
+}
+
+.partner-apply-button:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: var(--com-shadow-md);
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .partner-apply-button {
+    transition: none;
+  }
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 375px) {
+  .partner-apply-button {
+    width: var(--com-size-button-md);
+    height: var(--com-size-button-md);
+    bottom: calc(var(--com-gap-md) + var(--com-size-button-md) + var(--com-gap-sm));
+  }
+}

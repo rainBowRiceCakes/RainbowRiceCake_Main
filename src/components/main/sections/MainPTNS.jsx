@@ -1,19 +1,29 @@
+/**
+ * @file src/components/main/sections/MainPTNS.jsx
+ * @description 제휴업체 페이지 
+ * 251216 v1.0.0 sara init
+ * 251223 v2.0.0 jun 라이더, 파트너 form 추가
+ * 260102 v2.1.0 sara 미리보기 사진 삭제 기능 removeFile 복구, 주소 변환 부분 searchAddressToCoords 유틸로 분리
+ * 260103 v2.2.0 sara placeholder 다국어 처리, 휴지통 아이콘 컴포넌트화
+*/
+
 import { useContext, useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
 import { footerData } from '../../../data/footerData';
 import { riderFormThunk, partnerFormThunk } from '../../../store/thunks/formThunk.js';
-import TrashBinBoldShort from '../../common/icons/TrashBinBoldShort.jsx'; // 휴지통 아이콘
+import TrashBinIcon from '../../common/icons/TrashBinIcon.jsx'; // 휴지통 아이콘
 import { riderImageUploadThunk, partnerImageUploadThunk } from '../../../store/thunks/imageUploadThunk.js'; 
 import { useKakaoLoader } from 'react-kakao-maps-sdk';
 import { searchAddressToCoords } from '../../../utils/searchAddressToCoords.js'; // 주소 -> 좌표 변환 유틸
 import './MainPTNS.css';
 
 export default function MainPTNS() {
-  const { t, language } = useContext(LanguageContext);
+  const { t, lang } = useContext(LanguageContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   // 1. 프리뷰 및 실제 파일 상태 관리
   const [licenseFile, setLicenseFile] = useState(null);
@@ -104,12 +114,29 @@ export default function MainPTNS() {
   // 9. 라이더 제휴 폼 제출
   const onSubmitRider = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      alert(t('coverLoginRequired'));
+      navigate('/login');
+      return;
+    }
     if (!riderAgreements.terms || !riderAgreements.privacy) {
       alert(t('ptnsAgreeRequiredAlert'));
       return;
     }
     const form = new FormData(e.currentTarget);
     const rawData = Object.fromEntries(form.entries());
+
+    // Validation
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(rawData.riderPhone)) {
+      alert(t('ptnsInvalidPhoneAlert'));
+      return;
+    }
+    const numericRegex = /^\d+$/;
+    if (!numericRegex.test(rawData.accountNumber)) {
+      alert(t('ptnsInvalidAccountAlert'));
+      return;
+    }
 
     try {
       let licenseImgPath = null;
@@ -136,12 +163,29 @@ export default function MainPTNS() {
   // 10. 파트너 제휴 폼 제출
   const onSubmitPartner = async (e) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      alert(t('coverLoginRequired'));
+      navigate('/login');
+      return;
+    }
     if (!partnerAgreements.terms || !partnerAgreements.privacy) {
       alert(t('ptnsAgreeRequiredAlert'));
       return;
     }
     const form = new FormData(e.currentTarget);
     const rawData = Object.fromEntries(form.entries());
+
+    // Validation
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(rawData.partnerPhone)) {
+      alert(t('ptnsInvalidPhoneAlert'));
+      return;
+    }
+    const businessNumRegex = /^\d{11}$/;
+    if (!businessNumRegex.test(rawData.businessNumber)) {
+      alert(t('ptnsInvalidBusinessNumAlert'));
+      return;
+    }
 
     try {
       let logoImgPath = null;
@@ -174,7 +218,7 @@ export default function MainPTNS() {
 
   const modalType = activeModal ? activeModal.split('_')[1] : null;
   const modalContent = modalType
-    ? footerData[language]?.[modalType] || footerData.ko?.[modalType]
+    ? footerData[lang]?.[modalType] || footerData.ko?.[modalType]
     : null;
 
   return (
@@ -188,22 +232,22 @@ export default function MainPTNS() {
 
           <div className="mainptns-grid-layout">
             {/* 라이더 폼 */}
-            <form className="mainptns-card-box form-section" onSubmit={onSubmitRider}>
+            <form id="rider-application-form" className="mainptns-card-box form-section" onSubmit={onSubmitRider}>
               <div className="form-header-row">
                 <h3 className="mainptns-card-title-text">{t('ptnsFormRiderTitle')}</h3>
               </div>
               <div className="mainptns-form-fields-group">
                 <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
-                  <input className="mainptns-field-input" name="riderPhone" required placeholder="010-0000-0000" />
+                  <input className="mainptns-field-input" name="riderPhone" required placeholder={t('ptnsRiderPhonePlaceholder')} />
                 </label>
                 <label className="mainptns-field-label">{t('ptnsAddressLabel')}
                   <input className="mainptns-field-input" name="riderAddress" required placeholder={t('ptnsAddressPlaceholder')} />
                 </label>
                 <label className="mainptns-field-label">{t('ptnsBankNameLabel')}
-                  <input className="mainptns-field-input" name="bankName" required />
+                  <input className="mainptns-field-input" name="bankName" required placeholder={t('ptnsBankNamePlaceholder')} />
                 </label>
                 <label className="mainptns-field-label">{t('ptnsAccountNumLabel')}
-                  <input className="mainptns-field-input" name="accountNumber" required />
+                  <input className="mainptns-field-input" name="accountNumber" required placeholder={t('ptnsAccountNumPlaceholder')} />
                 </label>
                 <div className="mainptns-field-label">
                   {t('ptnsLicenseLabel')}
@@ -212,13 +256,13 @@ export default function MainPTNS() {
                     <label htmlFor="licenseImg" className="mainptns-file-box" style={{
                         backgroundImage: licensePreview ? `url("${licensePreview}")` : 'none',
                         backgroundSize: 'contain', height: licensePreview ? '200px' : '80px',
-                        backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: licensePreview ? 'transparent' : 'inherit'
+                        backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: licensePreview ? 'transparent' : '#ccc'
                       }}>
                       {!licensePreview && (t('ptnsUploadPlaceholder'))}
                     </label>
                     {licensePreview && (
                       <button type="button" className="maincs-preview-delete-btn" onClick={() => removeFile('license')}>
-                        <TrashBinBoldShort size={22} />
+                        <TrashBinIcon size={22} />
                       </button>
                     )}
                   </div>
@@ -238,32 +282,32 @@ export default function MainPTNS() {
             </form>
 
             {/* 파트너 폼 */}
-            <form className="mainptns-card-box form-section" onSubmit={onSubmitPartner}>
+            <form id="partner-application-form" className="mainptns-card-box form-section" onSubmit={onSubmitPartner}>
               <div className="form-header-row">
                 <h3 className="mainptns-card-title-text">{t('ptnsFormPartnerTitle')}</h3>
               </div>
               <div className="mainptns-form-fields-group">
                 <div className="mainptns-input-grid-2">
                   <label className="mainptns-field-label">{t('ptnsManagerNameLabel')}
-                    <input className="mainptns-field-input" name="managerName" required />
+                    <input className="mainptns-field-input" name="managerName" required placeholder={t('ptnsManagerNamePlaceholder')} />
                   </label>
                   <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
-                    <input className="mainptns-field-input" name="partnerPhone" required />
+                    <input className="mainptns-field-input" name="partnerPhone" required placeholder={t('ptnsPartnerPhonePlaceholder')} />
                   </label>
                 </div>
                 <div className="mainptns-input-grid-2">
                   <label className="mainptns-field-label">{t('ptnsStoreNameKrLabel')}
-                    <input className="mainptns-field-input" name="storeNameKr" required />
+                    <input className="mainptns-field-input" name="storeNameKr" required placeholder={t('ptnsStoreNameKrPlaceholder')} />
                   </label>
                   <label className="mainptns-field-label">{t('ptnsStoreNameEnLabel')}
-                    <input className="mainptns-field-input" name="storeNameEn" required />
+                    <input className="mainptns-field-input" name="storeNameEn" required placeholder={t('ptnsStoreNameEnPlaceholder')} />
                   </label>
                 </div>
                 <label className="mainptns-field-label">{t('ptnsBusinessNumLabel')}
-                  <input className="mainptns-field-input" name="businessNumber" required />
+                  <input className="mainptns-field-input" name="businessNumber" required placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="11" />
                 </label>
                 <label className="mainptns-field-label">{t('ptnsAddressLabel')}
-                  <input className="mainptns-field-input" name="storeAddress" required />
+                  <input className="mainptns-field-input" name="storeAddress" required placeholder={t('ptnsAddressPlaceholder')} />
                 </label>
                 <div className="mainptns-field-label">
                   {t('ptnsStoreLogoLabel')}
@@ -272,13 +316,13 @@ export default function MainPTNS() {
                     <label htmlFor="storeLogo" className="mainptns-file-box" style={{
                         backgroundImage: logoPreview ? `url("${logoPreview}")` : 'none',
                         backgroundSize: 'contain', height: logoPreview ? '200px' : '80px',
-                        backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: logoPreview ? 'transparent' : 'inherit'
+                        backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: logoPreview ? 'transparent' : '#ccc'
                       }}>
                       {!logoPreview && (t('ptnsUploadPlaceholder'))}
                     </label>
                     {logoPreview && (
                       <button type="button" className="maincs-preview-delete-btn" onClick={() => removeFile('logo')}>
-                        <TrashBinBoldShort size={22} />
+                        <TrashBinIcon size={22} />
                       </button>
                     )}
                   </div>

@@ -1,11 +1,12 @@
 import React from 'react';
+import { FaDollarSign, FaStar } from 'react-icons/fa6'; // Added FaDollarSign
 
-const NavIcon = ({ icon }) => {
+const HamburgerIcon = ({ icon }) => {
   const svgProps = {
     width: "100%",
     height: "100%",
     viewBox: "0 0 24 24",
-    fill: "none",
+    fill: "none", // Default for stroked icons
     stroke: "currentColor",
     strokeWidth: "2.2",
     strokeLinecap: "round",
@@ -13,6 +14,10 @@ const NavIcon = ({ icon }) => {
   };
 
   switch (icon) {
+    case 'plans':
+      return <FaDollarSign {...svgProps} fill="currentColor" stroke="none" />; // Used FaDollarSign, explicitly set fill and stroke
+    case 'promotion':
+      return <FaStar {...svgProps} fill="currentColor" stroke="none" />; // Explicitly set fill and stroke
     case 'info':
       return (
         <svg {...svgProps} fill="currentColor">
@@ -26,13 +31,6 @@ const NavIcon = ({ icon }) => {
         <svg {...svgProps}>
           <path d="M12 21s6-4.7 6-10a6 6 0 1 0-12 0c0 5.3 6 10 6 10Z" />
           <circle cx="12" cy="11" r="2" />
-        </svg>
-      );
-    case 'fee':
-      return (
-        <svg {...svgProps} fill="currentColor">
-          <path d="M3.5 11.5l8-8H20.5v9l-8 8-9-9Z" />
-          <circle cx="16" cy="8" r="1.5" stroke="currentColor" strokeWidth="2.2"/>
         </svg>
       );
     case 'cs':
@@ -74,4 +72,4 @@ const NavIcon = ({ icon }) => {
   }
 };
 
-export default NavIcon;
+export default HamburgerIcon;

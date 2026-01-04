@@ -16,7 +16,7 @@ import MainShow from "../components/main/MainShow.jsx";
 // 나머지 컴포넌트들은 개별 페이지로의 연결을 가정합니다.
 import MainCover from '../components/main/sections/MainCover.jsx';
 import MainInfo from '../components/main/sections/MainInfo.jsx';
-import MainFee from '../components/main/sections/MainFee.jsx';
+import MainPromotion from '../components/main/sections/MainPromotion.jsx';
 import MainCS from '../components/main/sections/MainCS.jsx';
 import MainPTNS from '../components/main/sections/MainPTNS.jsx';
 import MainPTNSSearch from "../components/main/sections/MainPTNSSearch.jsx";
@@ -56,8 +56,8 @@ const router = createBrowserRouter([
         element: <MainInfo />
       },
       {
-        path: '/sections/fee', // Fee information section
-        element: <MainFee />
+        path: '/sections/promotion', // Promotion information section
+        element: <MainPromotion />
       },
       {
         path: '/sections/support', // Customer Support section

@@ -5,7 +5,6 @@
  * 251223 v2.0.0 v2.0.0 jun 라이더, 파트너 form 추가
  */
 
-
 /* 전체 컨테이너 및 배경 */
 .mainptns-frame {
   width: 100%;
@@ -147,7 +146,7 @@
 }
 
 .mainptns-field-input::placeholder {
-  color: #d1d5db; /* 연한 회색 */
+  color: var(--com-font-muted); /* 연한 회색 */
 }
 
 /* 파일 업로드 박스 */
@@ -163,15 +162,40 @@
   height: 80px;
   border: 1px solid var(--com-border-default);
   border-radius: 8px;
-  background-color: #fafafa;
-  color: #ccc;
+  background-color: var(--com-font-bg-light);
+  color: var(--com-font-gray);
   font-size: 13px;
   cursor: pointer;
 }
 
 .mainptns-file-box:hover {
   border-color: var(--com-color-black);
-  background-color: #f0f0f0;
+  background-color: var(--com-color-bg-light);
+}
+
+.maincs-preview-delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1; /* Ensure it's above the image */
+  transition: background-color 0.2s;
+}
+
+.maincs-preview-delete-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.maincs-preview-delete-btn svg {
+  fill: var(--com-color-white); /* Assuming TrashBinIcon uses fill for color */
 }
 
 /* 하단 버튼 및 약관 */
@@ -422,6 +446,12 @@
 }
 
 /* 모바일 대응 */
+@media screen and (max-width: 768px) {
+  .mainptns-frame {
+    padding: var(--com-gap-xl) 0;
+  }
+}
+
 @media screen and (max-width: 375px) {
   .mainptns-input-grid-2 {
     grid-template-columns: 1fr; /* 모바일에서 그리드 풀기 */

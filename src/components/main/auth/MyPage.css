@@ -231,6 +231,16 @@
   font-size: var(--com-size-content);
   font-weight: var(--com-font-weight-regular);
   color: var(--com-font-primary-color);
+  white-space: pre-wrap; /* Preserve whitespace and newlines */
+  flex-grow: 1;
+}
+
+.question-image {
+  max-width: 120px;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: var(--com-radius-md);
+  margin-left: var(--com-gap-md);
 }
 
 .order-price {

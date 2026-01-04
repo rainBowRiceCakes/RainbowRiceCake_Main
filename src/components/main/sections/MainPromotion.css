@@ -1,0 +1,240 @@
+/**
+ * @file src/components/main/sections/MainFee.css
+ * @description 요금 안내
+ * 251216 v1.0.0 sara init 
+ * 251223 v1.1.0 sara modify UI
+ * 260104 v1.1.1 sara modify contents
+ */
+
+/* 1. 섹션 레이아웃 및 헤더 */
+.mainshow-section-wrapper {
+  max-width: var(--com-web-max-width);
+  margin: 0 auto;
+}
+
+.mainpromotion-frame {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-xl);
+}
+
+.mainpromotion-header-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-xs);
+}
+
+.mainpromotion-eyebrow-text {
+  font-size: 12px;
+  font-weight: var(--com-font-weight-heavy);
+  letter-spacing: 0.18em;
+  color: var(--com-font-secondary-color);
+  margin: 0;
+}
+
+.mainpromotion-title-text {
+  font-size: var(--com-size-title);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  margin: 0;
+}
+
+.mainpromotion-subtitle-text {
+  font-size: var(--com-size-body);
+  color: var(--com-font-secondary-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.mainpromotion-card-frame {
+  width: 100%;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-lg);
+  box-shadow: var(--com-shadow-md);
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mainpromotion-half-frame {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-md);
+}
+
+.mainpromotion-half-frame--left {
+  background: var(--com-color-white);
+  border-right: 1px solid var(--com-border-default);
+}
+
+.mainpromotion-half-frame--right {
+  background: var(--com-color-bg-light);
+}
+
+.mainpromotion-half-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mainpromotion-badge {
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: var(--com-radius-pill);
+  font-size: 12px;
+  font-weight: var(--com-font-weight-heavy);
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+  color: var(--com-font-primary-color);
+}
+
+.mainpromotion-badge--rider {
+  background: var(--com-color-white);
+}
+
+.mainpromotion-badge--owner {
+  background: var(--com-color-white);
+}
+
+.mainpromotion-half-title {
+  font-size: 18px;
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  margin: 0;
+}
+
+.mainpromotion-half-desc {
+  font-size: var(--com-size-body);
+  color: var(--com-font-secondary-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.mainpromotion-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mainpromotion-list-item {
+  font-size: var(--com-size-body);
+  color: var(--com-font-primary-color);
+  line-height: 1.6;
+}
+
+.mainpromotion-rider-image-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--com-gap-sm) 0;
+  max-height: 150px;
+  opacity: 0.7;
+}
+
+.mainpromotion-benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.mainpromotion-cta-frame {
+  display: flex;
+  gap: 10px;
+  margin-top: auto; /* Push to the bottom */
+}
+
+.mainpromotion-cta-frame--right {
+  margin-top: 6px;
+}
+
+.mainpromotion-cta-btn {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: var(--com-radius-pill);
+  border: 1px solid transparent;
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mainpromotion-cta-btn:hover {
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+  transform: translateY(-1px);
+}
+
+.mainpromotion-cta-btn--ghost {
+  background: var(--com-color-white);
+  color: var(--com-font-primary-color);
+  border: 1px solid var(--com-border-default);
+}
+
+.mainpromotion-cta-btn--ghost:hover {
+  background: var(--com-color-white);
+  border-color: transparent;
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.92)) padding-box,
+              var(--com-gradient-rainbow) border-box;
+  border: 1px solid transparent;
+  color: var(--com-font-primary-color);
+  transform: translateY(-1px);
+}
+
+/* ... existing styles ... */
+@media screen and (max-width: 768px) {
+  .mainpromotion-card-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .mainpromotion-half-frame--left {
+    border-right: none;
+    border-bottom: 1px solid var(--com-border-default);
+  }
+}
+
+/* 📱 아이폰 SE (375px 이하) 전용 최적화 */
+@media screen and (max-width: 375px) {
+  .mainpromotion-frame {
+    gap: var(--com-gap-md);
+  }
+  .mainpromotion-half-frame {
+    padding: var(--com-gap-md);
+    gap: var(--com-gap-md);
+  }
+  .mainpromotion-title-text {
+    font-size: var(--com-size-icon);
+  }
+  .mainpromotion-subtitle-text {
+    font-size: var(--com-size-sub-title);
+  }
+  .mainpromotion-half-title {
+    font-size: var(--com-size-subtitle);
+  }
+  .mainpromotion-half-desc {
+    font-size: var(--com-size-content);
+  }
+  .mainpromotion-list {
+    padding-left: var(--com-gap-md);
+  }
+  .mainpromotion-list-item {
+    font-size: var(--com-size-content);
+  }
+  .mainpromotion-benefit-title {
+    font-size: var(--com-size-sub-title);
+  }
+  .mainpromotion-benefit-desc {
+    font-size: var(--com-size-content);
+  }
+  .mainpromotion-cta-btn {
+    padding: var(--com-gap-sm) var(--com-radius-md);
+    font-size: var(--com-size-sub-title);
+  }
+}

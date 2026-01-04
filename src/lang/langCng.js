@@ -8,10 +8,6 @@ export const LANG_CNG = {
     ko: "지점찾기",
     en: "Branches",
   },
-  navFee: {
-    ko: "요금안내",
-    en: "Fee",
-  },
   navSupport: {
     ko: "고객지원",
     en: "Support",
@@ -20,8 +16,16 @@ export const LANG_CNG = {
     ko: "제휴문의",
     en: "Partners",
   },
+  navPromotion: {
+    ko: "프로모션",
+    en: "Promotion",
+  },
 
   // --- src/components/main/sections/MainCover.jsx ---
+  coverHeroTitle: {
+    ko: `무거운 짐은 두고,<br /> <span className="maincover-hero-subtitle">여행은 가볍게.</span>`,
+    en: `Leave the heavy behind,<br /> <span className="maincover-hero-subtitle">take your travel beyond.</span>`
+  },
   coverImageAlt: {
     ko: "우리 서비스 이미지 (1020*500)",
     en: "Our service image (1020*500)",
@@ -137,79 +141,143 @@ export const LANG_CNG = {
     ko: "내 위치",
     en: "My Location"
   },
+  noPhoneInfo: {
+    ko: "연락처 정보 없음",
+    en: "No phone information"
+  },
+  kakaoMapNavigate: {
+    ko: "카카오 지도로 길찾기",
+    en: "Navigate on Kakao Maps"
+  },
+  ptnsDataLoadError: {
+    ko: "제휴업체 정보를 불러오는 데 실패했습니다.",
+    en: "Failed to load partner information."
+  },
 
-  // --- src/components/main/sections/MainFee.jsx ---
-  feeTitle: {
-    ko: "가격 안내",
-    en: "Pricing Information",
+  // --- src/components/main/sections/MainPromotion.jsx ---
+  promotionEyebrow: {
+    ko: "MEMBERSHIP",
+    en: "MEMBERSHIP",
   },
-  feeDesc: {
-    ko: "DGD의 서비스 가격과 배송에 대한 상세 가격을 확인하세요.",
-    en: "Check detailed pricing for DGD's rates and delivery services.",
+  promotionTitle: {
+    ko: "멤버십 혜택",
+    en: "Membership Benefits",
   },
-  feeDaeguDeliveryTitle: {
-    ko: "대구 지역 배송료 안내",
-    en: "Daegu Area Delivery Fee Guide",
+  promotionSubtitle: {
+    ko: `이 서비스는 배송이 아니라, <b>“외국인이 살 수 있는 조건”</b>을 만드는 장치예요.<br />점주는 <b>매출 전환</b>, 기사는 <b>안정 동선</b>. 둘 다 이득이 나게 설계했어요.`,
+    en: `This isn't just a delivery service; it's a tool to create <b>"conditions for foreigners to buy."</b><br />It's designed for a win-win: <b>sales conversion</b> for store owners, and <b>stable routes</b> for riders.`,
   },
-  feeOrderAmount: {
-    ko: "주문 금액",
-    en: "Order Amount",
+  riderBadge: {
+    ko: "🚴 기사",
+    en: "🚴 Rider",
   },
-  feeBaseFee: {
-    ko: "기본 배송료",
-    en: "Base Delivery Fee",
+  riderTitle: {
+    ko: "“익숙한 동선만 반복하는 안정적인 일”",
+    en: `"A stable job with familiar, repetitive routes."`,
   },
-  feeOver10000: {
-    ko: "10,000원 이상",
-    en: "Over 10,000 KRW",
+  riderDesc: {
+    ko: "시내 매장 → 호텔 고정 루트 중심으로 운영돼요. 복잡한 고객 응대 없이, 깔끔한 픽업/전달에 집중할 수 있어요.",
+    en: "Operations are centered on fixed routes from downtown stores to hotels. You can focus on clean pickups and drop-offs without complex customer interactions.",
   },
-  feeFree: {
-    ko: "무료",
-    en: "Free",
+  riderBenefit1: {
+    ko: "<b>고정 수요 루트</b> : 매장 → 호텔/픽업 포인트 중심",
+    en: "<b>Fixed Demand Routes</b>: Focused on store → hotel/pickup points.",
   },
-  feeBetween5000And10000: {
-    ko: "5,000원 ~ 10,000원 미만",
-    en: "5,000 KRW to under 10,000 KRW",
+  riderBenefit2: {
+    ko: "<b>스트레스 낮은 업무</b> : CS/민원 대응 최소화",
+    en: "<b>Low-Stress Work</b>: Minimized customer service and complaint handling.",
   },
-  fee1000KRW: {
-    ko: "1,000원",
-    en: "1,000 KRW",
+  riderBenefit3: {
+    ko: "<b>동시 진행 제한</b> : 최대 3건까지로 운영 (과부하 방지)",
+    en: "<b>Limited Concurrent Jobs</b>: Operate with up to 3 orders at a time (prevents overload).",
   },
-  feeRegionalSurchargeTitle: {
-    ko: "지역별 추가요금",
-    en: "Regional Surcharges",
+  riderBenefit4: {
+    ko: "<b>우선 배정</b> : 멤버십 매장 중심으로 콜/픽업 매칭",
+    en: "<b>Priority Assignment</b>: Calls/pickups matched primarily around member stores.",
   },
-  feeDaebongEtc: {
-    ko: "대봉1동, 대신동, 성내동 :",
-    en: "Daebong 1-dong, Daesin-dong, Seongnae-dong :",
+  riderCtaGuide: {
+    ko: "기사 제휴 안내",
+    en: "Rider Partnership Guide",
   },
-  feePlus500: {
-    ko: "+500원",
-    en: "+500 KRW",
+  riderCtaApply: {
+    ko: "기사 등록 신청",
+    en: "Apply as a Rider",
   },
-  feeNaedangEtc: {
-    ko: "내당동, 대명동, 두류동 :",
-    en: "Naedang-dong, Daemyeong-dong, Duryu-dong :",
+  riderFootnote: {
+    ko: "* 기사 제휴는 안전/운영 기준을 확인한 뒤 순차 오픈돼요.",
+    en: "* Rider partnerships will be opened sequentially after safety/operational standards are confirmed.",
   },
-  feePlus1000: {
-    ko: "+1,000원",
-    en: "+1,000 KRW",
+  partnerBadge: {
+    ko: "🎯 점주 멤버십",
+    en: "🎯 Store Membership",
   },
-  feeSamdeokEtc: {
-    ko: "삼덕동 및 기타 외곽 지역은",
-    en: "For Samdeok-dong and other suburban areas,",
+  partnerTitle: {
+    ko: "월 5만원, “광고비”처럼 체감되는 6가지 베네핏",
+    en: "6 Big Benefits for 50,000 KRW/Month, Feels Like an 'Ad Spend'",
   },
-  fee1500KRW: {
-    ko: "1,500원",
-    en: "1,500 KRW",
+  partnerDesc: {
+    ko: `핵심은 배송이 아니라 <b>외국인에게 “보이는 매장”</b>이 되는 권리예요.<br />(특히 1·5·6번이 가장 강력해요)`,
+    en: `The core isn't delivery, but the right to become a <b>"visible store" to foreigners.</b><br />(Benefits 1, 5, and 6 are especially powerful).`,
   },
-  feeNightHolidaySurchargeTitle: {
-    ko: "야간 및 공휴일 할증",
-    en: "Night & Holiday Surcharges",
+  partnerBenefit1Title: {
+    ko: "1) 관광객 노출 독점",
+    en: "1) Exclusive Exposure to Tourists",
   },
-  feeNightHours: {
-    ko: "23:00 ~ 02:00 (일,월,수,금)",
-    en: "23:00 - 02:00 (Sun, Mon, Wed, Fri)",
+  partnerBenefit1Desc: {
+    ko: `호텔 프런트 QR / “짐 없이 쇼핑 가능한 매장” 지도 / 추천 리스트에 <b> 회원 매장만</b> 노출.`,
+    en: `Only <b>member stores</b> are featured on hotel front desk QRs, "luggage-free shopping" maps, and recommendation lists.`,
+  },
+  partnerBenefit2Title: {
+    ko: "2) 호텔 컨시어지 추천 매장",
+    en: "2) Recommended by Hotel Concierge",
+  },
+  partnerBenefit2Desc: {
+    ko: `“짐 배송 되는 매장”으로 소개 → <b>구매 의도 있는 유입</b>이 들어와요.`,
+    en: `Introduced as a "store with luggage delivery" → Attracts inbound customers with <b>high purchase intent.</b>`,
+  },
+  partnerBenefit3Title: {
+    ko: "3) 배송 가능 매장 ‘공식 인증’",
+    en: "3) 'Official' Delivery-Enabled Store Certification",
+  },
+  partnerBenefit3Desc: {
+    ko: "스티커/QR/표식 제공 → 고객이 바로 이해, 직원 설명 줄고 결제 흐름 안 끊겨요.",
+    en: "Stickers/QRs/signs provided → Customers understand immediately, reducing staff explanations and streamlining checkout.",
+  },
+  partnerBenefit4Title: {
+    ko: "4) 기사 우선 매칭",
+    en: "4) Priority Rider Matching",
+  },
+  partnerBenefit4Desc: {
+    ko: `회원 매장은 우선순위 ↑ 픽업 지연 ↓ 누락 사고 ↓ → “여긴 항상 빨라” 체감.`,
+    en: `Member stores get higher priority ↑, less pickup delay ↓, fewer incidents ↓ → Customers feel "it's always fast here."`,
+  },
+  partnerBenefit5Title: {
+    ko: "5) 월 1회 성과 리포트(PDF/메시지)",
+    en: "5) Monthly Performance Report (PDF/Message)",
+  },
+  partnerBenefit5Desc: {
+    ko: `“포기될 뻔한 구매” 유지 횟수 / 호텔 분포 / 재이용 비율 등 <b> 끊기 어렵게 만드는 데이터</b>를 매달 전달.`,
+    en: `Delivers data that creates lock-in every month, such as number of "rescued sales," hotel distribution, and repeat usage rates.`,
+  },
+  partnerBenefit6Title: {
+    ko: "6) 첫 달 ‘회원권 무료’ + 1건 무료 설계",
+    en: "6) First Month 'Free Membership' + 1 Free Delivery",
+  },
+  partnerBenefit6Desc: {
+    ko: `첫 달: <b>회원권 무료</b> + <b>배송 1건 무료</b>로 “제대로 써보게” 만드는 체험 구조.`,
+    en: `First month: A trial structure with <b>free membership</b> + <b>1 free delivery</b> to let them "truly experience" the service.`,
+  },
+  partnerCtaGuide: {
+    ko: "멤버십 소개서 받기",
+    en: "Get Membership Brochure",
+  },
+  partnerCtaApply: {
+    ko: "점주 멤버십 신청",
+    en: "Apply for Store Membership",
+  },
+  partnerQuote: {
+    ko: `“이 회원권은 배송을 쓰는 권리가 아니라<br />외국인에게 <b>‘보이는 매장’</b>이 되는 권리입니다.”`,
+    en: `"This membership isn't the right to use delivery;<br />it's the right to become a <b>'visible store'</b> to foreigners."`,
   },
 
   // --- src/components/main/sections/MainDLVS.jsx ---
@@ -491,15 +559,8 @@ export const LANG_CNG = {
   },
 
   // --- src/components/main/sections/MainPTNS.jsx ---
-  // 제휴 신청(form)
-  ptnsAgreeRequiredAlert: {
-    ko: "개인정보 수집·이용 동의가 필요해.",
-    en: "Agreement to the collection and use of personal information is required.",
-  },
-  ptnsSubmitSuccessAlert: {
-    ko: "제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.",
-    en: "Your partnership inquiry has been successfully submitted. We will review it and contact you.",
-  },
+// --- src/components/main/sections/MainPTNS.jsx ---
+  // --- 제휴 신청(Form) 관련 데이터 ---
   ptnsTitle: {
     ko: "제휴 신청",
     en: "Apply for partnership",
@@ -510,11 +571,11 @@ export const LANG_CNG = {
   },
   ptnsFormRiderTitle: {
     ko: "라이더 제휴 신청",
-    en: "Rider Affiliate Application"
+    en: "Rider Affiliate Application",
   },
   ptnsFormPartnerTitle: {
     ko: "파트너 제휴 신청",
-    en: "Partner Affiliate Application"
+    en: "Partner Affiliate Application",
   },
   ptnsTabRider: {
     ko: "라이더",
@@ -532,39 +593,45 @@ export const LANG_CNG = {
     ko: "파트너 등록하기",
     en: "Register as Partner",
   },
+
   /* 라이더 전용 필드 */
   ptnsPhoneLabel: {
     ko: "휴대폰 번호 (필수)",
-    en: "Phone Number (Required)"
+    en: "Phone Number (Required)",
+  },
+  ptnsRiderPhonePlaceholder: {
+    ko: "010-0000-0000 ('-' 포함)",
+    en: "010-0000-0000 (with '-')",
   },
   ptnsAddressLabel: {
     ko: "주소 (필수)",
-    en: "Address (Required)"
+    en: "Address (Required)",
   },
   ptnsAddressPlaceholder: {
     ko: "도로명 주소",
-    en: "Road Name Address"
+    en: "Road Name Address",
   },
   ptnsBankNameLabel: {
     ko: "은행 이름 (필수)",
     en: "Bank Name (Required)",
   },
-  ptnsStoreNamePlaceholder: {
+  ptnsBankNamePlaceholder: {
     ko: "예) 농협",
-    en: "ex) Nonghyup"
+    en: "e.g. NH Bank",
   },
   ptnsAccountNumLabel: {
     ko: "계좌 번호 (필수)",
     en: "Account Number (Required)",
   },
-  ptnsAccountNumber: {
-    ko: "예) 792XXXXXXXXXX",
-    en: "ex) 792XXXXXXXXXX"
+  ptnsAccountNumPlaceholder: {
+    ko: "예) 12312123456 ('-' 제외)",
+    en: "e.g. 12312123456 (numbers only)",
   },
   ptnsLicenseLabel: {
     ko: "운전 면허 등록 (필수)",
     en: "Driver's License (Required)",
   },
+
   /* 파트너 전용 필드 */
   ptnsManagerNameLabel: {
     ko: "담당자 이름 (필수)",
@@ -572,28 +639,42 @@ export const LANG_CNG = {
   },
   ptnsManagerNamePlaceholder: {
     ko: "예) 홍길동",
-    en: "ex) Hong Gil-Dong"
+    en: "e.g. John Doe",
+  },
+  ptnsPartnerPhonePlaceholder: {
+    ko: "010-0000-0000 ('-' 포함)",
+    en: "010-0000-0000 ('-' included)",
   },
   ptnsStoreNameKrLabel: {
     ko: "가게 한글 이름 (필수)",
     en: "Store Name (Korean/Required)",
   },
+  ptnsStoreNameKrPlaceholder: {
+    ko: "예) 무지개 떡집",
+    en: "e.g. Rainbow Rice Cake (KR)",
+  },
   ptnsStoreNameEnLabel: {
     ko: "가게 영어 이름 (필수)",
     en: "Store Name (English/Required)",
   },
-  ptnsStoreEnNamePlaceholder: {
-    ko: "예) rainbow rice cake",
-    en: "ex) rainbow rice cake"
+  ptnsStoreNameEnPlaceholder: {
+    ko: "예) Rainbow Rice Cake",
+    en: "e.g. Rainbow Rice Cake (EN)",
   },
   ptnsBusinessNumLabel: {
     ko: "사업자 번호 (필수)",
     en: "Business Registration No. (Required)",
   },
+  ptnsBusinessNumPlaceholder: {
+    ko: "00000000000 (11자리 숫자만)",
+    en: "00000000000 (11 digits only)",
+  },
   ptnsStoreLogoLabel: {
     ko: "가게 로고 사진 (필수)",
     en: "Store Logo Image (Required)",
   },
+
+  /* 공통 요소 및 알림 */
   ptnsUploadPlaceholder: {
     ko: "사진을 등록해주세요.",
     en: "Please upload a photo.",
@@ -604,22 +685,48 @@ export const LANG_CNG = {
   },
   ptnsAgreementLabel: {
     ko: "개인정보 수집 및 이용에 동의합니다.",
-    en: "I agree to the collection and use of my personal information."
+    en: "I agree to the Privacy Policy.",
   },
   ptnsRequired: {
     ko: "(필수)",
-    en: "(Required)"
+    en: "(Required)",
   },
   ptnsModalCancel: {
     ko: "취소",
-    en: "Cancel"
+    en: "Cancel",
   },
   ptnsModalConfirm: {
     ko: "동의 및 확인",
-    en: "Agree and Confirm"
+    en: "Agree and Confirm",
+  },
+  ptnsAgreeRequiredAlert: {
+    ko: "개인정보 수집·이용 동의가 필요합니다.",
+    en: "Agreement to the collection and use of personal information is required.",
+  },
+  ptnsSubmitSuccessAlert: {
+    ko: "제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.",
+    en: "Your partnership inquiry has been successfully submitted. We will review it and contact you.",
   },
 
-  // 제휴 안내
+  /* 유효성 검사 알림 */
+  ptnsInvalidPhoneAlert: {
+    ko: "전화번호 형식이 올바르지 않습니다. (010-0000-0000)",
+    en: "Invalid phone format. Please use 010-0000-0000.",
+  },
+  ptnsInvalidBusinessNumAlert: {
+    ko: "사업자 번호는 하이픈 없이 11자리 숫자로 입력해주세요.",
+    en: "Please enter an 11-digit business number without hyphens.",
+  },
+  ptnsInvalidAccountAlert: {
+    ko: "계좌번호는 숫자만 입력해주세요.",
+    en: "Please enter numbers only for the account number.",
+  },
+  ptnsErrorAlert: {
+    ko: "오류가 발생했습니다: ",
+    en: "An error occurred: ",
+  },
+
+  /* 제휴 안내 가이드 */
   ptnsGuideTitle: {
     ko: "제휴 안내",
     en: "Partnership Guide",
@@ -642,7 +749,7 @@ export const LANG_CNG = {
   },
   ptnsAgreementTitle: {
     ko: "개인정보 동의",
-    en: "Personal Information Agreement",
+    en: "Privacy Policy Agreement",
   },
   ptnsAgreementDesc: {
     ko: "동의 체크가 없으면 제출이 불가해요.",
@@ -656,7 +763,7 @@ export const LANG_CNG = {
     ko: "“제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.”",
     en: "'Your partnership inquiry has been successfully submitted. We will review it and contact you.'",
   },
-
+  
   // --- src/components/main/auth/Login.jsx ---
   loginTitle: {
     ko: "로그인",
@@ -686,6 +793,10 @@ export const LANG_CNG = {
     ko: "뒤로가기",
     en: "Go back",
   },
+  loginGoToMain: {
+    ko: "메인으로 이동",
+    en: "Go to Main",
+  },
   loginWithKakao: {
     ko: "카카오 소셜 로그인",
     en: "Login with Kakao"
@@ -699,6 +810,18 @@ export const LANG_CNG = {
   headerLogout: {
     ko: "로그아웃",
     en: "LOGOUT"
+  },
+  logoutSuccess: {
+    ko: "로그아웃되었습니다.",
+    en: "You have been successfully logged out."
+  },
+  logoutFailed: {
+    ko: "로그아웃에 실패했습니다. 다시 시도해주세요.",
+    en: "Logout failed. Please try again."
+  },
+  alertConfirm: {
+    ko: "확인",
+    en: "Confirm"
   },
   headerMyPage: {
     ko: "마이페이지",
@@ -918,6 +1041,14 @@ export const LANG_CNG = {
   "noQuestionHistory": {
     "ko": "문의 내역이 없습니다.",
     "en": "No question history available."
+  },
+  "questionAnswered": {
+    "ko": "답변 완료",
+    "en": "Answered"
+  },
+  "questionPending": {
+    "ko": "답변 대기중",
+    "en": "Pending"
   },
   // --- src/components/main/auth/Social.jsx ---
   "socialLoginFailed": {
