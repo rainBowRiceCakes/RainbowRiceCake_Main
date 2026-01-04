@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../../api/axiosInstance";
 
 export const updateProfileThunk = createAsyncThunk(
   "profile/updateProfileThunk",
-  async ({ phone, address }, { rejectWithValue }) => {
+  async ({ phone, address, manager }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`/api/profile`, {
+      const response = await axiosInstance.put(`/api/profiles`, {
         phone,
         address,
+        manager,
       });
 
       return response.data;

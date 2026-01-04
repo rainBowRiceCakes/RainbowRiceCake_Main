@@ -2,7 +2,7 @@ import './SideBar.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { setActiveMenu } from '../../../store/slices/partnerMenuSlice';
+import { setActiveMenu } from '../../../store/slices/partnerMenuSlice.js';
 import { logoutThunk } from '../../../store/thunks/authThunk.js';
 import { clearAuth } from '../../../store/slices/authSlice.js';
 
@@ -12,18 +12,41 @@ const Sidebar = ({ isCollapsed }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // customer가 details 작성할때, 변경에 따른 액티브 메뉴 업데이트
   useEffect(() => {
     const path = location.pathname;
-    // 경로에 따른 액티브 메뉴 설정 로직 (기존 유지)
-    if (path === '/partner' || path === '/partner/') {
+
+    if (path === '/partners' || path === '/partners/') {
       if (activeMenu !== 'home') dispatch(setActiveMenu('home'));
-    } else if (path.includes('/partners/orders')) {
-      if (activeMenu !== 'request' && activeMenu !== 'history') dispatch(setActiveMenu('history'));
-    } else if (path.includes('/partners/notices')) {
+      return;
+    }
+
+    if (path.startsWith('/partners/orders/new')) {
+      if (activeMenu !== 'request') dispatch(setActiveMenu('request'));
+      return;
+    }
+
+    if (path.startsWith('/partners/orders')) {
+      if (activeMenu !== 'history') dispatch(setActiveMenu('history'));
+      return;
+    }
+
+    if (path.startsWith('/partners/notices')) {
       if (activeMenu !== 'notice') dispatch(setActiveMenu('notice'));
-    } else if (path.includes('/partners/help')) {
+      return;
+    }
+
+    if (path.startsWith('/partners/help')) {
       if (activeMenu !== 'qna') dispatch(setActiveMenu('qna'));
-    } else if (path.includes('/partners/profile')) {
+      return;
+    }
+
+    if (path.startsWith('/partners/settlement')) {
+      if (activeMenu !== 'settlement') dispatch(setActiveMenu('settlement'));
+      return;
+    }
+
+    if (path.startsWith('/partners/profile')) {
       if (activeMenu !== 'mypage') dispatch(setActiveMenu('mypage'));
     }
   }, [location.pathname, activeMenu, dispatch]);

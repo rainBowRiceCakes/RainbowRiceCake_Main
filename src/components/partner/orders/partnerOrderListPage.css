@@ -109,36 +109,52 @@
   border: 1px solid #D5D5D5;
   border-radius: 12px;
   overflow: hidden;
+  align-items: center;
 }
 
+/* 1. 테이블 전체 정렬 및 셀 기본 중앙 정렬 */
 .order_table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+  /* 셀 너비를 일정하게 유지 */
 }
 
-.order_table th {
-  background: #F9F9F9;
-  padding: 15px;
-  text-align: left;
-  font-size: 14px;
-  color: #202224;
-  border-bottom: 1px solid #D5D5D5;
-}
-
+.order_table th,
 .order_table td {
-  padding: 18px 15px;
-  font-size: 14px;
-  color: #202224;
-  border-bottom: 1px solid #F1F3F9;
+  text-align: center !important;
+  /* 가로 중앙 */
+  vertical-align: middle !important;
+  /* 세로 중앙 */
+  padding: 12px 8px;
+}
+
+/* 2. [중요] 주문 내역 셀 (📸 아이콘 있는 부분) */
+.order_detail_cell {
+  display: flex !important;
+  justify-content: center !important;
+  /* 가로 중앙 */
+  align-items: center !important;
+  /* 세로 중앙 */
+  gap: 5px;
+  /* 아이콘과 텍스트 사이 간격 */
+  width: 100%;
+}
+
+/* 3. 상태 뱃지 중앙 정렬 보장 */
+.status_badge {
+  display: inline-block;
+  /* block이면 좌우로 꽉 차니 inline-block 유지 */
+  margin: 0 auto;
+}
+
+.no_data_cell {
+  text-align: center;
+  /* 데이터 없는 경우 중앙 정렬 */
 }
 
 .text_bold {
   font-weight: 600;
-}
-
-.order_detail_cell {
-  display: flex;
-  align-items: center;
 }
 
 .photo_icon {

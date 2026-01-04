@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateProfileThunk } from "../thunks/profile/updateProfileThunk.js";
 import { getProfileThunk } from "../thunks/profile/getProfileThunk.js";
+import { updateProfileThunk } from "../thunks/profile/updateProfileThunk.js";
 
 const profileSlice = createSlice({
     name: "profile",
@@ -14,6 +14,7 @@ const profileSlice = createSlice({
         builder
             .addCase(getProfileThunk.pending, (state) => {
                 state.isLoading = true;
+                state.error = null;
             })
             .addCase(getProfileThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -26,6 +27,7 @@ const profileSlice = createSlice({
             })
             .addCase(updateProfileThunk.pending, (state) => {
                 state.isLoading = true;
+                state.error = null;
             })
             .addCase(updateProfileThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -33,7 +35,7 @@ const profileSlice = createSlice({
             })
             .addCase(updateProfileThunk.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.payload;
+                state.error = action.payload || "프로필 수정 실패";
             });
     },
 });

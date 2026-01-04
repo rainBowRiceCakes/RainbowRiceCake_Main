@@ -86,8 +86,10 @@ export default function RiderIssueReportPage({ reporterTypeFixed = null }) {
 
     try {
       const requestData = {
+        orderId,
         title: title.trim(),
         content: content.trim(),
+        reporterType: reporterTypeFixed
       };
 
       // 2. 이미지 업로드 처리

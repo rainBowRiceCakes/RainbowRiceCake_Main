@@ -2,16 +2,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { orderIndexThunk } from "../thunks/orders/orderIndexThunk";
 import { uploadCompletePhoto, uploadPickupPhoto } from "../thunks/orders/orderPicsThunk.js";
+import { submitDeliveryRequest } from "../thunks/requests/submitDeliveryRequestThunk.js";
+import { getHourlyStatsThunk } from "../thunks/orders/orderStatsThunk.js";
 
 const initialState = {
   orders: [],
+  stats: [], // ✅ 차트용 통계 데이터 저장소 추가
   loading: false,
   error: null,
   pagination: {
     currentPage: 1,
     totalPages: 1,
     totalItems: 0,
-    itemsPerPage: 5 // RiderMainPage의 IITEMS_PER_PAGE와 맞춤
+    itemsPerPage: 5
   },
   activeTab: localStorage.getItem("activeRiderTab") || "waiting",
 };
@@ -26,15 +29,6 @@ const ordersSlice = createSlice({
       state.orders = [];
       localStorage.setItem("activeRiderTab", action.payload);
     },
-    // 1. [점주] 주문 생성 (초기 상태: req)
-    createOrder(state, action) {
-      state.orders.push({
-        ...action.payload,
-        statusCode: 'req', // 요청됨
-        riderId: null,
-      });
-    },
-
     // 2. [기사] 주문 수락 -> 상태: mat (MATCHED)
     acceptOrder(state, action) {
       const { id, riderId } = action.payload;
@@ -103,8 +97,14 @@ const ordersSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "주문 리스트를 불러오는데 실패했습니다.";
       })
+      .addCase(submitDeliveryRequest.fulfilled, (state, action) => {
+        const newOrder = action.payload.data || action.payload;
+        if (newOrder) {
+          state.orders.unshift(newOrder); // 리스트 맨 처음에 추가
+          state.pagination.totalItems += 1;
+        }
+      })
       // --- 🚀 [추가] 사진 업로드 성공 시 상태 업데이트 로직 ---
-
       // 2. 픽업 사진 업로드 성공 시 (mat -> pick)
       .addCase(uploadPickupPhoto.fulfilled, (state, action) => {
         // action.payload에 서버가 보낸 orderId나 updatedOrder가 들어있어야 합니다.
@@ -122,6 +122,18 @@ const ordersSlice = createSlice({
         if (target) {
           target.status = "com";
         }
+      })
+      .addCase(getHourlyStatsThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getHourlyStatsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        // 주문이 있는 시간대만 필터링해서 저장 (차트를 촘촘하게!)
+        state.stats = action.payload.filter(item => item.count > 0);
+      })
+      .addCase(getHourlyStatsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.msg || "통계 데이터를 가져오지 못했습니다.";
       });
   },
 });

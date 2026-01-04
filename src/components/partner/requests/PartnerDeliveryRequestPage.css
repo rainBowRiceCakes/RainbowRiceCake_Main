@@ -1,5 +1,3 @@
-/* PartnerDeliveryRequestPage.css */
-
 /* 1. Layout & Common Styles */
 .delivery_request_page {
   padding: 40px;
@@ -7,11 +5,27 @@
   min-height: 100vh;
 }
 
+.header_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
 .main_title {
   font-size: 28px;
   font-weight: 800;
-  margin-bottom: 30px;
   color: #333;
+  margin: 0;
+}
+
+.step_indicator {
+  font-weight: 600;
+  font-size: 14px;
+  color: #4d44ff;
+  background: #eef2ff;
+  padding: 6px 16px;
+  border-radius: 20px;
 }
 
 .section_label {
@@ -19,10 +33,6 @@
   font-size: 14px;
   padding: 15px 0;
   font-weight: 600;
-}
-
-.step_container {
-  width: 100%;
 }
 
 /* 2. Step 1: Plan Selection Layout */
@@ -33,7 +43,6 @@
   align-items: start;
 }
 
-/* Plan Cards (Left Section) */
 .plan_list_section h3 {
   margin-bottom: 10px;
   font-size: 1.2rem;
@@ -97,19 +106,24 @@
   color: #4d44ff;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
 .btn_select:hover {
   background: #e5e8ff;
 }
 
-.plan_card.active .btn_select {
+.btn_select.active {
   background: #4d44ff;
   color: white;
 }
 
-/* Summary Card (Right Section) */
+.btn_select.active:hover {
+  background: #ff4d4d;
+  /* 삭제 의미 부여 */
+}
+
+/* Summary Card */
 .summary_card_wrapper {
   background: white;
   border: 1px solid #eee;
@@ -121,17 +135,32 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
+.selected_items_scroll {
+  flex: 1;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
 .selected_card_mini {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f9f9f9;
 }
 
 .mini_info strong {
-  font-size: 18px;
+  font-size: 16px;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.quantity_row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .quantity_control {
@@ -139,37 +168,30 @@
   align-items: center;
   gap: 12px;
   background: #f1f3f5;
-  padding: 4px 12px;
-  border-radius: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
 }
 
 .quantity_control button {
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #4d44ff;
   cursor: pointer;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.quantity_control span {
-  font-size: 15px;
-  font-weight: 800;
+.item_total_price {
+  font-weight: 700;
   color: #333;
-  min-width: 20px;
-  text-align: center;
+  font-size: 15px;
 }
 
 .btn_remove_link {
   background: none;
   border: none;
   color: #ff4d4d;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
@@ -177,25 +199,16 @@
 
 .price_summary {
   margin-top: auto;
-  padding-top: 25px;
+  padding-top: 20px;
   border-top: 1px dashed #eee;
 }
 
-.price_row {
+.price_row.total {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
-  font-size: 15px;
-  color: #666;
-}
-
-.price_row.total {
   font-size: 20px;
   font-weight: 800;
   color: #333;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #f0f0f0;
 }
 
 .btn_next_submit {
@@ -208,12 +221,7 @@
   font-weight: 800;
   font-size: 17px;
   cursor: pointer;
-  margin-top: 25px;
-  transition: opacity 0.2s;
-}
-
-.btn_next_submit:hover {
-  opacity: 0.9;
+  margin-top: 20px;
 }
 
 .empty_state {
@@ -226,106 +234,145 @@
   border: 2px dashed #f0f0f0;
   border-radius: 20px;
   font-size: 14px;
-  line-height: 1.6;
 }
 
-/* 3. Step 2: Customer Details Layout */
+.btn_reset_all {
+  width: 100%;
+  background: transparent;
+  color: #9ca3af;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 15px;
+  text-decoration: underline;
+}
+
+/* --- Step 2: Customer Form (기존 CSS 하단에 추가) --- */
+
 .step_container.centered {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
+  padding: 40px 0;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .customer_details_card {
-  background: #5c59d1;
-  /* Primary Purple */
-  width: 480px;
-  padding: 45px;
-  border-radius: 32px;
-  color: white;
-  box-shadow: 0 15px 40px rgba(92, 89, 209, 0.2);
+  background: white;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #f0f0f0;
+}
+
+.btn_back {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.btn_back:hover {
+  color: #4d44ff;
 }
 
 .customer_details_card h3 {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 8px;
+  color: #333;
 }
 
 .card_subtitle {
-  font-size: 13px;
-  opacity: 0.7;
-  margin-bottom: 35px;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 30px;
 }
 
 .form_group {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .form_group label {
   display: block;
-  font-size: 13px;
-  margin-bottom: 10px;
-  font-weight: 500;
-  color: #e5e5ff;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #555;
 }
 
 .input_row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 12px;
 }
 
 .customer_details_card input,
 .customer_details_card select {
   width: 100%;
   padding: 14px;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  font-size: 14px;
-  transition: background 0.2s;
+  font-size: 15px;
+  background-color: #f9fafb;
+  transition: all 0.2s;
 }
 
-.customer_details_card input:focus {
-  background: rgba(255, 255, 255, 0.25);
+.customer_details_card input:focus,
+.customer_details_card select:focus {
   outline: none;
-}
-
-.customer_details_card input::placeholder {
-  color: #c9c9f5;
+  border-color: #4d44ff;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(77, 68, 255, 0.1);
 }
 
 .help_link {
-  font-size: 11px;
-  color: #d1d1f0;
-  margin-top: 8px;
   display: block;
-  text-decoration: underline;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #aaa;
+  font-style: italic;
 }
 
 .btn_submit {
   width: 100%;
   padding: 16px;
-  margin-top: 20px;
-  background: #A992FE;
-  /* Accent Purple/Lavender */
+  background-color: #4d44ff;
+  /* 제출 버튼은 메인 컬러로 */
   color: white;
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   font-weight: 800;
   font-size: 17px;
   cursor: pointer;
-  transition: transform 0.2s;
+  margin-top: 25px;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .btn_submit:hover {
-  transform: scale(1.02);
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-.footer_notice {
-  text-align: center;
-  font-size: 11px;
-  margin-top: 20px;
-  opacity: 0.8;
+.btn_submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

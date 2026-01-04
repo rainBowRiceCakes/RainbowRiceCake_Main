@@ -10,8 +10,7 @@ export const orderShowThunk = createAsyncThunk(
       const url = `/api/orders/${orderId}`;
 
       const response = await axiosInstance.get(url);
-      console.log("1. 서버 데이터 도착:", response.data);
-      // response.data.data 구조가 index와 동일하다고 가정합니다.
+
       return response.data.data;
 
     } catch (error) {

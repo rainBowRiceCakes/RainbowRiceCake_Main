@@ -1,32 +1,57 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { submitDeliveryRequest } from "../thunks/requests/submitDeliveryRequestThunk";
+
+const initialState = {
+  selectedPlans: [],
+  customerDetails: {
+    firstName: '',
+    lastName: '',
+    email: '',
+    hotel: ''
+  },
+  loading: false,
+  error: null
+};
 
 const deliverySlice = createSlice({
   name: "delivery",
-  initialState: {
-    selectedPlan: null,    // { id: 'basic', name: 'Basic', quantity: 1 }
-    customerDetails: null, // 외국인 고객이 입력할 정보
-    status: 'idle',        // idle | loading | success
-  },
+  initialState,
   reducers: {
-    selectPlan: (state, action) => {
-      state.selectedPlan = action.payload;
+    addPlan: (state, action) => {
+      const existing = state.selectedPlans.find(p => p.id === action.payload.id);
+      if (existing) existing.quantity += 1;
+      else state.selectedPlans.push(action.payload);
+    },
+    removePlan: (state, action) => {
+      state.selectedPlans = state.selectedPlans.filter(p => p.id !== action.payload);
     },
     updateQuantity: (state, action) => {
-      if (state.selectedPlan) {
-        // 수량은 최소 1개 이상으로 유지
-        state.selectedPlan.quantity = Math.max(1, state.selectedPlan.quantity + action.payload);
+      const { planId, amount } = action.payload;
+      const plan = state.selectedPlans.find(p => p.id === planId);
+      if (plan) {
+        plan.quantity += amount;
+        if (plan.quantity <= 0) state.selectedPlans = state.selectedPlans.filter(p => p.id !== planId);
       }
     },
     setCustomerDetails: (state, action) => {
-      state.customerDetails = action.payload;
+      state.customerDetails = { ...state.customerDetails, ...action.payload };
     },
-    resetDelivery: (state) => {
-      state.selectedPlan = null;
-      state.customerDetails = null;
-      state.status = 'idle';
-    }
+    resetDelivery: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(submitDeliveryRequest.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(submitDeliveryRequest.fulfilled, (state) => {
+        return initialState; // 성공 시 모든 상태(장바구니, 입력폼) 초기화
+      })
+      .addCase(submitDeliveryRequest.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   }
 });
 
-export const { selectPlan, updateQuantity, setCustomerDetails, resetDelivery } = deliverySlice.actions;
+export const { addPlan, removePlan, updateQuantity, setCustomerDetails, resetDelivery } = deliverySlice.actions;
 export default deliverySlice.reducer;

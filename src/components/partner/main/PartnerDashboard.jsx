@@ -1,59 +1,79 @@
-import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfileThunk } from '../../../store/thunks/profile/getProfileThunk.js';
-import PartnerStatCard from './PartnerStatCard';
+import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js';
+import HourlyOrderChart from './barChart.jsx';
+import PartnerStatCard from './PartnerStatCard.jsx';
 import './PartnerDashboard.css';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
 
 const PartnerDashboard = () => {
-  const [activeTab, setActiveTab] = useState('요청');
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [now, setNow] = useState(dayjs());
 
-  // 1. 리덕스 상태 가져오기
-  const profile = useSelector((state) => state.profile.profileData);
-  const isLoading = useSelector((state) => state.profile.isLoading);
-  const error = useSelector((state) => state.profile.error);
-
-  // 2. 컴포넌트 마운트 시 프로필 요청
+  // 현재 시간을 실시간으로 업데이트
   useEffect(() => {
-    dispatch(getProfileThunk());
+    const interval = setInterval(() => {
+      setNow(dayjs()); // state 변경 → re-render
+    }, 1000);
+
+    return () => clearInterval(interval); // cleanup 필수
+  }, []);
+
+  // 1. Redux 스토어에서 주문 데이터 가져오기
+  const { orders, loading } = useSelector((state) => state.orders);
+  const [activeTab, setActiveTab] = useState('요청'); // 화면 표시용 탭 이름
+
+  // 2. 컴포넌트 마운트 시 주문 데이터 로드 (전체 조회를 위해 파라미터 없이 호출하거나 필요한 범위 지정)
+  useEffect(() => {
+    // 점주용 대시보드이므로 상태 구분 없이 최근 데이터를 가져오거나 
+    // 혹은 필요한 상태들을 배열로 넘겨 호출합니다.
+    dispatch(orderIndexThunk({ page: 1, limit: 20 }));
   }, [dispatch]);
 
-  // 3. 에러 처리
-  if (error) {
-    return (
-      <div className="error_container">
-        에러 발생: {error.msg || error.message || "알 수 없는 에러가 발생했습니다."}
-      </div>
-    );
-  }
+  // 3. 상태별 데이터 필터링 로직
+  // req: 요청됨, mat: 기사매칭, pick: 픽업완료(배송중), com: 완료
+  const reqOrders = orders.filter(o => o.status === 'req');
+  const ongoingOrders = orders.filter(o => o.status === 'mat' || o.status === 'pick');
+  const completedOrders = orders.filter(o => o.status === 'com');
 
-  // 4. 로딩 처리 (데이터가 없을 때만 로딩 표시)
-  if (isLoading && !profile) {
-    return <div className="loading_container">데이터를 불러오는 중입니다...</div>;
-  }
+  // 4. 현재 활성화된 탭에 따른 리스트 결정
+  const getFilteredOrders = () => {
+    switch (activeTab) {
+      case '요청': return reqOrders;
+      case '진행': return ongoingOrders;
+      case '완료': return completedOrders;
+      default: return reqOrders;
+    }
+  };
 
-  // 5. 메인 UI 반환 (이 부분이 함수 내부에 있어야 합니다)
+  const displayOrders = getFilteredOrders();
+
+
   return (
     <div className="dashboard_container">
+      <div className='today_date'>{now.format('YYYY년 M월 D일 (dd) HH:mm')}</div>
       {/* 1. 웰컴 메시지 영역 */}
       <div className="welcome_msg">
-        <h1>
-          {profile?.krName || "점주"}
-          <span>점주님을 언제나 응원해요!</span>
-        </h1>
+        <h1>❤️ 점주님을 언제나 응원해요!</h1>
       </div>
 
+      {/* 2. 상단 통계 카드 - 실제 데이터 개수 반영 */}
       <div className="stats_grid">
-        <PartnerStatCard title="오늘 배송 요청" count={12} color="yellow" icon="📦" />
-        <PartnerStatCard title="진행 중 배송" count={5} color="pink" icon="🛵" />
-        <PartnerStatCard title="오늘 완료 배송" count={5} color="mint" icon="✅" />
+        <PartnerStatCard title="오늘 배송 요청" count={reqOrders.length} color="yellow" icon="📦" />
+        <PartnerStatCard title="진행 중 배송" count={ongoingOrders.length} color="pink" icon="🛵" />
+        <PartnerStatCard title="오늘 완료 배송" count={completedOrders.length} color="mint" icon="✅" />
       </div>
 
       <div className="main_content_grid">
         <div className="left_column">
           <div className="order_status_section">
             <div className="section_header">
-              <h3>최근 주문 & 배송 현황</h3>
+              <h3>오늘의 주문 현황</h3>
               <div className="status_tabs">
                 {['요청', '진행', '완료'].map((tab) => (
                   <button
@@ -61,7 +81,7 @@ const PartnerDashboard = () => {
                     className={activeTab === tab ? 'active' : ''}
                     onClick={() => setActiveTab(tab)}
                   >
-                    {tab}
+                    {tab} ({tab === '요청' ? reqOrders.length : tab === '진행' ? ongoingOrders.length : completedOrders.length})
                   </button>
                 ))}
               </div>
@@ -77,33 +97,50 @@ const PartnerDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>#58492</td>
-                  <td><span className="badge ongoing">배송현황</span></td>
-                  <td>4/18 12:00-13:30</td>
-                  <td><button className="btn_detail">상세 보기</button></td>
-                </tr>
+                {loading ? (
+                  <tr><td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>데이터 로딩 중...</td></tr>
+                ) : displayOrders.length > 0 ? (
+                  displayOrders.map((order) => (
+                    <tr key={order.id}>
+                      <td>#{order.id.toString().slice(-5)}</td>
+                      <td>
+                        <span className={`badge ${order.status}`}>
+                          {order.status === 'req' && '요청됨'}
+                          {order.status === 'mat' && '매칭됨'}
+                          {order.status === 'pick' && '배송중'}
+                          {order.status === 'com' && '완료'}
+                        </span>
+                      </td>
+                      <td>{dayjs(order.createdAt).format('H시 mm분')}</td>
+                      <td><button className="btn_detail">상세 보기</button></td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr><td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>해당하는 주문이 없습니다.</td></tr>
+                )}
               </tbody>
             </table>
+
             <div className="table_footer">
-              <button className="view_all_link">배송 내역 전체 보기 ➔</button>
+              <button
+                className="view_all_link"
+                onClick={() => navigate('/partners/orders')}
+              >
+                배송 내역 전체 보기 ➔
+              </button>
             </div>
           </div>
         </div>
 
         <div className="right_column">
           <div className="chart_card">
-            <h4>최근 7일 배송 건수</h4>
-            <div className="chart_placeholder_img">📊 [그래프 영역]</div>
-          </div>
-          <div className="chart_card">
-            <h4>오늘 vs 어제 주문 수</h4>
-            <div className="chart_placeholder_img">📈 [비교 차트 영역]</div>
+            <h4>오늘 시간대별 주문 분포</h4>
+            <div className="chart_placeholder_img">{<HourlyOrderChart />}</div>
           </div>
         </div>
       </div>
     </div>
-  ); // return 끝
-}; // 컴포넌트 끝
+  );
+};
 
 export default PartnerDashboard;
