@@ -42,8 +42,6 @@ const HourlyOrderChart = () => {
             legend: { display: false },
             title: {
                 display: true,
-                text: '📊 오늘 시간대별 주문 분포',
-                font: { size: 16, weight: 'bold' },
                 padding: { bottom: 15 }
             }
         },

@@ -1,6 +1,7 @@
 /* src/components/rider/mypage/history/DeliveryHistory.css */
 :root {
-  --dh-primary-color: #A992FE; /* The purple from the image */
+  --dh-primary-color: #A992FE;
+  /* The purple from the image */
   --dh-background-color: #f0f2f5;
   --dh-text-primary: #262626;
   --dh-text-secondary: #8c8c8c;
@@ -10,7 +11,8 @@
 .dh-container {
   padding: 16px;
   background-color: transparent;
-  min-height: calc(100vh - 56px - 64px); /* Full height minus header and footer */
+  min-height: calc(100vh - 56px - 64px);
+  /* Full height minus header and footer */
 }
 
 .dh-filter-bar {
@@ -18,8 +20,9 @@
   background-color: #fff;
   border-radius: 8px;
   padding: 4px;
-  margin-bottom: 16px; /* Adjust margin to fit new element */
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+  /* Adjust margin to fit new element */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .dh-total-deliveries {
@@ -53,8 +56,9 @@
   background-color: #fff;
   border-radius: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  overflow: hidden; /* Ensures child borders don't poke out */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  /* Ensures child borders don't poke out */
 }
 
 .dh-group-header {
@@ -68,7 +72,7 @@
 
 .dh-history-list {
   padding: 0 5px 0 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .dh-history-item {
@@ -77,12 +81,14 @@
   padding: 16px 0;
   border-bottom: 1px solid var(--dh-border-color);
 }
+
 .dh-history-item:last-child {
   border-bottom: none;
 }
 
 .dh-item-time {
-  width: 60px; /* Fixed width for time */
+  width: 60px;
+  /* Fixed width for time */
   flex-shrink: 0;
   font-size: 14px;
   font-weight: 600;
@@ -99,8 +105,10 @@
   font-weight: 500;
   color: var(--dh-text-primary);
   margin: 0 0 4px 0;
-  white-space: normal; /* Allow text to wrap */
-  word-break: break-word; /* Break long words */
+  white-space: normal;
+  /* Allow text to wrap */
+  word-break: break-word;
+  /* Break long words */
 }
 
 .dh-details-sub {
@@ -112,9 +120,12 @@
 .dh-item-chevron {
   color: #d9d9d9;
   font-size: 20px;
-  margin-left: 8px; /* Give some space */
-  flex-shrink: 0; /* Prevent squeezing */
-  width: 24px; /* Ensure fixed width */
+  margin-left: 8px;
+  /* Give some space */
+  flex-shrink: 0;
+  /* Prevent squeezing */
+  width: 24px;
+  /* Ensure fixed width */
   text-align: center;
 }
 
@@ -127,13 +138,18 @@
 /* Pagination styles (copied from RiderMainPage.css) */
 .pagination-container {
   display: flex;
-  justify-content: center; /* 버튼들을 중앙에 배치 */
+  justify-content: center;
+  /* 버튼들을 중앙에 배치 */
   align-items: center;
-  gap: 8px; /* 버튼 사이 간격 */
-  margin-top: 30px; /* 위쪽 여백 */
-  margin-bottom: 20px; /* 아래쪽 여백 */
+  gap: 8px;
+  /* 버튼 사이 간격 */
+  margin-top: 30px;
+  /* 위쪽 여백 */
+  margin-bottom: 20px;
+  /* 아래쪽 여백 */
   padding: 10px 0;
-  border-top: 1px solid #eee; /* 상단 구분선 */
+  border-top: 1px solid #eee;
+  /* 상단 구분선 */
 }
 
 .pagination-container button {
@@ -145,8 +161,10 @@
   font-size: 1rem;
   color: #555;
   transition: all 0.2s ease-in-out;
-  min-width: 40px; /* 버튼 최소 너비 */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* 은은한 그림자 */
+  min-width: 40px;
+  /* 버튼 최소 너비 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* 은은한 그림자 */
 }
 
 .pagination-container button:hover:not(:disabled) {
@@ -163,10 +181,50 @@
 }
 
 /* 활성화된 페이지 버튼 스타일 */
-.pagination-container button.active { /* Changed from [style*="font-weight: bold"] for easier use with JSX classNames */
-  background-color: var(--dh-primary-color); /* 파란색 배경 */
-  color: #fff !important; /* 글씨색 흰색 (important로 우선순위 높임) */
+.pagination-container button.active {
+  /* Changed from [style*="font-weight: bold"] for easier use with JSX classNames */
+  background-color: var(--dh-primary-color);
+  /* 파란색 배경 */
+  color: #fff !important;
+  /* 글씨색 흰색 (important로 우선순위 높임) */
   border-color: var(--dh-primary-color);
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* 더 강조되는 그림자 */
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+  /* 더 강조되는 그림자 */
 }
 
+/* 페이지네이션 */
+/* .pagination {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: var(--adm-spacing-xs);
+   padding: var(--adm-spacing-m);
+   border-top: 1px solid var(--adm-border-secondary);
+}
+
+.pagination button {
+   background: #FFF;
+   border: 1px solid var(--adm-border-primary);
+   width: 32px;
+   height: 32px;
+   border-radius: var(--adm-radius-small);
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.pagination button:hover:not(:disabled):not(.active) {
+   background: var(--adm-bg-primary);
+}
+
+.pagination button:disabled {
+   opacity: 0.5;
+   cursor: default;
+}
+
+.pagination button.active {
+   background: var(--adm-text-primary);
+   color: #FFF;
+   border-color: var(--adm-text-primary);
+} */

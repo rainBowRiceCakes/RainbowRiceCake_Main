@@ -3,9 +3,9 @@ import axiosInstance from "../../../api/axiosInstance.js";
 
 export const orderPickupImageUploadThunk = createAsyncThunk(
 	'orderCreate/orderPickupImageUploadThunk', // Thunk 고유명
-	async ({ orderId, file }, { rejectWithValue }) => {
+	async ({ id, file }, { rejectWithValue }) => {
 		try {
-			const url = `/api/orders/${orderId}/pickup-photo`;
+			const url = `/api/orders/${id}/pickup-photo`;
 			const headers = {
 				'Content-Type': 'multipart/form-data'
 			};
@@ -25,9 +25,9 @@ export const orderPickupImageUploadThunk = createAsyncThunk(
 
 export const orderCompleteImageUploadThunk = createAsyncThunk(
 	'orderCreate/orderCompleteImageUploadThunk', // Thunk 고유명
-	async ({ orderId, file }, { rejectWithValue }) => {
+	async ({ id, file }, { rejectWithValue }) => {
 		try {
-			const url = `/api/orders/${orderId}/complete-photo`;
+			const url = `/api/orders/${id}/complete-photo`;
 			const headers = {
 				'Content-Type': 'multipart/form-data'
 			};

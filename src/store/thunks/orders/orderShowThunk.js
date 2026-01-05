@@ -4,10 +4,10 @@ import axiosInstance from "../../../api/axiosInstance";
 // 주문 상세 조회 (Show)
 export const orderShowThunk = createAsyncThunk(
   'orders/orderShowThunk',
-  async (orderId, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       // 주소 형식: /api/orders/:orderId
-      const url = `/api/orders/${orderId}`;
+      const url = `/api/orders/${id}`;
 
       const response = await axiosInstance.get(url);
 

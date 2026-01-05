@@ -101,8 +101,8 @@ const PartnerDashboard = () => {
                   <tr><td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>데이터 로딩 중...</td></tr>
                 ) : displayOrders.length > 0 ? (
                   displayOrders.map((order) => (
-                    <tr key={order.id}>
-                      <td>#{order.id.toString().slice(-5)}</td>
+                    <tr key={order.orderCode}>
+                      <td>{order.orderCode}</td>
                       <td>
                         <span className={`badge ${order.status}`}>
                           {order.status === 'req' && '요청됨'}

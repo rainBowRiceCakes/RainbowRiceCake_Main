@@ -11,43 +11,72 @@ const PartnerOrderListPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { orders: allOrders, loading: isLoading, pagination } = useSelector((state) => state.orders);
+  // Redux에서 전체 데이터 가져오기
+  const { orders: allOrders, loading: isLoading } = useSelector((state) => state.orders);
+
+  // ✅ [핵심 1] 화면에 9개씩만 보여주겠다고 선언
+  const itemsPerPage = 9;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedDate, setSelectedDate] = useState(null); // ✅ 추가
-  const [selectedStatus, setSelectedStatus] = useState(""); // 추가
-  const itemsPerPage = pagination.itemsPerPage || 9;
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState("");
 
-  // --- 데이터 fetch (페이지/필터 바뀔 때마다 호출) ---
-  // --- 데이터 fetch (페이지 바뀔 때만 호출) ---
+  // ✅ [핵심 2] 데이터 Fetch: 페이지네이션 상관없이 '전체 데이터'를 한 번에 다 가져옵니다.
+  // limit을 1000으로 주어 사실상 모든 데이터를 로드합니다.
   useEffect(() => {
-    dispatch(orderIndexThunk({ page: 1, limit: 1000 }));
-  }, [dispatch]); // selectedDate 제거
+    dispatch(orderIndexThunk({ page: 1, limit: 100 }));
+  }, [dispatch]);
 
-  // --- 클라이언트 필터링 ---
+  // --- 클라이언트 필터링 (메모리 상에 있는 1000개 데이터를 거름망으로 거름) ---
   const filteredOrders = allOrders.filter(order => {
+    // 1. 날짜 필터
     const orderDate = new Date(order.createdAt).toISOString().split('T')[0];
     const selectedDateStr = selectedDate ? selectedDate.toISOString().split('T')[0] : null;
-
     const matchesDate = selectedDateStr ? orderDate === selectedDateStr : true;
 
+    // 2. 검색어 필터
     const matchesSearch =
-      order.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.order_hotel.krName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.id?.toString().includes(searchTerm);
+      (order.name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (order.order_hotel?.krName?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (order.id?.toString() || "").includes(searchTerm);
 
-    const matchesStatus = selectedStatus ? order.status === selectedStatus : true; // ✅ 추가
+    // 3. 상태 필터
+    const matchesStatus = selectedStatus ? order.status === selectedStatus : true;
 
     return matchesDate && matchesSearch && matchesStatus;
   });
 
-  // 페이지네이션
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
+  // ✅ [핵심 3] 프론트엔드 페이지네이션 계산 (Slicing)
+  // 전체(filteredOrders) 중에서 현재 페이지에 해당하는 9개만 '똑' 떼어냅니다.
+  const totalItems = filteredOrders.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  // 현재 페이지가 전체 페이지보다 크면 1페이지로 강제 조정 (안전장치)
+  const safeCurrentPage = currentPage > totalPages ? 1 : currentPage;
+
+  const indexOfLastItem = safeCurrentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // 👉 여기가 9개만 자르는 부분입니다.
   const currentItems = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  // --- 핸들러 함수들 ---
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
+  const handleReset = () => {
+    setSearchTerm("");
+    setSelectedDate(null);
+    setSelectedStatus("");
+    setCurrentPage(1);
+    // 데이터 최신화를 위해 다시 전체 로드
+    dispatch(orderIndexThunk({ page: 1, limit: 1000 }));
+  };
 
   const renderStatusBadge = (statusCode) => {
     const statusMap = {
@@ -73,14 +102,13 @@ const PartnerOrderListPage = () => {
         <div className="filter_left">
           <div className="filter_icon">🔍</div>
 
-          {/* ✅ 날짜 선택 달력 */}
           <div className="filter_item">
             <span className="filter_label">날짜 선택</span>
             <DatePicker
               selected={selectedDate}
               onChange={(date) => {
                 setSelectedDate(date);
-                setCurrentPage(1);  // 페이지를 1로 초기화
+                setCurrentPage(1); // 필터 변경 시 1페이지로
               }}
               dateFormat="yyyy-MM-dd"
               placeholderText="날짜 선택"
@@ -94,7 +122,7 @@ const PartnerOrderListPage = () => {
               value={selectedStatus}
               onChange={(e) => {
                 setSelectedStatus(e.target.value);
-                setCurrentPage(1); // 페이지 초기화
+                setCurrentPage(1); // 필터 변경 시 1페이지로
               }}
             >
               <option value="">상태 전체</option>
@@ -105,12 +133,7 @@ const PartnerOrderListPage = () => {
             </select>
           </div>
 
-          <button className="reset_button" onClick={() => {
-            setSearchTerm("");
-            setSelectedDate(null);
-            setCurrentPage(1);
-            dispatch(orderIndexThunk({ page: 1, limit: itemsPerPage }))
-          }}>
+          <button className="reset_button" onClick={handleReset}>
             🔄 Reset Filter
           </button>
         </div>
@@ -120,7 +143,10 @@ const PartnerOrderListPage = () => {
             type="text"
             placeholder="고객명, 호텔명, 주문 번호 검색"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // 검색 시 1페이지로
+            }}
           />
         </div>
       </div>
@@ -128,7 +154,7 @@ const PartnerOrderListPage = () => {
       {/* 테이블 */}
       <div className="table_container">
         {isLoading ? (
-          <p>로딩 중...</p>
+          <p className="loading_text">데이터를 불러오는 중...</p>
         ) : (
           <table className="order_table">
             <thead>
@@ -144,17 +170,17 @@ const PartnerOrderListPage = () => {
             <tbody>
               {currentItems.length > 0 ? (
                 currentItems.map((order) => (
-                  <tr key={order.id}>
+                  <tr key={order.orderCode}>
                     <td className="text_bold clickable_id" onClick={() => navigate(`/partner/orders/${order.id}`)}>
-                      {order.id}
+                      {order.orderCode}
                     </td>
                     <td>{order.name}</td>
-                    <td>{order.order_hotel.krName}</td>
+                    <td>{order.order_hotel?.krName || "-"}</td>
                     <td>
                       <div className="order_detail_cell">
-                        {order.cntS > 0 && <>베이직 - {order.cntS}개<br /></>}
-                        {order.cntM > 0 && <>스탠다드 - {order.cntM}개<br /></>}
-                        {order.cntL > 0 && <>플러스 - {order.cntL}개</>}
+                        {order.cntS > 0 && <div>베이직 - {order.cntS}</div>}
+                        {order.cntM > 0 && <div>스탠다드 - {order.cntM}</div>}
+                        {order.cntL > 0 && <div>프리미엄 - {order.cntL}</div>}
                       </div>
                     </td>
                     <td>{dayjs(order.createdAt).format('YYYY-MM-DD A HH:mm')}</td>
@@ -162,30 +188,34 @@ const PartnerOrderListPage = () => {
                   </tr>
                 ))
               ) : (
-                <tr><td colSpan="6" className="no_data_cell">데이터가 없습니다.</td></tr>
+                <tr>
+                  <td colSpan="6" className="no_data_cell">
+                    {allOrders.length === 0 ? "데이터가 없습니다." : "검색 결과가 없습니다."}
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
         )}
       </div>
 
-      {/* 페이지네이션 */}
-      {totalPages > 0 && (
+      {/* 페이지네이션 버튼 */}
+      {!isLoading && totalItems > 0 && (
         <div className="pagination_wrapper">
           <div className="pagination">
             <button
               className="page_btn"
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
+              onClick={() => handlePageChange(safeCurrentPage - 1)}
+              disabled={safeCurrentPage === 1}
             >
               {"<"}
             </button>
 
-            {pageNumbers.map(number => (
+            {pageNumbers.map((number) => (
               <button
                 key={number}
-                className={`page_btn ${currentPage === number ? 'active' : ''}`}
-                onClick={() => setCurrentPage(number)}
+                className={`page_btn ${safeCurrentPage === number ? 'active' : ''}`}
+                onClick={() => handlePageChange(number)}
               >
                 {number}
               </button>
@@ -193,11 +223,15 @@ const PartnerOrderListPage = () => {
 
             <button
               className="page_btn"
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(safeCurrentPage + 1)}
+              disabled={safeCurrentPage === totalPages}
             >
               {">"}
             </button>
+          </div>
+          {/* 하단 정보 표시 (선택사항) */}
+          <div className="pagination_info">
+            총 {totalItems}개 중 {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, totalItems)}
           </div>
         </div>
       )}

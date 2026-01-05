@@ -213,24 +213,116 @@
 
 .pagination {
   display: flex;
+  justify-content: center;
   gap: 8px;
 }
 
 .page_btn {
-  width: 35px;
-  height: 35px;
-  border: 1px solid #D5D5D5;
-  background: #fff;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d0d3e2;
+  background: #f9fafc;
+  color: #444;
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .page_btn.active {
   background: #7A7FD3;
-  color: #fff;
+  color: #ffffff;
   border-color: #7A7FD3;
+  box-shadow: 0 4px 10px rgba(122, 127, 211, 0.3);
+}
+
+.page_btn:hover {
+  background: #7A7FD3;
+  color: #ffffff;
+  border-color: #7A7FD3;
+}
+
+/* =========================
+   로딩 텍스트
+========================= */
+.loading_text {
+  padding: 40px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+/* =========================
+   필터 아이템 래퍼
+========================= */
+.filter_item {
+  display: flex;
+  align-items: center;
+}
+
+/* =========================
+   검색 버튼 (현재 JSX에는 없지만,
+   나중에 추가 대비용)
+========================= */
+.search_button:hover {
+  background: #605bff;
+}
+
+/* =========================
+   페이지 버튼 비활성화 상태
+========================= */
+.page_btn:disabled {
+  background: #f1f3f9;
+  color: #aaa;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+/* =========================
+   페이지네이션 정보 텍스트
+========================= */
+.pagination_info {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+  line-height: 1.4;
+  white-space: nowrap;
+  /* 줄 깨짐 방지 */
+}
+
+/* =========================
+   테이블 헤더 스타일 보강 (선택)
+========================= */
+.order_table thead th {
+  background: #f9fafc;
+  font-size: 13px;
+  font-weight: 700;
+  color: #202224;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* =========================
+   테이블 바디 행 hover (UX 개선)
+========================= */
+.order_table tbody tr:hover {
+  background-color: #fafbff;
+}
+
+/* =========================
+   DatePicker input 높이 통일
+========================= */
+.pagination_wrapper {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  /* ← 핵심 */
+  align-items: center;
+  /* 가운데 정렬 */
+  gap: 10px;
+  /* 버튼 / 텍스트 간격 */
+}
+
+.react-datepicker__input-container input {
+  height: 36px;
 }

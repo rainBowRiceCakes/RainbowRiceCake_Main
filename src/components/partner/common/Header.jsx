@@ -23,8 +23,8 @@ const Header = () => {
       </div>
       <div className="header-right">
         <div className="notification">
-          <span className="bell-icon">🔔</span>
-          <span className="badge">6</span>
+          {/* <span className="badge">6</span> */}
+          {/* <span className="bell-icon">🤟</span> */}
         </div>
 
         <div className="user-profile">

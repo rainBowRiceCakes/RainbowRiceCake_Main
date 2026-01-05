@@ -57,7 +57,7 @@ export default function RiderCompletedView({ orders = [] }) {
         ) : (
           orders.map((order) => (
             <CompletedOrderRow
-              key={order.orderNo ?? order.id}
+              key={order.id ?? order.id}
               order={order}
             />
           ))

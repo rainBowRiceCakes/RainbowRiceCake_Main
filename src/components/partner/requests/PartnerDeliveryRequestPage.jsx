@@ -16,6 +16,7 @@ import './PartnerDeliveryRequestPage.css';
 const PartnerDeliveryRequest = () => {
   const dispatch = useDispatch();
   const [step, setStep] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // 리덕스 상태 구독
   const { list: hotels = [], loading } = useSelector((state) => state.hotels || {});
@@ -23,7 +24,8 @@ const PartnerDeliveryRequest = () => {
 
   // 초기 데이터 로드
   useEffect(() => {
-    dispatch(hotelIndexThunk());
+    // limit을 200으로 설정하여 호출
+    dispatch(hotelIndexThunk({ limit: 200, offset: 0 }));
   }, [dispatch]);
 
   // 사이드바 상태 제어
@@ -71,6 +73,13 @@ const PartnerDeliveryRequest = () => {
       })
       .catch((err) => alert(`Error: ${err.message || '오류가 발생했습니다.'}`));
   };
+
+  const filteredHotels = Array.isArray(hotels.hotels)
+    ? hotels.hotels.filter(hotel =>
+      hotel.krName.includes(searchTerm) ||
+      hotel.enName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    : [];
 
   return (
     <div className="delivery_request_page">
@@ -156,10 +165,20 @@ const PartnerDeliveryRequest = () => {
             </div>
 
             <div className="form_group">
-              <label>Hotel Address *</label>
+              <label>Hotel Search & Select *</label>
+              {/* 1. 검색어 입력창 추가 */}
+              <input
+                type="text"
+                placeholder="호텔 이름을 검색하세요..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="hotel_search_input"
+                style={{ marginBottom: '10px', display: 'block', width: '100%' }}
+              />
+              {/* 2. 필터링된 결과로 select 구성 */}
               <select className="hotel_select" name="hotel" value={customerDetails.hotel} onChange={handleInputChange} disabled={loading}>
-                <option value="">{loading ? 'Loading hotels...' : 'Select your hotel'}</option>
-                {Array.isArray(hotels) && hotels.map((hotel) => (
+                <option value="">{loading ? 'Loading...' : `검색 결과: ${filteredHotels.length}건`}</option>
+                {filteredHotels.map((hotel) => (
                   <option key={hotel.id} value={hotel.id}>
                     {hotel.enName} ({hotel.krName})
                   </option>

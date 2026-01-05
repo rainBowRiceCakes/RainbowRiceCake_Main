@@ -50,6 +50,9 @@
 }
 
 .order_table td {
+  cursor: default;
+  /* 기본적으로는 커서가 안 변하게 설정 */
+  position: relative;
   padding: 15px 10px;
   font-size: 14px;
   border-bottom: 1px solid #f8f8f8;

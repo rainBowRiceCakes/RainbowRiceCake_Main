@@ -39,7 +39,7 @@ export default function RiderOrderDetailPage() {
       <div className="rod-wrap">
         <div className="rod-empty">
           <p className="rod-empty-title">주문 정보를 찾을 수 없어요 😭</p>
-          <p className="rod-empty-sub">ID: {orderId}</p>
+          <p className="rod-empty-sub">ID: {id}</p>
         </div>
       </div>
     );

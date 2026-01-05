@@ -14,7 +14,7 @@ const initialState = {
     currentPage: 1,
     totalPages: 1,
     totalItems: 0,
-    itemsPerPage: 5
+    itemsPerPage: 100
   },
   activeTab: localStorage.getItem("activeRiderTab") || "waiting",
 };
@@ -61,7 +61,6 @@ const ordersSlice = createSlice({
       })
       .addCase(orderIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-
         const payload = action.payload;
 
         // 1. 데이터 추출 고도화 (배열 찾기)
@@ -127,9 +126,18 @@ const ordersSlice = createSlice({
         state.loading = true;
       })
       .addCase(getHourlyStatsThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        // 주문이 있는 시간대만 필터링해서 저장 (차트를 촘촘하게!)
-        state.stats = action.payload.filter(item => item.count > 0);
+        // payload가 배열이면 그대로 쓰고, 아니면 payload.data가 배열인지 확인
+        const statsArray = Array.isArray(action.payload)
+          ? action.payload
+          : action.payload?.data;
+
+        console.log('최종 추출된 배열:', statsArray);
+
+        if (Array.isArray(statsArray)) {
+          state.stats = statsArray.filter(item => item.count > 0);
+        } else {
+          state.stats = [];
+        }
       })
       .addCase(getHourlyStatsThunk.rejected, (state, action) => {
         state.loading = false;
