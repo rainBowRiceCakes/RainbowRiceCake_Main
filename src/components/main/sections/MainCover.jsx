@@ -22,14 +22,11 @@ export default function MainCover() {
   const navigate = useNavigate();
 
   const [orderNumber, setOrderNumber] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   // deliveryShow 슬라이스에서 상태 가져오기
-  const { show: currentOrder, loading, error } = useSelector((state) =>
-    state.deliveryShow
-  );
-
-  const isModalOpen = !!currentOrder;
+  const { show, loading, error } = useSelector((state) => state.deliveryShow);
 
   // 이 컴포넌트가 마운트될 때, 이전 배송 조회 결과(show)를 초기화
   useEffect(() => {
@@ -49,6 +46,7 @@ export default function MainCover() {
       return;
     }
     dispatch(deliveryShowThunk(orderNumber));
+    setIsModalOpen(true);
   };
 
   // 로그인 여부에 따른 마이페이지 이동 로직
@@ -62,6 +60,7 @@ export default function MainCover() {
   };
 
   const handleCloseModal = () => {
+    setIsModalOpen(false);
     dispatch(clearDeliveryShow()); // 상태 초기화
   };
 
@@ -143,7 +142,7 @@ export default function MainCover() {
       <MainCoverModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        order={currentOrder}
+        show={show}
       />
     </div>
   );

@@ -8,7 +8,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { deliveryShowThunk } from '../thunks/deliveryShowThunk.js';
 
 const initialState = {
-  show: [],
+  show: null,
   loading: false,
   error: null,
 };
@@ -33,7 +33,7 @@ const slice = createSlice({
       // 성공 시 데이터 저장 및 loading 종료
       .addCase(deliveryShowThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.show = action.payload.data || action.payload;
+        state.show = action.payload.data;
       })
       // 실패 시 에러 저장 및 loading 종료
       .addCase(deliveryShowThunk.rejected, (state, action) => {

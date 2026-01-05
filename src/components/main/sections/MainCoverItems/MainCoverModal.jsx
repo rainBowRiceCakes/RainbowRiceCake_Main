@@ -11,21 +11,22 @@ import DeliveryStatusCards from "./DeliveryStatusCards";
 
 import { useTranslation } from "../../../../context/LanguageContext";
 
-export default function MainCoverModal({ isOpen, onClose, order }) {
+export default function MainCoverModal({ isOpen, onClose, show }) {
   const { t } = useTranslation();
   useEffect(() => {
     if (!isOpen) return;
 
     const onKeyDown = (e) => {
-      if (e.key === "Escape") onClose?.();
+      if (e.key === "Escape") onClose();
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen || !order) return null;
+  if (!isOpen || !show) return null;
 
+  const { order } = show;
   return (
     <div className="maincover-modal-overlay" onClick={onClose}>
       <div
@@ -67,12 +68,21 @@ export default function MainCoverModal({ isOpen, onClose, order }) {
             <strong className="maincover-modal-v">{order.name}</strong>
           </div>
 
-          {order.driverPhone && (
-            <div className="maincover-modal-row">
-              <span className="maincover-modal-k">{t('coverModalDriverContact')}</span>
-              <strong className="maincover-modal-v">{order.driverPhone}</strong>
-            </div>
-          )}
+          {
+            order.order_rider && (
+              <>
+                <div className="maincover-modal-row">
+                  <span className="maincover-modal-k">{t('coverModalDriverContact')}</span>
+                  <strong className="maincover-modal-v">{order.order_rider.phone}</strong>
+                </div>
+                
+                <div className="maincover-modal-row">
+                  <span className="maincover-modal-k">{t('coverModalDriverContact')}</span>
+                  <strong className="maincover-modal-v">{order.order_rider.rider_user.name}</strong>
+                </div>
+              </>
+            )
+          }
 
           <div className="maincover-modal-row no-border">
             <span className="maincover-modal-k">{t('coverModalPaymentAmount')}</span>
