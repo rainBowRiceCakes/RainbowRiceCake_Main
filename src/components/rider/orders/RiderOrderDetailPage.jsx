@@ -13,7 +13,7 @@ import { useEffect } from "react";
 export default function RiderOrderDetailPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { orderId } = useParams();
+  const { orderCode } = useParams();
 
   const fullState = useSelector((state) => state);
   console.log("전체 Redux State:", fullState);
@@ -23,10 +23,10 @@ export default function RiderOrderDetailPage() {
   const loading = useSelector((state) => state.ordersDetail?.loading);
 
   useEffect(() => {
-    if (orderId) {
-      dispatch(orderShowThunk(orderId));
+    if (orderCode) {
+      dispatch(orderShowThunk(orderCode));
     }
-  }, [dispatch, orderId]);
+  }, [dispatch, orderCode]);
 
   // 로딩 중 표시
   if (loading) {
@@ -39,7 +39,7 @@ export default function RiderOrderDetailPage() {
       <div className="rod-wrap">
         <div className="rod-empty">
           <p className="rod-empty-title">주문 정보를 찾을 수 없어요 😭</p>
-          <p className="rod-empty-sub">ID: {id}</p>
+          <p className="rod-empty-sub">ID: {orderCode}</p>
         </div>
       </div>
     );
@@ -50,10 +50,6 @@ export default function RiderOrderDetailPage() {
   }
 
   const statusText = order.statusLabel ?? (order.status === "com" ? "완료" : "진행 중");
-
-  const formatDateTime = (dateString) => {
-    return dateString ? dayjs(dateString).format('YYYY-MM-DD HH:mm') : "-";
-  }
 
   return (
     <div className="rod-wrap">
@@ -66,7 +62,7 @@ export default function RiderOrderDetailPage() {
           </div>
           <div className="rod-row">
             <span className="rod-label">주문 번호</span>
-            <span className="rod-value rod-mono">{order.id}</span>
+            <span className="rod-value rod-mono">{order.orderCode}</span>
           </div>
           <div className="rod-row">
             <span className="rod-label">픽업 장소</span>
