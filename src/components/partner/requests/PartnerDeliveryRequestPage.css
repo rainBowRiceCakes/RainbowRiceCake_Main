@@ -1,309 +1,239 @@
 /* 1. Layout & Common Styles */
 .delivery_request_page {
   padding: 40px;
-  background-color: #fcfcfd;
+  background-color: #f8f9fc;
   min-height: 100vh;
+  font-family: 'Pretendard', -apple-system, sans-serif;
 }
 
 .header_row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .main_title {
   font-size: 28px;
   font-weight: 800;
-  color: #333;
+  color: #1a1a1a;
   margin: 0;
+  cursor: pointer;
 }
 
 .step_indicator {
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 13px;
   color: #4d44ff;
-  background: #eef2ff;
-  padding: 6px 16px;
-  border-radius: 20px;
+  background: #ffffff;
+  padding: 8px 20px;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.section_label {
-  color: #888;
-  font-size: 14px;
-  padding: 15px 0;
-  font-weight: 600;
+/* 2. Step 1: Single Plan Selection Layout */
+.plan_selection_single {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-/* 2. Step 1: Plan Selection Layout */
-.plan_selection_grid {
+.sub_title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 35px;
+}
+
+.plan_card_group {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 40px;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3단 배열 */
+  gap: 24px;
+  margin-bottom: 40px;
 }
 
-.plan_list_section h3 {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: #444;
-}
-
-.plan_card {
+.plan_card_large {
   background: white;
-  padding: 20px;
-  border-radius: 16px;
+  border: 2px solid #edf0f5;
+  border-radius: 28px;
+  padding: 40px 24px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 15px;
-  border: 1px solid #f0f0f0;
-  transition: all 0.2s ease;
+  text-align: center;
 }
 
-.plan_card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.plan_card_large:hover {
+  transform: translateY(-10px);
+  border-color: #4d44ff;
+  box-shadow: 0 20px 40px rgba(77, 68, 255, 0.08);
 }
 
-.plan_card.active {
-  border: 2px solid #4d44ff;
-  background-color: #f8f9ff;
+.plan_card_large.active {
+  border-color: #4d44ff;
+  background-color: #ffffff;
+  box-shadow: 0 15px 35px rgba(77, 68, 255, 0.12);
 }
 
-.plan_icon_box {
-  width: 50px;
-  height: 50px;
-  background: #fff9e6;
-  border-radius: 12px;
+/* 체크 표시 아이콘 */
+.plan_check {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #eee;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  margin-right: 15px;
-}
-
-.plan_info {
-  flex: 1;
-}
-
-.plan_info strong {
-  display: block;
   font-size: 16px;
-  margin-bottom: 4px;
-  color: #333;
+  transition: all 0.2s;
 }
 
-.plan_info span {
-  font-size: 13px;
-  color: #999;
+.plan_card_large.active .plan_check {
+  background: #4d44ff;
+  border-color: #4d44ff;
+  color: white;
 }
 
-.btn_select {
-  padding: 8px 20px;
-  border-radius: 8px;
-  border: none;
-  background: #f1f3ff;
+.plan_icon_box {
+  font-size: 48px;
+  margin-bottom: 24px;
+  background: #f4f6ff;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+}
+
+.plan_info .name {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.plan_info .desc {
+  font-size: 14px;
+  color: #777;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  min-height: 42px;
+}
+
+.plan_info .price {
+  font-size: 24px;
+  font-weight: 800;
   color: #4d44ff;
-  font-weight: 700;
+}
+
+/* 하단 고정 액션 바 */
+.next_step_bar {
+  background: white;
+  padding: 24px 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 110px;
+  border: 1px solid #f0f0f0;
+}
+
+.selection_summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.selection_summary span {
+  font-size: 18px;
+  color: #555;
+  font-weight: 500;
+}
+
+.selection_summary strong {
+  color: #4d44ff;
+  font-size: 22px;
+  font-weight: 800;
+  margin-left: 8px;
+}
+
+.no_selection_text {
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn_next_submit {
+  padding: 18px 48px;
+  background-color: #4d44ff;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 17px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.btn_select:hover {
-  background: #e5e8ff;
+.btn_next_submit:hover {
+  background-color: #3529f5;
+  transform: scale(1.02);
 }
 
-.btn_select.active {
-  background: #4d44ff;
-  color: white;
-}
-
-.btn_select.active:hover {
-  background: #ff4d4d;
-  /* 삭제 의미 부여 */
-}
-
-/* Summary Card */
-.summary_card_wrapper {
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 24px;
-  padding: 30px;
-  min-height: 350px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-}
-
-.selected_items_scroll {
-  flex: 1;
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 5px;
-}
-
-.selected_card_mini {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #f9f9f9;
-}
-
-.mini_info strong {
-  font-size: 16px;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.quantity_row {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.quantity_control {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: #f1f3f5;
-  padding: 4px 10px;
-  border-radius: 8px;
-}
-
-.quantity_control button {
-  background: none;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  color: #4d44ff;
-  cursor: pointer;
-}
-
-.item_total_price {
-  font-weight: 700;
-  color: #333;
-  font-size: 15px;
-}
-
-.btn_remove_link {
-  background: none;
-  border: none;
-  color: #ff4d4d;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.price_summary {
-  margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px dashed #eee;
-}
-
-.price_row.total {
-  display: flex;
-  justify-content: space-between;
-  font-size: 20px;
-  font-weight: 800;
-  color: #333;
-}
-
-.btn_next_submit {
-  width: 100%;
-  padding: 16px;
-  background-color: #45dfb1;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 17px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.empty_state {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #bbb;
-  border: 2px dashed #f0f0f0;
-  border-radius: 20px;
-  font-size: 14px;
-}
-
-.btn_reset_all {
-  width: 100%;
-  background: transparent;
-  color: #9ca3af;
-  border: none;
-  font-size: 13px;
-  cursor: pointer;
-  margin-top: 15px;
-  text-decoration: underline;
-}
-
-/* --- Step 2: Customer Form (기존 CSS 하단에 추가) --- */
-
+/* 3. Step 2: Customer Form & Common */
 .step_container.centered {
   display: flex;
   justify-content: center;
-  padding: 40px 0;
+  padding: 20px 0;
   animation: fadeIn 0.4s ease-out;
 }
 
 .customer_details_card {
   background: white;
   padding: 40px;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 30px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   border: 1px solid #f0f0f0;
 }
 
 .btn_back {
-  background: none;
+  background: #f4f6ff;
   border: none;
-  color: #999;
+  color: #4d44ff;
+  padding: 8px 16px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  padding: 0;
-  transition: color 0.2s;
-}
-
-.btn_back:hover {
-  color: #4d44ff;
-}
-
-.customer_details_card h3 {
-  font-size: 22px;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.card_subtitle {
-  font-size: 14px;
-  color: #999;
-  margin-bottom: 30px;
+  font-weight: 700;
+  margin-bottom: 25px;
 }
 
 .form_group {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .form_group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 700;
   font-size: 14px;
-  color: #555;
+  color: #444;
 }
 
 .input_row {
@@ -315,11 +245,11 @@
 .customer_details_card input,
 .customer_details_card select {
   width: 100%;
-  padding: 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  padding: 16px;
+  border: 1.5px solid #eee;
+  border-radius: 14px;
   font-size: 15px;
-  background-color: #f9fafb;
+  background-color: #fcfcfd;
   transition: all 0.2s;
 }
 
@@ -328,51 +258,73 @@
   outline: none;
   border-color: #4d44ff;
   background-color: white;
-  box-shadow: 0 0 0 4px rgba(77, 68, 255, 0.1);
+  box-shadow: 0 0 0 4px rgba(77, 68, 255, 0.08);
 }
 
-.help_link {
-  display: block;
-  margin-top: 8px;
-  font-size: 12px;
-  color: #aaa;
-  font-style: italic;
+.hotel_search_input {
+  border: 1.5px solid #4d44ff !important;
+  background-color: #fff !important;
+  margin-bottom: 12px;
 }
 
 .btn_submit {
   width: 100%;
-  padding: 16px;
+  padding: 20px;
   background-color: #4d44ff;
-  /* 제출 버튼은 메인 컬러로 */
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 18px;
   font-weight: 800;
-  font-size: 17px;
+  font-size: 18px;
   cursor: pointer;
-  margin-top: 25px;
-  transition: transform 0.2s, opacity 0.2s;
+  margin-top: 30px;
+  transition: all 0.3s;
 }
 
-.btn_submit:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+.btn_submit:hover:not(:disabled) {
+  background-color: #3529f5;
+  box-shadow: 0 10px 25px rgba(77, 68, 255, 0.25);
 }
 
 .btn_submit:disabled {
-  background-color: #ccc;
+  background-color: #ccd0d9;
   cursor: not-allowed;
-  transform: none;
 }
 
+/* Animations & Responsive */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .plan_card_group {
+    grid-template-columns: 1fr;
+  }
+
+  .plan_card_large {
+    flex-direction: row;
+    padding: 25px;
+    text-align: left;
+  }
+
+  .plan_icon_box {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+
+  .plan_info .desc {
+    min-height: auto;
+    margin-bottom: 8px;
   }
 }

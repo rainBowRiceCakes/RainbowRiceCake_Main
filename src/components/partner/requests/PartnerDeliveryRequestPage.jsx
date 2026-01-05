@@ -18,37 +18,46 @@ const PartnerDeliveryRequest = () => {
   const [step, setStep] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 리덕스 상태 구독
   const { list: hotels = [], loading } = useSelector((state) => state.hotels || {});
+  // 단일 선택이지만 데이터 구조 유지를 위해 selectedPlans[0]을 주로 활용
   const { selectedPlans, customerDetails, loading: submitLoading } = useSelector((state) => state.delivery);
 
-  // 초기 데이터 로드
+  // 현재 선택된 플랜 (없으면 null)
+  const selectedPlan = selectedPlans.length > 0 ? selectedPlans[0] : null;
+
   useEffect(() => {
-    // limit을 200으로 설정하여 호출
     dispatch(hotelIndexThunk({ limit: 200, offset: 0 }));
   }, [dispatch]);
 
-  // 사이드바 상태 제어
   useEffect(() => {
     dispatch(setSidebarCollapsed(step === 2));
     return () => dispatch(setSidebarCollapsed(false));
   }, [step, dispatch]);
 
   const plans = [
-    { id: 'basic', name: 'Basic (베이직)', desc: 'Small / 1 shopping bag', price: 5000, icon: '📦' },
-    { id: 'standard', name: 'Standard (스탠다드)', desc: 'Medium / 2 shopping bags', price: 8000, icon: '📦' },
-    { id: 'premium', name: 'Premium (프리미엄)', desc: 'Large / 3 shopping bags', price: 12000, icon: '📦' },
+    { id: 'basic', name: '베이직', desc: '쇼핑백 1개', price: 5000, icon: '📦' },
+    { id: 'standard', name: '스탠다드', desc: '쇼핑백 2개', price: 8000, icon: '📦📦' },
+    { id: 'premium', name: '프리미엄', desc: '쇼핑백 3개', price: 10000, icon: '📦📦📦' },
   ];
 
-  const totalPrice = selectedPlans.reduce((sum, plan) => sum + plan.price * plan.quantity, 0);
+  // 단일 선택 핸들러: 기존 것이 있으면 지우고 새로 추가하거나, 이미 선택된 걸 누르면 해제
+  const handlePlanSelect = (plan) => {
+    if (selectedPlan?.id === plan.id) {
+      dispatch(removePlan(plan.id));
+    } else {
+      // 기존에 뭐가 있었다면 싹 비우고 새로 담기 (단일 선택 보장)
+      if (selectedPlans.length > 0) {
+        selectedPlans.forEach(p => dispatch(removePlan(p.id)));
+      }
+      dispatch(addPlan({ ...plan, quantity: 1 }));
+    }
+  };
 
-  // 입력 핸들러
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     dispatch(setCustomerDetails({ [name]: value }));
   };
 
-  // 제출 핸들러
   const handleSubmit = () => {
     if (!customerDetails.email || !customerDetails.firstName || !customerDetails.lastName || !customerDetails.hotel) {
       alert('Please fill in all required fields.');
@@ -56,12 +65,11 @@ const PartnerDeliveryRequest = () => {
     }
 
     const payload = {
-      email: customerDetails.email,
-      firstName: customerDetails.firstName,
-      lastName: customerDetails.lastName,
+      ...customerDetails,
       hotelId: Number(customerDetails.hotel),
-      plans: selectedPlans,
-      price: totalPrice,
+      // selectedPlan이 존재할 때만 배열로 감싸서 보내기
+      plans: selectedPlan ? [selectedPlan] : [],
+      price: selectedPlan?.price || 0,
       orderDate: dayjs().toISOString()
     };
 
@@ -69,7 +77,7 @@ const PartnerDeliveryRequest = () => {
       .unwrap()
       .then(() => {
         alert('주문이 성공적으로 접수되었습니다!');
-        setStep(1); // 페이지는 1단계로 이동 (데이터는 Slice에서 자동 리셋됨)
+        setStep(1);
       })
       .catch((err) => alert(`Error: ${err.message || '오류가 발생했습니다.'}`));
   };
@@ -85,61 +93,46 @@ const PartnerDeliveryRequest = () => {
     <div className="delivery_request_page">
       <div className="header_row">
         <h2 className="main_title">배송 요청</h2>
-        <div className="step_indicator">step {step} of 2</div>
+        <div className="step_indicator">Step {step} of 2</div>
       </div>
 
       {step === 1 ? (
-        /* ---------------- Step 1: 플랜 선택 ---------------- */
         <div className="step_container fade_in">
-          <div className="plan_selection_grid">
-            <div className="plan_list_section">
-              <h3>배송 플랜을 선택해주세요</h3>
-              {plans.map((plan) => {
-                const isSelected = selectedPlans.some((p) => p.id === plan.id);
-                const handleCardClick = () => isSelected ? dispatch(removePlan(plan.id)) : dispatch(addPlan({ ...plan, quantity: 1 }));
-
-                return (
-                  <div key={plan.id} className={`plan_card ${isSelected ? 'active' : ''}`} onClick={handleCardClick}>
-                    <div className="plan_icon_box">{plan.icon}</div>
-                    <div className="plan_info">
-                      <strong>{plan.name}</strong>
-                      <span>{plan.desc}</span>
-                    </div>
-                    <button className={`btn_select ${isSelected ? 'active' : ''}`}>{isSelected ? '선택됨' : '담기'}</button>
+          <div className="plan_selection_single">
+            <h3 className="sub_title">배송 플랜을 하나 선택해주세요</h3>
+            <div className="plan_card_group">
+              {plans.map((plan) => (
+                <div
+                  key={plan.id}
+                  className={`plan_card_large ${selectedPlan?.id === plan.id ? 'active' : ''}`}
+                  onClick={() => handlePlanSelect(plan)}
+                >
+                  <div className="plan_check">{selectedPlan?.id === plan.id ? '✓' : ''}</div>
+                  <div className="plan_icon_box" style={{
+                    fontSize:
+                      plan.icon.length === 2
+                        ? "36px"
+                        : plan.icon.length >= 3
+                          ? "28px"
+                          : "48px",
+                  }}>{plan.icon}</div>
+                  <div className="plan_info">
+                    <strong className="name">{plan.name}</strong>
+                    <p className="desc">{plan.desc}</p>
+                    <p className="price">{plan.price.toLocaleString()}원</p>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
 
-            <div className="summary_section">
-              <p className="section_label">선택된 플랜 ({selectedPlans.length})</p>
-              {selectedPlans.length > 0 ? (
-                <>
-                  <div className="selected_items_scroll">
-                    {selectedPlans.map((plan) => (
-                      <div key={plan.id} className="selected_card_mini">
-                        <div className="mini_info">
-                          <strong>{plan.name}</strong>
-                          <div className="quantity_control">
-                            <button onClick={() => dispatch(updateQuantity({ planId: plan.id, amount: -1 }))}>－</button>
-                            <span>{plan.quantity}</span>
-                            <button onClick={() => dispatch(updateQuantity({ planId: plan.id, amount: 1 }))}>＋</button>
-                          </div>
-                        </div>
-                        <div className="item_price">{(plan.price * plan.quantity).toLocaleString()}원</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="price_summary">
-                    <div className="price_row total">
-                      <span>총 결제 금액</span>
-                      <span>{totalPrice.toLocaleString()}원</span>
-                    </div>
-                  </div>
-                  <button className="btn_next_submit" onClick={() => setStep(2)}>다음 단계로 ➔</button>
-                </>
+            <div className="next_step_bar">
+              {selectedPlan ? (
+                <div className="selection_summary">
+                  <span>선택됨: <strong>{selectedPlan.name}</strong></span>
+                  <button className="btn_next_submit" onClick={() => setStep(2)}>다음 단계로 이동 ➔</button>
+                </div>
               ) : (
-                <div className="empty_state"><p>플랜을 선택해 주세요.</p></div>
+                <p className="no_selection_text">계속하려면 플랜을 선택하세요.</p>
               )}
             </div>
           </div>
@@ -149,7 +142,7 @@ const PartnerDeliveryRequest = () => {
         <div className="step_container centered fade_in">
           <div className="customer_details_card">
             <button className="btn_back" onClick={() => setStep(1)}>← 이전 단계로</button>
-            <h3>Customer Details</h3>
+            <h3 className='sub_title'>Customer Details</h3>
 
             <div className="form_group">
               <label>Full Name (as shown on passport)</label>
@@ -177,7 +170,7 @@ const PartnerDeliveryRequest = () => {
               />
               {/* 2. 필터링된 결과로 select 구성 */}
               <select className="hotel_select" name="hotel" value={customerDetails.hotel} onChange={handleInputChange} disabled={loading}>
-                <option value="">{loading ? 'Loading...' : `검색 결과: ${filteredHotels.length}건`}</option>
+                <option value="">{loading ? 'Loading...' : `${filteredHotels.length} hotels found`}</option>
                 {filteredHotels.map((hotel) => (
                   <option key={hotel.id} value={hotel.id}>
                     {hotel.enName} ({hotel.krName})

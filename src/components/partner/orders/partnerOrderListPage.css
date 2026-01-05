@@ -212,29 +212,25 @@
 }
 
 .pagination {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 8px;
 }
 
 .page_btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid #d0d3e2;
-  background: #f9fafc;
-  color: #444;
-  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #eee;
+  background: white;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.2s ease;
 }
 
 .page_btn.active {
-  background: #7A7FD3;
-  color: #ffffff;
+  background: white;
+  color: #7A7FD3;
   border-color: #7A7FD3;
-  box-shadow: 0 4px 10px rgba(122, 127, 211, 0.3);
 }
 
 .page_btn:hover {

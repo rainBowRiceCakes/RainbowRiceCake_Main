@@ -124,10 +124,11 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
 
   return (
     <div className="rip-page-container">
-      <header className="rip-page-header">
+      <div className="rip-page-header">
+        <button className="back_btn" onClick={() => navigate(-1)}>←</button>
         <h2 className="rip-page-title">이슈 신고 접수</h2>
         <p className="rip-page-subtitle">배송 중 발생한 문제나 요청사항을 보내주시면 신속히 처리해 드립니다.</p>
-      </header>
+      </div>
 
       <div className="rip-content-grid">
         {/* 왼쪽: 안내 및 주문 정보 요약 */}

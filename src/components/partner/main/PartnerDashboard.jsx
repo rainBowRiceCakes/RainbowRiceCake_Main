@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js';
+import { getProfileThunk } from '../../../store/thunks/profile/getProfileThunk.js';
 import HourlyOrderChart from './barChart.jsx';
 import PartnerStatCard from './PartnerStatCard.jsx';
 import './PartnerDashboard.css';
@@ -13,7 +14,18 @@ dayjs.locale('ko');
 const PartnerDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { profileData, isLoading } = useSelector((state) => state.profile);
+
   const [now, setNow] = useState(dayjs());
+
+  useEffect(() => {
+    // Thunk를 강제로 실행해보고 로그를 찍습니다.
+    const promise = dispatch(getProfileThunk());
+    // Thunk의 결과를 추적
+    promise.then((res) => {
+    }).catch((err) => {
+    });
+  }, [dispatch]);
 
   // 현재 시간을 실시간으로 업데이트
   useEffect(() => {
@@ -59,7 +71,7 @@ const PartnerDashboard = () => {
       <div className='today_date'>{now.format('YYYY년 M월 D일 (dd) HH:mm')}</div>
       {/* 1. 웰컴 메시지 영역 */}
       <div className="welcome_msg">
-        <h1>❤️ 점주님을 언제나 응원해요!</h1>
+        <h1>❤️ {isLoading ? '파트너' : profileData?.manager}님, 오늘도 화이팅 ❤️</h1>
       </div>
 
       {/* 2. 상단 통계 카드 - 실제 데이터 개수 반영 */}

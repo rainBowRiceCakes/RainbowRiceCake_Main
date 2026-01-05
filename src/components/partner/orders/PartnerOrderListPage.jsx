@@ -171,7 +171,7 @@ const PartnerOrderListPage = () => {
               {currentItems.length > 0 ? (
                 currentItems.map((order) => (
                   <tr key={order.orderCode}>
-                    <td className="text_bold clickable_id" onClick={() => navigate(`/partner/orders/${order.id}`)}>
+                    <td className="text_bold clickable_id" onClick={() => navigate(`/partners/orders/${order.orderCode}`)}>
                       {order.orderCode}
                     </td>
                     <td>{order.name}</td>

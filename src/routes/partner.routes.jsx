@@ -18,8 +18,8 @@ const partnerRoutes = [
     children: [
       { index: true, element: <PartnerOrderListPage /> },
       { path: "new", element: <PartnerDeliveryRequestPage /> },
-      { path: ":orderId", element: <PartnerOrderDetailPage /> },
-      { path: ":orderId/questions", element: <PartnerIssueReportPage /> },
+      { path: ":orderCode", element: <PartnerOrderDetailPage /> },
+      { path: "questions", element: <PartnerIssueReportPage /> },
     ]
   },
 

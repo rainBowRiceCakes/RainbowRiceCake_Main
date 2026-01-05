@@ -95,11 +95,14 @@ const Sidebar = ({ isCollapsed }) => {
             key={item.id}
             className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
             onClick={() => handleMenuClick(item.id)}
-            title={isCollapsed ? item.label : ""} // 접혔을 때 툴팁 제공
           >
-            <span className="icon">{item.icon}</span>
-            {/* 접히지 않았을 때만 라벨 표시 */}
-            {!isCollapsed && <span className="label">{item.label}</span>}
+            {/* 접히지 않았을 때만 아이콘 + 라벨 표시 */}
+            {!isCollapsed && (
+              <>
+                <span className="icon">{item.icon}</span>
+                <span className="label">{item.label}</span>
+              </>
+            )}
           </div>
         ))}
       </div>
