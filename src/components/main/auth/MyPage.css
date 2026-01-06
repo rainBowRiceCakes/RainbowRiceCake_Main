@@ -5,217 +5,318 @@
  * 260102 v1.1.0 sara - 배송 상태 가이드 스타일 추가
  * 260102 v1.2.0 sara - 로그인/ 비로그인 상태 스타일 분리
  * 260106 v1.3.0 sara - 뒤로가기 버튼 스타일 추가
+ * 260106 v1.4.0 sara - 배송/문의 토글 + 모바일 친화 카드 UI
  */
 
-/* 1. 페이지 래퍼 */
 .mypage-frame {
-  max-width: var(--com-web-max-width);
+  max-width: 520px;
   margin: 0 auto;
-  padding: var(--com-section-padding) var(--com-container-padding);
+  padding: 16px;
   box-sizing: border-box;
 }
 
-/* 2. 로그인 상태 (대시보드 레이아웃) */
 .mypage-frame--auth {
   display: flex;
   flex-direction: column;
-  gap: var(--com-gap-md);
+  gap: 12px;
   position: relative;
-  padding-top: 70px; /* 버튼이 배치될 충분한 상단 여백 */
+  padding-top: 76px;
 }
 
-/* --- 뒤로 가기 버튼 --- */
+/* back */
 .mypage-back-btn {
   position: absolute;
-  top: 15px; /* 헤더와의 여백 조절 */
-  left: 20px;
-  width: 40px;  /* 고정 너비 */
-  height: 40px; /* 고정 높이 -> 완벽한 원형 유지 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--com-color-bg-light); /* Header01과 동일 */
-  border: none;
-  border-radius: var(--com-radius-pill); /* 완벽한 원형 */
-  font-size: 20px; /* 아이콘 크기 */
-  color: var(--com-color-black);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 10;
-}
-
-.mypage-back-btn:hover {
-  background-color: var(--com-border-default); /* Header01 호버와 동일 */
-  transform: translateY(-1px);
-}
-
-.mypage-back-btn:active {
-  transform: scale(0.95);
-}
-
-/* --- 프로필 카드 --- */
-.mypage-profile-card {
-  display: flex;
-  align-items: center;
-  gap: var(--com-gap-md);
-  padding: var(--com-gap-md);
+  top: 10px;
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--com-border-default);
   background: var(--com-color-white);
-  border-radius: var(--com-radius-lg);
-  box-shadow: var(--com-shadow-xs);
-}
-
-.mypage-profile-circle {
-  width: 64px;
-  height: 64px;
-  background: var(--com-color-bg-section);
-  border-radius: var(--com-radius-pill);
   display: grid;
   place-items: center;
-  font-size: 28px;
-  color: var(--com-font-muted);
-}
-
-/* --- Summary Card (현황판) --- */
-.mypage-summary-card {
-  background: var(--com-color-white); /* 흰색 배경으로 변경하여 깔끔하게 */
-  padding: var(--com-gap-lg);
-  border-radius: var(--com-radius-lg);
-  display: flex;
-  flex-direction: column; /* 세로 배치로 구조화 */
-  gap: var(--com-gap-lg);
-  box-shadow: var(--com-shadow-xs);
-  border: 1px solid var(--com-border-default);
-}
-
-.summary-section h4 {
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
-  margin-bottom: var(--com-gap-md);
-  color: var(--com-font-primary-color);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.summary-section h4::before {
-  content: "";
-  display: inline-block;
-  width: 3px;
-  height: 14px;
-  background: var(--com-color-black);
-  border-radius: 2px;
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4단 분할 (접수/배차/픽업/완료) */
-  gap: var(--com-gap-sm);
-}
-
-.summary-grid span {
-  background: var(--com-color-bg-section);
-  padding: 10px 4px;
-  text-align: center;
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-mini);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-}
-
-/* 문의 현황은 2칸만 사용하므로 별도 조정 */
-.summary-section:last-child .summary-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-/* --- 탭 네비게이션 --- */
-.mypage-tab-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-bottom: 2px solid var(--com-border-default);
-  margin-top: var(--com-gap-sm);
-}
-
-.mypage-tab-nav button {
-  padding: 14px;
-  background: none;
-  border: none;
-  font-size: var(--com-size-sidebar);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-muted);
   cursor: pointer;
+  box-shadow: var(--com-shadow-xs);
 }
+.mypage-back-btn:hover { transform: translateY(-1px); }
+.mypage-back-btn:active { transform: scale(0.98); }
 
-.mypage-tab-nav button.is-active {
-  color: var(--com-color-black);
-  border-bottom: 3px solid var(--com-color-black);
-}
-
-/* --- 카드 공통 & 배송 사진 박스 --- */
-.order-card-body {
+/* profile */
+.mypage-profile-card {
+  margin-top: 6px;
   display: flex;
   align-items: center;
-  gap: var(--com-gap-md);
+  gap: 12px;
+  padding: 14px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 16px;
+  box-shadow: var(--com-shadow-xs);
+}
+.mypage-profile-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: var(--com-color-bg-light);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+}
+.mypage-profile-meta { display: flex; flex-direction: column; gap: 4px; }
+.mypage-user-name {
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+  font-size: 16px;
+}
+.mypage-user-sub {
+  color: var(--com-font-muted);
+  font-size: 12px;
 }
 
-.order-photo-box {
-  width: 60px;
-  height: 60px;
-  background-color: var(--com-color-bg-section);
-  border-radius: var(--com-radius-md);
-  overflow: hidden;
-  flex-shrink: 0;
+/* tabs */
+.mypage-tabs {
+  display: flex;
+  gap: 10px;
+}
+.mypage-tab {
+  flex: 1;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+  color: var(--com-color-black);
+  font-weight: var(--com-font-weight-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.order-photo-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.order-info {
-  flex-grow: 1;
-}
-
-/* --- 기존 카드 스타일 유지 --- */
-.mypage-order-card, .mypage-question-card {
-  background: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-md);
-  padding: var(--com-gap-md);
+  gap: 8px;
+  cursor: pointer;
   box-shadow: var(--com-shadow-xs);
   transition: transform 0.12s ease;
 }
-
-.status-badge.is-completed {
+.mypage-tab:hover { transform: translateY(-1px); }
+.mypage-tab.is-active {
   background: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
+}
+.mypage-tab-badge {
+  min-width: 26px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-border-default);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: var(--com-color-black);
+}
+.mypage-tab.is-active .mypage-tab-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
   color: var(--com-color-white);
 }
 
-.empty-msg {
-  text-align: center;
-  color: var(--com-font-muted);
-  padding: var(--com-gap-sm) 0;
+/* summary */
+.mypage-summary-card {
+  padding: 14px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 16px;
+  box-shadow: var(--com-shadow-xs);
+}
+.mypage-summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.mypage-panel-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: var(--com-font-weight-heavy);
+}
+.mypage-panel-count {
+  min-width: 28px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-border-default);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: var(--com-font-weight-heavy);
 }
 
-/* --- 모바일 대응 --- */
-@media screen and (max-width: 375px) {
-  .mypage-frame--auth {
-    padding-top: 50px;
-  }
-  
-  .summary-grid {
-    grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2줄로 */
-  }
+.mypage-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.mypage-summary-item {
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mypage-summary-k { color: var(--com-font-muted); font-size: 12px; }
+.mypage-summary-v { color: var(--com-color-black); font-size: 18px; font-weight: var(--com-font-weight-heavy); }
 
-  .order-card-body {
-    flex-direction: row; /* 사진과 정보는 가로 유지 */
-    align-items: center;
-  }
+/* list */
+.mypage-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  .order-price {
-    font-size: var(--com-size-content);
-  }
+/* card */
+.mypage-card {
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 16px;
+  box-shadow: var(--com-shadow-xs);
+  overflow: hidden;
+}
+
+.mypage-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 10px;
+}
+
+.mypage-card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.mypage-card-mini { font-size: 12px; color: var(--com-font-muted); }
+.mypage-card-strong {
+  font-size: 14px;
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* badge */
+.mypage-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: var(--com-font-weight-heavy);
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-bg-light);
+  white-space: nowrap;
+}
+.mypage-badge.is-completed {
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
+}
+.mypage-badge.is-progress {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.mypage-badge.is-matching {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+.mypage-badge.is-wait {
+  background: var(--com-color-bg-light);
+}
+
+/* card body */
+.mypage-card-body {
+  padding: 0 14px 14px;
+}
+
+.mypage-kv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid var(--com-color-overlay);
+}
+.mypage-kv.no-border { border-top: none; }
+
+.mypage-k { color: var(--com-font-muted); font-size: 13px; }
+.mypage-v { color: var(--com-color-black); font-size: 13px; font-weight: var(--com-font-weight-heavy); }
+.mypage-v.price { font-size: 14px; }
+
+/* driver group */
+.mypage-kv-group {
+  margin-top: 6px;
+  border-top: 1px solid var(--com-color-overlay);
+  border-radius: 12px;
+}
+
+/* inquiry content */
+.mypage-content {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--com-color-overlay);
+  color: var(--com-color-black);
+  font-size: 13px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.mypage-img-wrap {
+  margin-top: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-bg-light);
+}
+.mypage-img {
+  width: 100%;
+  display: block;
+  max-height: 260px;
+  object-fit: cover;
+}
+
+/* answer */
+.mypage-answer {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-border-default);
+}
+.mypage-answer-k {
+  font-size: 12px;
+  color: var(--com-font-muted);
+  margin-bottom: 6px;
+}
+.mypage-answer-v {
+  font-size: 13px;
+  color: var(--com-color-black);
+  line-height: 1.45;
+}
+
+/* empty/loading */
+.empty-msg,
+.mypage-loading {
+  text-align: center;
+  padding: 18px 0;
+  color: var(--com-font-muted);
+}
+
+/* ✅ media query (모바일 최적화) */
+@media screen and (max-width: 420px) {
+  .mypage-frame { padding: 14px; }
+  .mypage-summary-item { padding: 10px; }
+  .mypage-summary-v { font-size: 17px; }
+  .mypage-card-head { padding: 12px 12px 8px; }
+  .mypage-card-body { padding: 0 12px 12px; }
+  .mypage-k, .mypage-v { font-size: 12.5px; }
 }

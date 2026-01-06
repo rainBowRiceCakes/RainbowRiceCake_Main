@@ -156,128 +156,72 @@ export const LANG_CNG = {
 
   // --- src/components/main/sections/MainPromotion.jsx ---
   promotionEyebrow: {
-    ko: "MEMBERSHIP",
-    en: "MEMBERSHIP",
+    ko: "SPECIAL PROMOTION",
+    en: "SPECIAL PROMOTION",
   },
   promotionTitle: {
-    ko: "멤버십 혜택",
-    en: "Membership Benefits",
+    ko: "당신의 비즈니스를 위한 최고의 선택",
+    en: "The Best Choice for Your Business",
   },
   promotionSubtitle: {
-    ko: `이 서비스는 배송이 아니라, <b>“외국인이 살 수 있는 조건”</b>을 만드는 장치예요.<br />점주는 <b>매출 전환</b>, 기사는 <b>안정 동선</b>. 둘 다 이득이 나게 설계했어요.`,
-    en: `This isn't just a delivery service; it's a tool to create <b>"conditions for foreigners to buy."</b><br />It's designed for a win-win: <b>sales conversion</b> for store owners, and <b>stable routes</b> for riders.`,
+    ko: "지금 바로 라이더 또는 파트너로 가입하고 특별한 혜택을 누리세요.",
+    en: "Join as a Rider or Partner today and enjoy special benefits.",
   },
-  riderBadge: {
-    ko: "🚴 기사",
+  riderTab: {
+    ko: "🚴 라이더",
     en: "🚴 Rider",
   },
-  riderTitle: {
-    ko: "“익숙한 동선만 반복하는 안정적인 일”",
-    en: `"A stable job with familiar, repetitive routes."`,
+  partnerTab: {
+    ko: "🎯 파트너",
+    en: "🎯 Partner",
   },
-  riderDesc: {
-    ko: "시내 매장 → 호텔 고정 루트 중심으로 운영돼요. 복잡한 고객 응대 없이, 깔끔한 픽업/전달에 집중할 수 있어요.",
-    en: "Operations are centered on fixed routes from downtown stores to hotels. You can focus on clean pickups and drop-offs without complex customer interactions.",
+  riderBenefitTitle: {
+    ko: "안정적인 수입과 유연한 근무",
+    en: "Stable Income and Flexible Work",
+  },
+  riderBenefitDesc: {
+    ko: "원하는 시간에 원하는 만큼 일하세요. 저희가 안정적인 배송 물량을 보장해 드립니다.",
+    en: "Work as much as you want, whenever you want. We guarantee a steady volume of deliveries.",
   },
   riderBenefit1: {
-    ko: "<b>고정 수요 루트</b> : 매장 → 호텔/픽업 포인트 중심",
-    en: "<b>Fixed Demand Routes</b>: Focused on store → hotel/pickup points.",
+    ko: "<b>업계 최고</b> 수준의 배송비",
+    en: "<b>Industry-leading</b> delivery fees",
   },
   riderBenefit2: {
-    ko: "<b>스트레스 낮은 업무</b> : CS/민원 대응 최소화",
-    en: "<b>Low-Stress Work</b>: Minimized customer service and complaint handling.",
+    ko: "<b>유연한</b> 근무 시간",
+    en: "<b>Flexible</b> working hours",
   },
   riderBenefit3: {
-    ko: "<b>동시 진행 제한</b> : 최대 3건까지로 운영 (과부하 방지)",
-    en: "<b>Limited Concurrent Jobs</b>: Operate with up to 3 orders at a time (prevents overload).",
+    ko: "<b>AI 기반</b> 최적화된 배송 경로",
+    en: "<b>AI-powered</b> optimized delivery routes",
   },
-  riderBenefit4: {
-    ko: "<b>우선 배정</b> : 멤버십 매장 중심으로 콜/픽업 매칭",
-    en: "<b>Priority Assignment</b>: Calls/pickups matched primarily around member stores.",
+  riderCta: {
+    ko: "지금 라이더로 지원하기",
+    en: "Apply as a Rider Now",
   },
-  riderCtaGuide: {
-    ko: "기사 제휴 안내",
-    en: "Rider Partnership Guide",
+  partnerBenefitTitle: {
+    ko: "더 많은 고객을 만나고 매출을 늘리세요",
+    en: "Meet more customers and increase your sales",
   },
-  riderCtaApply: {
-    ko: "기사 등록 신청",
-    en: "Apply as a Rider",
+  partnerBenefitDesc: {
+    ko: "저희 플랫폼에 입점하여 수많은 잠재 고객에게 당신의 가게를 홍보하세요.",
+    en: "Promote your store to countless potential customers by joining our platform.",
   },
-  riderFootnote: {
-    ko: "* 기사 제휴는 안전/운영 기준을 확인한 뒤 순차 오픈돼요.",
-    en: "* Rider partnerships will be opened sequentially after safety/operational standards are confirmed.",
+  partnerBenefit1: {
+    ko: "<b>신규 고객</b> 확보",
+    en: "Acquire <b>new customers</b>",
   },
-  partnerBadge: {
-    ko: "🎯 점주 멤버십",
-    en: "🎯 Store Membership",
+  partnerBenefit2: {
+    ko: "<b>마케팅</b> 비용 절감",
+    en: "Reduce <b>marketing</b> costs",
   },
-  partnerTitle: {
-    ko: "월 5만원, “광고비”처럼 체감되는 6가지 베네핏",
-    en: "6 Big Benefits for 50,000 KRW/Month, Feels Like an 'Ad Spend'",
+  partnerBenefit3: {
+    ko: "<b>간편한</b> 주문 관리 시스템",
+    en: "<b>Easy-to-use</b> order management system",
   },
-  partnerDesc: {
-    ko: `핵심은 배송이 아니라 <b>외국인에게 “보이는 매장”</b>이 되는 권리예요.<br />(특히 1·5·6번이 가장 강력해요)`,
-    en: `The core isn't delivery, but the right to become a <b>"visible store" to foreigners.</b><br />(Benefits 1, 5, and 6 are especially powerful).`,
-  },
-  partnerBenefit1Title: {
-    ko: "1) 관광객 노출 독점",
-    en: "1) Exclusive Exposure to Tourists",
-  },
-  partnerBenefit1Desc: {
-    ko: `호텔 프런트 QR / “짐 없이 쇼핑 가능한 매장” 지도 / 추천 리스트에 <b> 회원 매장만</b> 노출.`,
-    en: `Only <b>member stores</b> are featured on hotel front desk QRs, "luggage-free shopping" maps, and recommendation lists.`,
-  },
-  partnerBenefit2Title: {
-    ko: "2) 호텔 컨시어지 추천 매장",
-    en: "2) Recommended by Hotel Concierge",
-  },
-  partnerBenefit2Desc: {
-    ko: `“짐 배송 되는 매장”으로 소개 → <b>구매 의도 있는 유입</b>이 들어와요.`,
-    en: `Introduced as a "store with luggage delivery" → Attracts inbound customers with <b>high purchase intent.</b>`,
-  },
-  partnerBenefit3Title: {
-    ko: "3) 배송 가능 매장 ‘공식 인증’",
-    en: "3) 'Official' Delivery-Enabled Store Certification",
-  },
-  partnerBenefit3Desc: {
-    ko: "스티커/QR/표식 제공 → 고객이 바로 이해, 직원 설명 줄고 결제 흐름 안 끊겨요.",
-    en: "Stickers/QRs/signs provided → Customers understand immediately, reducing staff explanations and streamlining checkout.",
-  },
-  partnerBenefit4Title: {
-    ko: "4) 기사 우선 매칭",
-    en: "4) Priority Rider Matching",
-  },
-  partnerBenefit4Desc: {
-    ko: `회원 매장은 우선순위 ↑ 픽업 지연 ↓ 누락 사고 ↓ → “여긴 항상 빨라” 체감.`,
-    en: `Member stores get higher priority ↑, less pickup delay ↓, fewer incidents ↓ → Customers feel "it's always fast here."`,
-  },
-  partnerBenefit5Title: {
-    ko: "5) 월 1회 성과 리포트(PDF/메시지)",
-    en: "5) Monthly Performance Report (PDF/Message)",
-  },
-  partnerBenefit5Desc: {
-    ko: `“포기될 뻔한 구매” 유지 횟수 / 호텔 분포 / 재이용 비율 등 <b> 끊기 어렵게 만드는 데이터</b>를 매달 전달.`,
-    en: `Delivers data that creates lock-in every month, such as number of "rescued sales," hotel distribution, and repeat usage rates.`,
-  },
-  partnerBenefit6Title: {
-    ko: "6) 첫 달 ‘회원권 무료’ + 1건 무료 설계",
-    en: "6) First Month 'Free Membership' + 1 Free Delivery",
-  },
-  partnerBenefit6Desc: {
-    ko: `첫 달: <b>회원권 무료</b> + <b>배송 1건 무료</b>로 “제대로 써보게” 만드는 체험 구조.`,
-    en: `First month: A trial structure with <b>free membership</b> + <b>1 free delivery</b> to let them "truly experience" the service.`,
-  },
-  partnerCtaGuide: {
-    ko: "멤버십 소개서 받기",
-    en: "Get Membership Brochure",
-  },
-  partnerCtaApply: {
-    ko: "점주 멤버십 신청",
-    en: "Apply for Store Membership",
-  },
-  partnerQuote: {
-    ko: `“이 회원권은 배송을 쓰는 권리가 아니라<br />외국인에게 <b>‘보이는 매장’</b>이 되는 권리입니다.”`,
-    en: `"This membership isn't the right to use delivery;<br />it's the right to become a <b>'visible store'</b> to foreigners."`,
+  partnerCta: {
+    ko: "파트너로 입점 신청하기",
+    en: "Apply to be a Partner",
   },
 
   // --- src/components/main/sections/MainDLVS.jsx ---

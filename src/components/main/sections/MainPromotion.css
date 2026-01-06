@@ -1,17 +1,10 @@
 /**
- * @file src/components/main/sections/MainFee.css
- * @description 요금 안내
- * 251216 v1.0.0 sara init 
- * 251223 v1.1.0 sara modify UI
- * 260104 v1.1.1 sara modify contents
+ * @file src/components/main/sections/MainPromotion.css
+ * @description Styles for the new tabbed promotion section.
+ * 260106 v2.0.0 YourName redesign for responsiveness and UX.
  */
 
-/* 1. 섹션 레이아웃 및 헤더 */
-.mainshow-section-wrapper {
-  max-width: var(--com-web-max-width);
-  margin: 0 auto;
-}
-
+/* 1. Section Header */
 .mainpromotion-frame {
   width: 100%;
   display: flex;
@@ -22,6 +15,7 @@
 .mainpromotion-header-frame {
   display: flex;
   flex-direction: column;
+  text-align: center;
   gap: var(--com-gap-xs);
 }
 
@@ -41,152 +35,118 @@
 }
 
 .mainpromotion-subtitle-text {
-  font-size: var(--com-size-body);
+  font-size: var(--com-size-subtitle);
   color: var(--com-font-secondary-color);
   line-height: 1.6;
   margin: 0;
 }
 
-/* 2. 카드 메인 프레임 */
-.mainpromotion-card-frame {
-  width: 100%;
+/* 2. Main Promotion Card */
+.mainpromotion-card {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-md);
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
 }
 
-.mainpromotion-half-frame {
+/* 3. Tab Navigation */
+.mainpromotion-tabs {
+  display: flex;
+  justify-content: center;
+  background-color: var(--com-color-bg-light);
+  border-bottom: 1px solid var(--com-border-default);
+}
+
+.mainpromotion-tab-btn {
+  flex: 1;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-secondary-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.mainpromotion-tab-btn.active {
+  color: var(--com-font-primary-color);
+  border-image: var(--com-gradient-rainbow) 1;
+}
+
+.mainpromotion-tab-btn:hover:not(.active) {
+  background-color: var(--com-color-overlay);
+}
+
+
+/* 4. Tab Content */
+.mainpromotion-content-wrapper {
   padding: 32px;
+}
+
+.mainpromotion-content {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.mainpromotion-icon-wrapper {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.mainpromotion-text-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* 내용 상단 - 하단 버튼 분리 */
-  gap: 24px;
+  gap: 16px;
 }
 
-.mainpromotion-half-frame--left {
-  background: var(--com-color-white);
-  border-right: 1px solid var(--com-border-default);
-}
-
-.mainpromotion-half-frame--right {
-  background: var(--com-color-bg-light);
-}
-
-/* 3. 콘텐츠 내부 요소 */
-.mainpromotion-half-header {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mainpromotion-badge {
-  width: fit-content;
-  padding: 6px 10px;
-  border-radius: var(--com-radius-pill);
-  font-size: 12px;
-  font-weight: var(--com-font-weight-heavy);
-  border: 1px solid var(--com-border-default);
-  background: var(--com-color-white);
-  color: var(--com-font-primary-color);
-}
-
-.mainpromotion-half-title {
-  font-size: 20px;
+.mainpromotion-content-title {
+  font-size: 22px;
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
-  margin: 12px 0 4px;
 }
 
-.mainpromotion-half-desc {
+.mainpromotion-content-desc {
   font-size: var(--com-size-body);
   color: var(--com-font-secondary-color);
   line-height: 1.6;
-  margin-bottom: 16px;
 }
 
-.mainpromotion-list {
-  margin: 0;
-  padding-left: 18px;
+.mainpromotion-benefit-list {
+  list-style: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.mainpromotion-list-item {
+.mainpromotion-benefit-list li {
   font-size: var(--com-size-body);
-  color: var(--com-font-primary-color);
-  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
 }
 
-.mainpromotion-rider-image-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  opacity: 0.8;
-}
-
-/* 점주 혜택 그리드 */
-.mainpromotion-benefits-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.mainpromotion-benefit-item {
-  background: var(--com-color-white);
-  padding: 14px;
-  border-radius: var(--com-radius-md);
-  border: 1px solid var(--com-border-default);
-}
-
-.mainpromotion-benefit-item--highlight {
-  border-color: var(--com-color-primary-light);
-  background: #fdfdfd;
-}
-
-.mainpromotion-benefit-title {
-  font-size: 14px;
-  font-weight: var(--com-font-weight-heavy);
-  margin-bottom: 4px;
-  color: var(--com-font-primary-color);
-}
-
-.mainpromotion-benefit-desc {
-  font-size: 12px;
-  color: var(--com-font-secondary-color);
-  line-height: 1.4;
-}
-
-/* 4. 하단 버튼 영역 (원래 디자인 복구) */
-.mainpromotion-action-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: auto;
-}
-
-.mainpromotion-cta-frame {
-  display: flex;
-  gap: 10px;
+.mainpromotion-benefit-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--com-color-primary);
 }
 
 .mainpromotion-cta-btn {
-  flex: 1;
-  padding: 14px 14px;
+  width: fit-content;
+  padding: 12px 24px;
   border-radius: var(--com-radius-pill);
-  border: 1px solid transparent;
+  border: none;
   background: var(--com-color-black);
   color: var(--com-color-white);
   font-size: 14px;
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap;
 }
 
 .mainpromotion-cta-btn:hover {
@@ -196,59 +156,35 @@
   box-shadow: var(--com-shadow-md);
 }
 
-.mainpromotion-cta-btn--ghost {
-  background: var(--com-color-white);
-  color: var(--com-font-primary-color);
-  border: 1px solid var(--com-border-default);
-}
-
-.mainpromotion-cta-btn--ghost:hover {
-  background: var(--com-color-white);
-  border-color: transparent;
-  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.92)) padding-box,
-              var(--com-gradient-rainbow) border-box;
-  border: 1px solid transparent;
-  color: var(--com-font-primary-color);
-}
-
-.mainpromotion-footnote-text {
-  font-size: 11px;
-  color: #aaa;
-  text-align: center;
-}
-
-.mainpromotion-quote-frame {
-  padding: 10px 0;
-  text-align: center;
-  border-top: 1px dashed var(--com-border-default);
-}
-
-.mainpromotion-quote-text {
-  font-size: 13px;
-  font-style: italic;
-  color: var(--com-font-secondary-color);
-}
-
-/* 5. 반응형 처리 */
+/* 5. Responsive Design */
 @media screen and (max-width: 768px) {
-  .mainpromotion-card-frame {
-    grid-template-columns: 1fr;
+  .mainpromotion-content {
+    flex-direction: column;
+    text-align: center;
   }
-  .mainpromotion-half-frame--left {
-    border-right: none;
-    border-bottom: 1px solid var(--com-border-default);
+
+  .mainpromotion-text-content {
+    align-items: center;
   }
-  .mainpromotion-benefits-grid {
-    grid-template-columns: 1fr;
+
+  .mainpromotion-benefit-list li {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .mainpromotion-benefit-list li::before {
+    display: none; /* Hide checkmark on mobile for cleaner look */
   }
 }
 
-/* 📱 아이폰 SE 최적화 */
 @media screen and (max-width: 375px) {
-  .mainpromotion-half-frame {
-    padding: 20px;
+  .mainpromotion-content-wrapper {
+    padding: 24px;
   }
-  .mainpromotion-half-title {
-    font-size: 18px;
+  .mainpromotion-tab-btn {
+    font-size: 14px;
+  }
+  .mainpromotion-content-title {
+    font-size: 20px;
   }
 }

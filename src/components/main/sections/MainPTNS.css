@@ -273,7 +273,7 @@
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -282,28 +282,91 @@
 }
 
 .mainptns-modal-box {
-  background: white;
+  background-color: var(--com-color-white);
   width: 90%;
-  max-width: 500px;
-  border-radius: 16px;
+  max-width: 600px; 
+  height: 80vh;     
+  border-radius: var(--com-radius-lg);
+  box-shadow: var(--com-shadow-default);
+  display: flex;
+  flex-direction: column; 
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: modalFadeIn 0.3s ease;
 }
 
 .mainptns-modal-header {
-  padding: 20px;
+  padding: var(--com-gap-md) var(--com-container-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--com-border-default);
+}
+
+.mainptns-modal-header h3 {
+  margin: 0;
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+}
+
+.mainptns-close-x-btn {
+  background: none;
+  border: none;
+  font-size: var(--com-size-title);
+  cursor: pointer;
+  color: var(--com-font-primary-color);
+  padding: 0;
+  line-height: 1;
 }
 
 .mainptns-modal-body {
-  padding: 20px;
-  max-height: 300px;
-  overflow-y: auto;
-  font-size: 14px;
+  flex: 1; 
+  padding: var(--com-gap-md);
+  overflow-y: auto; 
+  background-color: var(--com-color-bg-light); 
+  display: flex;
+  flex-direction: column;
+}
+
+.mainptns-modal-description {
+  margin-bottom: var(--com-gap-md);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  border-bottom: 1px dashed var(--com-border-default);
+  padding-bottom: 15px;
+  font-size: var(--com-size-content);
+  word-break: keep-all;
+}
+
+.mainptns-text-content {
+  background-color: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  padding: var(--com-gap-md);
+  border-radius: var(--com-radius-md); 
+  font-size: var(--com-size-content);
   line-height: 1.6;
+  color: var(--com-font-primary-color);
+  width: 100%;
+  box-sizing: border-box;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.mainptns-text-content ul {
+  margin: var(--com-gap-sm) 0;
+  padding-left: var(--com-gap-md);
+  list-style-type: disc;
+}
+
+.mainptns-text-content li {
+  margin-bottom: var(--com-gap-xs);
+}
+
+.mainptns-text-content h3, 
+.mainptns-text-content h4 {
+  margin: 15px 0 var(--com-gap-sm);
+  color: var(--com-color-black);
+  font-weight: var(--com-font-weight-bold);
 }
 
 .mainptns-modal-footer {
@@ -311,6 +374,7 @@
   display: flex;
   gap: 10px;
   border-top: 1px solid #eee;
+  background-color: var(--com-color-white);
 }
 
 .mainptns-btn-cancel, .mainptns-btn-confirm {
@@ -322,12 +386,75 @@
   font-weight: bold;
 }
 
-.mainptns-btn-cancel { background: #eee; }
-.mainptns-btn-confirm { background: #000; color: #fff; }
+.mainptns-btn-cancel { 
+  background-color: var(--com-color-bg-light); 
+  color: var(--com-color-black);
+  border: 1px solid var(--com-border-default);
+}
+.mainptns-btn-confirm { 
+  background: var(--com-color-black); 
+  color: var(--com-color-white); 
+}
+
+@keyframes modalFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(var(--com-gap-md)); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
 
 /* 모바일 대응 */
 @media (max-width: 480px) {
   .mainptns-input-grid-2 {
     grid-template-columns: 1fr;
   }
+}
+
+/* 8. 주소 검색 드롭다운 */
+.ptnssearch-dropdown-list {
+  position: absolute;
+  width: 100%;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-md);
+  margin-top: 5px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1001; /* modal is 1000 */
+  box-shadow: var(--com-shadow-md);
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.ptnssearch-dropdown-list li {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--com-border-default);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ptnssearch-dropdown-list li:last-child {
+  border-bottom: none;
+}
+
+.ptnssearch-dropdown-list li:hover {
+  background-color: var(--com-color-bg-light);
+}
+
+.ptnssearch-dropdown-list .place-name {
+  font-weight: var(--com-font-weight-bold);
+  font-size: 14px;
+  color: var(--com-color-black);
+}
+
+.ptnssearch-dropdown-list .place-address {
+  font-size: 12px;
+  color: var(--com-font-gray);
+  margin-top: 4px;
 }

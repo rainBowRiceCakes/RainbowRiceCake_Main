@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { mypageIndexThunk } from '../thunks/myPage/myPageIndexThunk.js';
+import { myPageIndexThunk } from '../thunks/myPage/myPageIndexThunk.js';
 
 const initialState = {
   summary: null,
@@ -13,16 +13,16 @@ const myPageIndexSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(mypageIndexThunk.pending, (state) => {
+      .addCase(myPageIndexThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(mypageIndexThunk.fulfilled, (state, action) => {
+      .addCase(myPageIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.summary = action.payload.data;
         console.log( action.payload.data );
       })
-      .addCase(mypageIndexThunk.rejected, (state, action) => {
+      .addCase(myPageIndexThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

@@ -7,8 +7,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../../api/axiosInstance.js';
 
-export const mypageIndexThunk = createAsyncThunk(
-   'mypage/mypageIndex',
+export const myPageIndexThunk = createAsyncThunk(
+   'myPage/myPageIndex',
   async (_, { rejectWithValue }) => {
     try {
       const url = `/api/users/orders/history`;
