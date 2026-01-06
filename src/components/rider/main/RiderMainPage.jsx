@@ -19,7 +19,7 @@ import RiderCompletedView from "../orders/completed/RiderCompletedView.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { acceptOrder, setActiveTab } from "../../../store/slices/ordersSlice.js";
+import { setActiveTab } from "../../../store/slices/ordersSlice.js";
 
 const IITEMS_PER_PAGE = 5;
 

@@ -4,16 +4,15 @@ import { getInProgressBadgeText } from "../../../../constants/orderStatus.js";
 import "./RiderInProgressView.css";
 import { useNavigate } from "react-router-dom";
 
-
 export default function RiderInProgressView({ orders = [] }) {
   const navigate = useNavigate();
 
   const handleOpenNavFlow = (e, order) => {
     e.stopPropagation();
 
-    const orderId = order.id;
+    const orderCode = order.orderCode;
 
-    navigate(`/riders/orders/${orderId}/nav`);
+    navigate(`/riders/orders/${orderCode}/nav`);
   };
 
   console.log("orders props:", orders);
@@ -21,7 +20,7 @@ export default function RiderInProgressView({ orders = [] }) {
   // 🔍 상태 + 뱃지 매핑 확인용 로그
   orders.forEach((o) => {
     console.log(
-      "id:", o.id,
+      "id:", o.orderCode,
       "status:", o.status,
       "badge:", getInProgressBadgeText(o.status)
     );
@@ -35,13 +34,13 @@ export default function RiderInProgressView({ orders = [] }) {
   return (
     <div className="rip-wrap">
       {orders.map((order) => {
-        const orderId = order.id;
-        const title = `${order.order_partner.krName} → ${order.order_hotel.krName}`;
+        const orderCode = order.orderCode;
+        const title = `${order.order_partner?.krName} → ${order.order_hotel?.krName}`;
         const badgeText = getInProgressBadgeText(order.status);
 
         return (
           <button
-            key={orderId}
+            key={orderCode}
             type="button"
             className="rip-card"
             // ✅ 이제 카드 어디를 눌러도 네비게이션 화면으로 이동합니다.
@@ -50,8 +49,9 @@ export default function RiderInProgressView({ orders = [] }) {
             <div className="rip-left">
               <div className="rip-badge-row">
                 {badgeText && <span className="rip-badge">{badgeText}</span>}
-                <span className="rip-label">주문번호: {orderId}</span>
-              </div>
+                <span className="rip-label">
+                  주문번호: #{orderCode?.slice(-4)}
+                </span>              </div>
               <div className="rip-divider" />
 
               <span className="rip-label">접수된 시간: {dayjs(order.createdAt).format('A hh:mm')}</span>

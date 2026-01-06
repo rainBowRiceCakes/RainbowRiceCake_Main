@@ -4,6 +4,7 @@ import { orderIndexThunk } from "../thunks/orders/orderIndexThunk";
 import { uploadCompletePhoto, uploadPickupPhoto } from "../thunks/orders/orderPicsThunk.js";
 import { submitDeliveryRequest } from "../thunks/requests/submitDeliveryRequestThunk.js";
 import { getHourlyStatsThunk } from "../thunks/orders/orderStatsThunk.js";
+import { acceptOrderThunk } from "../thunks/orders/acceptOrderThunk.js";
 
 const initialState = {
   orders: [],
@@ -29,28 +30,20 @@ const ordersSlice = createSlice({
       state.orders = [];
       localStorage.setItem("activeRiderTab", action.payload);
     },
-    // 2. [기사] 주문 수락 -> 상태: mat (MATCHED)
-    acceptOrder(state, action) {
-      const { id, riderId } = action.payload;
-
-      // const myActiveOrders = state.orders.filter(
-      //   (o) => o.riderId === riderId && o.status !== "com"
-      // );
-
-      // if (myActiveOrders.length >= 3) {
-      //   alert("동시에 3개까지만 배송 가능합니다.");
-      //   return;
-      // }
-
-      const target = state.orders.find((o) => o.id === id);
-      if (target) {
-        target.riderId = riderId;
-        target.status = "mat"; // DB 상태: mat로 변경
-      }
-    },
     // 서버 데이터 동기화용
     setAllOrders(state, action) {
       state.orders = action.payload;
+    },
+    // ✅ 수동으로 주문 수락 상태 업데이트 (로컬 상태용)
+    acceptOrder(state, action) {
+      const { id, riderId } = action.payload;
+      const target = state.orders.find(o =>
+        String(o.orderCode) === String(id) || String(o.id) === String(id)
+      );
+      if (target) {
+        target.riderId = riderId;
+        target.status = "mat";
+      }
     }
   },
   extraReducers: (builder) => {
@@ -108,7 +101,7 @@ const ordersSlice = createSlice({
       .addCase(uploadPickupPhoto.fulfilled, (state, action) => {
         // action.payload에 서버가 보낸 orderId나 updatedOrder가 들어있어야 합니다.
         const targetId = action.payload?.orderId || action.payload?.id;
-        const target = state.orders.find((o) => String(o.id) === String(targetId));
+        const target = state.orders.find((o) => String(o.orderCode) === String(targetId));
         if (target) {
           target.status = "pick"; // 이제 RiderNavFlowPage가 이 변화를 감지합니다!
         }
@@ -117,7 +110,7 @@ const ordersSlice = createSlice({
       // 3. 배달 완료 사진 업로드 성공 시 (pick -> com)
       .addCase(uploadCompletePhoto.fulfilled, (state, action) => {
         const targetId = action.payload?.orderId || action.payload?.id;
-        const target = state.orders.find((o) => String(o.id) === String(targetId));
+        const target = state.orders.find((o) => String(o.orderCode) === String(targetId));
         if (target) {
           target.status = "com";
         }
@@ -142,15 +135,33 @@ const ordersSlice = createSlice({
       .addCase(getHourlyStatsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.msg || "통계 데이터를 가져오지 못했습니다.";
-      });
+      })
+      .addCase(acceptOrderThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(acceptOrderThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        // action.payload = { orderCode, updatedOrder } from acceptOrderThunk
+        const target = state.orders.find(o => o.orderCode === action.payload.orderCode);
+        console.log('target 찾아주세요:', target);
+        if (target) {
+          // updatedOrder에서 riderId를 가져오거나, updatedOrder.data에서 가져옴
+          const updatedData = action.payload.updatedOrder?.data || action.payload.updatedOrder;
+          target.riderId = updatedData?.riderId;
+          target.status = "mat";
+        }
+      })
+      .addCase(acceptOrderThunk.rejected, (state, action) => {
+        state.loading = false;
+        alert(action.payload?.message || "수락 실패!");
+      })
   },
 });
 
 export const {
   setActiveTab,
-  createOrder,
-  acceptOrder,
-  setAllOrders
+  setAllOrders,
+  acceptOrder
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

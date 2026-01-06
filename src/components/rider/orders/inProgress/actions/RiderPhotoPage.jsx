@@ -43,13 +43,14 @@ export default function RiderPhotoPage({ mode, order, onClose }) {
       const formData = new FormData();
       // ✅ 중요: 백엔드 .single("image")와 동일한 필드명 사용
       formData.append("image", file);
+      formData.append("orderCode", order.orderCode);
 
       const isPickup = order.status === "mat";
       // Thunk 실행 (백엔드 라우터: /:orderId/pickup-photo 또는 /complete-photo)
       const resultAction = await dispatch(
         isPickup
-          ? uploadPickupPhoto({ orderId: order.id, formData })  // 픽업 단계
-          : uploadCompletePhoto({ orderId: order.id, formData }) // 드롭오프 단계
+          ? uploadPickupPhoto({ orderCode: order.orderCode, formData })  // 픽업 단계
+          : uploadCompletePhoto({ orderCode: order.orderCode, formData }) // 드롭오프 단계
       );
 
       if (uploadPickupPhoto.fulfilled.match(resultAction) || uploadCompletePhoto.fulfilled.match(resultAction)) {
@@ -61,7 +62,7 @@ export default function RiderPhotoPage({ mode, order, onClose }) {
           navigate("/riders"); // 대시보드 주소로 설정 (프로젝트 경로에 맞게 수정)
         } else {
           // 픽업 단계라면 다음 단계(호텔 이동)를 위해 팝업만 닫기
-          onClose();
+          onClose(true);
         }
 
       } else if (resultAction.payload) {

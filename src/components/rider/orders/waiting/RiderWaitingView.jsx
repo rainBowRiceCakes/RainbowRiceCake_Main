@@ -23,31 +23,35 @@ export default function RiderWaitingView({ orders = [], onAccept }) {
   const handleConfirm = async () => {
     if (!selectedOrder) return;
 
-    const onAccept = async (orderId, riderId) => {
-      console.log('🚀 accept order:', orderId);
-      await axiosInstance.post(`/api/orders/${orderId}`); // 서버 상태 변경
+    const orderCode = selectedOrder.orderCode;
+    console.log('🚀 accept order:', orderCode);
+
+    try {
+      // 1. 서버에 수락 요청
+      const response = await axiosInstance.put(`/api/orders/${orderCode}`);
+      console.log('✅ 서버 응답:', response.data);
+
+      // 2. 로컬 Redux 상태 업데이트 (서버 성공 후)
       dispatch(
         acceptOrder({
-          id: orderId,
-          riderId: riderId,
+          id: orderCode,
+          riderId: response.data?.data?.riderId || response.data?.riderId,
         })
       );
-    };
 
-    // ✅ 기존 수락 로직 유지 (API 호출이 있다면)
-    if (onAccept) {
-      await onAccept(selectedOrder.id);
+      // 3. RiderNavFlowPage로 이동
+      navigate(`/riders/orders/${orderCode}/nav`, {
+        state: {
+          justAccepted: true,
+          message: "배달이 시작됐어요 🚴‍♂️"
+        }
+      });
+    } catch (error) {
+      console.error('❌ 수락 실패:', error);
+      alert(error.response?.data?.message || '주문 수락에 실패했습니다.');
+    } finally {
+      setIsModalOpen(false);
     }
-
-    // ✅ RiderNavFlowPage로 이동
-    navigate(`/riders/orders/${selectedOrder.id}/nav`, {
-      state: {
-        justAccepted: true,
-        message: "배달이 시작됐어요 🚴‍♂️"
-      }
-    });
-
-    setIsModalOpen(false);
   };
 
   if (orders.length === 0) {

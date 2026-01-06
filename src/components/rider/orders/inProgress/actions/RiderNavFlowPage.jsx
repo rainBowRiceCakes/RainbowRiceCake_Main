@@ -1,20 +1,31 @@
 // components/rider/navigation/RiderNavFlowPage.jsx
 import "./RiderNavFlowPage.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RiderPhotoPage from "./RiderPhotoPage.jsx";
+import { orderShowThunk } from "../../../../../store/thunks/orders/orderShowThunk.js";
 
 export default function RiderNavFlowPage() {
-  const { orderId } = useParams();
+  const { orderCode } = useParams(); // ✅ Route에서 :orderCode로 정의됨
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  const orders = useSelector((state) => state.orders?.orders ?? []);
-  const order = useMemo(() => orders.find(o => String(o.id) === String(orderId)), [orders, orderId]);
+  // ✅ ordersDetail에서 주문 정보 가져오기 (orderShowThunk 사용)
+  const order = useSelector((state) => state.ordersDetail?.orderDetail);
+  const loading = useSelector((state) => state.ordersDetail?.loading);
+  console.log('📦 order 정보:', order, 'orderCode:', orderCode);
 
   const [showPhotoUI, setShowPhotoUI] = useState(false);
   const [toast, setToast] = useState("");
+
+  // ✅ 주문 상세 정보 가져오기
+  useEffect(() => {
+    if (orderCode) {
+      dispatch(orderShowThunk(orderCode));
+    }
+  }, [orderCode, dispatch]);
 
   // 토스트 메시지 로직
   useEffect(() => {
@@ -28,6 +39,9 @@ export default function RiderNavFlowPage() {
       return () => { clearTimeout(timer); clearTimeout(closeTimer); };
     }
   }, [location.pathname, location.state]);
+
+  // 로딩 중
+  if (loading) return <div style={{ padding: 16 }}>불러오는 중...</div>;
 
   if (!order) return <div style={{ padding: 16 }}>주문 정보를 찾을 수 없어요 😭</div>;
 
@@ -55,7 +69,19 @@ export default function RiderNavFlowPage() {
       <RiderPhotoPage
         mode={status === 'mat' ? 'pick' : 'com'}
         order={order}
-        onClose={() => setShowPhotoUI(false)}
+        // ✅ success 파라미터를 받아서 처리
+        onClose={(success) => {
+          setShowPhotoUI(false);
+          if (success) {
+            // 💡 가벼운 알림 메시지 세팅
+            setToast("📸 사진 업로드 성공! 이제 호텔로 출발하세요.");
+
+            dispatch(orderShowThunk(orderCode));
+
+            // 3초 뒤 토스트 사라지게 함 (기존 로직이 있다면 활용)
+            setTimeout(() => setToast(""), 3000);
+          }
+        }}
       />
     );
   }
@@ -91,7 +117,7 @@ export default function RiderNavFlowPage() {
         </button>
         <p className="rnp-guide">{guideText}</p>
         <div className="rnp-row"><span>{placeLabel}</span><strong>{placeName}</strong></div>
-        <div className="rnp-row"><span>주문 번호</span><strong>{order.id}</strong></div>
+        <div className="rnp-row"><span>주문 번호</span><strong>#{orderCode?.slice(-4)}</strong></div>
 
         <div className="rnp-actions">
           <button className="rnp-btn gray">도움요청</button>

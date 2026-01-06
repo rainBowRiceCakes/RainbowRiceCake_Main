@@ -20,7 +20,7 @@ function CompletedOrderRow({ order }) {
           {dayjs(order.updatedAt).format('A hh:mm')}
         </p>
         <p className="cor-title">
-          {order.order_partner.krName} → {order.order_hotel.krName}
+          {order.order_partner?.krName} → {order.order_hotel?.krName}
         </p>
       </div>
       <span className="cor-chevron">
