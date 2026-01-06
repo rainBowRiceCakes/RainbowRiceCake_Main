@@ -176,7 +176,7 @@
 .maincs-callback-area {
   margin-top: var(--com-size-subtitle);
   border-top: 1px solid var(--com-color-overlay);
-  padding-top: var(--com-size-sidebar);
+  padding: var(--com-size-sidebar), var(--com-gap-xs);
 }
 
 .maincs-callback-title-text {

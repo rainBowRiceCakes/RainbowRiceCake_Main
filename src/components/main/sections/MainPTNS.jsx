@@ -18,8 +18,8 @@ import TrashBinIcon from '../../common/icons/TrashBinIcon.jsx';
 import { riderImageUploadThunk, partnerImageUploadThunk } from '../../../store/thunks/imageUploadThunk.js'; 
 import { useKakaoLoader } from 'react-kakao-maps-sdk';
 import { searchAddressToCoords } from '../../../utils/searchAddressToCoords.js';
+import DaumPostcode from "react-daum-postcode";
 import './MainPTNS.css';
-import './MainPTNSSearch.css'; // 검색 드롭다운용 CSS
 
 // Debounce hook
 const useDebounce = (value, delay) => {
@@ -55,6 +55,8 @@ export default function MainPTNS() {
   const riderFileInputRef = useRef(null);
   const partnerFileInputRef = useRef(null);
   const searchContainerRef = useRef(null);
+  const isSelectingRef = useRef(false);
+
 
   // 4. 약관 동의 및 모달 상태
   const [riderAgreements, setRiderAgreements] = useState({ terms: false, privacy: false });
@@ -66,6 +68,7 @@ export default function MainPTNS() {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
   const [activeSearchInput, setActiveSearchInput] = useState(null); // 'riderAddress' or 'storeAddress'
+  const [isRiderPostcodeOpen, setIsRiderPostcodeOpen] = useState(false);
   const debouncedSearchKeyword = useDebounce(searchKeyword, 300);
 
   // 6. 카카오 API 로더
@@ -97,23 +100,27 @@ export default function MainPTNS() {
 
   // 9. Debounced 키워드로 카카오 플레이스 검색
   useEffect(() => {
-    if (debouncedSearchKeyword && !kakaoLoading && window.kakao?.maps?.services) {
-      const ps = new window.kakao.maps.services.Places();
-      ps.keywordSearch(debouncedSearchKeyword, (data, status) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          setSearchResults(data);
-          setIsSearchDropdownOpen(true);
-        } else {
-          setSearchResults([]);
-          setIsSearchDropdownOpen(false);
-        }
-      });
-    } else {
-      setSearchResults([]);
-      setIsSearchDropdownOpen(false);
-    }
-  }, [debouncedSearchKeyword, kakaoLoading]);
+    // ✅ 검색어 없으면 아무 것도 하지 말고 종료 (setState X)
+    if (!debouncedSearchKeyword?.trim()) return;
 
+    // ✅ 어떤 input에서 검색 중인지 없으면 종료 (setState X)
+    if (!activeSearchInput) return;
+
+    if (kakaoLoading || isSelectingRef.current || !window.kakao?.maps?.services) return;
+
+    const ps = new window.kakao.maps.services.Places();
+
+    ps.keywordSearch(debouncedSearchKeyword, (data, status) => {
+      if (status === window.kakao.maps.services.Status.OK) {
+        setSearchResults(data);
+        setIsSearchDropdownOpen(true);
+      } else {
+        // ✅ 콜백 안 setState는 괜찮음 (외부 시스템 결과에 반응)
+        setSearchResults([]);
+        setIsSearchDropdownOpen(false);
+      }
+    });
+  }, [debouncedSearchKeyword, kakaoLoading, activeSearchInput]);
 
   // 10. 핸들러 함수들
   const handleInputChange = (e, formType) => {
@@ -131,6 +138,7 @@ export default function MainPTNS() {
   };
   
   const handleSelectPlace = (place) => {
+    isSelectingRef.current = true;
     const address = place.road_address_name || place.address_name;
     const setter = activeSearchInput === 'riderAddress' ? setRiderFormData : setPartnerFormData;
     setter(prev => ({ ...prev, [activeSearchInput]: address }));
@@ -194,6 +202,35 @@ export default function MainPTNS() {
     }
   };
   
+  const handleRiderPostcodeComplete = (data) => {
+  // data.roadAddress = 도로명 주소
+  const roadAddr = data.roadAddress || "";
+
+  setRiderFormData((prev) => ({
+    ...prev,
+    riderAddress: roadAddr,
+  }));
+
+  // 기존 카카오 검색 드롭다운 흐름 끊기 (캐스캐이딩 방지)
+  setSearchKeyword("");
+  setSearchResults([]);
+  setIsSearchDropdownOpen(false);
+  setActiveSearchInput(null);
+
+  setIsRiderPostcodeOpen(false);
+  document.body.style.overflow = "auto";
+};
+
+const openRiderPostcode = () => {
+  setIsRiderPostcodeOpen(true);
+  document.body.style.overflow = "hidden";
+};
+
+const closeRiderPostcode = () => {
+  setIsRiderPostcodeOpen(false);
+  document.body.style.overflow = "auto";
+};
+
   // 11. 폼 제출 로직 (상태 기반으로 변경)
   const onSubmitRider = async (e) => {
     e.preventDefault();
@@ -215,13 +252,27 @@ export default function MainPTNS() {
         const uploadResult = await dispatch(riderImageUploadThunk(licenseFile)).unwrap();
         licenseImgPath = uploadResult.data.path;
       }
+
+      const coords = await searchAddressToCoords(riderFormData.riderAddress);
+
+      if (!coords?.lat || !coords?.lng) {
+        alert("주소 좌표 변환에 실패했어요. 주소를 다시 검색해주세요.");
+        return;
+      }
+
       const payload = {
         phone: riderFormData.riderPhone,
         address: riderFormData.riderAddress,
         bank: riderFormData.bankName,
         bankNum: riderFormData.accountNumber,
-        licenseImg: licenseImgPath
+        licenseImg: licenseImgPath,
+        // ✅ 핵심
+        lat: Number(coords.lat),
+        lng: Number(coords.lng),
       };
+
+      console.log("RIDER payload", payload); // ✅ 여기서 lat/lng 찍혀야 정상
+
       await dispatch(riderFormThunk(payload)).unwrap();
       navigate('/');
     } catch (error) {
@@ -249,8 +300,22 @@ export default function MainPTNS() {
         const uploadResult = await dispatch(partnerImageUploadThunk(logoFile)).unwrap();
         logoImgPath = uploadResult.data.path;
       }
+
       const coords = await searchAddressToCoords(partnerFormData.storeAddress);
-      const payload = { ...partnerFormData, logoImg: logoImgPath, lat: coords.lat, lng: coords.lng };
+      // 백엔드 필드명(partner.field.js)에 정확히 맞춰서 매핑
+      const payload = { 
+        manager: partnerFormData.managerName,       // managerName -> manager
+        phone: partnerFormData.partnerPhone,        // partnerPhone -> phone
+        krName: partnerFormData.storeNameKr,        // storeNameKr -> krName
+        enName: partnerFormData.storeNameEn,        // storeNameEn -> enName
+        businessNum: partnerFormData.businessNumber, // businessNumber -> businessNum
+        address: partnerFormData.storeAddress,      // storeAddress -> address
+        logoImg: logoImgPath, 
+        lat: coords.lat, 
+        lng: coords.lng,
+        status: 'REQ' // 백엔드 필수 항목 추가
+    };
+
       await dispatch(partnerFormThunk(payload)).unwrap();
       navigate('/');
     } catch (error) {
@@ -289,7 +354,26 @@ export default function MainPTNS() {
                   </label>
                   <div style={{ position: 'relative' }}>
                     <label className="mainptns-field-label">{t('ptnsAddressLabel')}
-                      <input className="mainptns-field-input" name="riderAddress" required placeholder={t('ptnsAddressPlaceholder')} value={riderFormData.riderAddress} onChange={(e) => handleAddressSearch(e, 'rider')} autoComplete="off"/>
+                    
+                      <div className="mainptns-address-row">
+                        <input
+                          className="mainptns-field-input"
+                          name="riderAddress"
+                          required
+                          placeholder={t('ptnsAddressPlaceholder')}
+                          value={riderFormData.riderAddress}
+                          readOnly
+                          onClick={openRiderPostcode}
+                        />
+                        <button
+                          type="button"
+                          className="mainptns-address-search-btn"
+                          onClick={openRiderPostcode}
+                        >
+                          주소 검색
+                        </button>
+                      </div>
+                    
                     </label>
                     {isSearchDropdownOpen && activeSearchInput === 'riderAddress' && searchResults.length > 0 && (
                         <ul className="ptnssearch-dropdown-list">
@@ -359,7 +443,7 @@ export default function MainPTNS() {
                       </label>
                     </div>
                     <label className="mainptns-field-label">{t('ptnsBusinessNumLabel')}
-                      <input className="mainptns-field-input" name="businessNumber" required placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="11" disabled={!isLoggedIn} value={partnerFormData.businessNumber} onChange={(e) => handleInputChange(e, 'partner')} />
+                      <input className="mainptns-field-input" name="businessNumber" required placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="10" disabled={!isLoggedIn} value={partnerFormData.businessNumber} onChange={(e) => handleInputChange(e, 'partner')} />
                     </label>
                     <div style={{ position: 'relative' }}>
                       <label className="mainptns-field-label">{t('ptnsAddressLabel')}
@@ -428,8 +512,27 @@ export default function MainPTNS() {
               </div>
             </div>
           )}
+
+          {isRiderPostcodeOpen && (
+              <div className="mainptns-postcode-overlay" onClick={closeRiderPostcode}>
+                <div className="mainptns-postcode-box" onClick={(e) => e.stopPropagation()}>
+                  <div className="mainptns-postcode-header">
+                    <h3 className="mainptns-postcode-title">주소 검색</h3>
+                    <button type="button" className="mainptns-postcode-close" onClick={closeRiderPostcode}>
+                      ✕
+                    </button>
+                  </div>
+
+                  <DaumPostcode
+                    onComplete={handleRiderPostcodeComplete}
+                    autoClose={false}
+                    style={{ width: "100%", height: "420px" }}
+                  />
+                </div>
+              </div>
+           )}
         </div>
       </div>
     </>
-  );
+  )
 }
