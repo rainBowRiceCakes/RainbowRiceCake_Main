@@ -89,18 +89,18 @@
 }
 
 .maincover-modal-detail {
-  margin-top: 12px;
+  margin-top: 10px;
   background: var(--com-color-bg-light);
   border: 1px solid var(--com-color-overlay);
   border-radius: 16px;
-  padding: 14px 14px;
+  padding: 7px 14px 14px 14px;
 }
 
 .maincover-modal-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 5px 0;
   border-bottom: 1px solid var(--com-color-overlay);
 }
 

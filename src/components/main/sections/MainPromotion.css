@@ -47,6 +47,7 @@
   margin: 0;
 }
 
+/* 2. 카드 메인 프레임 */
 .mainpromotion-card-frame {
   width: 100%;
   background: var(--com-color-white);
@@ -54,16 +55,16 @@
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-md);
   overflow: hidden;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
 .mainpromotion-half-frame {
-  padding: 22px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: var(--com-gap-md);
+  justify-content: space-between; /* 내용 상단 - 하단 버튼 분리 */
+  gap: 24px;
 }
 
 .mainpromotion-half-frame--left {
@@ -75,6 +76,7 @@
   background: var(--com-color-bg-light);
 }
 
+/* 3. 콘텐츠 내부 요소 */
 .mainpromotion-half-header {
   display: flex;
   flex-direction: column;
@@ -92,26 +94,18 @@
   color: var(--com-font-primary-color);
 }
 
-.mainpromotion-badge--rider {
-  background: var(--com-color-white);
-}
-
-.mainpromotion-badge--owner {
-  background: var(--com-color-white);
-}
-
 .mainpromotion-half-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
-  margin: 0;
+  margin: 12px 0 4px;
 }
 
 .mainpromotion-half-desc {
   font-size: var(--com-size-body);
   color: var(--com-font-secondary-color);
   line-height: 1.6;
-  margin: 0;
+  margin-bottom: 16px;
 }
 
 .mainpromotion-list {
@@ -125,51 +119,81 @@
 .mainpromotion-list-item {
   font-size: var(--com-size-body);
   color: var(--com-font-primary-color);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .mainpromotion-rider-image-wrapper {
-  flex-grow: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: var(--com-gap-sm) 0;
-  max-height: 150px;
-  opacity: 0.7;
+  align-items: center;
+  padding: 20px 0;
+  opacity: 0.8;
 }
 
+/* 점주 혜택 그리드 */
 .mainpromotion-benefits-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
+}
+
+.mainpromotion-benefit-item {
+  background: var(--com-color-white);
+  padding: 14px;
+  border-radius: var(--com-radius-md);
+  border: 1px solid var(--com-border-default);
+}
+
+.mainpromotion-benefit-item--highlight {
+  border-color: var(--com-color-primary-light);
+  background: #fdfdfd;
+}
+
+.mainpromotion-benefit-title {
+  font-size: 14px;
+  font-weight: var(--com-font-weight-heavy);
+  margin-bottom: 4px;
+  color: var(--com-font-primary-color);
+}
+
+.mainpromotion-benefit-desc {
+  font-size: 12px;
+  color: var(--com-font-secondary-color);
+  line-height: 1.4;
+}
+
+/* 4. 하단 버튼 영역 (원래 디자인 복구) */
+.mainpromotion-action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
 }
 
 .mainpromotion-cta-frame {
   display: flex;
   gap: 10px;
-  margin-top: auto; /* Push to the bottom */
-}
-
-.mainpromotion-cta-frame--right {
-  margin-top: 6px;
 }
 
 .mainpromotion-cta-btn {
   flex: 1;
-  padding: 12px 14px;
+  padding: 14px 14px;
   border-radius: var(--com-radius-pill);
   border: 1px solid transparent;
   background: var(--com-color-black);
   color: var(--com-color-white);
+  font-size: 14px;
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .mainpromotion-cta-btn:hover {
   background: var(--com-gradient-rainbow);
   color: var(--com-color-black);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--com-shadow-md);
 }
 
 .mainpromotion-cta-btn--ghost {
@@ -185,56 +209,46 @@
               var(--com-gradient-rainbow) border-box;
   border: 1px solid transparent;
   color: var(--com-font-primary-color);
-  transform: translateY(-1px);
 }
 
-/* ... existing styles ... */
+.mainpromotion-footnote-text {
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+}
+
+.mainpromotion-quote-frame {
+  padding: 10px 0;
+  text-align: center;
+  border-top: 1px dashed var(--com-border-default);
+}
+
+.mainpromotion-quote-text {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--com-font-secondary-color);
+}
+
+/* 5. 반응형 처리 */
 @media screen and (max-width: 768px) {
   .mainpromotion-card-frame {
     grid-template-columns: 1fr;
   }
-
   .mainpromotion-half-frame--left {
     border-right: none;
     border-bottom: 1px solid var(--com-border-default);
   }
+  .mainpromotion-benefits-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* 📱 아이폰 SE (375px 이하) 전용 최적화 */
+/* 📱 아이폰 SE 최적화 */
 @media screen and (max-width: 375px) {
-  .mainpromotion-frame {
-    gap: var(--com-gap-md);
-  }
   .mainpromotion-half-frame {
-    padding: var(--com-gap-md);
-    gap: var(--com-gap-md);
-  }
-  .mainpromotion-title-text {
-    font-size: var(--com-size-icon);
-  }
-  .mainpromotion-subtitle-text {
-    font-size: var(--com-size-sub-title);
+    padding: 20px;
   }
   .mainpromotion-half-title {
-    font-size: var(--com-size-subtitle);
-  }
-  .mainpromotion-half-desc {
-    font-size: var(--com-size-content);
-  }
-  .mainpromotion-list {
-    padding-left: var(--com-gap-md);
-  }
-  .mainpromotion-list-item {
-    font-size: var(--com-size-content);
-  }
-  .mainpromotion-benefit-title {
-    font-size: var(--com-size-sub-title);
-  }
-  .mainpromotion-benefit-desc {
-    font-size: var(--com-size-content);
-  }
-  .mainpromotion-cta-btn {
-    padding: var(--com-gap-sm) var(--com-radius-md);
-    font-size: var(--com-size-sub-title);
+    font-size: 18px;
   }
 }

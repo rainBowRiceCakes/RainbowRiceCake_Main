@@ -2,14 +2,15 @@
  * @file src/components/main/sections/MainPTNS.css
  * @description 제휴 문의 섹션 (Partnership.jsx 스타일 기반)
  * 251216 v1.0.0 sara init
- * 251223 v2.0.0 v2.0.0 jun 라이더, 파트너 form 추가
+ * 251223 v2.0.0 jun 라이더, 파트너 form 추가
+ * 260105 v2.1.0 sara 비로그인 시 접근 불가 처리 모달 스타일 추가
  */
 
-/* 전체 컨테이너 및 배경 */
+/* 1. 전체 컨테이너 및 배경 */
 .mainptns-frame {
   width: 100%;
   padding: var(--com-section-padding) 0;
-  background-color: var(--com-color-white); /* 전체 배경은 흰색 */
+  background-color: var(--com-color-white);
   display: flex;
   justify-content: center;
 }
@@ -20,61 +21,117 @@
   padding: 0 var(--com-web-max-width-padding);
 }
 
-/* 상단 헤더 */
+/* 2. 상단 헤더 */
 .mainptns-header-group {
-  margin-bottom: var(--com-gap-xl); /* 30px */
+  margin-bottom: var(--com-gap-xl);
 }
 
 .mainptns-title-text {
-  font-size: var(--com-size-title); /* 28px */
+  font-size: var(--com-size-title);
   font-weight: var(--com-font-weight-bold);
   color: var(--com-color-black);
   margin-bottom: var(--com-gap-xs);
 }
 
 .mainptns-desc-text {
-  font-size: var(--com-size-subtitle); /* 16px */
+  font-size: var(--com-size-subtitle);
   color: var(--com-font-muted);
 }
 
-/* 2단 레이아웃 그리드 (왼쪽 폼 : 오른쪽 가이드) */
+/* 3. 2단 레이아웃 그리드 */
 .mainptns-grid-layout {
   display: grid;
-  grid-template-columns: 1fr; /* 모바일 기본 1단 */
+  grid-template-columns: 1fr;
   gap: var(--com-gap-xl);
 }
 
 @media (min-width: 900px) {
   .mainptns-grid-layout {
-    /* 1.4fr 1fr 대신 1fr 1fr로 변경하여 좌우 너비를 동일하게 맞춤 */
-    grid-template-columns: 1fr 1fr; 
-    /* stretch를 사용하여 두 카드의 높이를 동일하게 맞춤 */
-    align-items: stretch; 
-    gap: var(--com-gap-xl);
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
   }
 }
 
-/* ----------------------------------------------------------- */
-/* [좌측] 폼 카드 스타일 */
-/* ----------------------------------------------------------- */
+/* 4. [중요] 비로그인 오버레이 및 비활성화 스타일 (상시 노출) */
 .mainptns-card-box {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
   padding: 30px;
-  /* 두 폼의 높이를 맞추기 위해 flex 설정 추가 가능 */
   display: flex;
   flex-direction: column;
+  position: relative; /* 오버레이 기준점 */
+  overflow: hidden; /* 오버레이가 테두리를 넘지 않게 함 */
 }
 
-/* 폼 헤더 (타이틀 + 탭 버튼) */
-.form-header-row {
+/* 비로그인 시 폼 내부 요소 처리 */
+.mainptns-card-box.mainptns-disabled {
+  position: relative;
+  cursor: default; /* 오버레이 위에서는 일반 커서 혹은 버튼 커서 사용 */
+}
+
+/* 상시 비활성화 상태일 때 내부 폼 스타일 */
+.mainptns-disabled .form-header-row,
+.mainptns-disabled .mainptns-form-fields-group,
+.mainptns-disabled .mainptns-form-footer {
+  opacity: 0.3; /* 뒤쪽 폼을 더 흐리게 하여 오버레이 집중도 향상 */
+  filter: grayscale(1);
+  pointer-events: none; /* 뒤쪽 요소 클릭 차단 */
+}
+
+/* 오버레이 배경 (호버 없이 바로 노출) */
+.mainptns-disabled-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 30, 40, 0.85); /* 진한 네이비/블랙 계열 */
+  color: white;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  z-index: 5;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 1;
+  pointer-events: all;
+  cursor: not-allowed;
+}
+
+/* 오버레이 텍스트 */
+.mainptns-disabled-text {
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-bold);
+  word-break: keep-all;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+/* 오버레이 내 로그인 버튼 (화이트 디자인) */
+.mainptns-disabled-login-btn {
+  margin-top: 16px;
+  padding: 12px 28px;
+  background-color: var(--com-color-white);
+  color: var(--com-color-black);
+  border: none;
+  border-radius: var(--com-radius-pill);
+  font-weight: var(--com-font-weight-heavy);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.mainptns-disabled-login-btn:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* 5. 폼 필드 스타일 */
+.form-header-row {
   margin-bottom: var(--com-gap-md);
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
 .mainptns-card-title-text {
@@ -83,37 +140,10 @@
   color: var(--com-color-black);
 }
 
-/* 탭 버튼 그룹 */
-.mainptns-tab-group {
-  display: flex;
-  background-color: var(--com-color-bg-light);
-  border-radius: 8px;
-  padding: 4px;
-}
-
-.mainptns-tab-btn {
-  border: none;
-  background: transparent;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-muted);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.mainptns-tab-btn.active {
-  background-color: var(--com-color-black);
-  color: var(--com-color-white);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* 입력 필드 레이아웃 */
 .mainptns-form-fields-group {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* 필드 간 간격 넓게 */
+  gap: 20px;
 }
 
 .mainptns-input-grid-2 {
@@ -145,11 +175,7 @@
   border-color: var(--com-color-black);
 }
 
-.mainptns-field-input::placeholder {
-  color: var(--com-font-muted); /* 연한 회색 */
-}
-
-/* 파일 업로드 박스 */
+/* 파일 업로드 디자인 */
 .mainptns-file-hidden {
   display: none;
 }
@@ -159,55 +185,53 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 80px;
-  border: 1px solid var(--com-border-default);
+  border: 1px dashed var(--com-border-default);
   border-radius: 8px;
-  background-color: var(--com-font-bg-light);
-  color: var(--com-font-gray);
+  background-color: var(--com-color-bg-light);
+  color: #ccc;
   font-size: 13px;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .mainptns-file-box:hover {
   border-color: var(--com-color-black);
-  background-color: var(--com-color-bg-light);
+  background-color: #f1f1f1;
 }
 
-.maincs-preview-delete-btn {
+/* 휴지통 버튼 (미리보기 우측 상단) */
+.mainptns-preview-delete-btn {
   position: absolute;
   top: 10px;
   right: 10px;
   background-color: rgba(0, 0, 0, 0.6);
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1; /* Ensure it's above the image */
-  transition: background-color 0.2s;
+  z-index: 2;
 }
 
-.maincs-preview-delete-btn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+.mainptns-preview-delete-btn:hover {
+  background-color: rgba(220, 20, 60, 0.9); /* 삭제 시 크림슨 계열 */
 }
 
-.maincs-preview-delete-btn svg {
-  fill: var(--com-color-white); /* Assuming TrashBinIcon uses fill for color */
-}
-
-/* 하단 버튼 및 약관 */
+/* 6. 약관 및 제출 버튼 */
 .mainptns-form-footer {
-  margin-top: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .mainptns-agreement-label {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
   cursor: pointer;
 }
 
@@ -216,249 +240,94 @@
   color: var(--com-font-gray);
 }
 
+.is-required {
+  color: crimson;
+  margin-left: 2px;
+}
+
 .mainptns-submit-button {
   width: 100%;
   padding: 16px;
-  margin-top: 16px;
-  background-color: #1a1a2e; /* 다크 네이비 */
+  margin-top: 10px;
+  background-color: #1a1a2e;
   color: var(--com-color-white);
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: var(--com-font-weight-bold);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: opacity 0.2s;
 }
 
 .mainptns-submit-button:hover {
-  background-color: #111122;
-}
-
-
-/* ----------------------------------------------------------- */
-/* [우측] 가이드 섹션 스타일 */
-/* ----------------------------------------------------------- */
-.mainptns-guide-section {
-  padding-left: 0;
-}
-
-.mainptns-section-header {
-  font-size: 18px;
-  font-weight: var(--com-font-weight-bold);
-  margin-bottom: 20px;
-  color: var(--com-font-pr imary-color);
-}
-
-.mainptns-guide-card-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.mainptns-guide-card {
-  padding: 20px;
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: 12px;
-}
-
-.mainptns-guide-title {
-  font-size: 15px;
-  font-weight: var(--com-font-weight-bold);
-  margin-bottom: 6px;
-  color: var(--com-font-primary-color);
-}
-
-.mainptns-guide-desc {
-  font-size: 13px;
-  color: var(--com-font-muted);
-  line-height: 1.5;
-}
-
-/* 문의 접수 메시지 박스 (회색 배경) */
-.mainptns-guide-message-box {
-  padding: 20px;
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: 12px;
-}
-
-.mainptns-guide-message-box::after {
-  content: '';
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-/* --- 모달 스타일 추가 --- */
-.mainptns-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); 
-  z-index: 9; /* level 9 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(4px); 
-}
-
-.mainptns-modal-box {
-  background-color: var(--com-color-white);
-  width: 90%;
-  max-width: 600px; 
-  height: 80vh;     
-  border-radius: var(--com-radius-lg);
-  box-shadow: var(--com-shadow-default);
-  display: flex;
-  flex-direction: column; 
-  overflow: hidden;
-  animation: modalFadeIn 0.3s ease;
-}
-
-.mainptns-modal-header {
-  padding: var(--com-gap-md) var(--com-container-padding);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--com-border-default); 
-}
-
-.mainptns-modal-header h3 {
-  margin: 0;
-  font-size: var(--com-size-subtitle);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-color-black);
-}
-
-.mainptns-close-x-btn {
-  background: none;
-  border: none;
-  font-size: var(--com-size-title);
-  cursor: pointer;
-  color: var(--com-font-primary-color);
-  padding: 0;
-  line-height: 1;
-}
-
-.mainptns-modal-body {
-  flex: 1; 
-  padding: var(--com-gap-md);
-  overflow-y: auto; 
-  background-color: var(--com-color-bg-light); 
-  display: flex;
-  flex-direction: column;
-}
-
-.mainptns-modal-description {
-  margin-bottom: var(--com-gap-md);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  border-bottom: 1px dashed var(--com-border-default);
-  padding-bottom: 15px;
-  font-size: var(--com-size-content);
-  word-break: keep-all;
-}
-
-.mainptns-text-content {
-  background-color: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  padding: var(--com-gap-md);
-  border-radius: var(--com-radius-md); 
-  font-size: var(--com-size-content);
-  line-height: 1.6;
-  color: var(--com-font-primary-color);
-  width: 100%;
-  box-sizing: border-box;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-}
-
-/* 약관 내부 리스트 스타일 */
-.mainptns-text-content ul {
-  margin: var(--com-gap-sm) 0;
-  padding-left: var(--com-gap-md);
-  list-style-type: disc;
-}
-
-.mainptns-text-content li {
-  margin-bottom: var(--com-gap-xs);
-}
-
-.mainptns-text-content h4 {
-  margin: 15px 0 var(--com-gap-sm);
-  color: var(--com-color-black);
-  font-weight: var(--com-font-weight-bold);
-  font-size: 14px;
-}
-
-.mainptns-modal-footer {
-  padding: 15px;
-  background-color: var(--com-color-white);
-  border-top: 1px solid var(--com-border-default);
-  display: flex;
-  justify-content: center;
-  gap: 10px; /* 버튼 간 간격 추가 */
-}
-
-/* 버튼 스타일 (취소 / 동의) */
-.mainptns-btn-cancel {
-  background-color: var(--com-color-bg-light); 
-  color: var(--com-color-black);
-  border: none;
-  padding: 12px 24px;
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.mainptns-btn-cancel:hover {
-  background-color: var(--com-border-default);
-}
-
-.mainptns-btn-confirm {
-  background-color: var(--com-color-black); 
-  color: var(--com-color-white);
-  border: none;
-  padding: 12px 30px;
-  border-radius: var(--com-radius-md);
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-heavy);
-  cursor: pointer;
-  flex: 1; /* 확인 버튼을 더 크게 */
-  max-width: 200px;
-}
-
-.mainptns-btn-confirm:hover {
   opacity: 0.9;
 }
 
-@keyframes modalFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.mainptns-submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
+
+/* 7. 모달 스타일 */
+.mainptns-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.mainptns-modal-box {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.mainptns-modal-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.mainptns-modal-body {
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.mainptns-modal-footer {
+  padding: 15px 20px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.mainptns-btn-cancel, .mainptns-btn-confirm {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.mainptns-btn-cancel { background: #eee; }
+.mainptns-btn-confirm { background: #000; color: #fff; }
 
 /* 모바일 대응 */
-@media screen and (max-width: 768px) {
-  .mainptns-frame {
-    padding: var(--com-gap-xl) 0;
-  }
-}
-
-@media screen and (max-width: 375px) {
+@media (max-width: 480px) {
   .mainptns-input-grid-2 {
-    grid-template-columns: 1fr; /* 모바일에서 그리드 풀기 */
-  }
-  
-  .mainptns-guide-section {
-    padding-left: 0;
-    margin-top: 20px;
+    grid-template-columns: 1fr;
   }
 }

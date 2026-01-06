@@ -4,6 +4,7 @@
  * 251217 v1.0.0 sara init
  * 260102 v1.1.0 sara - 배송 상태 가이드 스타일 추가
  * 260102 v1.2.0 sara - 로그인/ 비로그인 상태 스타일 분리
+ * 260106 v1.3.0 sara - 뒤로가기 버튼 스타일 추가
  */
 
 /* 1. 페이지 래퍼 */
@@ -14,65 +15,45 @@
   box-sizing: border-box;
 }
 
-/* 2. 비로그인 상태 (잠금 화면) */
-.mypage-frame--unauth {
-  min-height: 60vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.mypage-lock-box {
-  width: 100%;
-  max-width: 400px;
-  padding: var(--com-gap-xl);
-  border-radius: var(--com-radius-lg);
-  background-color: var(--com-color-white);
-  text-align: center;
-  box-shadow: var(--com-shadow-md);
-  box-sizing: border-box;
-}
-
-.mypage-lock-icon {
-  font-size: 48px;
-  margin-bottom: var(--com-gap-md);
-}
-
-.mypage-lock-title {
-  font-size: var(--com-size-title);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  letter-spacing: -0.02em;
-}
-
-.mypage-login-btn {
-  margin-top: var(--com-gap-md);
-  width: 100%;
-  padding: var(--com-gap-md);
-  border-radius: var(--com-radius-md);
-  border: none;
-  cursor: pointer;
-  font-size: var(--com-size-sidebar);
-  font-weight: var(--com-font-weight-heavy);
-  background: var(--com-color-black);
-  color: var(--com-color-white);
-  transition: 0.2s ease;
-}
-
-.mypage-login-btn:hover {
-  background: var(--com-gradient-rainbow);
-  color: var(--com-color-black);
-  transform: translateY(-2px);
-}
-
-/* 3. 로그인 상태 (대시보드 레이아웃) */
+/* 2. 로그인 상태 (대시보드 레이아웃) */
 .mypage-frame--auth {
   display: flex;
   flex-direction: column;
   gap: var(--com-gap-md);
+  position: relative;
+  padding-top: 70px; /* 버튼이 배치될 충분한 상단 여백 */
 }
 
-/* 프로필 카드 */
+/* --- 뒤로 가기 버튼 --- */
+.mypage-back-btn {
+  position: absolute;
+  top: 15px; /* 헤더와의 여백 조절 */
+  left: 20px;
+  width: 40px;  /* 고정 너비 */
+  height: 40px; /* 고정 높이 -> 완벽한 원형 유지 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--com-color-bg-light); /* Header01과 동일 */
+  border: none;
+  border-radius: var(--com-radius-pill); /* 완벽한 원형 */
+  font-size: 20px; /* 아이콘 크기 */
+  color: var(--com-color-black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.mypage-back-btn:hover {
+  background-color: var(--com-border-default); /* Header01 호버와 동일 */
+  transform: translateY(-1px);
+}
+
+.mypage-back-btn:active {
+  transform: scale(0.95);
+}
+
+/* --- 프로필 카드 --- */
 .mypage-profile-card {
   display: flex;
   align-items: center;
@@ -81,7 +62,6 @@
   background: var(--com-color-white);
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-xs);
-  box-sizing: border-box;
 }
 
 .mypage-profile-circle {
@@ -95,19 +75,59 @@
   color: var(--com-font-muted);
 }
 
-.mypage-user-name {
-  font-size: var(--com-size-subtitle);
+/* --- Summary Card (현황판) --- */
+.mypage-summary-card {
+  background: var(--com-color-white); /* 흰색 배경으로 변경하여 깔끔하게 */
+  padding: var(--com-gap-lg);
+  border-radius: var(--com-radius-lg);
+  display: flex;
+  flex-direction: column; /* 세로 배치로 구조화 */
+  gap: var(--com-gap-lg);
+  box-shadow: var(--com-shadow-xs);
+  border: 1px solid var(--com-border-default);
+}
+
+.summary-section h4 {
+  font-size: var(--com-size-content);
+  font-weight: var(--com-font-weight-heavy);
+  margin-bottom: var(--com-gap-md);
+  color: var(--com-font-primary-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.summary-section h4::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--com-color-black);
+  border-radius: 2px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4단 분할 (접수/배차/픽업/완료) */
+  gap: var(--com-gap-sm);
+}
+
+.summary-grid span {
+  background: var(--com-color-bg-section);
+  padding: 10px 4px;
+  text-align: center;
+  border-radius: var(--com-radius-md);
+  font-size: var(--com-size-mini);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-primary-color);
 }
 
-.mypage-user-email {
-  margin-top: 4px;
-  color: var(--com-font-gray);
-  font-size: var(--com-size-content);
+/* 문의 현황은 2칸만 사용하므로 별도 조정 */
+.summary-section:last-child .summary-grid {
+  grid-template-columns: repeat(2, 1fr);
 }
 
-/* 4. 탭 네비게이션 */
+/* --- 탭 네비게이션 --- */
 .mypage-tab-nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -123,7 +143,6 @@
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-font-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .mypage-tab-nav button.is-active {
@@ -131,167 +150,72 @@
   border-bottom: 3px solid var(--com-color-black);
 }
 
-/* 5. 탭 컨텐츠 */
-.mypage-tab-content {
-  box-sizing: border-box;
-}
-
-.mypage-history-list {
+/* --- 카드 공통 & 배송 사진 박스 --- */
+.order-card-body {
   display: flex;
-  flex-direction: column;
-  gap: var(--com-gap-sm);
+  align-items: center;
+  gap: var(--com-gap-md);
 }
 
-/* 6. 배송/문의 카드 공통 */
-.mypage-order-card,
-.mypage-question-card {
+.order-photo-box {
+  width: 60px;
+  height: 60px;
+  background-color: var(--com-color-bg-section);
+  border-radius: var(--com-radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.order-info {
+  flex-grow: 1;
+}
+
+/* --- 기존 카드 스타일 유지 --- */
+.mypage-order-card, .mypage-question-card {
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
   padding: var(--com-gap-md);
-  cursor: pointer;
   box-shadow: var(--com-shadow-xs);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
-  box-sizing: border-box;
+  transition: transform 0.12s ease;
 }
 
-.mypage-order-card:hover,
-.mypage-question-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--com-shadow-md);
-  border-color: var(--com-font-primary-color);
-}
-
-/* 카드 헤더 */
-.order-card-header,
-.question-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--com-gap-sm);
-  margin-bottom: var(--com-gap-xs);
-}
-
-.order-no {
-  font-size: var(--com-size-mini);
-  color: var(--com-font-gray);
-}
-
-/* 상태 배지 */
-.status-badge {
-  font-size: var(--com-size-mini);
-  font-weight: var(--com-font-weight-heavy);
-  padding: 4px 10px;
-  border-radius: var(--com-radius-pill);
-  background: var(--com-color-bg-section);
-  color: var(--com-font-muted);
-  white-space: nowrap;
-}
-
-/* JSX에서 사용하는 상태 클래스 매칭 */
 .status-badge.is-completed {
   background: var(--com-color-black);
   color: var(--com-color-white);
 }
 
-.status-badge.is-pending {
-  background: var(--com-color-bg-section);
-  color: var(--com-font-muted);
-}
-
-/* (기존 클래스가 다른 곳에서 쓰일 수 있어 유지) */
-.status-badge.is-com {
-  background: var(--com-color-black);
-  color: var(--com-color-white);
-}
-
-.status-badge.is-match {
-  color: var(--com-color-green);
-  border: 1px solid var(--com-color-green);
-  background: transparent;
-}
-
-/* 카드 바디 */
-.order-card-body,
-.question-card-body {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--com-gap-md);
-}
-
-.order-name,
-.question-title {
-  font-size: var(--com-size-subtitle);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-}
-
-.question-content {
-  font-size: var(--com-size-content);
-  font-weight: var(--com-font-weight-regular);
-  color: var(--com-font-primary-color);
-  white-space: pre-wrap; /* Preserve whitespace and newlines */
-  flex-grow: 1;
-}
-
-.question-image {
-  max-width: 120px;
-  max-height: 120px;
-  object-fit: cover;
-  border-radius: var(--com-radius-md);
-  margin-left: var(--com-gap-md);
-}
-
-.order-price {
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-color-black);
-  font-size: var(--com-size-sidebar);
-  white-space: nowrap;
-}
-
-/* empty message */
 .empty-msg {
   text-align: center;
-  padding: var(--com-section-padding) 0;
   color: var(--com-font-muted);
-  font-size: var(--com-size-content);
+  padding: var(--com-gap-sm) 0;
 }
 
-/* 모바일 대응 (375px 이하) */
+/* --- 모바일 대응 --- */
 @media screen and (max-width: 375px) {
-  .mypage-lock-box {
-    max-width: var(--com-mobile-max-width);
-    padding: var(--com-gap-md);
+  .mypage-frame--auth {
+    padding-top: 50px;
+  }
+  
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2줄로 */
   }
 
-  .mypage-lock-title {
-    font-size: var(--com-font-size-title);
-  }
-
-  .mypage-profile-circle {
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
-  }
-
-  .mypage-tab-nav button {
-    padding: 12px;
-  }
-
-  .mypage-order-card,
-  .mypage-question-card {
-    padding: var(--com-gap-md);
-  }
-
-  .order-card-body,
-  .question-card-body {
-    flex-direction: column;
-    align-items: flex-start;
+  .order-card-body {
+    flex-direction: row; /* 사진과 정보는 가로 유지 */
+    align-items: center;
   }
 
   .order-price {
-    width: 100%;
-    text-align: right;
+    font-size: var(--com-size-content);
   }
 }

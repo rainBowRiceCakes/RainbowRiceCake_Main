@@ -3,85 +3,58 @@
  * @description 마이 페이지, 내 문의/배송 내역 조회
  * 251217 v1.0.0 sara init
  * 260103 v2.0.0 sara - question history feature
+ * 260105 v2.0.1 sara - 탭 변경 시 fetch + orders thunk 응답 형태 반영
+ * 260111 v2.1.0 sara - 이미지 로딩 에러 처리, CSS 수정, UI 정리 및 배송 경로 가시성 강화
  */
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "../../../context/LanguageContext";
 import { ORDER_STATUS } from "../../../constants/orderStatus";
-import { orderIndexThunk } from "../../../store/thunks/orders/orderIndexThunk.js";
-import { getMyQuestionsThunk } from "../../../store/thunks/questions/getMyQuestionsThunk.js";
-import { setAllOrders } from "../../../store/slices/ordersSlice.js";
-import { clearQuestions } from "../../../store/slices/questionsSlice.js";
 import "./MyPage.css";
+import { mypageIndexThunk } from "../../../store/thunks/myPage/myPageIndexThunk";
 
 export default function MyPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState('delivery');
+  const { user } = useSelector((state) => state.auth);
+  const { allOrders } = useSelector((state) => state.orders);   // delivery history
+  const { questions, loading: questionsLoading } = useSelector((state) => state.questions); // question history
+  const { summary, loading: summaryLoading } = useSelector((state) => state.myPage); // summary info
 
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('myPageActiveTab') || 'delivery');
-
-  // Redux state
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
-  const { allOrders } = useSelector((state) => state.orders);
-  const { questions, loading: questionsLoading } = useSelector((state) => state.questions);
-
-  // Persist active tab to localStorage
   useEffect(() => {
-    localStorage.setItem('myPageActiveTab', activeTab);
-  }, [activeTab]);
+    dispatch(mypageIndexThunk())
+  }, []);
 
-  // Fetch data based on the active tab
-  useEffect(() => {
-    if (!isLoggedIn) return; // Only check isLoggedIn here. ProtectedRouter ensures user is available.
-
-    // If user object is not yet fully populated, wait for next render cycle.
-    // This handles potential race conditions where isLoggedIn is true but user details are still loading.
-    if (isLoggedIn && !user) return; 
-
-    if (activeTab === "delivery") {
-      dispatch(orderIndexThunk({ userId: user?.id, role: "COM" })) // Safely access user.id
-        .unwrap()
-        .then((res) => {
-          const list = Array.isArray(res?.data) ? res.data : [];
-          dispatch(setAllOrders(list));
-        })
-        .catch((error) => {
-          console.error("Failed to fetch orders:", error);
-          dispatch(setAllOrders([]));
-        });
-    } else if (activeTab === "question") {
-      dispatch(getMyQuestionsThunk()); // getMyQuestionsThunk likely handles user ID internally or via token.
-    }
-
-    // Cleanup function to clear data when component unmounts or tab changes
-    return () => {
-      if (activeTab === "question") {
-        dispatch(clearQuestions());
+  // 이미지 존재하지 않을 시 대체  div 이미지 URL 반환
+  const getImageUrl = (qnaImg) => {
+      if (!qnaImg) return null;
+      if (typeof qnaImg === "string") {
+        if (qnaImg.startsWith("http") || qnaImg.startsWith("/")) return qnaImg;
+        try { const p = JSON.parse(qnaImg); return p.url || p.path || null; } catch { return null; }
       }
-      // Consider adding clearAllOrders if necessary when tab changes from delivery
+      return qnaImg.url || qnaImg.path || null;
     };
-  }, [isLoggedIn, activeTab, dispatch, user]); // Added user back to deps to ensure re-fetch when user object fully loads
 
-  // Render non-authenticated view
-  if (!isLoggedIn) {
-    return (
-      <div className="mypage-frame mypage-frame--unauth">
-        <div className="mypage-lock-box">
-          <div className="mypage-lock-icon">🔒</div>
-          <h2 className="mypage-lock-title">{t("myPageLoginRequired")}</h2>
-          <button className="mypage-login-btn" onClick={() => navigate("/login")}>
-            {t("myPageLogin")}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Render authenticated view
+    const getDeliveryImg = (order) => {
+      const isVisible = order.status === "PICK" || order.status === "COM" || order.status === ORDER_STATUS.COMPLETED;
+      // order.status가 픽업 또는 완료 상태일 때만 이미지 노출
+      // order.status === ORDER_STATUS.COMPLETED; : 백엔드 상태 코드 반영 completed 일때는 무조건 노출
+      return (isVisible && order.order_img) ? order.order_img : "/main-loginIcon.png";
+      // pick, com이 아닐 때는 기본 이미지 노출
+    };
+      
   return (
     <div className="mypage-frame mypage-frame--auth">
+      {/* 1. 상단 뒤로 가기 버튼 */}
+      <button className="mypage-back-btn" onClick={() => navigate("/")} type="button">
+        <span className="back-icon">←</span>
+      </button>
+
+      {/* 2. 유저 프로필 카드 */}
       <div className="mypage-profile-card">
         <div className="mypage-profile-circle">👤</div>
         <div>
@@ -90,85 +63,102 @@ export default function MyPage() {
         </div>
       </div>
 
+      {/* 3. 현황 요약 카드 (Summary) */}
+      {summaryLoading ? <div className="loading-msg">Loading...</div> : summary && (
+        <div className="mypage-summary-card">
+          <div className="summary-section">
+            <h4>배송 현황</h4>
+            <div className="summary-grid">
+              <span>접수: {summary.deliveryStatus.req}</span>
+              <span>배차: {summary.deliveryStatus.mat}</span>
+              <span>픽업: {summary.deliveryStatus.pick}</span>
+              <span>완료: {summary.deliveryStatus.com}</span>
+            </div>
+          </div>
+          <div className="summary-section">
+            <h4>문의 현황</h4>
+            <div className="summary-grid">
+              <span>대기: {summary.inquiryStatus.unanswered}</span>
+              <span>완료: {summary.inquiryStatus.answered}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. 탭 네비게이션 */}
       <div className="mypage-tab-nav">
-        <button className={activeTab === "delivery" ? "is-active" : ""} onClick={() => setActiveTab("delivery")}>
+        <button 
+          className={activeTab === "delivery" ? "is-active" : ""} 
+          onClick={() => setActiveTab("delivery")}
+          type="button"
+        >
           {t("myDeliveryHistory")}
         </button>
-        <button className={activeTab === "question" ? "is-active" : ""} onClick={() => setActiveTab("question")}>
+        <button 
+          className={activeTab === "question" ? "is-active" : ""} 
+          onClick={() => setActiveTab("question")}
+          type="button"
+        >
           {t("myQuestionHistory")}
         </button>
       </div>
 
+      {/* 5. 탭 컨텐츠 영역 */}
       <div className="mypage-tab-content">
         {activeTab === "delivery" ? (
           <div className="mypage-history-list">
-            {allOrders.length > 0 ? (
-              allOrders.map((order) => {
-                const isCompleted = order.status === ORDER_STATUS.COMPLETED;
-                return (
-                  <div key={order.id} className="mypage-order-card">
-                    <div className="order-card-header">
-                      <span className="order-no">No. {order.id}</span>
-                      <span className={`status-badge ${isCompleted ? "is-completed" : "is-pending"}`}>
-                        {isCompleted ? "✓ " : ""}
-                        {t(`orderStatus.${order.status}`)}
-                      </span>
-                    </div>
-                    <div className="order-card-body">
-                      <strong className="order-name">{order.name || "-"}</strong>
-                      <span className="order-price">
-                        {typeof order.price === "number" ? order.price.toLocaleString() : "-"}원
-                      </span>
-                    </div>
+            {allOrders?.length > 0 ? allOrders.map((order, idx) => (
+              <div key={order.id || idx} className="mypage-order-card">
+                <div className="order-card-header">
+                  <span className="order-no">No. {order.order_code}</span>
+                  <span className={`status-badge ${order.status === "COM" || order.status === ORDER_STATUS.COMPLETED ? "is-completed" : "is-pending"}`}>
+                    {(order.status === "COM" || order.status === ORDER_STATUS.COMPLETED) && "✓ "}
+                    {t(`orderStatus.${order.status}`)}
+                  </span>
+                </div>
+                <div className="order-card-body">
+                  <div className="order-photo-box">
+                    <img src={getDeliveryImg(order)} alt="delivery" onError={(e) => e.target.src = "/main-loginIcon.png"} />
                   </div>
-                );
-              })
-            ) : (
-              <div className="empty-msg">{t("noDeliveryHistory")}</div>
-            )}
+                  <div className="order-info">
+                    <strong className="order-name">{order.partner_name} → {order.hotel_name}</strong>
+                    <div className="order-user-name">({order.name})</div>
+                  </div>
+                  <span className="order-price">{order.price?.toLocaleString() || "-"}원</span>
+                </div>
+              </div>
+            )) : <div className="empty-msg">{t("noDeliveryHistory")}</div>}
           </div>
         ) : (
           <div className="mypage-history-list">
             {questionsLoading ? (
               <div className="empty-msg">Loading...</div>
-            ) : questions.length > 0 ? (
-              questions.map((q) => {
-                let imageUrl = null;
-                if (q.qnaImg) {
-                  try {
-                    const imgData = JSON.parse(q.qnaImg);
-                    imageUrl = imgData.url || q.qnaImg;
-                  } catch (e) {
-                    imageUrl = q.qnaImg;
-                  }
-                }
-                console.log('Question:', q);
-                console.log('q.qnaImg:', q.qnaImg);
-                console.log('Parsed imageUrl:', imageUrl);
-
-                return (
-                  <div key={q.id} className="mypage-question-card">
-                    <div className="question-card-header">
-                      <span className="question-title">{q.title}</span>
-                      <span className={`status-badge ${q.isAnswered ? "is-completed" : "is-pending"}`}>
-                        {q.isAnswered ? t('questionAnswered') : t('questionPending')}
-                      </span>
-                    </div>
-                    <div className="question-card-body">
-                      <p className="question-content">{q.content}</p>
-                      {imageUrl && <img src={imageUrl} alt="Question attachment" className="question-image" />}
-                    </div>
-                    {q.isAnswered && q.answer && (
-                      <div className="question-card-footer">
-                        <p className="question-answer">{q.answer}</p>
-                      </div>
-                    )}
+            ) : questions?.length > 0 ? questions.map((q, idx) => (
+              <div key={q.id || idx} className="mypage-question-card">
+                <div className="question-card-header">
+                  <span className="question-title">{q.title}</span>
+                  <span className={`status-badge ${q.isAnswered ? "is-completed" : "is-pending"}`}>
+                    {q.isAnswered ? t("questionAnswered") : t("questionPending")}
+                  </span>
+                </div>
+                <div className="question-card-body">
+                  <p className="question-content">{q.content}</p>
+                  {getImageUrl(q.qnaImg) && (
+                    <img 
+                      src={getImageUrl(q.qnaImg)} 
+                      alt="attachment" 
+                      className="question-image" 
+                      onError={(e) => e.target.style.display = "none"} 
+                    />
+                  )}
+                </div>
+                {q.isAnswered && q.answer && (
+                  <div className="question-card-footer">
+                    <p className="question-answer">{q.answer}</p>
                   </div>
-                );
-              })
-            ) : (
-              <div className="empty-msg">{t("noQuestionHistory")}</div>
-            )}
+                )}
+              </div>
+            )) : <div className="empty-msg">{t("noQuestionHistory")}</div>}
           </div>
         )}
       </div>

@@ -70,11 +70,11 @@ export default function MainPTNSSearch() {
   const normalizeStoreData = (backendData) => {
     return {
       id: backendData.id,
-      storeName: backendData.kr_name,
+      krName: backendData.krName,
       address: backendData.address,
       lat: Number.parseFloat(backendData.lat),
       lng: Number.parseFloat(backendData.lng),
-      logoImg: backendData.logo_img,
+      logoImg: backendData.logoImg,
       phone: backendData.phone,
       manager: backendData.manager,
     };
@@ -83,7 +83,7 @@ export default function MainPTNSSearch() {
   // 주변 제휴업체 데이터 로드 (Live API)
   const fetchNearbyStores = useCallback(async (lat, lng) => {
     try {
-      const response = await axiosInstance.get("/api/partners/location", {
+      const response = await axiosInstance.get("/api/users/location", {
         params: { lat, lng, radius: SEARCH_RADIUS },
       });
       const storesData = Array.isArray(response.data.data) ? response.data.data : response.data;
@@ -210,7 +210,7 @@ export default function MainPTNSSearch() {
                         key={store.id} 
                         className={`ptnssearch-sidebar-store-item ${selectedStore?.id === store.id ? "ptnssearch-is-active" : ""}`} 
                         onClick={() => handleSelectStore(store)}>
-                        <div className="ptnssearch-store-item-name"><FaStore />{store.storeName}</div>
+                        <div className="ptnssearch-store-item-name"><FaStore />{store.krName}</div>
                         <div className="ptnssearch-store-item-address">{store.address}</div>
                       </div>
                     ))

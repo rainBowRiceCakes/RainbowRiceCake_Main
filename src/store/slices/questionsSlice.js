@@ -5,7 +5,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { questionImageUploadThunk, questionStoreThunk } from "../thunks/questions/questionStoreThunk.js";
-import { getMyQuestionsThunk } from "../thunks/questions/getMyQuestionsThunk.js";
+import { questionIndexThunk } from "../thunks/questions/questionIndexThunk.js";
 
 const initialState = {
     questions: [],
@@ -27,16 +27,16 @@ const questionsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Thunk for fetching user's question history
-            .addCase(getMyQuestionsThunk.pending, (state) => {
+            .addCase(questionIndexThunk.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(getMyQuestionsThunk.fulfilled, (state, action) => {
+            .addCase(questionIndexThunk.fulfilled, (state, action) => {
                 state.loading = false;
                 // Assuming the payload is the array of questions
                 state.questions = action.payload.data || [];
             })
-            .addCase(getMyQuestionsThunk.rejected, (state, action) => {
+            .addCase(questionIndexThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = {
                     message: action.payload?.message || 'Failed to fetch question history',

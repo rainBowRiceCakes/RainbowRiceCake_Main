@@ -216,7 +216,7 @@ export default function MainCS() {
                     type="file"
                     accept="image/*,.pdf"
                     onChange={onPickFiles}
-                    disabled={!isLoggedIn}
+                    disabled={!isLoggedIn} 
                   />
                 </div>
               </div>
@@ -252,6 +252,12 @@ export default function MainCS() {
               >
                 {loading ? t("csInquirySubmitLoading") : t("csInquirySubmit")}
               </button>
+
+              {questionError && (
+                <div className="maincs-form-note-text" style={{ color: "crimson" }}>
+                  {t('csInquiryErrorMsg')}
+                </div>
+              )}
 
               {formStatus.state === 'error' && (
                 <div className="maincs-form-note-text" style={{ color: "crimson" }}>

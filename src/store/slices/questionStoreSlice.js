@@ -8,7 +8,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { questionStoreThunk } from '../thunks/questions/questionStoreThunk.js';
 
 const initialState = {
-  store: null, // 규칙에 따라 작성 처리 결과를 담는 상태
+  store: null,
   isLoading: false, // 추가 필수
   error: null,      // 추가 필수
 };  

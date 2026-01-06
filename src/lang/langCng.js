@@ -666,8 +666,8 @@ export const LANG_CNG = {
     en: "Business Registration No. (Required)",
   },
   ptnsBusinessNumPlaceholder: {
-    ko: "00000000000 (11자리 숫자만)",
-    en: "00000000000 (11 digits only)",
+    ko: "0000000000 (10자리 숫자만)",
+    en: "0000000000 (10 digits only)",
   },
   ptnsStoreLogoLabel: {
     ko: "가게 로고 사진 (필수)",
@@ -714,8 +714,8 @@ export const LANG_CNG = {
     en: "Invalid phone format. Please use 010-0000-0000.",
   },
   ptnsInvalidBusinessNumAlert: {
-    ko: "사업자 번호는 하이픈 없이 11자리 숫자로 입력해주세요.",
-    en: "Please enter an 11-digit business number without hyphens.",
+    ko: "사업자 번호는 하이픈 없이 10자리 숫자로 입력해주세요.",
+    en: "Please enter a 10-digit business number without hyphens.",
   },
   ptnsInvalidAccountAlert: {
     ko: "계좌번호는 숫자만 입력해주세요.",
@@ -964,13 +964,25 @@ export const LANG_CNG = {
     "ko": "닫기",
     "en": "Close"
   },
-  "coverModalDeliveryNumber": {
-    "ko": "배송 번호",
-    "en": "Delivery Number"
+  "coverModalOrderNumber": {
+    "ko": "주문 번호",
+    "en": "Order Number"
   },
   "coverModalRecipient": {
     "ko": "받는 사람",
     "en": "Recipient"
+  },
+  "coverModalPickupLocation": {
+  "ko": "출발지",
+  "en": "Pickup Location"
+  },
+  "coverModalDropOffLocation": {
+  "ko": "도착지",
+  "en": "Drop-off Location"
+  },
+  "coverModalDriverName": {
+    "ko": "기사 이름",
+    "en": "Driver Name"
   },
   "coverModalDriverContact": {
     "ko": "기사 연락처",

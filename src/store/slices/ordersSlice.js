@@ -1,9 +1,8 @@
 // src/store/slices/ordersSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { dummyOrders } from "../../data/dummyOrders.js";
 
 const initialState = {
-  allOrders: dummyOrders, // 점주/관리자가 chase하는 전체 데이터 소스 내중에 [] 로 바꾸기 
+  allOrders: [], // 점주/관리자가 chase하는 전체 데이터 소스 내중에 [] 로 바꾸기 
   activeTab: localStorage.getItem("activeRiderTab") || "waiting",
 };
 
@@ -68,6 +67,7 @@ const orderSlice = createSlice({
 
     // 서버 데이터 동기화용
     setAllOrders(state, action) {
+      console.log(action.payload);
       state.allOrders = action.payload;
     }
   },

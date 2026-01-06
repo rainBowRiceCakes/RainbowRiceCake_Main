@@ -21,9 +21,9 @@ export function searchAddressToCoords(address) {
       if (status === window.kakao.maps.services.Status.OK && result?.[0]) {
         // 성공 시 resolve 호출 -> await의 결과값이 됨
         resolve({
-          lat: parseFloat(result[0].y),
-          lng: parseFloat(result[0].x),
-        });
+          lat: result[0].y, 
+          lng: result[0].x, 
+        }); 
       } else {
         // 실패 시 reject 호출 -> try-catch의 catch로 빠짐
         reject(new Error("주소 변환에 실패했습니다."));

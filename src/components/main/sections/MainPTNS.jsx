@@ -87,6 +87,7 @@ export default function MainPTNS() {
 
   // 8. 약관 모달 핸들러
   const openModal = (target, type) => {
+    if (!isLoggedIn) return alert(t('coverLoginRequired'));
     const currentAgreements = target === 'rider' ? riderAgreements : partnerAgreements;
     if (!currentAgreements[type]) {
       setActiveModal(`${target}_${type}`);
@@ -181,7 +182,7 @@ export default function MainPTNS() {
       alert(t('ptnsInvalidPhoneAlert'));
       return;
     }
-    const businessNumRegex = /^\d{11}$/;
+    const businessNumRegex = /^\d{10}$/;
     if (!businessNumRegex.test(rawData.businessNumber)) {
       alert(t('ptnsInvalidBusinessNumAlert'));
       return;
@@ -232,114 +233,143 @@ export default function MainPTNS() {
 
           <div className="mainptns-grid-layout">
             {/* 라이더 폼 */}
-            <form id="rider-application-form" className="mainptns-card-box form-section" onSubmit={onSubmitRider}>
-              <div className="form-header-row">
-                <h3 className="mainptns-card-title-text">{t('ptnsFormRiderTitle')}</h3>
-              </div>
-              <div className="mainptns-form-fields-group">
-                <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
-                  <input className="mainptns-field-input" name="riderPhone" required placeholder={t('ptnsRiderPhonePlaceholder')} />
-                </label>
-                <label className="mainptns-field-label">{t('ptnsAddressLabel')}
-                  <input className="mainptns-field-input" name="riderAddress" required placeholder={t('ptnsAddressPlaceholder')} />
-                </label>
-                <label className="mainptns-field-label">{t('ptnsBankNameLabel')}
-                  <input className="mainptns-field-input" name="bankName" required placeholder={t('ptnsBankNamePlaceholder')} />
-                </label>
-                <label className="mainptns-field-label">{t('ptnsAccountNumLabel')}
-                  <input className="mainptns-field-input" name="accountNumber" required placeholder={t('ptnsAccountNumPlaceholder')} />
-                </label>
-                <div className="mainptns-field-label">
-                  {t('ptnsLicenseLabel')}
-                  <div style={{ marginTop: '8px', position: 'relative' }}>
-                    <input type="file" onChange={changeFiles} name="licenseImg" id="licenseImg" className="mainptns-file-hidden" accept="image/*" required ref={riderFileInputRef} />
-                    <label htmlFor="licenseImg" className="mainptns-file-box" style={{
-                        backgroundImage: licensePreview ? `url("${licensePreview}")` : 'none',
-                        backgroundSize: 'contain', height: licensePreview ? '200px' : '80px',
-                        backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: licensePreview ? 'transparent' : '#ccc'
-                      }}>
-                      {!licensePreview && (t('ptnsUploadPlaceholder'))}
-                    </label>
-                    {licensePreview && (
-                      <button type="button" className="maincs-preview-delete-btn" onClick={() => removeFile('license')}>
-                        <TrashBinIcon size={22} />
-                      </button>
-                    )}
+            <form id="rider-application-form" className={`mainptns-card-box form-section ${!isLoggedIn ? 'mainptns-disabled' : ''}`} onSubmit={onSubmitRider}>
+              {!isLoggedIn && (
+               <div className="mainptns-disabled-overlay">
+                  <span className="mainptns-disabled-text">{t('coverLoginRequired')}</span>
+                  <button type="button" className="mainptns-disabled-login-btn" onClick={() => navigate('/login')}>
+                    {t('headerLogin')}
+                  </button>
+                </div>
+                )}
+                <div className="form-header-row">
+                  <h3 className="mainptns-card-title-text">{t('ptnsFormRiderTitle')}</h3>
+                </div>
+                <div className="mainptns-form-fields-group">
+                  <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
+                    <input className="mainptns-field-input" name="riderPhone" required placeholder={t('ptnsRiderPhonePlaceholder')} />
+                  </label>
+                  <label className="mainptns-field-label">{t('ptnsAddressLabel')}
+                    <input className="mainptns-field-input" name="riderAddress" required placeholder={t('ptnsAddressPlaceholder')} />
+                  </label>
+                  <label className="mainptns-field-label">{t('ptnsBankNameLabel')}
+                    <input className="mainptns-field-input" name="bankName" required placeholder={t('ptnsBankNamePlaceholder')} />
+                  </label>
+                  <label className="mainptns-field-label">{t('ptnsAccountNumLabel')}
+                    <input className="mainptns-field-input" name="accountNumber" required placeholder={t('ptnsAccountNumPlaceholder')} />
+                  </label>
+                  <div className="mainptns-field-label">
+                    {t('ptnsLicenseLabel')}
+                    <div style={{ marginTop: '8px', position: 'relative' }}>
+                      <input type="file" onChange={changeFiles} name="licenseImg" id="licenseImg" className="mainptns-file-hidden" accept="image/*" required ref={riderFileInputRef} disabled={!isLoggedIn} />
+                      <label htmlFor="licenseImg" className="mainptns-file-box" style={{
+                          backgroundImage: licensePreview ? `url("${licensePreview}")` : 'none',
+                          backgroundSize: 'contain', height: licensePreview ? '200px' : '80px',
+                          backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: licensePreview ? 'transparent' : '#ccc'
+                        }}>
+                        {!licensePreview && (t('ptnsUploadPlaceholder'))}
+                      </label>
+                      {licensePreview && (
+                        <button type="button" className="mainptns-preview-delete-btn" onClick={() => removeFile('license')}>
+                          <TrashBinIcon size={22} />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="mainptns-form-footer">
-                <label className="mainptns-agreement-label">
-                  <input type="checkbox" checked={riderAgreements.terms} onClick={() => openModal('rider', 'terms')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
-                </label>
-                <label className="mainptns-agreement-label">
-                  <input type="checkbox" checked={riderAgreements.privacy} onClick={() => openModal('rider', 'privacy')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
-                </label>
-                <button className="mainptns-submit-button" type="submit">{t('ptnsRiderSubmit')}</button>
-              </div>
+                <div className="mainptns-form-footer">
+                  <label className="mainptns-agreement-label">
+                    <input type="checkbox" checked={riderAgreements.terms} onClick={() => openModal('rider', 'terms')} readOnly />
+                    <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
+                  </label>
+                  <label className="mainptns-agreement-label">
+                    <input type="checkbox" checked={riderAgreements.privacy} onClick={() => openModal('rider', 'privacy')} readOnly />
+                    <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
+                  </label>
+                  <button className="mainptns-submit-button" type="submit">{t('ptnsRiderSubmit')}</button>
+                </div>
             </form>
 
             {/* 파트너 폼 */}
-            <form id="partner-application-form" className="mainptns-card-box form-section" onSubmit={onSubmitPartner}>
-              <div className="form-header-row">
-                <h3 className="mainptns-card-title-text">{t('ptnsFormPartnerTitle')}</h3>
-              </div>
-              <div className="mainptns-form-fields-group">
-                <div className="mainptns-input-grid-2">
-                  <label className="mainptns-field-label">{t('ptnsManagerNameLabel')}
-                    <input className="mainptns-field-input" name="managerName" required placeholder={t('ptnsManagerNamePlaceholder')} />
-                  </label>
-                  <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
-                    <input className="mainptns-field-input" name="partnerPhone" required placeholder={t('ptnsPartnerPhonePlaceholder')} />
-                  </label>
+            <form
+             id="partner-application-form"
+              className={`mainptns-card-box form-section ${!isLoggedIn ? 'mainptns-disabled' : ''}`} 
+              onSubmit={onSubmitPartner}
+            >
+              {/* 비로그인 오버레이 */}
+              {!isLoggedIn && (
+               <div className="mainptns-disabled-overlay">
+                  <span className="mainptns-disabled-text">{t('coverLoginRequired')}</span>
+                  <button type="button" className="mainptns-disabled-login-btn" onClick={() => navigate('/login')}>
+                    {t('headerLogin')}
+                  </button>
                 </div>
-                <div className="mainptns-input-grid-2">
-                  <label className="mainptns-field-label">{t('ptnsStoreNameKrLabel')}
-                    <input className="mainptns-field-input" name="storeNameKr" required placeholder={t('ptnsStoreNameKrPlaceholder')} />
-                  </label>
-                  <label className="mainptns-field-label">{t('ptnsStoreNameEnLabel')}
-                    <input className="mainptns-field-input" name="storeNameEn" required placeholder={t('ptnsStoreNameEnPlaceholder')} />
-                  </label>
+                )}
+
+                <div className="form-header-row">
+                  <h3 className="mainptns-card-title-text">{t('ptnsFormPartnerTitle')}</h3>
                 </div>
-                <label className="mainptns-field-label">{t('ptnsBusinessNumLabel')}
-                  <input className="mainptns-field-input" name="businessNumber" required placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="11" />
-                </label>
-                <label className="mainptns-field-label">{t('ptnsAddressLabel')}
-                  <input className="mainptns-field-input" name="storeAddress" required placeholder={t('ptnsAddressPlaceholder')} />
-                </label>
-                <div className="mainptns-field-label">
-                  {t('ptnsStoreLogoLabel')}
-                  <div style={{ marginTop: '8px', position: 'relative' }}>
-                    <input type="file" onChange={changeFiles} name="storeLogo" id="storeLogo" className="mainptns-file-hidden" accept="image/*" required ref={partnerFileInputRef} />
-                    <label htmlFor="storeLogo" className="mainptns-file-box" style={{
-                        backgroundImage: logoPreview ? `url("${logoPreview}")` : 'none',
-                        backgroundSize: 'contain', height: logoPreview ? '200px' : '80px',
-                        backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: logoPreview ? 'transparent' : '#ccc'
-                      }}>
-                      {!logoPreview && (t('ptnsUploadPlaceholder'))}
+
+                <div className="mainptns-form-fields-group">
+                    <div className="mainptns-input-grid-2">
+                      <label className="mainptns-field-label">{t('ptnsManagerNameLabel')}
+                        <input className="mainptns-field-input" name="managerName" required placeholder={t('ptnsManagerNamePlaceholder')} disabled={!isLoggedIn} />
+                      </label>
+                      <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
+                        <input className="mainptns-field-input" name="partnerPhone" required placeholder={t('ptnsPartnerPhonePlaceholder')} disabled={!isLoggedIn} />
+                      </label>
+                    </div>
+
+                    <div className="mainptns-input-grid-2">
+                      <label className="mainptns-field-label">{t('ptnsStoreNameKrLabel')}
+                        <input className="mainptns-field-input" name="storeNameKr" required placeholder={t('ptnsStoreNameKrPlaceholder')} disabled={!isLoggedIn} />
+                      </label>
+                      <label className="mainptns-field-label">{t('ptnsStoreNameEnLabel')}
+                        <input className="mainptns-field-input" name="storeNameEn" required placeholder={t('ptnsStoreNameEnPlaceholder')} disabled={!isLoggedIn} />
+                      </label>
+                    </div>
+
+                    <label className="mainptns-field-label">{t('ptnsBusinessNumLabel')}
+                      <input className="mainptns-field-input" name="businessNumber" required placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="11" disabled={!isLoggedIn} />
                     </label>
-                    {logoPreview && (
-                      <button type="button" className="maincs-preview-delete-btn" onClick={() => removeFile('logo')}>
-                        <TrashBinIcon size={22} />
-                      </button>
-                    )}
+
+                    <label className="mainptns-field-label">{t('ptnsAddressLabel')}
+                      <input className="mainptns-field-input" name="storeAddress" required placeholder={t('ptnsAddressPlaceholder')} disabled={!isLoggedIn} />
+                    </label>
+
+                    <div className="mainptns-field-label">
+                      {t('ptnsStoreLogoLabel')}
+                      <div style={{ marginTop: '8px', position: 'relative' }}>
+                        <input type="file" onChange={changeFiles} name="storeLogo" id="storeLogo" className="mainptns-file-hidden" accept="image/*" required ref={partnerFileInputRef} disabled={!isLoggedIn} />
+                        <label htmlFor="storeLogo" className="mainptns-file-box" style={{
+                            backgroundImage: logoPreview ? `url("${logoPreview}")` : 'none',
+                            backgroundSize: 'contain', height: logoPreview ? '200px' : '80px',
+                            backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: logoPreview ? 'transparent' : '#ccc',
+                            cursor: !isLoggedIn ? 'not-allowed' : 'pointer'
+                          }}>
+                          {!logoPreview && (t('ptnsUploadPlaceholder'))}
+                        </label>
+                        {logoPreview && isLoggedIn && (
+                          <button type="button" className="mainptns-preview-delete-btn" onClick={() => removeFile('logo')}>
+                            <TrashBinIcon size={22} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>  
+
+                  <div className="mainptns-form-footer">
+                      <label className="mainptns-agreement-label">
+                        <input type="checkbox" checked={partnerAgreements.terms} onClick={() => openModal('partner', 'terms')} readOnly disabled={!isLoggedIn} />
+                        <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
+                      </label>
+                      <label className="mainptns-agreement-label">
+                        <input type="checkbox" checked={partnerAgreements.privacy} onClick={() => openModal('partner', 'privacy')} readOnly disabled={!isLoggedIn} />
+                        <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
+                      </label>
+                      <button className="mainptns-submit-button" type="submit" disabled={!isLoggedIn}>{t('ptnsPartnerSubmit')}</button>
                   </div>
-                </div>
-              </div>
-              <div className="mainptns-form-footer">
-                <label className="mainptns-agreement-label">
-                  <input type="checkbox" checked={partnerAgreements.terms} onClick={() => openModal('partner', 'terms')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsTermsLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
-                </label>
-                <label className="mainptns-agreement-label">
-                  <input type="checkbox" checked={partnerAgreements.privacy} onClick={() => openModal('partner', 'privacy')} readOnly />
-                  <span className="mainptns-agreement-text">{t('ptnsAgreementLabel')} <span className="is-required">{t('ptnsRequired')}</span></span>
-                </label>
-                <button className="mainptns-submit-button" type="submit">{t('ptnsPartnerSubmit')}</button>
-              </div>
-            </form>
+              </form>
           </div>
 
           {/* 모달 */}
