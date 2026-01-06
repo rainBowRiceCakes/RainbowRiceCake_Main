@@ -156,7 +156,7 @@ const PartnerOrderDetailPage = () => {
                 <div className="t_text">
                   <p className="t_title">기사님 픽업 완료</p>
                   <span className="t_time">
-                    {/* {dayjs(order.updatedAt).format('A h:mm')} */}
+                    {dayjs(order.order_partner.pickupAt).format('A h:mm')}
                   </span>
                 </div>
               </div>

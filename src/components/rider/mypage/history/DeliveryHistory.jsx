@@ -23,7 +23,7 @@ export default function DeliveryHistory() {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // 한 페이지에 보여줄 개수
-  const { id } = useParams();
+  const { orderCode } = useParams();
 
   const { orders, loading, error } = useSelector((state) => state.orders);
   const { user } = useSelector((state) => state.auth);
@@ -35,14 +35,14 @@ export default function DeliveryHistory() {
 
   // Fetch orders with pagination from backend
   useEffect(() => {
-    if (!user?.id) return;
+    if (!orderCode) return;
     dispatch(orderIndexThunk({
-      riderId: user.id,
+      orderCode,
       status: 'com',
       page: currentPage,
       limit: ITEMS_PER_PAGE,
     }));
-  }, [dispatch, user?.id, currentPage]);
+  }, [dispatch, orderCode, currentPage]);
 
   useEffect(() => {
     localStorage.setItem('deliveryHistoryActiveFilter', activeFilter);
@@ -127,7 +127,7 @@ export default function DeliveryHistory() {
                 <div
                   key={item.id}
                   className="dh-history-item"
-                  onClick={() => navigate(`/riders/mypage/orders/${item.id}`)}
+                  onClick={() => navigate(`/riders/mypage/orders/${item.orderCode}`)}
                 >
                   <div className="dh-item-time">
                     {dayjs(item.updatedAt).format("HH:mm")}

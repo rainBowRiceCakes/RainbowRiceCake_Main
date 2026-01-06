@@ -5,12 +5,31 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RiderPhotoPage from "./RiderPhotoPage.jsx";
 import { orderShowThunk } from "../../../../../store/thunks/orders/orderShowThunk.js";
+import KakaoMapView from "./kakaoMapView.jsx";
 
 export default function RiderNavFlowPage() {
   const { orderCode } = useParams(); // ✅ Route에서 :orderCode로 정의됨
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const [riderLoc, setRiderLoc] = useState(null);
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        setRiderLoc({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+      },
+      (err) => console.error("GPS 위치를 가져올 수 없습니다:", err),
+      { enableHighAccuracy: true } // 높은 정확도 모드
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, []);
 
   // ✅ ordersDetail에서 주문 정보 가져오기 (orderShowThunk 사용)
   const order = useSelector((state) => state.ordersDetail?.orderDetail);
@@ -96,7 +115,11 @@ export default function RiderNavFlowPage() {
   const guideText = isAfterPickup ? "호텔로 이동해주세요" : "가게로 이동해주세요";
   const placeLabel = isAfterPickup ? "도착 호텔" : "픽업 장소";
   const placeName = isAfterPickup ? order.order_hotel?.krName : order.order_partner?.krName;
+  const targetLoc = isAfterPickup
+    ? { lat: order.order_hotel?.lat, lng: order.order_hotel?.lng }
+    : { lat: order.order_partner?.lat, lng: order.order_partner?.lng };
   const primaryBtnText = isAfterPickup ? "전달 완료 (사진)" : "픽업 완료 (사진)";
+  const targetName = isAfterPickup ? "호텔 도착" : "가게 픽업";
 
   return (
     <div className="rnp-container">
@@ -108,7 +131,13 @@ export default function RiderNavFlowPage() {
       {toast && <div className="rnp-toast">{toast}</div>}
 
       <div className="rnp-map">
-        <div className="rnp-map-placeholder">{isAfterPickup ? "HOTEL MAP" : "PARTNER MAP"}</div>
+        <div className="rnp-map-area">
+          <KakaoMapView
+            riderLoc={riderLoc}
+            targetLoc={targetLoc}
+            targetName={targetName}
+          />
+        </div>
       </div>
 
       <div className="rnp-info">

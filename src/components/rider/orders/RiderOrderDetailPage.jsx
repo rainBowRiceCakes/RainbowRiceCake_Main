@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { orderShowThunk } from "../../../store/thunks/orders/orderShowThunk.js"; // 경로에 맞춰 수정하세요
 // import RiderSubHeader from "../common/RiderSubHeader";
+import { useEffect } from "react";
+import { clearOrderDetail } from "../../../store/slices/ordersDetailSlice.js";
 import dayjs from "dayjs";
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
-
-import { useEffect } from "react";
 
 export default function RiderOrderDetailPage() {
   const navigate = useNavigate();
@@ -25,6 +25,10 @@ export default function RiderOrderDetailPage() {
   useEffect(() => {
     if (orderCode) {
       dispatch(orderShowThunk(orderCode));
+
+      return () => {
+        dispatch(clearOrderDetail());
+      };
     }
   }, [dispatch, orderCode]);
 
@@ -39,7 +43,7 @@ export default function RiderOrderDetailPage() {
       <div className="rod-wrap">
         <div className="rod-empty">
           <p className="rod-empty-title">주문 정보를 찾을 수 없어요 😭</p>
-          <p className="rod-empty-sub">ID: {order.orderCode}</p>
+          <p className="rod-empty-sub">ID: {orderCode}</p>
         </div>
       </div>
     );
@@ -55,7 +59,6 @@ export default function RiderOrderDetailPage() {
     <div className="rod-wrap">
       <div className="rod-main">
         <div className="rod-card" aria-label="주문 상세 카드">
-
           <div className="rod-row">
             <span className="rod-label">주문 상태</span>
             <span className="rod-value">{statusText}</span>
@@ -74,7 +77,7 @@ export default function RiderOrderDetailPage() {
           </div>
           <div className="rod-row">
             <span className="rod-label">픽업 시간</span>
-            <span className="rod-value">{dayjs(order.createdAt).format('YYYY-MM-DD A hh:mm')}</span>
+            <span className="rod-value">{dayjs(order.order_rider.pickupAt).format('YYYY-MM-DD A hh:mm')}</span>
           </div>
           <div className="rod-row">
             <span className="rod-label">배송 완료 시간</span>

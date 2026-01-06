@@ -1,0 +1,73 @@
+/* 지도 컨테이너 기본 스타일 */
+.kakao-map-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #f8f9fa;
+  /* 지도 로딩 전 빈 화면 방지 */
+}
+
+/* 🏍️ 라이더 마커 (오토바이 아이콘) */
+.rider-marker {
+  font-size: 24px;
+  background: #ffffff;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+/* 📍 목적지 오버레이 (가게/호텔 말풍선) */
+.map-dest-overlay {
+  background: #333333;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  bottom: 10px;
+  /* 마커 위로 살짝 띄움 */
+}
+
+/* 말풍선 꼬리표 */
+.map-dest-overlay::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #333333;
+}
+
+/* 라이더 마커 통통 튀는 애니메이션 */
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.05);
+  }
+}
+
+/* 지도 로딩 스피너 (선택 사항) */
+.map-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-weight: bold;
+  color: #888;
+}

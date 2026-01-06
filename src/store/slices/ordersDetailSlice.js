@@ -25,7 +25,6 @@ const ordersDetailSlice = createSlice({
 			/* --- 주문 상세 (Show) --- */
 			.addCase(orderShowThunk.pending, (state) => {
 				state.loading = true;
-				state.orderDetail = null; // 새 데이터를 불러올 때 이전 데이터 비우기
 			})
 			.addCase(orderShowThunk.fulfilled, (state, action) => {
 				state.loading = false;
