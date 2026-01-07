@@ -1,9 +1,11 @@
 /**
  * @file src/components/common/PartnerApplyButton01.jsx
- * @description Floating button to apply for partnership.
+ * @description Floating button to apply for partnership. 제휴 신청 페이지로 이동하는 버튼!
+ * 260101 sara init 
  */
 
 import React, { useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../context/LanguageContext';
 import './PartnerApplyButton01.css';
 
@@ -28,10 +30,17 @@ const PartnerIcon = () => {
 
 const PartnerApplyButton01 = () => {
   const { t } = useContext(LanguageContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const scrollToPartners = () => {
-    const section = document.getElementById('partners');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: 'partners' } });
+    } else {
+      const section = document.getElementById('partners');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 

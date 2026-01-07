@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect, useRef, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
 import MainPTNSSearch from './sections/MainPTNSSearch.jsx';
@@ -21,6 +22,7 @@ import { partnerCarouselThunk } from '../../store/thunks/partnerCarouselThunk.js
 export default function MainShow() {
   const { t } = useContext(LanguageContext);
   const dispatch = useDispatch();
+  const location = useLocation(); // Add useLocation hook
 
   // 파트너 로고 이미지 상태 가져오기
   const imageState = useSelector((state) => state.partnerCarousel);
@@ -47,6 +49,19 @@ export default function MainShow() {
   useEffect(() => {
     dispatch(partnerCarouselThunk());
   }, [dispatch]);
+
+  // 외부 라우트에서 스크롤 요청이 있을 경우 처리
+  useEffect(() => {
+    if (location.state?.scrollTo === 'partners') {
+      const section = document.getElementById('partners');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // 스크롤 후 상태를 초기화하여, 뒤로 가기 등으로 다시 MainShow에 진입 시
+        // 불필요한 스크롤이 발생하지 않도록 합니다.
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }, [location.state]); // location.state가 변경될 때마다 실행
 
   // 스크롤 옵저버 설정
   useEffect(() => {
