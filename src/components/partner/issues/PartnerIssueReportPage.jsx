@@ -90,22 +90,20 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
         reporterType: reporterTypeFixed
       };
 
-      if (photos[0]?.file) {
+      // 2. 이미지 업로드 처리
+      if (photos.length > 0 && photos[0].file) {
         try {
           const uploadResult = await dispatch(
             questionImageUploadThunk(photos[0].file)
           ).unwrap();
 
+          // 서비스단에서 createData.qnaImg를 찾으므로 키 이름을 qnaImg로 맞춤
           if (uploadResult?.data?.path) {
-            requestData.image = uploadResult.data.path;
+            requestData.qnaImg = uploadResult.data.path;
           }
         } catch (uploadError) {
           console.error('이미지 업로드 실패:', uploadError);
-          // 이미지 업로드 실패 시 사용자에게 선택권 제공
-          const proceedWithoutImage = window.confirm(
-            '이미지 업로드에 실패했습니다.\n이미지 없이 신고를 진행하시겠습니까?'
-          );
-          if (!proceedWithoutImage) {
+          if (!window.confirm('이미지 업로드에 실패했습니다. 이미지 없이 진행할까요?')) {
             setIsSubmitting(false);
             return;
           }
@@ -123,12 +121,14 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
       setIsSubmitting(false);
     }
   }
+
   return (
     <div className="rip-page-container">
-      <header className="rip-page-header">
+      <div className="rip-page-header">
+        <button className="back_btn" onClick={() => navigate(-1)}>←</button>
         <h2 className="rip-page-title">이슈 신고 접수</h2>
         <p className="rip-page-subtitle">배송 중 발생한 문제나 요청사항을 보내주시면 신속히 처리해 드립니다.</p>
-      </header>
+      </div>
 
       <div className="rip-content-grid">
         {/* 왼쪽: 안내 및 주문 정보 요약 */}
@@ -154,6 +154,10 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
         {/* 오른쪽: 실제 입력 폼 */}
         <form className="rip-form-main" onSubmit={handleSubmit}>
           <section className="rip-form-section">
+            <div className="rip-field">
+              <p className="rip-label">신고자 유형</p>
+              <div className="rip-input readOnly">{reporterTypeLabel}</div>
+            </div>
             <div className="rip-field">
               <label className="rip-label">제목 <span className="req">*</span></label>
               <input

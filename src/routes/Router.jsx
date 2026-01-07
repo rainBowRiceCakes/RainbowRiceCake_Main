@@ -107,13 +107,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/riders",
-    element: <RiderLayout />,
-    children: riderRoutes,
+    element: <ProtectedRouter allowedRoles={['DLV', 'ADM']} />,
+    children: [
+      {
+        element: <RiderLayout />,
+        children: riderRoutes,
+      }
+    ]
   },
   {
     path: "/partners",
-    element: <PartnerLayout />,
-    children: partnerRoutes,
+    element: <ProtectedRouter allowedRoles={['PTN', 'ADM']} />,
+    children: [
+      {
+        element: <PartnerLayout />,
+        children: partnerRoutes,
+      }
+    ]
   },
 ]);
 

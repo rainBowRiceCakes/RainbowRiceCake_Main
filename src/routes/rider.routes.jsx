@@ -1,5 +1,4 @@
 // src/routes/rider.routes.jsx
-import { Navigate } from "react-router-dom";
 // main pages
 import RiderMainPage from "../components/rider/main/RiderMainPage.jsx";
 import RiderNavFlowPage from "../components/rider/orders/inProgress/actions/RiderNavFlowPage.jsx";
@@ -21,18 +20,17 @@ const riderRoutes = [
   { index: true, element: <RiderMainPage /> },
 
   // ✅ 진행 플로우
-  { path: "navigate/:orderId", element: <RiderNavFlowPage mode="pickup" /> },
-  { path: "pickup-photo/:orderId", element: <RiderPhotoPage mode="pickup" /> },
-  { path: "delivering/:orderId", element: <RiderNavFlowPage mode="deliver" /> },
-  { path: "dropoff-photo/:orderId", element: <RiderPhotoPage mode="dropoff" /> },
+  { path: "orders/:orderCode/nav", element: <RiderNavFlowPage /> },
+  { path: "orders/:orderCode/pickup-photo", element: <RiderPhotoPage /> },
+  { path: "orders/:orderCode/dropoff-photo", element: <RiderPhotoPage /> },
 
   // 🔹 주문 상세 / 이슈 (공용 레이아웃)
   {
     path: "orders",
     element: <RiderOrderDetailLayout />,
     children: [
-      { path: ":orderId", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
-      { path: ":orderId/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
+      { path: ":orderCode", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
+      { path: ":orderCode/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
     ],
   },
   // 👤 마이페이지 그룹 (헤더+바텀탭 고정)
@@ -41,9 +39,11 @@ const riderRoutes = [
     element: <RiderMyPageLayout />,
     children: [
       { index: true, element: <RiderMyPage />, handle: { title: "마이페이지" } },
-      { path: "notices/role", element: <RiderNoticeList />, handle: { title: "공지사항" } },
+      { path: "notices", element: <RiderNoticeList />, handle: { title: "공지사항" } },
       { path: "profile", element: <ProfileEdit />, handle: { title: "내 정보" } },
-      { path: "history", element: <DeliveryHistory />, handle: { title: "배송 히스토리" } },
+      { path: "orders", element: <DeliveryHistory />, handle: { title: "배송 히스토리" } },
+      { path: "orders/:orderCode", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
+      { path: "orders/:orderCode/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
       { path: "settlement", element: <SettlementList />, handle: { title: "정산 내역" } },
       { path: "help", element: <RiderFaqList />, handle: { title: "자주 묻는 질문" } },
       { path: "help/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },

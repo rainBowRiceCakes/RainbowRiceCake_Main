@@ -7,8 +7,10 @@ import { noticeIndexThunk } from "../../../../store/thunks/notices/noticeIndexTh
 const ITEMS_PER_PAGE = 9;
 
 function NoticeItem({ notice }) {
-  const statusClass = notice.status ? 'rnl-status-ongoing' : 'rnl-status-completed';
-  const statusText = notice.status ? '진행중' : '완료';
+  const isOngoing = notice.status === true;
+
+  const statusClass = isOngoing ? 'rnl-status-ongoing' : 'rnl-status-completed';
+  const statusText = isOngoing ? '진행중' : '완료';
 
   return (
     <article className="rnl-item-card">
@@ -42,7 +44,6 @@ export default function RiderNoticeList() {
     dispatch(noticeIndexThunk({
       page: 1,
       limit: 100,
-      from: 'rider'
     }));
   }, [dispatch]);
 
@@ -67,7 +68,7 @@ export default function RiderNoticeList() {
       <div className="rnl-list-container">
         <div className="rnl-error">
           <p>{error}</p>
-          <button onClick={() => dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }))}>
+          <button onClick={() => dispatch(noticeIndexThunk({ page: 1, limit: 100 }))}>
             다시 시도
           </button>
         </div>

@@ -2,109 +2,95 @@
  * @file src/routes/ProtectedRouter.jsx
  * @description 라우터
  * 251214 v1.0.0 wook init
+ * 260103 v1.1.0 BSONG update 안전하게 role 기반 자동 리다이렉트 + direct URL 접근 처리
  */
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-// 이전에 가정했던 thunks/slices 경로는 사용자의 구조를 따릅니다.
 import { reissueThunk } from "../store/thunks/authThunk.js";
 import { clearAuth } from "../store/slices/authSlice.js";
 
-// 이 컴포넌트가 라우터 요소로 사용되므로, 함수형으로 export 합니다.
-export default function ProtectedRouter() {
-  // Redux 상태 및 Hooks 사용 (주석 해제)
+export default function ProtectedRouter({ allowedRoles }) {
   const { isLoggedIn, user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-
-  // 현재는 Redux 및 API 호출을 주석 처리하고, 필수 변수만 더미로 선언합니다.
-  // const isLoggedIn = false; // 더미 값
-  // const user = { role: 'COM', DLV, PTN }; // 더미 값
-
   const location = useLocation();
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
-  // 제공된 ROLE 및 PATH 설정
-  const ROLE = {
-    ADM: 'ADM',
-    PTN: 'PTN',
-    DLV: 'DLV',
-    COM: 'COM'
-  };
-  const { ADM, DLV, PTN, COM } = ROLE;
+  // 인증 확인 상태 (이미 로그인된 상태라면 true로 시작)
+  const [isAuthChecked, setIsAuthChecked] = useState(isLoggedIn);
 
-  // 인증 및 인가가 필요한 라우트
-  const AUTH_REQUIRED_ROUTES = [
-    { path: /^\/mypage$/, roles: [COM, DLV, PTN, ADM] },
-    { path: /^\/users\/[0-9]+$/, roles: [COM, DLV, PTN] },
-    { path: /^\/sections\/ptns\/[0-9]+$/, roles: [COM] },
-    // { path: /^\/posts\/[0-9]+$/, roles: [ COM ]},
-    // { path: /^\/posts\/create$/, roles: [ COM ]},
-    // MainShow 관련 경로 추가 (예시)
-  ];
+  const ROLE = { PTN: 'PTN', DLV: 'DLV', COM: 'COM' };
+  const GUEST_ONLY_ROUTES = [/^\/login$/];
 
-  // 비로그인 유저 접근 허용 라우트
-  const GUEST_ONLY_ROUTES = [
-    /^\/login$/,
-    /^\/sections\/ptns$/,
-  ];
-
-  // 인증 체크 로직 (주석 해제 시 사용)
   useEffect(() => {
     async function checkAuth() {
+      // 1. 로그인이 안 되어 있을 때만 reissue 시도 (새로고침 대비)
       if (!isLoggedIn) {
         try {
-          await dispatch(reissueThunk()).unwrap();
+          // Social.jsx와 중복되지 않도록 Social 경로에서는 실행 방지 로직을 넣거나
+          // 단순히 비로그인 상태에서만 실행되게 합니다.
+          if (location.pathname !== '/social') {
+            await dispatch(reissueThunk()).unwrap();
+          }
         } catch (error) {
-          console.log('protectedRouter 재발급', error);
+          console.log('ProtectedRouter: Session expired or no token');
           dispatch(clearAuth());
         }
       }
       setIsAuthChecked(true);
     }
-    checkAuth();
-  }, [dispatch, isLoggedIn]);
 
+    // 소셜 로그인 진행 중인 페이지(/social)가 아닐 때만 체크 수행
+    if (location.pathname !== '/social') {
+      checkAuth();
+    } else {
+      // /social 페이지 자체는 Social.jsx가 처리하므로 체크 완료 처리
+      setIsAuthChecked(true);
+    }
+  }, [dispatch, isLoggedIn, location.pathname]);
 
-  // 현재는 더미 값으로 바로 체크 완료
-  // useEffect(() => {
-  //   setIsAuthChecked(true);
-  // }, []);
+  // 1. 초기 로딩 처리 (reissue 완료 전까지 대기)
+  if (!isAuthChecked) return <div>Loading...</div>;
 
-  // ProtectedRouter 재발급 처리 여부 체크
-  if (!isAuthChecked) {
-    return <></>;
-  }
+  const isGuestRoute = GUEST_ONLY_ROUTES.some(regex => regex.test(location.pathname));
 
-  const isGuestRoute = GUEST_ONLY_ROUTES.some((regex) => regex.test(location.pathname));
-
-  // 1. 게스트 전용 경로 처리 (로그인 상태일 경우 리다이렉트)
+  // 2. 게스트 전용 페이지 (이미 로그인했는데 /login 접근 시)
   if (isGuestRoute) {
-    if (isLoggedIn) {
-      return <Navigate to="/" replace />; // /posts 대신 메인 (/)으로 리다이렉트 가정
-    }
-  } else {
-    // 2. 인증 필수 경로 처리
-    const matchRole = AUTH_REQUIRED_ROUTES.find(item => item.path.test(location.pathname));
-
-    if (matchRole) {
-      if (isLoggedIn) {
-        // 2-1. 로그인 O, 권한 체크
-        if (matchRole.roles.includes(user.role)) {
-          return <Outlet />; // 권한 OK, 자식 라우트 렌더링
-        } else {
-          // 2-2. 권한 부족
-          alert('권한이 부족하여 사용할 수 없습니다.');
-          return <Navigate to="/" replace />; // 메인으로 리다이렉트
-        }
-      } else {
-        // 2-3. 로그인 X
-        alert('로그인이 필요한 서비스입니다');
-        return <Navigate to="/login" replace state={{ from: location }} />; // 로그인 페이지로 이동
-      }
-    }
+    if (isLoggedIn) return <Navigate to="/" replace />;
+    return <Outlet />;
   }
 
-  // 3. 인증/권한이 필요 없는 일반 라우트 또는 체크가 끝난 인증 필수 라우트의 경우
+  // 3. 비로그인 사용자 처리
+  if (!isLoggedIn) {
+    // 예외 처리: 메인 페이지('/')나 소셜 처리 페이지는 로그인이 없어도 튕기지 않음
+    if (location.pathname === '/' || location.pathname === '/social') {
+      return <Outlet />;
+    }
+
+    // 그 외의 보호된 경로는 로그인 페이지로 보냄
+    alert('로그인이 필요한 서비스입니다.');
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  // 4. 로그인된 유저가 '/' 접속 시 Role 기반 자동 리다이렉트 (기존 유지)
+  if (location.pathname === '/') {
+    if (user?.role === ROLE.PTN) return <Navigate to="/partners" replace />;
+    if (user?.role === ROLE.DLV) return <Navigate to="/riders" replace />;
+    return <Outlet />; // 일반 유저나 관리자는 메인 홈을 볼 수 있음
+  }
+
+  // 5. 특정 권한이 필요한 페이지 접근 제어
+  let rolesToVerify = allowedRoles;
+  if (!rolesToVerify) {
+    if (location.pathname.startsWith('/riders')) rolesToVerify = [ROLE.DLV, ROLE.ADM];
+    else if (location.pathname.startsWith('/partners')) rolesToVerify = [ROLE.PTN, ROLE.ADM];
+  }
+
+  // user 정보가 있고 rolesToVerify가 있을 때 체크
+  if (rolesToVerify && user && !rolesToVerify.includes(user.role)) {
+    alert('권한이 부족합니다.');
+    return <Navigate to="/" replace />;
+  }
+
   return <Outlet />;
 }

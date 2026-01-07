@@ -1,32 +1,18 @@
 // components/rider/main/inProgress/RiderInProgressView.jsx
-import {
-  getInProgressBadgeText,
-  getNavModeByStatus,
-} from "../../../../../src/constants/orderStatus.js";
+import dayjs from "dayjs";
+import { getInProgressBadgeText } from "../../../../constants/orderStatus.js";
 import "./RiderInProgressView.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-
-export default function RiderInProgressView({ orders = [], onOpenDetail }) {
+export default function RiderInProgressView({ orders = [] }) {
   const navigate = useNavigate();
-  const { id } = useParams();
-
-  const handleOpenDetail = (orderNo) => {
-    if (onOpenDetail) return onOpenDetail(orderNo);
-    console.log("open order detail:", orderNo);
-  };
 
   const handleOpenNavFlow = (e, order) => {
     e.stopPropagation();
 
-    const mode = getNavModeByStatus(order.statusCode);
-    const orderNo = order.orderNo;
+    const orderCode = order.orderCode;
 
-    navigate(
-      mode === "pickup"
-        ? `/rider/${id}/navigate/${orderNo}`
-        : `/rider/${id}/delivering/${orderNo}`
-    );
+    navigate(`/riders/orders/${orderCode}/nav`);
   };
 
   console.log("orders props:", orders);
@@ -34,12 +20,11 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
   // 🔍 상태 + 뱃지 매핑 확인용 로그
   orders.forEach((o) => {
     console.log(
-      "orderNo:", o.orderNo,
-      "statusCode:", o.statusCode,
-      "badge:", getInProgressBadgeText(o.statusCode)
+      "id:", o.orderCode,
+      "status:", o.status,
+      "badge:", getInProgressBadgeText(o.status)
     );
   });
-
 
   if (!orders || orders.length === 0) {
     return <div className="rw-empty">진행 중인 주문이 없습니다</div>;
@@ -49,38 +34,38 @@ export default function RiderInProgressView({ orders = [], onOpenDetail }) {
   return (
     <div className="rip-wrap">
       {orders.map((order) => {
-        const orderId = order.orderNo;
-        const title = `${order.pickupPlaceName} → ${order.destinationHotelName}`;
-        const badgeText = getInProgressBadgeText(order.statusCode);
+        const orderCode = order.orderCode;
+        const title = `${order.order_partner?.krName} → ${order.order_hotel?.krName}`;
+        const badgeText = getInProgressBadgeText(order.status);
 
         return (
           <button
-            key={orderId}
+            key={orderCode}
             type="button"
             className="rip-card"
-            onClick={() => handleOpenDetail(orderId)}
+            // ✅ 이제 카드 어디를 눌러도 네비게이션 화면으로 이동합니다.
+            onClick={(e) => handleOpenNavFlow(e, order)}
           >
             <div className="rip-left">
-              <span className="rip-label">주문번호</span>
-              <p className="rip-order-id">{orderId}</p>
+              <div className="rip-badge-row">
+                {badgeText && <span className="rip-badge">{badgeText}</span>}
+                <span className="rip-label">
+                  주문번호: #{orderCode?.slice(-4)}
+                </span>              </div>
               <div className="rip-divider" />
 
-              {badgeText && <span className="rip-badge">{badgeText}</span>}
+              <span className="rip-label">접수된 시간: {dayjs(order.createdAt).format('A hh:mm')}</span>
 
               <p className="rip-title">{title}</p>
             </div>
 
             <div className="rip-right">
-              <button
-                type="button"
-                className="rip-chevron-btn"
-                aria-label="네비게이션 화면 열기"
-                onClick={(e) => handleOpenNavFlow(e, order)}
-              >
-                <span className="rip-chevron" aria-hidden="true">
-                  ›
-                </span>
-              </button>
+              {/* ✅ 내부 버튼 태그를 div나 span으로 변경합니다. 
+      어차피 부모 버튼이 클릭을 처리하므로 시각적인 요소만 남깁니다.
+    */}
+              <div className="rip-chevron-btn" aria-hidden="true">
+                <span className="rip-chevron">›</span>
+              </div>
             </div>
           </button>
         );

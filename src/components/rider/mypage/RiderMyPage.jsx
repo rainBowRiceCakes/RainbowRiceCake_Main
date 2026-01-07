@@ -1,12 +1,33 @@
 // components/rider/mypage/RiderMyPage.jsx
-import { useNavigate, useParams } from "react-router-dom";
 import "./RiderMyPage.css";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getProfileThunk } from "../../../store/thunks/profile/getProfileThunk.js";
+import { logoutThunk } from "../../../store/thunks/authThunk.js";
 
 const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
 
 export default function RiderMyPage() {
+  const dispatch = useDispatch();
   const nav = useNavigate();
-  const { id } = useParams();
+
+  const profileData = useSelector((state) => state.profile?.profileData);
+  const profile = profileData?.rider_user;
+
+  const handleLogout = async () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      await dispatch(logoutThunk());
+      dispatch(clearAuth()); // 1. Redux 상태 초기화
+      navigate('/');         // 2. 로그인 화면으로 이동
+    }
+  };
+
+  useEffect(() => {
+    if (!profile) {
+      dispatch(getProfileThunk());
+    }
+  }, [dispatch, profile]);
 
   return (
     <div className="mypage">
@@ -15,7 +36,7 @@ export default function RiderMyPage() {
         <div className="profile">
           <div className="avatar" style={{ backgroundImage: `url("${externalImageUrl}")` }} />
           <div className="info">
-            <div className="name">김민재<span className="rider-info-sub-title">기사님</span></div> {/* 추후 수정 {user.name} */}
+            <div className="name">{profile?.name || "Guest"}<span className="rider-info-sub-title">기사님</span></div> {/* 추후 수정 {user.name} */}
           </div>
 
           <label className="clockInAndOutToggle"> {/* 기사들의 출근 on and off 기능 */}
@@ -40,7 +61,7 @@ export default function RiderMyPage() {
             <span className="chev">›</span>
           </button>
 
-          <button className="navigation" onClick={() => nav(`/riders/mypage/history`)}>
+          <button className="navigation" onClick={() => nav(`/riders/mypage/orders`)}>
             <span className="icon">🕘</span>
             <span className="label">배송 히스토리</span>
             <span className="chev">›</span>
@@ -62,7 +83,7 @@ export default function RiderMyPage() {
         </div>
 
         <div className="mypageSection">
-          <button className="navigation navigationLogout" onClick={() => nav("/logout")}>
+          <button className="navigation navigationLogout" onClick={handleLogout}>
             <span className="icon iconLogout">🚪</span>
             <span className="label">로그아웃</span>
             <span className="chev">›</span>

@@ -1,10 +1,13 @@
 // components/rider/main/RiderMainPage.jsx
 import "./RiderMainPage.css";
+
 import { useState, useMemo, useEffect } from "react";
 import {
   setOngoingNotices,
-} from "../../../store/slices/noticesSlice.js";
+}
+  from "../../../store/slices/noticesSlice.js";
 import { noticeIndexThunk } from "../../../store/thunks/notices/noticeIndexThunk.js";
+import { orderIndexThunk } from "../../../store/thunks/orders/orderIndexThunk.js";
 
 import RiderInfoBar from "./header/RiderInfoBar.jsx";
 import RiderStatusTabs from "./header/RiderStatusTabs.jsx";
@@ -16,40 +19,81 @@ import RiderCompletedView from "../orders/completed/RiderCompletedView.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { setActiveTab } from "../../../store/slices/ordersSlice.js";
 
-import { ORDER_STATUS } from "../../../../src/constants/orderStatus.js";
-import { acceptOrder, setActiveTab } from "../../../store/slices/ordersSlice.js";
+const IITEMS_PER_PAGE = 5;
 
 export default function RiderMainPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const orders = useSelector((state) => state.orders?.orders ?? []);
-  const activeTab = useSelector((state) => state.orders.activeTab);
+  const { orders, pagination, loading, error, activeTab } = useSelector((state) => state.orders);
+  const { user } = useSelector((state) => state.auth); // ✅ 이 줄 추가
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
 
-  // 1. 페이지네이션과 필터링 로직을 하나의 useMemo로 통합
-  const pagedOrders = useMemo(() => {
-    const filterByStatus = {
-      waiting: (o) => o.statusCode === ORDER_STATUS.REQUESTED,
-      inProgress: (o) =>
-        [ORDER_STATUS.MATCHED, ORDER_STATUS.DELIVERING].includes(o.statusCode),
-      completed: (o) => o.statusCode === ORDER_STATUS.COMPLETED,
+  // Fetch orders based on activeTab
+  useEffect(() => {
+    // 유저 정보가 없으면 요청하지 않음
+    if (!user?.id) return;
+
+    dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }));
+
+    let params = {
+      date: 'today',
+      page: currentPage,
+      limit: IITEMS_PER_PAGE,
     };
 
-    const currentTabOrders = orders.filter(
-      filterByStatus[activeTab] || (() => true)
-    );
-    const totalPage = Math.ceil(currentTabOrders.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
+    switch (activeTab) {
+      case 'waiting':
+        // 모든 라이더가 볼 수 있는 대기 중인 주문
+        params.status = 'req';
+        break;
+
+      case 'inProgress':
+        // 내가 수락한 진행 중인 주문
+        params.riderId = user.id;
+        params.status = ['mat', 'pick'];
+        break;
+
+      case 'completed':
+        // 내가 완료한 주문
+        params.riderId = user.id;
+        params.status = 'com';
+        break;
+    }
+    console.log('📤 보내는 params:', params);
+    dispatch(orderIndexThunk(params));
+  }, [dispatch, activeTab, currentPage, user?.id]);
+
+  // 2. 💡 (추가) 가져온 데이터를 현재 탭에 맞게 한 번 더 검러내는 역할
+  const filteredOrders = useMemo(() => {
+    // orders가 로딩 중이거나 비어있을 때 방어 로직
+    const orderList = Array.isArray(orders) ? orders : [];
+
+    // 2. 백엔드에서 이미 params.status를 통해 필터링된 결과만 보내주고 있습니다.
+    // 따라서 프론트에서 또 filter를 빡빡하게 걸면 데이터가 사라질 수 있습니다.
+    if (orderList.length > 0) {
+      console.log("✅ 주문 데이터 구조 확인:", orderList[0]);
+    } else {
+      console.log("⚠️ 현재 orders 배열이 비어있습니다.");
+    }
+    return orderList;
+  }, [orders, activeTab]); // orders나 탭이 바뀔 때만 계산
+
+  const pagedOrders = useMemo(() => {
+    const items = filteredOrders || [];
+
+    const totalPage = pagination?.totalPages || 1;
+    const totalCount = pagination?.totalItems || items.length;
 
     return {
-      items: currentTabOrders.slice(startIndex, startIndex + itemsPerPage),
+      items,
       totalPage,
+      totalCount
     };
-  }, [orders, activeTab, currentPage]);
+  }, [filteredOrders, pagination]);
 
   // 2. 탭 변경 핸들러는 dispatch와 페이지 리셋을 함께 담당
   const handleTabChange = (newTab) => {
@@ -58,19 +102,7 @@ export default function RiderMainPage() {
   };
 
   const handleNavigateToNotices = () => {
-    navigate(`/rider/mypage/notices`);
-  };
-  const handleAccept = (order) => {
-    const actualOrderNo = typeof order === 'object' ? order.orderNo : order;
-    if (!actualOrderNo) return;
-
-    dispatch(acceptOrder(actualOrderNo));
-    navigate(`/rider/${id}/navigate/${actualOrderNo}`, {
-      state: {
-        justAccepted: true,
-        message: "배달이 시작됐어요! 픽업 장소로 이동해주세요 🚴‍♂️",
-      },
-    });
+    navigate(`/riders/mypage/notices`);
   };
 
   const { allNotices } = useSelector((state) => state.notices);
@@ -80,15 +112,14 @@ export default function RiderMainPage() {
     return allNotices.filter((notice) => notice.status === true);
   }, [allNotices]);
 
-  // 컴포넌트 마운트 시 공지사항 페칭
-  useEffect(() => {
-    dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }));
-  }, [dispatch]);
-
   // ongoingNotices가 변경될 때마다 store 업데이트 (RiderNoticeBar가 store를 사용하므로)
   useEffect(() => {
     dispatch(setOngoingNotices(ongoingNotices));
   }, [dispatch, ongoingNotices]);
+
+  if (loading) {
+    return <div className="rider-loading">Loading...</div>;
+  }
 
   return (
     <div className="rider-main">
@@ -96,17 +127,23 @@ export default function RiderMainPage() {
       <RiderStatusTabs activeTab={activeTab} onChange={handleTabChange} />
       <RiderNoticeBar riderId={id} onNavigateToNotices={handleNavigateToNotices} />
 
-      <div className="rider-content-area">
-        {activeTab === "waiting" && (
-          <RiderWaitingView orders={pagedOrders.items} onAccept={handleAccept} />
-        )}
-        {activeTab === "inProgress" && (
-          <RiderInProgressView orders={pagedOrders.items} />
-        )}
-        {activeTab === "completed" && (
-          <RiderCompletedView orders={pagedOrders.items} />
-        )}
-      </div>
+      {error ? (
+        <div className="rider-error-message" style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
+          Error: {error.message || "오류가 발생했습니다."}
+        </div>
+      ) : (
+        <div className="rider-content-area">
+          {activeTab === "waiting" && (
+            <RiderWaitingView orders={pagedOrders.items} currentTab={activeTab} />
+          )}
+          {activeTab === "inProgress" && (
+            <RiderInProgressView orders={pagedOrders.items} />
+          )}
+          {activeTab === "completed" && (
+            <RiderCompletedView orders={pagedOrders.items} />
+          )}
+        </div>
+      )}
 
       {pagedOrders.totalPage > 1 && (
         <div className="pagination-container">
