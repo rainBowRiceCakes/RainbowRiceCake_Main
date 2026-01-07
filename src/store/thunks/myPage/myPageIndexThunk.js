@@ -14,7 +14,7 @@ export const myPageIndexThunk = createAsyncThunk(
       const url = `/api/users/orders/history`;
       const response = await axiosInstance.get(url);
 
-      return response.data;
+      return response.data; // { userName, deliveryStatus, inquiryStatus }
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }

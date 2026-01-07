@@ -103,7 +103,7 @@ export default function MainCS() {
         if (fileInputRef.current) fileInputRef.current.value = "";
         dispatch(clearQuestionStore());
       } else {
-        setFormStatus({ state: "error", message: t("csInquiryErrorMsg") || "Submit Failed" });
+        setFormStatus({ state: "error", message: t("csInquiryErrorMsg") || t("csSubmitFailed") });
       }
     } catch (err) {
       console.error("Submission Error:", err);
@@ -226,14 +226,14 @@ export default function MainCS() {
                   {previews.map((p) => (
                     <div className="maincs-file-preview-item" key={p.id}>
                       {p.type.startsWith("image/") ? (
-                        <img className="maincs-file-thumb" src={p.url} alt={p.name} />
+                        <img className="maincs-file-thumb" src={p.url} alt={t('csFilePreviewAlt')} />
                       ) : (
                         <div className="maincs-file-nonimg">{t("csFilePlaceholder")}</div>
                       )}
                       <div className="maincs-file-meta">
                         <div className="maincs-file-name">{p.name}</div>
                         <div className="maincs-file-size">
-                          {(p.size / 1024).toFixed(0)} KB
+                          {(p.size / 1024).toFixed(0)} {t('csFileSizeKB')}
                         </div>
                       </div>
                       <button type="button" className="maincs-preview-delete-btn" onClick={removeFile}>

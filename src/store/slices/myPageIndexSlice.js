@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { myPageIndexThunk } from '../thunks/myPage/myPageIndexThunk.js';
 
 const initialState = {
-  summary: null,
+  summary: null, // { userName, deliveryStatus, inquiryStatus }가 저장될 공간
   loading: false,
   error: null,
 };
@@ -19,8 +19,8 @@ const myPageIndexSlice = createSlice({
       })
       .addCase(myPageIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.summary = action.payload.data;
-        console.log( action.payload.data );
+        state.summary = action.payload.data; 
+        console.log("Slice Received Data:", action.payload.data);
       })
       .addCase(myPageIndexThunk.rejected, (state, action) => {
         state.loading = false;

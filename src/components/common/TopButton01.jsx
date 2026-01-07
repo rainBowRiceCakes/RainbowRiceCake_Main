@@ -4,10 +4,12 @@
  * 251216 v1.0.0 sara init 
  */
 
+import { useState, useEffect, useContext } from 'react';
+import { LanguageContext } from '../../context/LanguageContext';
 import "./TopButton01.css";
-import { useState, useEffect } from 'react';
 
 export default function TopButton01({ bottomOffset = 18 }) {
+  const { t } = useContext(LanguageContext);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -50,9 +52,9 @@ export default function TopButton01({ bottomOffset = 18 }) {
       className="topbutton01-button"
       style={{ bottom: bottomOffset }}
       onClick={() => scrollToTop(1200)} // 1.2초 동안 천천히 이동
-      aria-label="Scroll to top"
+      aria-label={t('scrollToTopAriaLabel')}
     >
-      ↑
+      {t('scrollToTopButtonText')}
     </button>
   );
 }

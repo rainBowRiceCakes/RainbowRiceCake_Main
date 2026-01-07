@@ -90,7 +90,7 @@ export default function MainCover() {
         {/* 우측 배경 영상 */}
         <video autoPlay muted loop playsInline className="maincover-video">
           <source src="/resource/main-cover.mp4" type="video/mp4" />
-          <img src="/resource/main-cover.png" alt="Fallback" />
+          <img src="/resource/main-cover.png" alt={t('mainCoverFallbackAlt')} />
         </video>
 
         {/* 좌측 배경색과 영상을 이어주는 그라데이션 마스크 */}

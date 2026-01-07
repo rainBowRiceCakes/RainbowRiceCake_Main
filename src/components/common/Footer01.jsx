@@ -37,7 +37,7 @@ export default function Footer01() {
           
           {/* 브랜드 로고 영역 */}
           <div className="footer01-brand-group">
-            <img src={footerLogo} alt="logo" className="footer01-logo-img" />
+            <img src={footerLogo} alt={t('footerLogoAlt')} className="footer01-logo-img" />
           </div>
 
           {/* 정보 및 링크 영역 */}
@@ -67,7 +67,7 @@ export default function Footer01() {
 
             {/* 카피라이트 */}
             <div className="footer01-copyright-text">
-              Copyright 2025©DGD All right reserved.
+              {t('footerCopyright')}
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function Footer01() {
             {/* 모달 헤더 */}
             <div className="footer01-modal-header">
               <h3>{modalData.title}</h3>
-              <button className="footer01-close-x-btn" onClick={closeModal}>✕</button>
+              <button className="footer01-close-x-btn" onClick={closeModal}>{t('footerCloseX')}</button>
             </div>
             
             {/* 모달 본문 */}

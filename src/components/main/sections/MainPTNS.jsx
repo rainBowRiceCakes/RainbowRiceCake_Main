@@ -256,7 +256,7 @@ const closeRiderPostcode = () => {
       const coords = await searchAddressToCoords(riderFormData.riderAddress);
 
       if (!coords?.lat || !coords?.lng) {
-        alert("주소 좌표 변환에 실패했어요. 주소를 다시 검색해주세요.");
+        alert(t('ptnsAddressCoordsError'));
         return;
       }
 
@@ -370,7 +370,7 @@ const closeRiderPostcode = () => {
                           className="mainptns-address-search-btn"
                           onClick={openRiderPostcode}
                         >
-                          주소 검색
+                          {t('ptnsAddressSearchButton')}
                         </button>
                       </div>
                     
@@ -491,7 +491,7 @@ const closeRiderPostcode = () => {
               <div className="mainptns-modal-box" onClick={(e) => e.stopPropagation()}>
                 <div className="mainptns-modal-header">
                   <h3>{modalContent.title}</h3>
-                  <button className="mainptns-close-x-btn" onClick={closeModal}>✕</button>
+                  <button className="mainptns-close-x-btn" onClick={closeModal}>{t('footerCloseX')}</button>
                 </div>
                 <div className="mainptns-modal-body">
                   <div className="mainptns-text-content">
@@ -517,9 +517,9 @@ const closeRiderPostcode = () => {
               <div className="mainptns-postcode-overlay" onClick={closeRiderPostcode}>
                 <div className="mainptns-postcode-box" onClick={(e) => e.stopPropagation()}>
                   <div className="mainptns-postcode-header">
-                    <h3 className="mainptns-postcode-title">주소 검색</h3>
+                    <h3 className="mainptns-postcode-title">{t('ptnsPostcodeModalTitle')}</h3>
                     <button type="button" className="mainptns-postcode-close" onClick={closeRiderPostcode}>
-                      ✕
+                      {t('footerCloseX')}
                     </button>
                   </div>
 

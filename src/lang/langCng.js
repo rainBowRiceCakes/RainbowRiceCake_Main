@@ -43,8 +43,12 @@ export const LANG_CNG = {
     en: "Track",
   },
   coverGoToMyDeliveries: {
-    ko: "내 배송 현황 보러가기",
-    en: "Go to My Deliveries",
+    ko: "내 주문 현황 상세 보기",
+    en: "View My Order Details",
+  },
+  mainCoverFallbackAlt: {
+    ko: "대체 이미지",
+    en: "Fallback image",
   },
 
   // --- src/components/main/sections/MainInfo.jsx (Pricing Plans) ---
@@ -501,6 +505,196 @@ export const LANG_CNG = {
     ko: "선택된 파일 없음",
     en: "No file selected",
   },
+  csFilePreviewAlt: {
+    ko: "파일 미리보기",
+    en: "File preview",
+  },
+  csFileSizeKB: {
+    ko: "KB",
+    en: "KB",
+  },
+  csSubmitFailed: {
+    ko: "제출 실패",
+    en: "Submit Failed",
+  },
+  csModalResponseBadge: {
+    ko: "24시간 응답",
+    en: "24h Response",
+  },
+  csModalTitle: {
+    ko: "고객센터 문의",
+    en: "CS Inquiry",
+  },
+  csModalSuccessMessage1: {
+    ko: "문의가 성공적으로 접수되었습니다.",
+    en: "Your inquiry has been successfully submitted.",
+  },
+  csModalSuccessMessage2: {
+    ko: "빠른 시일 내에 답변드리겠습니다.",
+    en: "We will get back to you as soon as possible.",
+  },
+  csModalFormName: {
+    ko: "이름",
+    en: "Name",
+  },
+  csModalFormEmail: {
+    ko: "이메일",
+    en: "Email",
+  },
+  csModalFormSubject: {
+    ko: "제목",
+    en: "Subject",
+  },
+  csModalFormMessage: {
+    ko: "내용",
+    en: "Message",
+  },
+  csModalFormSubmitting: {
+    ko: "전송 중...",
+    en: "Submitting...",
+  },
+  csModalFormSubmit: {
+    ko: "문의 보내기",
+    en: "Submit Inquiry",
+  },
+  csModalSubmitError: {
+    ko: "전송 중 문제가 발생했습니다.",
+    en: "An error occurred while submitting.",
+  },
+  ptnsAddressSearchButton: {
+    ko: "주소 검색",
+    en: "Search Address",
+  },
+  ptnsAddressCoordsError: {
+    ko: "주소 좌표 변환에 실패했어요. 주소를 다시 검색해주세요.",
+    en: "Failed to convert address coordinates. Please search again.",
+  },
+  ptnsPostcodeModalTitle: {
+    ko: "주소 검색",
+    en: "Address Search",
+  },
+  adminSearchClearAriaLabel: {
+    ko: "검색 초기화",
+    en: "Clear search",
+  },
+  adminPlaceNameLabel: {
+    ko: "장소명",
+    en: "Place Name",
+  },
+  adminPlaceAddressLabel: {
+    ko: "주소",
+    en: "Address",
+  },
+  loadingMessage: {
+    ko: "로딩 중...",
+    en: "Loading...",
+  },
+  backIcon: {
+    ko: "←",
+    en: "←",
+  },
+  myPageSubTitleDefault: {
+    ko: "내 활동 요약",
+    en: "My activity overview",
+  },
+  deliveryStatusOrderReceived: {
+    ko: "접수 완료",
+    en: "Order Received",
+  },
+  deliveryStatusPickedUp: {
+    ko: "픽업 완료",
+    en: "Picked Up",
+  },
+  deliveryStatusOnTheWay: {
+    ko: "이동 중",
+    en: "On the Way",
+  },
+  deliveryStatusDelivered: {
+    ko: "배송 완료",
+    en: "Delivered",
+  },
+  inquiryStatusResponseSent: {
+    ko: "답변 완료",
+    en: "Response Sent",
+  },
+  inquiryStatusUnderReview: {
+    ko: "검토 중",
+    en: "Under Review",
+  },
+  deliverySummaryProcessing: {
+    ko: "처리 중",
+    en: "Processing",
+  },
+  deliverySummaryDelivered: {
+    ko: "배송 완료",
+    en: "Delivered",
+  },
+  deliveryOrderNumber: {
+    ko: "주문 번호",
+    en: "Order Number",
+  },
+  deliveryRecipient: {
+    ko: "받는 사람",
+    en: "Recipient",
+  },
+  deliveryPickupLocation: {
+    ko: "픽업 장소",
+    en: "Pickup Location",
+  },
+  deliveryDropOffLocation: {
+    ko: "도착 장소",
+    en: "Drop-off Location",
+  },
+  deliveryPickupAlt: {
+    ko: "픽업 이미지",
+    en: "Pickup image",
+  },
+  deliveryPickedUpLabel: {
+    ko: "픽업 완료",
+    en: "Picked Up",
+  },
+  deliveryDeliveredAlt: {
+    ko: "배송 완료 이미지",
+    en: "Delivered image",
+  },
+  deliveryDeliveredLabel: {
+    ko: "배송 완료",
+    en: "Delivered",
+  },
+  deliveryDriverName: {
+    ko: "기사 이름",
+    en: "Driver Name",
+  },
+  deliveryDriverContact: {
+    ko: "기사 연락처",
+    en: "Driver Contact",
+  },
+  deliveryPaymentAmount: {
+    ko: "결제 금액",
+    en: "Payment Amount",
+  },
+  inquirySummaryUnderReview: {
+    ko: "검토 중",
+    en: "Under Review",
+  },
+  inquirySummaryResponseSent: {
+    ko: "답변 완료",
+    en: "Response Sent",
+  },
+  inquiryTitle: {
+    ko: "제목",
+    en: "Title",
+  },
+  inquiryImageAlt: {
+    ko: "문의 이미지",
+    en: "Inquiry image",
+  },
+  inquiryAnswer: {
+    ko: "답변",
+    en: "Answer",
+  },
+
+  // --- src/components/main/auth/Social.jsx ---
 
   // --- src/components/main/sections/MainPTNS.jsx ---
 // --- src/components/main/sections/MainPTNS.jsx ---
@@ -781,6 +975,14 @@ export const LANG_CNG = {
     ko: "메뉴",
     en: "Menu",
   },
+  headerMyPageIconAlt: {
+    ko: "마이페이지",
+    en: "My Page",
+  },
+  headerLoginIconAlt: {
+    ko: "로그인",
+    en: "Login",
+  },
 
   // --- src/components/main/auth/MyPage.jsx ---
   myPageLoginRequired: {
@@ -852,6 +1054,58 @@ export const LANG_CNG = {
   footerClose: {
     ko: "닫기",
     en: "Close",
+  },
+  footerCopyright: {
+    ko: "Copyright 2025©DGD All right reserved.",
+    en: "Copyright 2025©DGD All right reserved.",
+  },
+  footerLogoAlt: {
+    ko: "로고",
+    en: "logo",
+  },
+  footerCloseX: {
+    ko: "✕",
+    en: "✕",
+  },
+  modalCloseAriaLabel: {
+    ko: "모달 닫기",
+    en: "Close modal",
+  },
+  partnerApplyAriaLabel: {
+    ko: "제휴 신청하기",
+    en: "Apply for Partnership",
+  },
+  pwaCloseAriaLabel: {
+    ko: "닫기",
+    en: "Close",
+  },
+  pwaAppLogoAlt: {
+    ko: "앱 로고",
+    en: "App Logo",
+  },
+  pwaInstallTitle: {
+    ko: "앱 설치",
+    en: "Install App",
+  },
+  pwaInstallDescription: {
+    ko: "더 빠르고 쉽게 서비스를 이용하려면 앱을 설치하세요.",
+    en: "Install the app for faster and easier access to our services.",
+  },
+  pwaInstallButton: {
+    ko: "설치",
+    en: "Install",
+  },
+  pwaLaterButton: {
+    ko: "나중에",
+    en: "Later",
+  },
+  scrollToTopAriaLabel: {
+    ko: "맨 위로 스크롤",
+    en: "Scroll to top",
+  },
+  scrollToTopButtonText: {
+    ko: "↑",
+    en: "↑",
   },
 
   // --- src/components/main/auth/Register.jsx ---
@@ -984,7 +1238,7 @@ export const LANG_CNG = {
   },
   "my Delivery History": {
     "ko": "내 배송 내역",
-    "en": "My Delivery History"
+    "en": "My Order History"
   },
   "my Question History": {
     "ko": "내 문의 내역",
@@ -1005,6 +1259,18 @@ export const LANG_CNG = {
   "questionPending": {
     "ko": "답변 대기중",
     "en": "Pending"
+  },
+  "myDeliveryHistory": {
+    "ko": "주문 내역",
+    "en": "Order History"
+  },
+  "myQuestionHistory": { 
+    "ko": "문의 내역",
+    "en": "Inquiry History"
+  },
+  "deliveryPlan": {
+    "ko": "주문 옵션",
+    "en": "Selected Plan"
   },
   // --- src/components/main/auth/Social.jsx ---
   "socialLoginFailed": {

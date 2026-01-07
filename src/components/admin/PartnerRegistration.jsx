@@ -110,7 +110,7 @@ export default function PartnerRegistration() {
           className="ptnssearch-input-text"
           style={{ border: 'none', background: 'none', width: '100%', outline: 'none' }}
         />
-        {keyword && <FaXmark onClick={() => { setKeyword(""); dispatch(clearPartnerStore()); }} style={{ cursor: 'pointer' }} />}
+        {keyword && <FaXmark onClick={() => { setKeyword(""); dispatch(clearPartnerStore()); }} style={{ cursor: 'pointer' }} aria-label={t('adminSearchClearAriaLabel')} />}
       </div>
 
       {/* 검색 결과 드롭다운 */}
@@ -118,8 +118,8 @@ export default function PartnerRegistration() {
         <ul className="ptnssearch-dropdown-list" style={{ border: '1px solid #ddd', borderRadius: '8px', marginTop: '5px', maxHeight: '200px', overflowY: 'auto', background: '#fff', zIndex: 1000, position: 'relative' }}>
           {results.map((place) => (
             <li key={place.id} onClick={() => handleSelectPlace(place)} style={{ padding: '10px', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' }}>
-              <div style={{ fontWeight: 'bold' }}>{place.place_name}</div>
-              <div style={{ fontSize: '12px', color: '#666' }}>{place.road_address_name || place.address_name}</div>
+              <div style={{ fontWeight: 'bold' }}>{t('adminPlaceNameLabel')}: {place.place_name}</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>{t('adminPlaceAddressLabel')}: {place.road_address_name || place.address_name}</div>
             </li>
           ))}
         </ul>

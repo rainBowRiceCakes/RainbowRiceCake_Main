@@ -22,55 +22,63 @@ export default function MyPage() {
 
   // 토글 (배송/문의)
   const [activeTab, setActiveTab] = useState("delivery"); // 'delivery' | 'inquiry'
-
   const { summary, loading: summaryLoading } = useSelector((state) => state.myPage);
 
   useEffect(() => {
     dispatch(myPageIndexThunk());
   }, [dispatch]);
 
-  // useMemi 가 조건부 호출 되지 않도록 기본값 세팅
-  const deliveryList = summary ? summary.deliveryStatus : [];
-  const inquiryList = summary ? summary.inquiryStatus : [];
+  // useMemo 가 조건부 호출 되지 않도록 기본값 세팅
+  const deliveryList = useMemo(() => {
+    const rawList = summary?.deliveryStatus ?? [];
+    return rawList.map(order => ({
+      ...order,
+      pickupImage: order.order_image?.find(img => img.type === 'pick')?.img || null,
+    completeImage: order.order_image?.find(img => img.type === 'com')?.img || null,
+    }));
+  }, [summary]);
+
+  const inquiryList = useMemo(() => summary?.inquiryStatus ?? [], [summary]);
   const loading = summaryLoading;
 
-  // ---------- Summary 계산 ----------
+  // ---------- 배송 Summary (DB status 0/1 기반) ----------
   const deliverySummary = useMemo(() => {
-    let done = 0;
-    let wait = 0;
-    for (let i = 0; i < deliveryList.length; i++) {
-      if (deliveryList[i].status === "com") done += 1;
-      else wait += 1;
-    }
-    return { wait, done };
-  }, [deliveryList]);
+      let done = 0;
+      let wait = 0;
+      deliveryList.forEach((order) => {
+        if (order.status === "com") done += 1;
+        else wait += 1;
+      });
+      return { wait, done };
+    }, [deliveryList]);
 
+  // ---------- 문의 Summary (DB status 0/1 기반) ----------
   const inquirySummary = useMemo(() => {
-    let done = 0;
-    let wait = 0;
-    for (let i = 0; i < inquiryList.length; i++) {
-      if (inquiryList[i].status === true) done += 1;
-      else wait += 1;
-    }
-    return { wait, done };
-  }, [inquiryList]);
+      let done = 0;
+      let wait = 0;
+      inquiryList.forEach((q) => {
+        // DB status가 1이면 완료, 0이면 대기
+        if (Number(q.status) === 1) done += 1;
+        else wait += 1;
+      });
+      return { wait, done };
+    }, [inquiryList]);
 
-  // ✅ 이제 early return 해도 훅 순서 안 깨짐
-  if (loading || !summary) {
-    return (
-      <div className="mypage-frame mypage-frame--auth">
-        <div className="mypage-loading">Loading...</div>
-      </div>
-    );
-  }
+    if (loading || !summary) {
+      return (
+        <div className="mypage-frame mypage-frame--auth">
+          <div className="mypage-loading">{t('loadingMessage')}</div>
+        </div>
+      );
+    }
 
   // ---------- UI Helper ----------
   const getStatusLabel = (st) => {
     // status 코드가 req/mat/pick/com
-    if (st === "req") return "Register";
-    if (st === "mat") return "Driver Matching";
-    if (st === "pick") return "In Progress";
-    if (st === "com") return "Completed";
+    if (st === "req") return t('deliveryStatusOrderReceived');
+    if (st === "mat") return t('deliveryStatusPickedUp');
+    if (st === "pick") return t('deliveryStatusOnTheWay');
+    if (st === "com") return t('deliveryStatusDelivered');
     return st;
   };
 
@@ -81,8 +89,9 @@ export default function MyPage() {
     return "is-wait";
   };
 
-  const getInquiryBadge = (statusBool) => {
-    return statusBool ? "Completed" : "Waiting";
+  // 문의 답변 상태 텍스트 
+  const getInquiryBadge = (status) => {
+    return Number(status) === 1 ? t('inquiryStatusResponseSent') : t('inquiryStatusUnderReview');
   };
 
   // ---------- Render ----------
@@ -90,7 +99,7 @@ export default function MyPage() {
     <div className="mypage-frame mypage-frame--auth">
       {/* back */}
       <button className="mypage-back-btn" onClick={() => navigate("/")} type="button">
-        <span className="back-icon">←</span>
+        <span className="back-icon">{t('backIcon')}</span>
       </button>
 
       {/* profile */}
@@ -98,16 +107,14 @@ export default function MyPage() {
         <div className="mypage-profile-circle">👤</div>
         <div className="mypage-profile-meta">
           <div className="mypage-user-name">{summary.userName}</div>
-          <div className="mypage-user-sub">{t("myPageSubTitle") || "My activity overview"}</div>
+          <div className="mypage-user-sub">{t("myPageSubTitleDefault")}</div>
         </div>
       </div>
 
-      {/* ✅ toggle tabs */}
-      <div className="mypage-tabs" role="tablist" aria-label="MyPage Tabs">
+      {/* toggle tabs */}
+      <div className="mypage-tabs" role="tablist">
         <button
           type="button"
-          role="tab"
-          aria-selected={activeTab === "delivery"}
           className={activeTab === "delivery" ? "mypage-tab is-active" : "mypage-tab"}
           onClick={() => setActiveTab("delivery")}
         >
@@ -117,8 +124,6 @@ export default function MyPage() {
 
         <button
           type="button"
-          role="tab"
-          aria-selected={activeTab === "inquiry"}
           className={activeTab === "inquiry" ? "mypage-tab is-active" : "mypage-tab"}
           onClick={() => setActiveTab("inquiry")}
         >
@@ -127,7 +132,7 @@ export default function MyPage() {
         </button>
       </div>
 
-      {/* ✅ 선택된 탭만 “화면 전체” 출력 */}
+      {/* 선택된 탭( 배송 || 문의 )만 “화면 전체” 출력 */}
       {activeTab === "delivery" && (
         <>
           {/* summary (대기/완료만) */}
@@ -139,68 +144,112 @@ export default function MyPage() {
 
             <div className="mypage-summary-grid">
               <div className="mypage-summary-item">
-                <span className="mypage-summary-k">Waiting</span>
+                <span className="mypage-summary-k">{t('deliverySummaryProcessing')}</span>
                 <strong className="mypage-summary-v">{deliverySummary.wait}</strong>
               </div>
               <div className="mypage-summary-item">
-                <span className="mypage-summary-k">Completed</span>
+                <span className="mypage-summary-k">{t('deliverySummaryDelivered')}</span>
                 <strong className="mypage-summary-v">{deliverySummary.done}</strong>
               </div>
             </div>
           </div>
 
-          {/* history list */}
+          {/* Delivery history list */}
           <div className="mypage-history-list">
             {deliveryList.length === 0 ? (
-              <div className="empty-msg">{t("noDeliveryHistory")}</div>
-            ) : (
-              deliveryList.map((order) => (
+                <div className="empty-msg">{t("noDeliveryHistory")}</div>
+              ) : (
+                deliveryList.map((order) => (
                 <div key={order.id} className="mypage-card">
                   <div className="mypage-card-head">
                     <div className="mypage-card-title">
-                      <span className="mypage-card-mini">Order Number</span>
+                      <span className="mypage-card-mini">{t('deliveryOrderNumber')}</span>
                       <strong className="mypage-card-strong">{order.orderCode}</strong>
                     </div>
-
-                    <span className={"mypage-badge " + getStatusBadgeClass(order.status)}>
-                      {getStatusLabel(order.status)}
+                    <span className={`mypage-badge ${getStatusBadgeClass(order.status)}`}>
+                       {getStatusLabel(order.status)}
                     </span>
-                  </div>
+                 </div>
 
                   <div className="mypage-card-body">
                     <div className="mypage-kv">
-                      <span className="mypage-k">Recipient</span>
+                      <span className="mypage-k">{t('deliveryRecipient')}</span>
                       <strong className="mypage-v">{order.name}</strong>
                     </div>
 
                     <div className="mypage-kv">
-                      <span className="mypage-k">Pickup Location</span>
-                      <strong className="mypage-v">{order.order_partner.krName}</strong>
+                      <span className="mypage-k">{t('deliveryPickupLocation')}</span>
+                      <strong className="mypage-v">{order.order_partner.krName} ({order.order_partner.enName})</strong>
                     </div>
 
                     <div className="mypage-kv">
-                      <span className="mypage-k">Drop-off Location</span>
-                      <strong className="mypage-v">{order.order_hotel.krName}</strong>
+                      <span className="mypage-k">{t('deliveryDropOffLocation')}</span>
+                      <strong className="mypage-v">{order.order_hotel.krName} ({order.order_hotel.enName})</strong>
                     </div>
 
-                    {/* rider가 null일 수 있어서 조건 렌더 (?. 사용 안 함) */}
-                    {order.order_rider !== null && (
+                    {/* 배송 관련 이미지 영역: 좌(Pickup) / 우(Complete) */}
+                    <div className="mypage-img-split-container">
+                      {/* 왼쪽: Pickup 이미지 기사가 사진을 올린 시점부터 노출 */}
+                      <div className="mypage-img-half">
+                        {/* 왼쪽: Pickup 이미지 (type === 'pick') */}
+                        <img
+                          className="mypage-img-split"
+                          src={
+                            (['pick', 'com'].includes(order.status)) && 
+                            order.order_image?.find(img => img.type === 'pick')?.img // 배열에서 pick 타입 찾기
+                              ? order.order_image.find(img => img.type === 'pick').img
+                              : "/resource/main-logo.png"
+                          }
+                          alt="pickup"
+                          onError={(e) => (e.target.src = "/resource/main-logo.png")}
+                        />
+                        <span className="mypage-img-label">{t('deliveryPickedUpLabel')}</span>
+                      </div>
+
+                      {/* 오른쪽: Complete 이미지 - 완료(com) 시점에만 노출 (type === 'com') */}
+                      <div className="mypage-img-half">
+                        <img
+                          className="mypage-img-split"
+                          src={
+                            order.status === "com" && 
+                            order.order_image?.find(img => img.type === 'com')?.img // 배열에서 com 타입 찾기
+                              ? order.order_image.find(img => img.type === 'com').img
+                              : "/resource/main-logo.png"
+                          }
+                          alt="delivered"
+                          onError={(e) => (e.target.src = "/resource/main-logo.png")}
+                        />
+                        <span className="mypage-img-label">{t('deliveryDeliveredLabel')}</span>
+                      </div>
+                    </div>
+
+                    {/* rider가 null일 수 있음 (mat 상태 이후부터 노출) */}
+                    {order.order_rider && (
                       <div className="mypage-kv-group">
                         <div className="mypage-kv">
-                          <span className="mypage-k">Driver Name</span>
+                          <span className="mypage-k">{t('deliveryDriverName')}</span>
                           <strong className="mypage-v">{order.order_rider.rider_user.name}</strong>
                         </div>
                         <div className="mypage-kv">
-                          <span className="mypage-k">Driver Contact</span>
+                          <span className="mypage-k">{t('deliveryDriverContact')}</span>
                           <strong className="mypage-v">{order.order_rider.phone}</strong>
                         </div>
                       </div>
                     )}
 
+                    <div className="mypage-kv">
+                      <span className="mypage-k">{t('deliveryPlan')}</span>
+                      <strong className="mypage-v">
+                        {order.cntS === 1 && "Basic"}
+                        {order.cntM === 1 && "Standard"}
+                        {order.cntL === 1 && "Premium"}
+                      </strong>
+                    </div>
+
                     <div className="mypage-kv no-border">
-                      <span className="mypage-k">Payment Amount</span>
+                      <span className="mypage-k">{t('deliveryPaymentAmount')}</span>
                       <strong className="mypage-v price">
-                        {order.price.toLocaleString()}KRW
+                        {order.price?.toLocaleString()}{t('currencyUnit')}
                       </strong>
                     </div>
                   </div>
@@ -222,17 +271,17 @@ export default function MyPage() {
 
             <div className="mypage-summary-grid">
               <div className="mypage-summary-item">
-                <span className="mypage-summary-k">Waiting</span>
+                <span className="mypage-summary-k">{t('inquirySummaryUnderReview')}</span>
                 <strong className="mypage-summary-v">{inquirySummary.wait}</strong>
               </div>
               <div className="mypage-summary-item">
-                <span className="mypage-summary-k">Completed</span>
+                <span className="mypage-summary-k">{t('inquirySummaryResponseSent')}</span>
                 <strong className="mypage-summary-v">{inquirySummary.done}</strong>
               </div>
             </div>
           </div>
 
-          {/* history list */}
+          {/* Questions history list */}
           <div className="mypage-history-list">
             {inquiryList.length === 0 ? (
               <div className="empty-msg">{t("noQuestionHistory")}</div>
@@ -241,31 +290,31 @@ export default function MyPage() {
                 <div key={q.id} className="mypage-card">
                   <div className="mypage-card-head">
                     <div className="mypage-card-title">
-                      <span className="mypage-card-mini">Title</span>
+                      <span className="mypage-card-mini">{t('inquiryTitle')}</span>
                       <strong className="mypage-card-strong">{q.title}</strong>
                     </div>
-
-                    <span className={q.status ? "mypage-badge is-completed" : "mypage-badge is-wait"}>
+                    <span className={q.status === 1 ? "mypage-badge is-completed" : "mypage-badge is-wait"}>
                       {getInquiryBadge(q.status)}
                     </span>
                   </div>
 
                   <div className="mypage-card-body">
                     <div className="mypage-content">{q.content}</div>
+                    {q.qnaImg && (
+                      <div className="mypage-img-wrap">
+                        <img
+                          className="mypage-img"
+                          src={q.qnaImg}
+                          alt={t('inquiryImageAlt')}
+                          onError={(e) => (e.target.parentNode.style.display = "none")}
+                        />
+                      </div>
+                    )}
 
-                    <div className="mypage-img-wrap">
-                      <img
-                        className="mypage-img"
-                        src={q.qnaImg}
-                        alt="inquiry"
-                        onError={(e) => (e.target.style.display = "none")}
-                      />
-                    </div>
-
-                    {/* res(답변) 있으면 노출 (DB에서 아직 null일 수 있음) */}
-                    {q.res !== null && (
+                    {/* res(답변) */}
+                    {q.res && (
                       <div className="mypage-answer">
-                        <div className="mypage-answer-k">Answer</div>
+                        <div className="mypage-answer-k">{t('inquiryAnswer')}</div>
                         <div className="mypage-answer-v">{q.res}</div>
                       </div>
                     )}

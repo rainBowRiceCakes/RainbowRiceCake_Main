@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { LanguageContext } from '../../context/LanguageContext';
 import './PWAInstallButton.css';
 import { FaXmark } from 'react-icons/fa6';
 
 const PWAInstallButton = () => {
+  const { t } = useContext(LanguageContext);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const MainLogo = '/resource/main-logo.png';
@@ -38,27 +40,27 @@ const PWAInstallButton = () => {
   return (
     <div className="pwa-install-overlay" onClick={handleClose}>
       <div className="pwa-install-container" onClick={(e) => e.stopPropagation()}>
-        <button className="pwa-close-btn" onClick={handleClose} aria-label="Close">
+        <button className="pwa-close-btn" onClick={handleClose} aria-label={t('pwaCloseAriaLabel')}>
           <FaXmark />
         </button>
 
         <div className="pwa-app-icon">
-          <img src={MainLogo} alt="App Logo" />
+          <img src={MainLogo} alt={t('pwaAppLogoAlt')} />
         </div>
 
         <div className="pwa-text-group">
-          <h3 className="pwa-title">Install App</h3>
+          <h3 className="pwa-title">{t('pwaInstallTitle')}</h3>
           <p className="pwa-description">
-            Install the app for faster and easier access to our services.
+            {t('pwaInstallDescription')}
           </p>
         </div>
         
         <div className="pwa-button-group">
           <button className="pwa-btn-install" onClick={handleInstallClick}>
-            Install
+            {t('pwaInstallButton')}
           </button>
           <button className="pwa-btn-later" onClick={handleClose}>
-            Later
+            {t('pwaLaterButton')}
           </button>
         </div>
       </div>

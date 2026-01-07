@@ -114,7 +114,7 @@ export default function Header01() {
           <div className="header01-left-box">
             <button type="button" className="header01-logo-button" onClick={onLogoClick}>
               <div className="header01-brand-img-container">
-                <img src={mainLogo} alt="logo" className="header01-brand-img" />
+                <img src={mainLogo} alt={t('headerLogoAlt')} className="header01-brand-img" />
               </div>
             </button>
           </div>
@@ -145,7 +145,7 @@ export default function Header01() {
               {isLoggedIn ? (
                 <>
                   <Link to="/mypage" className="header01-icon-mypage-btn" onClick={() => setIsOpen(false)}>
-                    <img src={LoginIcon} alt="mypage" className="header01-login-img" />
+                    <img src={LoginIcon} alt={t('headerMyPageIconAlt')} className="header01-login-img" />
                   </Link>
                   <button type="button" className="header01-icon-logout-btn" onClick={logout}>
                     <MdExitToApp className="header01-logout-icon" />
@@ -153,7 +153,7 @@ export default function Header01() {
                 </>
               ) : (
                 <Link to="/login" className="header01-icon-login-btn" onClick={() => setIsOpen(false)}>
-                  <img src={LoginIcon} alt="login" className="header01-login-img" />
+                  <img src={LoginIcon} alt={t('headerLoginIconAlt')} className="header01-login-img" />
                 </Link>
               )}
               <button 
@@ -183,7 +183,7 @@ export default function Header01() {
               <div className="header01-mobile-inner-group">
                 <div className="header01-mobile-header">
                   <div className="header01-mobile-title-text">{t('headerMenuTitle')}</div>
-                  <button className="header01-close-btn" onClick={() => setIsOpen(false)}>✕</button>
+                  <button className="header01-close-btn" onClick={() => setIsOpen(false)}>{t('footerCloseX')}</button>
                 </div>
                 <Hamburger01 navItems={hamburgerNavItems} goSection={goSection} />
               </div>

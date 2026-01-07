@@ -3,7 +3,8 @@
  * @description Floating button to apply for partnership.
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
+import { LanguageContext } from '../../context/LanguageContext';
 import './PartnerApplyButton01.css';
 
 const PartnerIcon = () => {
@@ -26,6 +27,7 @@ const PartnerIcon = () => {
 };
 
 const PartnerApplyButton01 = () => {
+  const { t } = useContext(LanguageContext);
   const scrollToPartners = () => {
     const section = document.getElementById('partners');
     if (section) {
@@ -38,7 +40,7 @@ const PartnerApplyButton01 = () => {
       type="button"
       className="partner-apply-button"
       onClick={scrollToPartners}
-      aria-label="Apply for Partnership"
+      aria-label={t('partnerApplyAriaLabel')}
     >
       <PartnerIcon />
     </button>
