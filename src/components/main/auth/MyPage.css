@@ -6,6 +6,7 @@
  * 260102 v1.2.0 sara - 로그인/ 비로그인 상태 스타일 분리
  * 260106 v1.3.0 sara - 뒤로가기 버튼 스타일 추가
  * 260106 v1.4.0 sara - 배송/문의 토글 + 모바일 친화 카드 UI
+ * 260107 v2.0.0 sara - 모바일 유지 + 웹(데스크톱) 레이아웃/타이포/여백 개선
  */
 
 .mypage-frame {
@@ -37,9 +38,14 @@
   place-items: center;
   cursor: pointer;
   box-shadow: var(--com-shadow-xs);
+  transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
-.mypage-back-btn:hover { transform: translateY(-1px); }
-.mypage-back-btn:active { transform: scale(0.98); }
+.mypage-back-btn:hover {
+  transform: translateY(-1px);
+}
+.mypage-back-btn:active {
+  transform: scale(0.98);
+}
 
 /* profile */
 .mypage-profile-card {
@@ -62,7 +68,11 @@
   place-items: center;
   font-size: 22px;
 }
-.mypage-profile-meta { display: flex; flex-direction: column; gap: 4px; }
+.mypage-profile-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 .mypage-user-name {
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-color-black);
@@ -92,9 +102,12 @@
   gap: 8px;
   cursor: pointer;
   box-shadow: var(--com-shadow-xs);
-  transition: transform 0.12s ease;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease,
+    border-color 0.2s ease;
 }
-.mypage-tab:hover { transform: translateY(-1px); }
+.mypage-tab:hover {
+  transform: translateY(-1px);
+}
 .mypage-tab.is-active {
   background: var(--com-color-black);
   color: var(--com-color-white);
@@ -164,8 +177,15 @@
   align-items: center;
   justify-content: space-between;
 }
-.mypage-summary-k { color: var(--com-font-muted); font-size: 12px; }
-.mypage-summary-v { color: var(--com-color-black); font-size: 18px; font-weight: var(--com-font-weight-heavy); }
+.mypage-summary-k {
+  color: var(--com-font-muted);
+  font-size: 12px;
+}
+.mypage-summary-v {
+  color: var(--com-color-black);
+  font-size: 18px;
+  font-weight: var(--com-font-weight-heavy);
+}
 
 /* list */
 .mypage-history-list {
@@ -238,6 +258,7 @@
   border-radius: 16px;
   box-shadow: var(--com-shadow-xs);
   overflow: hidden;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .mypage-card-head {
@@ -254,7 +275,10 @@
   gap: 4px;
   min-width: 0;
 }
-.mypage-card-mini { font-size: 12px; color: var(--com-font-muted); }
+.mypage-card-mini {
+  font-size: 12px;
+  color: var(--com-font-muted);
+}
 .mypage-card-strong {
   font-size: 14px;
   font-weight: var(--com-font-weight-heavy);
@@ -303,11 +327,22 @@
   padding: 10px 0;
   border-top: 1px solid var(--com-color-overlay);
 }
-.mypage-kv.no-border { border-top: none; }
+.mypage-kv.no-border {
+  border-top: none;
+}
 
-.mypage-k { color: var(--com-font-muted); font-size: 13px; }
-.mypage-v { color: var(--com-color-black); font-size: 13px; font-weight: var(--com-font-weight-heavy); }
-.mypage-v.price { font-size: 14px; }
+.mypage-k {
+  color: var(--com-font-muted);
+  font-size: 13px;
+}
+.mypage-v {
+  color: var(--com-color-black);
+  font-size: 13px;
+  font-weight: var(--com-font-weight-heavy);
+}
+.mypage-v.price {
+  font-size: 14px;
+}
 
 /* driver group */
 .mypage-kv-group {
@@ -368,13 +403,213 @@
   color: var(--com-font-muted);
 }
 
-/* ✅ media query (모바일 최적화) */
+/* ✅ media query (모바일 최적화) - 기존 유지 */
 @media screen and (max-width: 420px) {
-  .mypage-frame { padding: 14px; }
-  .mypage-summary-item { padding: 10px; }
-  .mypage-summary-v { font-size: 17px; }
-  .mypage-card-head { padding: 12px 12px 8px; }
-  .mypage-card-body { padding: 0 12px 12px; }
-  .mypage-k, .mypage-v { font-size: 12.5px; }
-  .mypage-img-split-container { height: 120px; }
+  .mypage-frame {
+    padding: 14px;
+  }
+  .mypage-summary-item {
+    padding: 10px;
+  }
+  .mypage-summary-v {
+    font-size: 17px;
+  }
+  .mypage-card-head {
+    padding: 12px 12px 8px;
+  }
+  .mypage-card-body {
+    padding: 0 12px 12px;
+  }
+  .mypage-k,
+  .mypage-v {
+    font-size: 12.5px;
+  }
+  .mypage-img-split-container {
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mypage-frame--auth {
+    padding-top: 60px; /* 기존 76px → 증가 (겹침 방지) */
+  }
+
+  .mypage-profile-card {
+    margin-top: 6px; /* 혹시 모를 미세 겹침 방지용(기존 값 유지/안정화) */
+  }
+}
+
+/* =========================
+   ✅ WEB / DESKTOP 개선
+   - 모바일은 그대로
+   - 넓은 화면에서 전체 톤/여백/가독성/호버 개선
+========================= */
+@media screen and (min-width: 768px) {
+  .mypage-frame {
+    max-width: 1100px;
+    padding: 28px;
+  }
+
+  /* 페이지 전체 톤을 "프로모션 카드" 느낌처럼 정리 */
+  .mypage-frame--auth {
+    padding-top: 0; /* 웹에선 back 버튼을 flow로 내려서 겹침 제거 */
+    gap: 18px;
+  }
+
+  /* back 버튼: absolute -> flow(겹침 제거 + 웹에서 자연스러운 위치) */
+  .mypage-back-btn {
+    position: static;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--com-radius-pill);
+    box-shadow: var(--com-shadow-md);
+    background: var(--com-color-white);
+    margin-bottom: 6px;
+  }
+  .mypage-back-btn:hover {
+    transform: translateY(-2px);
+    background: var(--com-color-bg-light);
+  }
+
+  /* profile 카드: 웹에서 조금 더 고급스럽게 */
+  .mypage-profile-card {
+    padding: 18px 18px;
+    border-radius: var(--com-radius-lg);
+    box-shadow: var(--com-shadow-md);
+  }
+  .mypage-profile-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+  .mypage-user-name {
+    font-size: 18px;
+  }
+  .mypage-user-sub {
+    font-size: 13px;
+  }
+
+  /* tabs: 웹에서 버튼 높이/타이포 업 */
+  .mypage-tabs {
+    gap: 12px;
+  }
+  .mypage-tab {
+    height: 48px;
+    border-radius: var(--com-radius-pill);
+    box-shadow: var(--com-shadow-md);
+  }
+  .mypage-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--com-shadow-default);
+  }
+  .mypage-tab.is-active {
+    background: var(--com-color-black);
+    border-color: var(--com-color-black);
+  }
+
+  /* summary: 카드 톤 업 */
+  .mypage-summary-card {
+    border-radius: var(--com-radius-lg);
+    box-shadow: var(--com-shadow-md);
+    padding: 18px;
+  }
+  .mypage-panel-title {
+    font-size: 16px;
+  }
+  .mypage-summary-item {
+    padding: 14px;
+    border-radius: var(--com-radius-md);
+  }
+  .mypage-summary-k {
+    font-size: 13px;
+  }
+  .mypage-summary-v {
+    font-size: 20px;
+  }
+
+  /* 카드: 웹에서 hover 시 살짝 상승 */
+  .mypage-card {
+    border-radius: var(--com-radius-lg);
+    box-shadow: var(--com-shadow-md);
+  }
+  .mypage-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--com-shadow-default);
+    border-color: rgba(17, 24, 39, 0.18);
+  }
+
+  .mypage-card-head {
+    padding: 18px 18px 12px;
+  }
+  .mypage-card-mini {
+    font-size: 12px;
+  }
+  .mypage-card-strong {
+    font-size: 15px;
+  }
+
+  .mypage-card-body {
+    padding: 0 18px 18px;
+  }
+  .mypage-k,
+  .mypage-v {
+    font-size: 13.5px;
+  }
+  .mypage-v.price {
+    font-size: 15px;
+  }
+
+  /* 이미지 영역: 웹에서는 더 시원하게 */
+  .mypage-img-split-container {
+    height: 200px;
+    border-radius: var(--com-radius-md);
+    background: var(--com-color-bg-light);
+  }
+  .mypage-img-label {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .mypage-img-wrap {
+    border-radius: var(--com-radius-md);
+  }
+  .mypage-img {
+    max-height: 320px;
+  }
+
+  /* 문의 답변/콘텐츠: 웹 가독성 */
+  .mypage-content {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .mypage-answer {
+    border-radius: var(--com-radius-md);
+    padding: 14px;
+  }
+  .mypage-answer-v {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .empty-msg,
+  .mypage-loading {
+    padding: 26px 0;
+    font-size: 14px;
+  }
+}
+
+/* 초대형 화면에서 너무 길어 보이지 않게 약간 정리 */
+@media screen and (min-width: 1100px) {
+  .mypage-frame {
+    padding: 34px;
+  }
+
+  .mypage-history-list {
+    gap: 14px;
+  }
+
+  .mypage-frame--auth {
+  padding-top: 88px; /* 기존 76px → 증가 (겹침 방지) */
+  }
 }
