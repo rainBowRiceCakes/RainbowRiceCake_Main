@@ -25,6 +25,7 @@ const CustomAlertModal = ({ isOpen, onClose, message, title }) => {
             {title && <h3 className="custom-alert-title">{title}</h3>}
             <p className="custom-alert-message" dangerouslySetInnerHTML={{ __html: message }} />
             <button className="custom-alert-button" onClick={onClose}>
+              {/* 버튼 텍스트 역시 언어 파일의 alertConfirm 값을 사용합니다. */}
               {t('alertConfirm')}
             </button>
           </motion.div>

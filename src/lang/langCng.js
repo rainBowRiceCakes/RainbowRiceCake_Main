@@ -950,8 +950,8 @@ export const LANG_CNG = {
     en: "LOGOUT"
   },
   logoutSuccess: {
-    ko: "로그아웃되었습니다.",
-    en: "You have been successfully logged out."
+    ko: "로그아웃되었습니다.<br/>다시 뵙기를 기대합니다.",
+    en: "You have been successfully logged out.<br/>We hope to see you again."
   },
   logoutFailed: {
     ko: "로그아웃에 실패했습니다. 다시 시도해주세요.",
@@ -983,7 +983,7 @@ export const LANG_CNG = {
     ko: "로그인",
     en: "Login",
   },
-
+  
   // --- src/components/main/auth/MyPage.jsx ---
   myPageLoginRequired: {
     ko: "로그인이 필요해요",

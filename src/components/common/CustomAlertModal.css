@@ -36,7 +36,7 @@
 }
 
 .custom-alert-message {
-  font-size: var(--com-size-subtitle);
+  font-size: var(--com-size-sub-title);
   color: var(--com-font-gray);
   line-height: 1.6;
   margin: 0 0 var(--com-gap-xl) 0;
