@@ -1,3 +1,9 @@
+/**
+ * @file src/components/common/CustomAlertModal.jsx
+ * @description CustomAlertModal.jsx
+ * 250102 v1.0.0 sara init 
+ */
+
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../context/LanguageContext';

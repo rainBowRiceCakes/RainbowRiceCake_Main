@@ -10,7 +10,7 @@ import { FaClipboardCheck, FaUserCheck, FaTruckFast, FaCircleCheck } from "react
 
 const STEPS_CONFIG = [
   { key: "req", labelKey: "deliveryStepRegister", Icon: FaClipboardCheck },
-  { key: "match", labelKey: "deliveryStepMatching", Icon: FaUserCheck },
+  { key: "mat", labelKey: "deliveryStepMatching", Icon: FaUserCheck },
   { key: "pick", labelKey: "deliveryStepInProgress", Icon: FaTruckFast },
   { key: "com", labelKey: "deliveryStepCompleted", Icon: FaCircleCheck },
 ];

@@ -1387,5 +1387,14 @@ export const LANG_CNG = {
   "insufficientPermissions": {
     "ko": "권한이 부족하여 사용할 수 없습니다.",
     "en": "You do not have sufficient permissions to use this."
+  },
+  // --- Column Name 관련 ---
+  "columnPartnerName": {
+    "ko": "krName",
+    "en": "enName"
+  },
+  "columnHotelName": {
+    "ko": "krName",
+    "en": "enName"
   }
 };

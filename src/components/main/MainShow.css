@@ -64,8 +64,8 @@
 
 /* 7. 도트 스타일 (기본 상태) */
 .mainshow-nav-dot {
-  width: var(--com-gap-sm);
-  height: var(--com-gap-sm);
+  width: 14px; /* Slightly increased size */
+  height: 14px; /* Slightly increased size */
   background-color: var(--com-font-muted);
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

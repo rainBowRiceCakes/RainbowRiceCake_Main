@@ -80,12 +80,12 @@ export default function MainCoverModal({ isOpen, onClose, show }) {
                   <span className="maincover-modal-k">
                     {t("coverModalPickupLocation")}
                   </span>
-                  <strong className="maincover-modal-v">{order.order_partner.krName || order.order_partner.enName}</strong>
+                  <strong className="maincover-modal-v">{order.order_partner[t('columnPartnerName')]}</strong>
                 </div>
 
                 <div className="maincover-modal-row no-border">
                   <span className="maincover-modal-k">{t("coverModalDropOffLocation")}</span>
-                  <strong className="maincover-modal-v">{order.order_hotel.krName || order.order_hotel.enName}</strong>
+                  <strong className="maincover-modal-v">{order.order_hotel[t('columnHotelName')]}</strong>
                 </div>
               </div>
             </div>
