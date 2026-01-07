@@ -5,7 +5,6 @@
  */
 
 import { useState, useEffect, useRef, useContext } from 'react';
-
 import MainCover from './sections/MainCover.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
 import MainPTNSSearch from './sections/MainPTNSSearch.jsx';
@@ -15,9 +14,20 @@ import MainPTNS from './sections/MainPTNS.jsx';
 import Carousel from '../common/Carousel.jsx';               // 7. 로고 캐러샐
 import './MainShow.css';
 import { LanguageContext } from '../../context/LanguageContext.jsx';  // en/ko 
+import { useDispatch, useSelector } from 'react-redux';
+
+import { partnerCarouselThunk } from '../../store/thunks/partnerCarouselThunk.js'; // 로고 가져오기 Thunk
 
 export default function MainShow() {
   const { t } = useContext(LanguageContext);
+  const dispatch = useDispatch();
+
+  // 파트너 로고 이미지 상태 가져오기
+  const imageState = useSelector((state) => state.partnerCarousel);
+  const { logoImages } = imageState || {}; // 여기서 안전하게 분해 할당
+
+  // 섹션 네비게이션 설정
+  const activeSectionRef = useRef(0); // 렌더링 없이 즉시 값 참조용
   const [activeSection, setActiveSection] = useState(0);
 
   const sectionConfig = [
@@ -33,6 +43,12 @@ export default function MainShow() {
 
   const observer = useRef(null);
 
+  // 초기 데이터 로드 (파트너 로고)
+  useEffect(() => {
+    dispatch(partnerCarouselThunk());
+  }, [dispatch]);
+
+  // 스크롤 옵저버 설정
   useEffect(() => {
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -40,6 +56,7 @@ export default function MainShow() {
           const index = sections.indexOf(entry.target.id);
           if (index !== -1) {
             setActiveSection(index);
+            activeSectionRef.current = index;
           }
         }
       });
@@ -57,6 +74,10 @@ export default function MainShow() {
       });
     };
   }, [sections]);
+
+  // 데이터 가공 (logoImages가 배열이 아닐 경우 빈 배열로 처리하여 에러 방지)
+  const safeLogoList = Array.isArray(logoImages) ? logoImages : [];
+  const formattedLogos = safeLogoList.map(fullUrl => ({ url: fullUrl }));
 
   return (
     <div className="mainshow-page-container">
@@ -98,8 +119,11 @@ export default function MainShow() {
       {/* 5. 제휴문의 섹션 */}
       <div id="partners" className="mainshow-section-frame"><MainPTNS /></div>
 
-      {/* 6. 파트너 로고 캐러샐 */}
-      <div><Carousel /></div>
+      {/* 6. 파트너 로고 캐러샐 (기존 제휴 업체 리스트) */}
+      <div className="mainshow-carousel-wrapper">
+        {/* Props로 images 전달 */}
+        <Carousel images={formattedLogos} />
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ export const riderImageUploadThunk = createAsyncThunk(
 
       
       const formData = new FormData();
-      formData.append('licenseImage', file);
+      formData.append('licenseImg', file);
 
       const response = await axiosInstance.post(url, formData, { headers });
 
@@ -38,7 +38,7 @@ export const partnerImageUploadThunk = createAsyncThunk(
       };
       
       const formData = new FormData();
-      formData.append('logoImage', file);
+      formData.append('logoImg', file);
 
       const response = await axiosInstance.post(url, formData, { headers });
 

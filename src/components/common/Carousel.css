@@ -1,88 +1,38 @@
 /**
- * @file src/components/main/sections/Carousel.css
+ * @file src/components/main/common/Carousel.css
  * @description 파트너 로고 캐러샐
  * 251219 v1.0.0 jun init
  */
 
-/* 전체 컨테이너: 넘치는 로고 가리기 */
 .carousel-container {
   width: 100%;
-  overflow: hidden; /* 영역 밖 로고 숨김 */
-  background-color: var(--com-color-white); /* 배경색 */
-  padding: var(--com-container-padding) 0; /* 위아래 여백 */
+  height: 150px; /* [중요] 높이 명시 */
+  overflow: hidden;
   position: relative;
+  background-color: #fff;
 }
 
-/* 로고 트랙: 로고들이 일렬로 서는 긴 기차 */
 .carousel-track {
   display: flex;
-  
-  /* 핵심: 자식 요소(로고)들의 너비 합만큼 길어짐 (줄바꿈 방지) */
-  width: max-content; 
-  
-  /* 애니메이션: 30초 동안 -50%까지 이동 후 0%로 순간이동 반복 */
-  animation: scroll 30s linear infinite;
-}
-
-/* 마우스 올리면 멈춤 (웹 환경 UX 향상) */
-.carousel-container:hover .carousel-track {
-  animation-play-state: paused;
-}
-
-/* 1. 슬라이드 아이템 (틀) - 공통 설정 */
-.carousel-item {
-  /* box-sizing을 써야 padding을 줘도 너비가 안 깨집니다 */
-  box-sizing: border-box; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  /* 데스크탑 기본 크기 */
-  width: 200px; 
-  height: 100px; /* ★ 높이 고정 (중요) */
-  padding: 0 15px; /* 로고 좌우 여백 */
-}
-
-/* 이미지 스타일 (박스 안의 내용물) */
-.carousel-item img {
-  /* 3. 부모 박스(carousel-item) 크기에 꽉 차게 설정 */
-  width: 100%;
+  width: calc(200px * var(--quantity)); /* 로고 개수만큼 너비 확보 */
   height: 100%;
-  
-  /* 4. 핵심: 비율 유지하며 박스 안에 맞춤 */
-  object-fit: contain; 
-  object-position: center;
+  animation: scroll 40s linear infinite;
 }
 
-.carousel-item img:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-  /* 호버 시 살짝 커지는 효과를 주고 싶다면 */
-  transform: scale(1.05);
+.carousel-slide {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify_content: center;
 }
 
-/* --- 애니메이션 정의 --- */
+.partner-logo {
+  max-width: 100%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
 @keyframes scroll {
   0% { transform: translateX(0); }
-  /* 로고 리스트를 2배로 복사했으므로, 절반(-50%)만 이동하면 처음과 그림이 이어짐 */
-  100% { transform: translateX(-50%); }
-}
-
-/* --- ★ 모바일 전용 설정 (여기서 크기 고정) ★ --- */
-@media (max-width: 768px) {
-  .carousel-item {
-    /* 너비: 화면의 절반 (2개씩 보이게) */
-    width: 50vw;
-    
-    /* 높이: 모바일에 맞춰 조금 작게 고정 */
-    height: 80px;
-    
-    /* 좌우 여백을 조금 줄여서 로고를 더 크게 보이게 함 */
-    padding: 0 var(--com-gap-sm);
-  }
-
-  /* 모바일에서는 애니메이션 속도를 조금 빠르게 */
-  .carousel-track {
-    animation-duration: 15s;
-  }
+  100% { transform: translateX(calc(-200px * var(--quantity))); }
 }
