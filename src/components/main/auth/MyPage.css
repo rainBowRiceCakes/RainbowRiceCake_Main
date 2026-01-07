@@ -613,3 +613,8 @@
   padding-top: 88px; /* 기존 76px → 증가 (겹침 방지) */
   }
 }
+
+.mypage-img,
+.mypage-img-split {
+  cursor: zoom-in;
+}

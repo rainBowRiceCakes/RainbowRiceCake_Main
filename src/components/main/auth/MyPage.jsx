@@ -11,9 +11,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "../../../context/LanguageContext";
+import { useTranslation } from "../../../context/LanguageContext.js";
 import "./MyPage.css";
-import { myPageIndexThunk } from "../../../store/thunks/myPage/myPageIndexThunk";
+import { myPageIndexThunk } from "../../../store/thunks/myPage/myPageIndexThunk.js";
+import MypageImgView from "../auth/MypageImgView/MypageImgView.jsx";
 
 export default function MyPage() {
   const navigate = useNavigate();
@@ -40,6 +41,20 @@ export default function MyPage() {
 
   const inquiryList = useMemo(() => summary?.inquiryStatus ?? [], [summary]);
   const loading = summaryLoading;
+  //s tate + open/close 함수 추가 (MyPage 사진 클릭해서 확대해 보는 처리)
+  const [imgViewOpen, setImgViewOpen] = useState(false);
+  const [imgViewSrc, setImgViewSrc] = useState("");
+  const [imgViewAlt, setImgViewAlt] = useState("");
+
+  const openImgView = (src, alt = "image") => {
+    if (!src) return;
+    setImgViewSrc(src);
+    setImgViewAlt(alt);
+    setImgViewOpen(true);
+  };
+
+const closeImgView = () => setImgViewOpen(false);
+
 
   // ---------- 배송 Summary (DB status 0/1 기반) ----------
   const deliverySummary = useMemo(() => {
@@ -195,12 +210,22 @@ export default function MyPage() {
                         <img
                           className="mypage-img-split"
                           src={
-                            (['pick', 'com'].includes(order.status)) && 
-                            order.order_image?.find(img => img.type === 'pick')?.img // 배열에서 pick 타입 찾기
-                              ? order.order_image.find(img => img.type === 'pick').img
+                            (["pick", "com"].includes(order.status)) &&
+                            order.order_image?.find((img) => img.type === "pick")?.img
+                              ? order.order_image.find((img) => img.type === "pick").img
                               : "/resource/main-logo.png"
                           }
                           alt="pickup"
+                          onClick={() => {
+                            const pickSrc =
+                              (["pick", "com"].includes(order.status)) &&
+                              order.order_image?.find((img) => img.type === "pick")?.img
+                                ? order.order_image.find((img) => img.type === "pick").img
+                                : null;
+
+                            // ✅ 실제 이미지 있을 때만 모달 오픈 (로고 placeholder는 제외)
+                            if (pickSrc) openImgView(pickSrc, "pickup");
+                          }}
                           onError={(e) => (e.target.src = "/resource/main-logo.png")}
                         />
                         <span className="mypage-img-label">{t('deliveryPickedUpLabel')}</span>
@@ -208,17 +233,24 @@ export default function MyPage() {
 
                       {/* 오른쪽: Complete 이미지 - 완료(com) 시점에만 노출 (type === 'com') */}
                       <div className="mypage-img-half">
-                        <img
-                          className="mypage-img-split"
-                          src={
-                            order.status === "com" && 
-                            order.order_image?.find(img => img.type === 'com')?.img // 배열에서 com 타입 찾기
-                              ? order.order_image.find(img => img.type === 'com').img
-                              : "/resource/main-logo.png"
-                          }
-                          alt="delivered"
-                          onError={(e) => (e.target.src = "/resource/main-logo.png")}
-                        />
+                          <img
+                            className="mypage-img-split"
+                            src={
+                              order.status === "com" && order.order_image?.find((img) => img.type === "com")?.img
+                                ? order.order_image.find((img) => img.type === "com").img
+                                : "/resource/main-logo.png"
+                            }
+                            alt="delivered"
+                            onClick={() => {
+                              const comSrc =
+                                order.status === "com" && order.order_image?.find((img) => img.type === "com")?.img
+                                  ? order.order_image.find((img) => img.type === "com").img
+                                  : null;
+
+                              if (comSrc) openImgView(comSrc, "delivered");
+                            }}
+                            onError={(e) => (e.target.src = "/resource/main-logo.png")}
+                          />
                         <span className="mypage-img-label">{t('deliveryDeliveredLabel')}</span>
                       </div>
                     </div>
@@ -300,17 +332,17 @@ export default function MyPage() {
 
                   <div className="mypage-card-body">
                     <div className="mypage-content">{q.content}</div>
-                    {q.qnaImg && (
-                      <div className="mypage-img-wrap">
-                        <img
-                          className="mypage-img"
-                          src={q.qnaImg}
-                          alt={t('inquiryImageAlt')}
-                          onError={(e) => (e.target.parentNode.style.display = "none")}
-                        />
-                      </div>
-                    )}
-
+                      {q.qnaImg && (
+                        <div className="mypage-img-wrap">
+                          <img
+                            className="mypage-img"
+                            src={q.qnaImg}
+                            alt={t("inquiryImageAlt")}
+                            onClick={() => openImgView(q.qnaImg, t("inquiryImageAlt"))}
+                            onError={(e) => (e.target.parentNode.style.display = "none")}
+                          />
+                        </div>
+                      )}
                     {/* res(답변) */}
                     {q.res && (
                       <div className="mypage-answer">
@@ -325,6 +357,12 @@ export default function MyPage() {
           </div>
         </>
       )}
+      <MypageImgView
+        isOpen={imgViewOpen}
+        onClose={closeImgView}
+        src={imgViewSrc}
+        alt={imgViewAlt}
+      />
     </div>
   );
 }
