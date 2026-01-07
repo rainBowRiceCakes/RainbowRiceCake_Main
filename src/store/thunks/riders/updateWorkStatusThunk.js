@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios"; // 혹은 설정된 axiosInstance
+import axiosInstance from "../../../api/axiosInstance.js";
 
 export const updateWorkStatusThunk = createAsyncThunk(
-  "rider/updateWorkStatus",
+  "riders/updateWorkStatus",
   async (isWorking, { rejectWithValue }) => {
     try {
       // isWorking은 true 혹은 false
-      const response = await axios.patch("/api/riders/updateWorkStatus", { isWorking });
+      const response = await axiosInstance.put("/api/riders/updateWorkStatus", { isWorking });
       return response.data.data; // { isWorking: true } 반환 예상
     } catch (error) {
       console.error(error);

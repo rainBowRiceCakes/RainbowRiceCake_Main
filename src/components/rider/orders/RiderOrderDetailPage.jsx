@@ -77,7 +77,7 @@ export default function RiderOrderDetailPage() {
           </div>
           <div className="rod-row">
             <span className="rod-label">픽업 시간</span>
-            <span className="rod-value">{dayjs(order.order_rider.pickupAt).format('YYYY-MM-DD A hh:mm')}</span>
+            <span className="rod-value">{dayjs(order.pickupAt).format('YYYY-MM-DD A hh:mm')}</span>
           </div>
           <div className="rod-row">
             <span className="rod-label">배송 완료 시간</span>
