@@ -6,14 +6,6 @@ import { useState, useEffect } from "react";
 import Modal from "../../../common/Modal.jsx";
 import "./ProfileEdit.css";
 
-function EditIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.2217 3.33331C17.7946 2.76041 18.5911 2.42187 19.4282 2.42187C20.2653 2.42187 21.0618 2.76041 21.6347 3.33331C22.2076 3.90621 22.5462 4.70273 22.5462 5.53982C22.5462 6.37691 22.2076 7.17343 21.6347 7.74633L8.23926 21.1418L2.42188 22.5781L3.85817 16.7607L17.2217 3.33331Z" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 const policyContents = {
   "이용약관": "이용약관 내용입니다...",
   "위치기반서비스 이용약관": "위치기반서비스 이용약관 내용입니다...",
@@ -119,15 +111,6 @@ export default function ProfileEdit() {
   return (
     <>
       <div className="pe-container">
-        <div className="pe-avatar-section">
-          <div className="pe-avatar-wrapper">
-            <img src={"/default.png"} alt="Rider profile" className="pe-avatar-img" />
-            <button className="pe-edit-avatar-btn">
-              <EditIcon />
-            </button>
-          </div>
-        </div>
-
         <div className="pe-card">
           <div className="pe-field">
             <label className="pe-label">이름(기사)</label>

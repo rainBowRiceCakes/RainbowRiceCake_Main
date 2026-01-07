@@ -7,7 +7,7 @@ import PartnerNoticeList from "../components/partner/notices/PartnerNoticeList.j
 import PartnerFaqList from "../components/partner/help/PartnerFaqList.jsx";
 import PartnerProfile from "../components/partner/profiles/PartnerProfile.jsx";
 import PartnerDeliveryRequestPage from "../components/partner/requests/PartnerDeliveryRequestPage.jsx";
-// import PartnerMyPage from "../components/partner/mypage/RiderMyPage.jsx";
+import PartnerSettlement from "../components/partner/settlement/PartnerSettlement.jsx";
 
 const partnerRoutes = [
   { index: true, element: <PartnerDashboard /> },
@@ -34,6 +34,9 @@ const partnerRoutes = [
       { path: "questions", element: <PartnerIssueReportPage /> },
     ]
   },
+
+  // 정산 (settlement)
+  { path: "settlement", element: <PartnerSettlement /> },
 
   // 프로필 (profile)
   { path: "profile", element: <PartnerProfile /> },

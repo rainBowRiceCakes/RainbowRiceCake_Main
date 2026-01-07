@@ -1,6 +1,6 @@
 import './PartnerStatCard.css';
 
-const PartnerStatCard = ({ title, count, trend, isUp, icon, color }) => {
+const PartnerStatCard = ({ title, count, icon, color }) => {
     return (
         <div className="stat_card">
             <div className="stat_info">

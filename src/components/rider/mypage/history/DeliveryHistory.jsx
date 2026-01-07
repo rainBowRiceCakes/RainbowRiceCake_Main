@@ -22,8 +22,6 @@ export default function DeliveryHistory() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // 한 페이지에 보여줄 개수
-  const { orderCode } = useParams();
 
   const { orders, loading, error } = useSelector((state) => state.orders);
   const { user } = useSelector((state) => state.auth);
@@ -35,19 +33,18 @@ export default function DeliveryHistory() {
 
   // Fetch orders with pagination from backend
   useEffect(() => {
-    if (!orderCode) return;
     dispatch(orderIndexThunk({
-      orderCode,
       status: 'com',
       page: currentPage,
       limit: ITEMS_PER_PAGE,
     }));
-  }, [dispatch, orderCode, currentPage]);
+  }, [dispatch, currentPage]);
 
   useEffect(() => {
     localStorage.setItem('deliveryHistoryActiveFilter', activeFilter);
   }, [activeFilter]);
 
+  console.log("Raw Orders:", orders)
   // 프론트에서 날짜 필터링 + 그룹핑만 처리
   const { groupedPaginatedHistory, totalPages, totalFilteredItems } = useMemo(() => {
     const orderList = Array.isArray(orders) ? orders : (orders?.rows || []);
@@ -119,26 +116,26 @@ export default function DeliveryHistory() {
       <p className="dh-total-deliveries">총 {totalFilteredItems}건 배달 내역</p>
 
       {totalFilteredItems > 0 ? (
-        Object.entries(groupedPaginatedHistory).map(([date, items]) => (
+        Object.entries(groupedPaginatedHistory).map(([date, orders]) => (
           <div key={date} className="dh-date-group-card">
             <h3 className="dh-group-header">{date}</h3>
             <div className="dh-history-list">
-              {items.map((item) => (
+              {orders.map((order) => (
                 <div
-                  key={item.id}
+                  key={order.id}
                   className="dh-history-item"
-                  onClick={() => navigate(`/riders/mypage/orders/${item.orderCode}`)}
+                  onClick={() => navigate(`/riders/mypage/orders/${order.orderCode}`)}
                 >
                   <div className="dh-item-time">
-                    {dayjs(item.updatedAt).format("HH:mm")}
+                    {dayjs(order.updatedAt).format("HH:mm")}
                   </div>
                   <div className="dh-item-details">
-                    <p className="dh-details-main">{item.order_partner.krName} - {item.order_hotel.krName}</p>
+                    <p className="dh-details-main">{order.order_partner.krName} - {order.order_hotel.krName}</p>
                     <div className="dh-details-sub">
-                      {item.cntS > 0 && <span>베이직 {item.cntS}개 </span>}
-                      {item.cntM > 0 && <span>스탠다드 {item.cntM}개 </span>}
-                      {item.cntL > 0 && <span>플러스 {item.cntL}개 </span>}
-                      {!(item.cntS > 0 || item.cntM > 0 || item.cntL > 0) && <span>-</span>}
+                      {order.cntS > 0 && <span>베이직 {order.cntS}개 </span>}
+                      {order.cntM > 0 && <span>스탠다드 {order.cntM}개 </span>}
+                      {order.cntL > 0 && <span>플러스 {order.cntL}개 </span>}
+                      {!(order.cntS > 0 || order.cntM > 0 || order.cntL > 0) && <span>-</span>}
                     </div>
                   </div>
                   <div className="dh-item-chevron">›</div>

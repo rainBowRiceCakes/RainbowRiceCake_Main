@@ -15,12 +15,11 @@ export default function RiderMyPage() {
   const profileData = useSelector((state) => state.profile?.profileData);
   const profile = profileData?.rider_user;
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
-
-      dispatch(logoutThunk());
-      nav("/", { replace: true });
-      alert("로그아웃 되었습니다.");
+      await dispatch(logoutThunk());
+      dispatch(clearAuth()); // 1. Redux 상태 초기화
+      navigate('/');         // 2. 로그인 화면으로 이동
     }
   };
 
