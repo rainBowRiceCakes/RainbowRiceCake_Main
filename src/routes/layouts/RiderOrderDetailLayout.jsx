@@ -2,6 +2,7 @@
 import { Outlet, useMatches } from "react-router-dom";
 import RiderBottomNav from "../../components/rider/common/RiderBottomNav.jsx";
 import RiderSubHeader from "../../components/rider/common/RiderSubHeader.jsx";
+import './RiderOrderDetailLayout.css';
 
 const RiderOrderDetailLayout = () => {
   const matches = useMatches();

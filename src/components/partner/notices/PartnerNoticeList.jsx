@@ -1,23 +1,43 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { noticeIndexThunk } from '../../../store/thunks/notices/noticeIndexThunk.js';
 import './PartnerNoticeList.css';
 
 const PartnerNoticeListPage = () => {
-  // 기존에 만드신 슬라이스의 allNotices 데이터를 가져옵니다.
-  const allNotices = useSelector((state) => state.notices.allNotices);
+  const dispatch = useDispatch();
 
-  // 페이지네이션을 위한 상태 (기본 1페이지)
+  // Redux 스토어에서 데이터 가져오기
+  const allNotices = useSelector((state) => {
+    console.log("리덕스 상태:", state.notices); // <-- 여기를 확인!
+    return state.notices.allNotices || [];
+  });
+  const loading = useSelector((state) => state.notices.loading);
+
+  // 페이지네이션 상태
   const [currentPage, setCurrentPage] = useState(1);
+  // 1. 데이터가 없을 경우에만 초기 데이터 로드 (필요 시)
+  useEffect(() => {
+    // 2. setAllNotices()가 아니라 Thunk를 dispatch 하세요!
+    // 페이지 번호나 리미트가 필요하다면 객체로 전달합니다.
+    dispatch(noticeIndexThunk({ page: 1, limit: 10 }));
+  }, [dispatch]);
+
+  if (loading && allNotices.length === 0) {
+    return <div className="loading">데이터 로딩 중...</div>;
+  }
   const itemsPerPage = 6;
 
-  // 전체 페이지 수 계산
-  const totalPages = Math.ceil(allNotices.length / itemsPerPage);
+  // 2. 전체 페이지 수 계산 (데이터가 없을 때를 대비해 0 처리)
+  const totalPages = allNotices.length > 0 ? Math.ceil(allNotices.length / itemsPerPage) : 1;
+  // 3. 현재 페이지 데이터 추출
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentNotices = allNotices.slice(startIndex, startIndex + itemsPerPage);
 
-  // 현재 페이지 데이터 추출
-  const currentNotices = allNotices.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // 4. 페이지 변경 함수 (스크롤 상단 이동 추가)
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="notice_page">
@@ -31,7 +51,6 @@ const PartnerNoticeListPage = () => {
                 <div className="notice_header">
                   <span className="notice_badge">공지</span>
                   <span className="notice_subject">{notice.title}</span>
-                  {/* 날짜가 오늘 날짜와 같으면 NEW 뱃지 표시 (선택사항) */}
                   {notice.isNew && <span className="new_badge">NEW</span>}
                   <span className="notice_date">{notice.date}</span>
                   <span className="comment_icon">💬</span>
@@ -45,22 +64,34 @@ const PartnerNoticeListPage = () => {
         )}
       </div>
 
-      {/* 동적 페이지네이션 */}
-      {totalPages > 0 && (
+      {/* 페이지네이션 UI */}
+      {allNotices.length > 0 && (
         <div className="notice_pagination">
+          {/* 이전 페이지 버튼 */}
+          <button
+            className="page_btn"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            {"<"}
+          </button>
+
+          {/* 페이지 번호 리스트 */}
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
             <button
               key={num}
               className={`page_btn ${currentPage === num ? 'active' : ''}`}
-              onClick={() => setCurrentPage(num)}
+              onClick={() => handlePageChange(num)}
             >
               {num}
             </button>
           ))}
+
+          {/* 다음 페이지 버튼 */}
           <button
             className="page_btn"
             disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(prev => prev + 1)}
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             {">"}
           </button>

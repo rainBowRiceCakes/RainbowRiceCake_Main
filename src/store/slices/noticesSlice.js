@@ -37,12 +37,17 @@ const noticesSlice = createSlice({
       })
       .addCase(noticeIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.allNotices = action.payload.data || action.payload.notices || [];
+        state.allNotices = action.payload.data?.rows || action.payload.notices || [];
+        
+        const totalItems = action.payload.data?.count || 0;
+        const itemsPerPage = action.meta.arg?.limit || 9;
+        const currentPage = action.meta.arg?.page || 1;
+
         state.pagination = {
-          currentPage: action.payload.currentPage || action.payload.page || 1,
-          totalPages: action.payload.totalPages || 1,
-          totalItems: action.payload.totalItems || action.payload.total || 0,
-          itemsPerPage: action.payload.itemsPerPage || action.payload.limit || 9
+          currentPage: currentPage,
+          totalPages: Math.ceil(totalItems / itemsPerPage) || 1,
+          totalItems: totalItems,
+          itemsPerPage: itemsPerPage
         };
       })
       .addCase(noticeIndexThunk.rejected, (state, action) => {

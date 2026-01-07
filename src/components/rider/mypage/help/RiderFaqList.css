@@ -28,24 +28,24 @@
 }
 
 .faq-report-btn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-    box-shadow: none;
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .faq-report-btn {
-    margin-top: 18px;
-    width: 100%;
-    height: 46px;
-    border: none;
-    border-radius: var(--rip-radius);
-    background: var(--rip-btn-gray);
-    color: var(--rip-btn-gray-text);
-    font-size: 14px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
-    transition: transform 0.12s ease, opacity 0.12s ease;
+  margin-top: 18px;
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 8px;
+  background: #a992fe;
+  color: black;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+  transition: transform 0.12s ease, opacity 0.12s ease;
 }
 
 .faq-tabs {
@@ -119,7 +119,8 @@
 }
 
 .faq-answer.open {
-  max-height: 300px; /* Adjust as needed */
+  max-height: 300px;
+  /* Adjust as needed */
   transition: max-height 0.4s ease-in, padding 0.4s ease-in;
 }
 

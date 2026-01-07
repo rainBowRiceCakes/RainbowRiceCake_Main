@@ -5,7 +5,6 @@ import Header from '../../components/partner/common/Header.jsx';
 import './PartnerLayout.css';
 
 function PartnerLayout() {
-  // UI 상태에서 접힘 여부만 가져옴
   const isCollapsed = useSelector((state) => state.ui.isSidebarCollapsed);
 
   return (

@@ -5,7 +5,7 @@ export const getProfileThunk = createAsyncThunk(
   "profile/getProfileThunk",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("/api/profile");
+      const response = await axiosInstance.get("/api/profiles");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: "프로필 조회 실패" });

@@ -1,2 +1,36 @@
 /* components/rider/main/RiderMainPage.css */
 
+.rider-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.page_btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #eee;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.page_btn.active {
+  background: white;
+  color: #7A7FD3;
+  border-color: #7A7FD3;
+}
+
+.page_btn:hover {
+  background: #7A7FD3;
+  color: #ffffff;
+  border-color: #7A7FD3;
+}

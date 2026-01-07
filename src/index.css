@@ -10,41 +10,49 @@
    box-sizing: border-box;
 }
 
-/* 페이지네이션 */
-.pagination {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: var(--adm-spacing-xs);
-   padding: var(--adm-spacing-m);
-   border-top: 1px solid var(--adm-border-secondary);
-}
-
-.pagination button {
-   background: #FFF;
-   border: 1px solid var(--adm-border-primary);
-   width: 32px;
-   height: 32px;
-   border-radius: var(--adm-radius-small);
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-}
-
-.pagination button:hover:not(:disabled):not(.active) {
-   background: var(--adm-bg-primary);
-}
-
-.pagination button:disabled {
-   opacity: 0.5;
+/* 1. 웹 앱 전체에서 불필요한 텍스트 선택 금지 */
+body {
+   margin: 0;
+   -webkit-user-select: none;
+   /* 크롬, 사파리 */
+   -moz-user-select: none;
+   /* 파이어폭스 */
+   -ms-user-select: none;
+   /* IE */
+   user-select: none;
+   /* 전체 공간에서 텍스트 커서가 생기는 걸 막음 */
    cursor: default;
+   /* 기본 커서를 화살표로 고정 */
 }
 
-.pagination button.active {
-   background: var(--adm-text-primary);
-   color: #FFF;
-   border-color: var(--adm-text-primary);
+/* 2. 입력창이나 텍스트를 복사해야 하는 특정 부분만 허용 */
+input,
+textarea,
+.allow_select,
+.clickable_id,
+.order_detail_cell div {
+   user-select: text;
+   /* 여기서는 커서가 나옵니다 */
+   cursor: text;
+}
+
+/* 3. 헤더와 버튼 등 클릭 요소는 손가락 모양 강제 */
+header,
+nav,
+button,
+.page_btn,
+.status_badge,
+.filter_label,
+select {
+   cursor: pointer;
+   /* 클릭 가능한 곳임을 명시 */
+}
+
+/* 4. 헤더 안의 제목이나 텍스트 클릭 시 커서 안 나오게 */
+header h1,
+header span,
+.page_title {
+   cursor: default;
 }
 
 /* --- Common Detail Page Styles --- */

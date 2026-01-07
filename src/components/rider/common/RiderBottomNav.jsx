@@ -22,8 +22,8 @@ export default function RiderBottomNav() {
 
   const go = (key) => {
     // ✅ 마이페이지 레이아웃에서 쓸 거라 mypage 기본은 mypage index로
-    if (key === "home") navigate(`/rider`);
-    if (key === "mypage") navigate(`/rider/mypage`);
+    if (key === "home") navigate(`/riders`);
+    if (key === "mypage") navigate(`/riders/mypage`);
   };
 
   return (

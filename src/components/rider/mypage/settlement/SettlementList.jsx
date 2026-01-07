@@ -1,7 +1,7 @@
 // src/components/rider/mypage/settlement/SettlementList.jsx
 import "./SettlementList.css";
 import { useState, useMemo } from "react";
-import { dummySettlementHistory } from "../../../../data/dummySettlementHistory.js";
+import { useSelector } from "react-redux";
 
 function SettlementItem({ item }) {
   const handleDownload = () => {
@@ -38,11 +38,13 @@ function SettlementItem({ item }) {
 export default function SettlementList() {
   const [monthRange, setMonthRange] = useState(6); // 기본 6개월
 
+  const { settlementHistory } = useSelector((state) => state.settlement);
+
   const filteredHistory = useMemo(() => {
     const today = new Date();
     const targetDate = new Date(today.setMonth(today.getMonth() - monthRange));
 
-    return dummySettlementHistory.filter(item => {
+    return settlementHistory.filter(item => {
       const settlementDate = new Date(item.settlementDate);
       return settlementDate >= targetDate;
     });

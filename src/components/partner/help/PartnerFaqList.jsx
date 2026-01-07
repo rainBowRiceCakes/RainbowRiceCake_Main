@@ -71,8 +71,8 @@ const PartnerFaqPage = () => {
           <div className="support_btn_group">
             <button
               className="btn_report"
-              onClick={() => navigate('/partner/help/questions')}
-            >⚠️ 이슈 신고하기</button>
+              onClick={() => navigate('/partners/help/questions')}
+            >✍️ 문의 하기</button>
             {/*TODO <button className="btn_contact">💬 1:1 문의하기</button> */}
             {/* 문의 내역 리스트 페이지도 같이 구성해야 할까..? 아우 짜증나^^ */}
           </div>

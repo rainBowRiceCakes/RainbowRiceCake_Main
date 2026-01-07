@@ -39,15 +39,12 @@
   overflow: hidden;
 }
 
-/* Map placeholder */
-.rnp-map-placeholder {
+/* Map */
+.rnp-map-area {
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
-  font-weight: 900;
-  color: #adb5bd;
-  letter-spacing: 2px;
 }
 
 /* ===== Bottom sheet ===== */

@@ -187,6 +187,22 @@
 
 .rip-page-header {
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.back_btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.back_btn:hover {
+  background: #f4f6ff;
+  border: none;
+  color: #4d44ff;
 }
 
 .rip-page-title {

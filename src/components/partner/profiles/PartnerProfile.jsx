@@ -1,47 +1,62 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfileThunk } from '../../../store/thunks/profile/updateProfileThunk.js';
+import { getProfileThunk } from '../../../store/thunks/profile/getProfileThunk.js';
 import PartnerPolicyModal from './PartnerPolicyModal.jsx';
 import './PartnerProfile.css';
 
 const PartnerMyPage = () => {
   const dispatch = useDispatch();
 
-  // 1. partnerSlice에서 profile 정보 가져오기
-  const profile = useSelector((state) => state.partner?.profile);
-  // 신고자 유형(PTN) 등을 위해 auth 정보도 필요할 수 있음
+  const profile = useSelector((state) => state.profile.profileData);
+  const isLoading = useSelector((state) => state.profile.isLoading);
+  const error = useSelector((state) => state.profile.error);
   const user = useSelector((state) => state.auth?.user);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [manager, setManager] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 2. 스토어의 profile 정보가 변경될 때마다 입력 필드 동기화
+  // 마운트 시 프로필 가져오기
   useEffect(() => {
-    if (profile) {
+    dispatch(getProfileThunk());
+  }, [dispatch]);
+
+  // 프로필 데이터 동기화
+  useEffect(() => {
+    if (profile && !isEditing) {
+      setManager(profile.manager || "");
       setPhone(profile.phone || "");
-      setAddress(profile.address || "");
     }
-  }, [profile]);
+  }, [profile, isEditing]);
 
   const handleSave = async () => {
     if (!profile) return;
 
     try {
-      // 3. 공통 Thunk 호출 (userType을 함께 전달하여 엔드포인트 구분)
-      await dispatch(updateProfileThunk({
+      const updatedProfile = await dispatch(updateProfileThunk({
+        manager,
         phone,
-        address,
         userType: user?.role || 'PTN'
       })).unwrap();
 
+      // 수정된 데이터로 상태 동기화
+      setManager(updatedProfile.manager || "");
+      setPhone(updatedProfile.phone || "");
+
       setIsEditing(false);
       alert("매장 정보가 성공적으로 수정되었습니다.");
-    } catch (error) {
-      alert(error || "수정에 실패했습니다.");
+
+      // 필요 시 전체 프로필 다시 불러오기
+      dispatch(getProfileThunk());
+    } catch (err) {
+      alert(err?.msg || err || "수정에 실패했습니다.");
     }
   };
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>오류: {error?.msg || "알 수 없는 오류"}</div>;
 
   return (
     <div className="mypage_container">
@@ -51,8 +66,7 @@ const PartnerMyPage = () => {
         <div className="store_info_header">
           <div className="store_icon">🏪</div>
           <div className="store_name_block">
-            {/* 프로필 데이터 노출 */}
-            <h3 className="store_name">{profile?.storeName || "매장 정보 로딩 중..."}</h3>
+            <h3 className="store_name">{profile?.krName || "매장 정보 로딩 중..."}</h3>
             <p className="store_address_display">{profile?.address}</p>
           </div>
           <button
@@ -65,13 +79,17 @@ const PartnerMyPage = () => {
 
         <div className="info_grid">
           <div className="info_item">
-            <label>점주 이름</label>
-            {/* 수정 불가 항목 */}
-            <input type="text" value={profile?.ownerName || ""} readOnly className="readonly_input" />
+            <label>매니저 이름</label>
+            <input
+              type="text"
+              value={manager}
+              onChange={(e) => setManager(e.target.value)}
+              readOnly={!isEditing}
+              className={isEditing ? "editable_input" : "readonly_input"}
+            />
           </div>
           <div className="info_item">
             <label>연락처</label>
-            {/* 수정 가능 항목 */}
             <input
               type="text"
               value={phone}
@@ -82,24 +100,15 @@ const PartnerMyPage = () => {
           </div>
           <div className="info_item">
             <label>이메일</label>
-            {/* 수정 불가 항목 */}
-            <input type="text" value={profile?.email || ""} readOnly className="readonly_input" />
+            <input type="text" value={profile?.partner_user?.email || ""} readOnly className="readonly_input" />
           </div>
           <div className="info_item full_width">
             <label>매장 주소</label>
-            {/* 수정 가능 항목 */}
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              readOnly={!isEditing}
-              className={isEditing ? "editable_input" : "readonly_input"}
-            />
+            <input type="text" value={profile?.address || ""} readOnly className="readonly_input" />
           </div>
         </div>
       </section>
 
-      {/* 알림 설정 및 약관 링크 영역 (기존 코드와 동일) */}
       <section className="settings_section">
         <h4>알림 설정</h4>
         <div className="settings_grid">

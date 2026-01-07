@@ -10,6 +10,7 @@
   border-radius: 16px;
   border: 1px solid #dee2e6;
 }
+
 .rip-wrap {
   padding: 12px 16px 16px;
 }
@@ -113,4 +114,23 @@
   font-size: 22px;
   font-weight: 900;
   line-height: 1;
+}
+
+.rip-badge-row {
+  display: flex;
+  justify-content: space-between;
+  /* 양 끝 정렬 */
+  align-items: center;
+}
+
+.rip-badge {
+  /* 기존 뱃지 스타일 유지하면서 필요시 추가 */
+  flex-shrink: 0;
+  /* 글자가 길어져도 뱃지 모양 유지 */
+}
+
+.rip-label {
+  /* 주문번호 텍스트 스타일 */
+  font-size: 13px;
+  color: #666;
 }
