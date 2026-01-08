@@ -10,6 +10,6 @@
     <stop offset="100%" style="stop-color:rgba(189, 178, 255, 1); stop-opacity:1" />
   </linearGradient>
 </defs>
-<path d="M24 0C14.0589 0 6 8.05887 6 18C6 25.4849 14.5304 38.0183 22.4497 46.4278C23.2384 47.266 24.7616 47.266 25.5503 46.4278C33.4696 38.0183 42 25.4849 42 18C42 8.05887 33.9411 0 24 0Z" fill="url(#rainbowGradient)"/>
-<circle cx="24" cy="18" r="8" fill="white"/>
+<path d="M24 0C14.0589 0 6 8.05887 6 18C6 25.4849 14.5304 38.0183 22.4497 46.4278C23.2384 47.266 24.7616 47.266 25.5503 46.4278C33.4696 38.0183 42 25.4849 42 18C42 8.05887 33.9411 0 24 0Z" fill="url(#rainbowGradient)" stroke="#333" stroke-width="2"/>
+<circle cx="24" cy="18" r="8" fill="white" stroke="#333" stroke-width="2"/>
 </svg>

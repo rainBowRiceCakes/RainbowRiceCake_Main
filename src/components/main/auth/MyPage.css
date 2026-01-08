@@ -515,7 +515,7 @@
   .mypage-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--com-shadow-default);
-    border-color: rgba(17, 24, 39, 0.18);
+    border-color: rgba(0, 0, 0, 0.9);
   }
 
   .mypage-card-head {

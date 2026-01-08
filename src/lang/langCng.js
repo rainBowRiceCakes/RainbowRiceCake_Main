@@ -742,9 +742,6 @@ export const LANG_CNG = {
     en: "Answer",
   },
 
-  // --- src/components/main/auth/Social.jsx ---
-
-  // --- src/components/main/sections/MainPTNS.jsx ---
 // --- src/components/main/sections/MainPTNS.jsx ---
   // --- 제휴 신청(Form) 관련 데이터 ---
   ptnsTitle: {
@@ -1385,6 +1382,10 @@ export const LANG_CNG = {
     "en": "View Store List"
   },
   "No results found": {
+    "ko": "검색 결과가 없습니다",
+    "en": "No results found"
+  },
+  "noResultsFound": {
     "ko": "검색 결과가 없습니다",
     "en": "No results found"
   },
