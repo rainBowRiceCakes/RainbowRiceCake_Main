@@ -224,8 +224,8 @@ export const LANG_CNG = {
     en: "<b>Easy-to-use</b> order management system",
   },
   partnerCta: {
-    ko: "파트너로 입점 신청하기",
-    en: "Apply to be a Partner",
+    ko: "DGD 파트너로 입점 신청하기",
+    en: "Apply to be DGD Partner",
   },
 
   // --- src/components/main/sections/MainDLVS.jsx ---
@@ -375,6 +375,10 @@ export const LANG_CNG = {
   csEmailInquiryButton: {
     ko: "Email 문의하기",
     en: "Email Inquiry",
+  },
+  csViewMyInquiriesButton: {
+    ko: "내 문의 현황 보러가기",
+    en: "View My Inquiries",
   },
   csFaqTitle: {
     ko: "자주 묻는 질문 (FAQ)",
@@ -591,7 +595,7 @@ export const LANG_CNG = {
   },
   ptnsAddressSearchButton: {
     ko: "주소 검색",
-    en: "Search Address",
+    en: "Search",
   },
   ptnsAddressCoordsError: {
     ko: "주소 좌표 변환에 실패했어요. 주소를 다시 검색해주세요.",
@@ -1430,6 +1434,11 @@ export const LANG_CNG = {
     "en": "enName"
   },
   "columnHotelName": {
+    "ko": "krName",
+    "en": "enName"
+  },
+  // --- 제휴업체 이름 지도검색 관련 ---
+  "searchPartnerName": {
     "ko": "krName",
     "en": "enName"
   }

@@ -46,10 +46,6 @@ export default function MainCS() {
     { q: t("csFaq3Question"), a: t("csFaq3Answer") },
   ];
 
-  const onEmail = () => {
-    window.location.href = `mailto:support@brand.com?subject=${t("csInquirySubject")}`;
-  };
-
   // 파일 미리보기 로직
   const previews = useMemo(() => {
     if (!inqFiles) return [];
@@ -205,9 +201,9 @@ export default function MainCS() {
           <button
             className="maincs-button maincs-button--primary"
             type="button"
-            onClick={onEmail}
+            onClick={() => navigate('/mypage', { state: { activeTab: 'inquiry' } })}
           >
-            {t("csEmailInquiryButton")}
+            {t("csViewMyInquiriesButton")}
           </button>
         </div>
       </div>

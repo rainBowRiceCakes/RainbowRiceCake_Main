@@ -95,6 +95,14 @@
 .mainpromotion-icon-wrapper {
   flex-shrink: 0;
   opacity: 0.7;
+  width: 150px;
+  height: 150px;
+}
+
+.mainpromotion-promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .mainpromotion-text-content {
@@ -174,6 +182,19 @@
 
   .mainpromotion-benefit-list li::before {
     display: none; /* Hide checkmark on mobile for cleaner look */
+  }
+
+  .mainpromotion-cta-btn:hover {
+    background: var(--com-color-black);
+    color: var(--com-color-white);
+    transform: none;
+    box-shadow: none;
+  }
+  .mainpromotion-cta-btn:active {
+    background: var(--com-gradient-rainbow);
+    color: var(--com-color-black);
+    transform: translateY(-2px);
+    box-shadow: var(--com-shadow-md);
   }
 }
 

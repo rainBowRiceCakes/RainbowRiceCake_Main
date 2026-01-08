@@ -25,19 +25,30 @@ const StoreDetailPopup = ({ store, onClose, onNavigate }) => {
   const { t } = useContext(LanguageContext);
   if (!store) return null;
 
+  const handleModalClick = (e) => {
+    // Prevent event from bubbling up to map, but still trigger navigation
+    e.stopPropagation(); 
+    onNavigate();
+  }
+
+  const handleCloseClick = (e) => {
+    e.stopPropagation(); // Prevent modal-wide click from triggering navigation
+    onClose();
+  }
+
   return (
-    <div className="ptnssearch-detail-popup">
-      <button onClick={onClose} className="ptnssearch-detail-close-button"><FaXmark /></button>
+    <div className="ptnssearch-detail-popup" onClick={handleModalClick}>
+      <button onClick={handleCloseClick} className="ptnssearch-detail-close-button"><FaXmark /></button>
       <div className="ptnssearch-detail-header">
-        <img src={store.logoImg || '/resource/main-logo.png'} alt={store.storeName} className="ptnssearch-detail-logo" />
-        <h4 className="ptnssearch-detail-title">{store.storeName}</h4>
+        <img src={store.logoImg || '/resource/main-logo.png'} alt={store.krName} className="ptnssearch-detail-logo" />
+        <h4 className="ptnssearch-detail-title">{store.krName}</h4>
       </div>
       <div className="ptnssearch-detail-body">
-        <p className="ptnssearch-detail-info">{store.address}</p>
+        <p className="ptnssearch-detail-info"><FaMap /> {store.address}</p>
         <p className="ptnssearch-detail-info"><FaPhone /> {store.phone || t('noPhoneInfo')}</p>
       </div>
       <div className="ptnssearch-detail-footer">
-        <button onClick={onNavigate} className="ptnssearch-detail-nav-btn">
+        <button onClick={handleModalClick} className="ptnssearch-detail-nav-btn">
           <FaMap /> {t('kakaoMapNavigate')}
         </button>
       </div>
@@ -71,6 +82,7 @@ export default function MainPTNSSearch() {
     return {
       id: backendData.id,
       krName: backendData.krName,
+      enName: backendData.enName, // enName 추가
       address: backendData.address,
       lat: Number.parseFloat(backendData.lat),
       lng: Number.parseFloat(backendData.lng),
@@ -119,7 +131,8 @@ export default function MainPTNSSearch() {
     }
     const lowercasedKeyword = keyword.toLowerCase();
     return stores.filter(store =>
-      store.storeName.toLowerCase().includes(lowercasedKeyword)
+      (store.krName && store.krName.toLowerCase().includes(lowercasedKeyword)) ||
+      (store.enName && store.enName.toLowerCase().includes(lowercasedKeyword))
     );
   }, [keyword, stores]);
 
@@ -134,6 +147,7 @@ export default function MainPTNSSearch() {
       if (window.innerWidth <= MOBILE_BREAKPOINT) {
         const sheetHeight = window.innerHeight * 0.4;
         map.panBy(0, sheetHeight / 2);
+        setIsSheetOpen(false); // 모바일에서 업체 선택 시 시트 닫기
       }
     }
     setCenter(newCenter);
@@ -210,7 +224,7 @@ export default function MainPTNSSearch() {
                         key={store.id} 
                         className={`ptnssearch-sidebar-store-item ${selectedStore?.id === store.id ? "ptnssearch-is-active" : ""}`} 
                         onClick={() => handleSelectStore(store)}>
-                        <div className="ptnssearch-store-item-name"><FaStore />{store.krName}</div>
+                        <div className="ptnssearch-store-item-name"><FaStore />{store.krName} ({store.enName})</div>
                         <div className="ptnssearch-store-item-address">{store.address}</div>
                       </div>
                     ))
@@ -226,15 +240,19 @@ export default function MainPTNSSearch() {
                 ) : (
                   <Map center={center} style={{ width: "100%", height: "100%" }} level={5} onCreate={setMap}>
                     {myLocation && (
-                      <MapMarker
-                        position={myLocation}
-                        image={{
-                          src: '/resource/main-loginIcon.png',
-                          size: { width: 32, height: 32 },
-                          options: { offset: { x: 16, y: 32 } },
-                        }}
-                        zIndex={10}
-                      />
+                      <>
+                        <MapMarker
+                          position={myLocation}
+                          image={{
+                            src: '/resource/my-location-marker.svg',
+                            size: { width: 32, height: 32 },
+                          }}
+                          zIndex={10}
+                        />
+                        <CustomOverlayMap position={myLocation} yAnchor={2.5}>
+                          <div className="ptnssearch-location-overlay">{t('mainLocationMyLocation')}</div>
+                        </CustomOverlayMap>
+                      </>
                     )}
                     {filteredStores.map((store) => (
                        <MapMarker
@@ -242,8 +260,8 @@ export default function MainPTNSSearch() {
                         position={{ lat: store.lat, lng: store.lng }}
                         onClick={() => handleSelectStore(store)}
                         image={{
-                          src: selectedStore?.id === store.id ? '/resource/main-logo.png' : '/resource/main-loginIcon.png',
-                          size: selectedStore?.id === store.id ? { width: 48, height: 48 } : { width: 28, height: 28 },
+                          src: '/resource/rainbow-marker.svg', // 커스텀 레인보우 마커 사용
+                          size: selectedStore?.id === store.id ? { width: 48, height: 48 } : { width: 36, height: 36 },
                         }}
                         zIndex={selectedStore?.id === store.id ? 100 : 1}
                       />
@@ -258,7 +276,7 @@ export default function MainPTNSSearch() {
                       <StoreDetailPopup 
                         store={selectedStore}
                         onClose={() => setSelectedStore(null)}
-                        onNavigate={() => window.open(`https://map.kakao.com/link/to/${selectedStore.storeName},${selectedStore.lat},${selectedStore.lng}`, '_blank')}
+                        onNavigate={() => window.open(`https://map.kakao.com/link/search/${selectedStore.krName}`, '_blank')}
                       />
                     )}
                   </Map>

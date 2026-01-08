@@ -1,0 +1,60 @@
+/**
+ * @file src/components/common/Pagination.css
+ * @description 페이지네이션 컴포넌트 스타일
+ * 260108 sara init
+ * 260108 user v2.0.0 - monochrome theme
+ * 260108 user v3.0.0 - use existing variables
+ */
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.page-item {
+  margin: 0;
+}
+
+.page-link {
+  display: block;
+  padding: 8px 14px;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid var(--com-border-default);
+  background-color: var(--com-color-white);
+  color: var(--com-font-gray);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  font-size: 14px;
+}
+
+.page-item:not(:first-child) .page-link {
+  border-left: none;
+}
+
+.page-item.disabled .page-link {
+  color: var(--mng-color-gray-300);
+  cursor: not-allowed;
+  background-color: var(--com-color-bg-light);
+}
+
+.page-item.active .page-link {
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
+  cursor: default;
+}
+
+.page-item:not(.disabled) .page-link:hover {
+  background-color: var(--com-color-bg-light);
+}

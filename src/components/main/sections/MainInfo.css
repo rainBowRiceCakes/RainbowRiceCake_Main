@@ -72,7 +72,7 @@
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
-  padding: var(--com-section-padding) var(--com-container-padding);
+  padding: var(--com-gap-xl) var(--com-container-padding);
   box-shadow: var(--com-shadow-default);
   display: flex;
   flex-direction: column;
@@ -117,7 +117,7 @@
 }
 
 .maininfo-plan-header {
-  margin-bottom: var(--com-gap-xl);
+  margin-bottom: var(--com-gap-md);
 }
 
 .maininfo-plan-price {
@@ -133,9 +133,10 @@
 }
 
 .maininfo-plan-name {
-  font-size: var(--com-size-title);
+  font-size: 32px;
+  font-weight: var(--com-font-weight-bold);
   color: var(--com-color-black);
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 /* 5. 기능 리스트 */
@@ -172,17 +173,53 @@
   }
 
   .maininfo-plan-card {
-    padding: var(--com-gap-lg);
+    padding: 15px var(--com-container-padding);
   }
 
   .maininfo-title-text {
     font-size: var(--com-size-icon);
   }
 
+  .maininfo-plan-price {
+    margin-top: var(--com-gap-md); /* Add margin-top for mobile */
+  }
+
   .maininfo-recommended-badge {
     top: 15px;
     right: -40px;
     font-size: 10px;
+  }
+
+  /* Disable hover for mobile */
+  .maininfo-plan-card:hover {
+    background: var(--com-color-white); /* Revert to default */
+    transform: none; /* Revert to default */
+    box-shadow: var(--com-shadow-default); /* Revert to default */
+  }
+
+  /* Apply hover effects to :active for mobile */
+  .maininfo-plan-card:active {
+    background: var(--com-color-black);
+    transform: translateY(-8px);
+    box-shadow: var(--com-shadow-md);
+  }
+
+  /* Disable hover text color change for mobile */
+  .maininfo-plan-card:hover .maininfo-plan-name,
+  .maininfo-plan-card:hover .maininfo-plan-price,
+  .maininfo-plan-card:hover .maininfo-feature-item,
+  .maininfo-plan-card:hover .maininfo-feature-icon,
+  .maininfo-plan-card:hover .maininfo-price-unit {
+    color: unset; /* Revert to inherited/default */
+  }
+
+  /* Apply hover text color change to :active for mobile */
+  .maininfo-plan-card:active .maininfo-plan-name,
+  .maininfo-plan-card:active .maininfo-plan-price,
+  .maininfo-plan-card:active .maininfo-feature-item,
+  .maininfo-plan-card:active .maininfo-feature-icon,
+  .maininfo-plan-card:active .maininfo-price-unit {
+    color: var(--com-color-white);
   }
 }
 
@@ -195,7 +232,7 @@
     font-size: var(--com-size-subtitle);
   }
   .maininfo-plan-card {
-    padding: var(--com-gap-md);
+    padding: 10px var(--com-container-padding);
   }
   .maininfo-plan-name {
     font-size: var(--com-size-subtitle);

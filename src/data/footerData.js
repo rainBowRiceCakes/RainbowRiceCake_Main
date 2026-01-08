@@ -144,7 +144,7 @@ export const footerData = {
   },
   en: {
     terms: {
-      title: "Agreement to Terms and Conditions",
+      title: "Terms and Conditions",
       description: "DGD Service Terms and Conditions",
       articles: [
         {

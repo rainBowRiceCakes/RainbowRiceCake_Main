@@ -6,42 +6,100 @@
  * 260105 v2.0.1 sara - 탭 변경 시 fetch + orders thunk 응답 형태 반영
  * 260106 v2.1.0 sara - 이미지 로딩 에러 처리, CSS 수정, UI 정리 및 배송 경로 가시성 강화
  * 260106 v2.1.0 sara - deliveryStatus/inquiryStatus 응답 기반 UI + 토글
+ * 260108 v3.0.0 user - 필터링, 페이지네이션, 역순 정렬 기능 추가
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "../../../context/LanguageContext.js";
 import "./MyPage.css";
 import { myPageIndexThunk } from "../../../store/thunks/myPage/myPageIndexThunk.js";
 import MypageImgView from "../auth/MypageImgView/MypageImgView.jsx";
+import Pagination from "../../common/Pagination.jsx";
+
+const ITEMS_PER_PAGE = 5;
 
 export default function MyPage() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const location = useLocation();
 
   // 토글 (배송/문의)
   const [activeTab, setActiveTab] = useState("delivery"); // 'delivery' | 'inquiry'
   const { summary, loading: summaryLoading } = useSelector((state) => state.myPage);
+  
+  // 필터링 및 페이지네이션 상태
+  const [deliveryFilter, setDeliveryFilter] = useState('all'); // 'all', 'processing', 'com'
+  const [inquiryFilter, setInquiryFilter] = useState('all'); // 'all', 'reviewing', 'answered'
+  const [deliveryPage, setDeliveryPage] = useState(1);
+  const [inquiryPage, setInquiryPage] = useState(1);
 
   useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
     dispatch(myPageIndexThunk());
-  }, [dispatch]);
+  }, [dispatch, location.state]);
 
-  // useMemo 가 조건부 호출 되지 않도록 기본값 세팅
+  // 필터 변경 시 페이지를 1로 리셋
+  useEffect(() => {
+    setDeliveryPage(1);
+  }, [deliveryFilter]);
+
+  useEffect(() => {
+    setInquiryPage(1);
+  }, [inquiryFilter]);
+
+  // 원본 목록 (역순 정렬)
   const deliveryList = useMemo(() => {
-    const rawList = summary?.deliveryStatus ?? [];
+    const rawList = summary?.deliveryStatus?.slice().reverse() ?? [];
     return rawList.map(order => ({
       ...order,
       pickupImage: order.order_image?.find(img => img.type === 'pick')?.img || null,
-    completeImage: order.order_image?.find(img => img.type === 'com')?.img || null,
+      completeImage: order.order_image?.find(img => img.type === 'com')?.img || null,
     }));
   }, [summary]);
 
-  const inquiryList = useMemo(() => summary?.inquiryStatus ?? [], [summary]);
+  const inquiryList = useMemo(() => summary?.inquiryStatus?.slice().reverse() ?? [], [summary]);
+
+  // 필터링된 목록
+  const filteredDeliveryList = useMemo(() => {
+    if (deliveryFilter === 'all') {
+      return deliveryList;
+    }
+    if (deliveryFilter === 'com') {
+      return deliveryList.filter(order => order.status === 'com');
+    }
+    return deliveryList.filter(order => order.status !== 'com');
+  }, [deliveryList, deliveryFilter]);
+
+  const filteredInquiryList = useMemo(() => {
+    if (inquiryFilter === 'all') {
+      return inquiryList;
+    }
+    if (inquiryFilter === 'answered') {
+      return inquiryList.filter(q => Number(q.status) === 1);
+    }
+    return inquiryList.filter(q => Number(q.status) !== 1);
+  }, [inquiryList, inquiryFilter]);
+  
+  // 페이지네이션된 목록
+  const paginatedDeliveries = useMemo(() => {
+    const startIndex = (deliveryPage - 1) * ITEMS_PER_PAGE;
+    return filteredDeliveryList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredDeliveryList, deliveryPage]);
+
+  const paginatedInquiries = useMemo(() => {
+    const startIndex = (inquiryPage - 1) * ITEMS_PER_PAGE;
+    return filteredInquiryList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredInquiryList, inquiryPage]);
+
+  const deliveryTotalPages = Math.ceil(filteredDeliveryList.length / ITEMS_PER_PAGE);
+  const inquiryTotalPages = Math.ceil(filteredInquiryList.length / ITEMS_PER_PAGE);
+
   const loading = summaryLoading;
-  //s tate + open/close 함수 추가 (MyPage 사진 클릭해서 확대해 보는 처리)
+  // State + open/close 함수 추가 (MyPage 사진 클릭해서 확대해 보는 처리)
   const [imgViewOpen, setImgViewOpen] = useState(false);
   const [imgViewSrc, setImgViewSrc] = useState("");
   const [imgViewAlt, setImgViewAlt] = useState("");
@@ -53,31 +111,29 @@ export default function MyPage() {
     setImgViewOpen(true);
   };
 
-const closeImgView = () => setImgViewOpen(false);
-
+  const closeImgView = () => setImgViewOpen(false);
 
   // ---------- 배송 Summary (DB status 0/1 기반) ----------
   const deliverySummary = useMemo(() => {
       let done = 0;
       let wait = 0;
-      deliveryList.forEach((order) => {
+      (summary?.deliveryStatus ?? []).forEach((order) => {
         if (order.status === "com") done += 1;
         else wait += 1;
       });
       return { wait, done };
-    }, [deliveryList]);
+    }, [summary]);
 
   // ---------- 문의 Summary (DB status 0/1 기반) ----------
   const inquirySummary = useMemo(() => {
       let done = 0;
       let wait = 0;
-      inquiryList.forEach((q) => {
-        // DB status가 1이면 완료, 0이면 대기
+      (summary?.inquiryStatus ?? []).forEach((q) => {
         if (Number(q.status) === 1) done += 1;
         else wait += 1;
       });
       return { wait, done };
-    }, [inquiryList]);
+    }, [summary]);
 
     if (loading || !summary) {
       return (
@@ -89,7 +145,6 @@ const closeImgView = () => setImgViewOpen(false);
 
   // ---------- UI Helper ----------
   const getStatusLabel = (st) => {
-    // status 코드가 req/mat/pick/com
     if (st === "req") return t('deliveryStatusOrderReceived');
     if (st === "mat") return t('deliveryStatusPickedUp');
     if (st === "pick") return t('deliveryStatusOnTheWay');
@@ -104,7 +159,6 @@ const closeImgView = () => setImgViewOpen(false);
     return "is-wait";
   };
 
-  // 문의 답변 상태 텍스트 
   const getInquiryBadge = (status) => {
     return Number(status) === 1 ? t('inquiryStatusResponseSent') : t('inquiryStatusUnderReview');
   };
@@ -112,11 +166,6 @@ const closeImgView = () => setImgViewOpen(false);
   // ---------- Render ----------
   return (
     <div className="mypage-frame mypage-frame--auth">
-      {/* back */}
-      <button className="mypage-back-btn" onClick={() => navigate("/")} type="button">
-        <span className="back-icon">{t('backIcon')}</span>
-      </button>
-
       {/* profile */}
       <div className="mypage-profile-card">
         <div className="mypage-profile-circle">👤</div>
@@ -147,34 +196,33 @@ const closeImgView = () => setImgViewOpen(false);
         </button>
       </div>
 
-      {/* 선택된 탭( 배송 || 문의 )만 “화면 전체” 출력 */}
       {activeTab === "delivery" && (
         <>
-          {/* summary (대기/완료만) */}
           <div className="mypage-summary-card">
             <div className="mypage-summary-head">
-              <h3 className="mypage-panel-title">{t("myDeliveryHistory")}</h3>
+              <h3 className="mypage-panel-title" onClick={() => setDeliveryFilter('all')} style={{cursor: 'pointer'}}>
+                {t("myDeliveryHistory")}
+              </h3>
               <span className="mypage-panel-count">{deliveryList.length}</span>
             </div>
 
             <div className="mypage-summary-grid">
-              <div className="mypage-summary-item">
+              <div className={`mypage-summary-item ${deliveryFilter === 'processing' ? 'is-active' : ''}`} onClick={() => setDeliveryFilter('processing')} style={{cursor: 'pointer'}}>
                 <span className="mypage-summary-k">{t('deliverySummaryProcessing')}</span>
                 <strong className="mypage-summary-v">{deliverySummary.wait}</strong>
               </div>
-              <div className="mypage-summary-item">
+              <div className={`mypage-summary-item ${deliveryFilter === 'com' ? 'is-active' : ''}`} onClick={() => setDeliveryFilter('com')} style={{cursor: 'pointer'}}>
                 <span className="mypage-summary-k">{t('deliverySummaryDelivered')}</span>
                 <strong className="mypage-summary-v">{deliverySummary.done}</strong>
               </div>
             </div>
           </div>
 
-          {/* Delivery history list */}
           <div className="mypage-history-list">
-            {deliveryList.length === 0 ? (
+            {paginatedDeliveries.length === 0 ? (
                 <div className="empty-msg">{t("noDeliveryHistory")}</div>
               ) : (
-                deliveryList.map((order) => (
+                paginatedDeliveries.map((order) => (
                 <div key={order.id} className="mypage-card">
                   <div className="mypage-card-head">
                     <div className="mypage-card-title">
@@ -202,52 +250,39 @@ const closeImgView = () => setImgViewOpen(false);
                       <strong className="mypage-v">{order.order_hotel.krName} ({order.order_hotel.enName})</strong>
                     </div>
 
-                    {/* 배송 관련 이미지 영역: 좌(Pickup) / 우(Complete) */}
                     <div className="mypage-img-split-container">
-                      {/* 왼쪽: Pickup 이미지 기사가 사진을 올린 시점부터 노출 */}
                       <div className="mypage-img-half">
-                        {/* 왼쪽: Pickup 이미지 (type === 'pick') */}
                         <img
                           className="mypage-img-split"
                           src={
-                            (["pick", "com"].includes(order.status)) &&
-                            order.order_image?.find((img) => img.type === "pick")?.img
-                              ? order.order_image.find((img) => img.type === "pick").img
+                            (["pick", "com"].includes(order.status)) && order.pickupImage
+                              ? order.pickupImage
                               : "/resource/main-logo.png"
                           }
                           alt="pickup"
                           onClick={() => {
-                            const pickSrc =
-                              (["pick", "com"].includes(order.status)) &&
-                              order.order_image?.find((img) => img.type === "pick")?.img
-                                ? order.order_image.find((img) => img.type === "pick").img
-                                : null;
-
-                            // ✅ 실제 이미지 있을 때만 모달 오픈 (로고 placeholder는 제외)
-                            if (pickSrc) openImgView(pickSrc, "pickup");
+                            if ((["pick", "com"].includes(order.status)) && order.pickupImage) {
+                              openImgView(order.pickupImage, "pickup");
+                            }
                           }}
                           onError={(e) => (e.target.src = "/resource/main-logo.png")}
                         />
                         <span className="mypage-img-label">{t('deliveryPickedUpLabel')}</span>
                       </div>
 
-                      {/* 오른쪽: Complete 이미지 - 완료(com) 시점에만 노출 (type === 'com') */}
                       <div className="mypage-img-half">
                           <img
                             className="mypage-img-split"
                             src={
-                              order.status === "com" && order.order_image?.find((img) => img.type === "com")?.img
-                                ? order.order_image.find((img) => img.type === "com").img
+                              order.status === "com" && order.completeImage
+                                ? order.completeImage
                                 : "/resource/main-logo.png"
                             }
                             alt="delivered"
                             onClick={() => {
-                              const comSrc =
-                                order.status === "com" && order.order_image?.find((img) => img.type === "com")?.img
-                                  ? order.order_image.find((img) => img.type === "com").img
-                                  : null;
-
-                              if (comSrc) openImgView(comSrc, "delivered");
+                              if (order.status === "com" && order.completeImage) {
+                                openImgView(order.completeImage, "delivered");
+                              }
                             }}
                             onError={(e) => (e.target.src = "/resource/main-logo.png")}
                           />
@@ -255,7 +290,6 @@ const closeImgView = () => setImgViewOpen(false);
                       </div>
                     </div>
 
-                    {/* rider가 null일 수 있음 (mat 상태 이후부터 노출) */}
                     {order.order_rider && (
                       <div className="mypage-kv-group">
                         <div className="mypage-kv">
@@ -289,43 +323,48 @@ const closeImgView = () => setImgViewOpen(false);
               ))
             )}
           </div>
+          <Pagination 
+            currentPage={deliveryPage}
+            totalPages={deliveryTotalPages}
+            onPageChange={setDeliveryPage}
+          />
         </>
       )}
 
       {activeTab === "inquiry" && (
         <>
-          {/* summary (대기/완료만) */}
           <div className="mypage-summary-card">
             <div className="mypage-summary-head">
-              <h3 className="mypage-panel-title">{t("myQuestionHistory")}</h3>
+               <h3 className="mypage-panel-title" onClick={() => setInquiryFilter('all')} style={{cursor: 'pointer'}}>
+                {t("myQuestionHistory")}
+              </h3>
               <span className="mypage-panel-count">{inquiryList.length}</span>
             </div>
 
             <div className="mypage-summary-grid">
-              <div className="mypage-summary-item">
+              <div className={`mypage-summary-item ${inquiryFilter === 'reviewing' ? 'is-active' : ''}`} onClick={() => setInquiryFilter('reviewing')} style={{cursor: 'pointer'}}>
                 <span className="mypage-summary-k">{t('inquirySummaryUnderReview')}</span>
                 <strong className="mypage-summary-v">{inquirySummary.wait}</strong>
               </div>
-              <div className="mypage-summary-item">
+              <div className={`mypage-summary-item ${inquiryFilter === 'answered' ? 'is-active' : ''}`} onClick={() => setInquiryFilter('answered')} style={{cursor: 'pointer'}}>
                 <span className="mypage-summary-k">{t('inquirySummaryResponseSent')}</span>
                 <strong className="mypage-summary-v">{inquirySummary.done}</strong>
               </div>
             </div>
           </div>
 
-          {/* Questions history list */}
           <div className="mypage-history-list">
-            {inquiryList.length === 0 ? (
+            {paginatedInquiries.length === 0 ? (
               <div className="empty-msg">{t("noQuestionHistory")}</div>
             ) : (
-              inquiryList.map((q) => (
+              paginatedInquiries.map((q) => (
                 <div key={q.id} className="mypage-card">
                   <div className="mypage-card-head">
                     <div className="mypage-card-title">
                       <span className="mypage-card-mini">{t('inquiryTitle')}</span>
                       <strong className="mypage-card-strong">{q.title}</strong>
                     </div>
-                    <span className={q.status === 1 ? "mypage-badge is-completed" : "mypage-badge is-wait"}>
+                    <span className={Number(q.status) === 1 ? "mypage-badge is-completed" : "mypage-badge is-wait"}>
                       {getInquiryBadge(q.status)}
                     </span>
                   </div>
@@ -343,7 +382,6 @@ const closeImgView = () => setImgViewOpen(false);
                           />
                         </div>
                       )}
-                    {/* res(답변) */}
                     {q.res && (
                       <div className="mypage-answer">
                         <div className="mypage-answer-k">{t('inquiryAnswer')}</div>
@@ -355,6 +393,11 @@ const closeImgView = () => setImgViewOpen(false);
               ))
             )}
           </div>
+          <Pagination
+            currentPage={inquiryPage}
+            totalPages={inquiryTotalPages}
+            onPageChange={setInquiryPage}
+          />
         </>
       )}
       <MypageImgView

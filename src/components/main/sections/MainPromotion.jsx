@@ -1,18 +1,32 @@
 /**
  * @file src/components/main/sections/MainPromotion.jsx
- * @description New promotion section with a tabbed interface.
- * 260106 v2.0.0 YourName redesign for responsiveness and UX.
+ * @description 제휴업체 신청 프로모션 페이지
+ * 260106 v2.0.0 sara init 
+ * 260108 v2.1.0 sara update img view 기능 추가
  */
 
 import { useState } from "react";
 import { useTranslation } from "../../../context/LanguageContext";
 import "./MainPromotion.css";
-import RiderPromotionIcon from "../../common/icons/RiderPromotionIcon";
-import PartnerPromotionIcon from "../../common/icons/PartnerPromotionIcon";
+import MypageImgView from "../auth/MypageImgView/MypageImgView.jsx";
 
 export default function MainPromotion() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('rider'); // 'rider' or 'partner'
+  
+  // State for image modal view
+  const [imgViewOpen, setImgViewOpen] = useState(false);
+  const [imgViewSrc, setImgViewSrc] = useState("");
+  const [imgViewAlt, setImgViewAlt] = useState("");
+
+  const openImgView = (src, alt = "image") => {
+    if (!src) return;1
+    setImgViewSrc(src);
+    setImgViewAlt(alt);
+    setImgViewOpen(true);
+  };
+
+  const closeImgView = () => setImgViewOpen(false);
 
   const handleRiderApplyClick = () => {
     const riderForm = document.getElementById('rider-application-form');
@@ -27,6 +41,8 @@ export default function MainPromotion() {
       partnerForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
+
+  const promoImgSrc = "/resource/promotionWelcomBox.png";
 
   return (
     <div className="mainshow-section-wrapper main-section-padding">
@@ -57,7 +73,12 @@ export default function MainPromotion() {
             {activeTab === 'rider' && (
               <div className="mainpromotion-content mainpromotion-content--rider">
                 <div className="mainpromotion-icon-wrapper">
-                  <RiderPromotionIcon />
+                  <img 
+                    src={promoImgSrc} 
+                    alt="Rider Promotion" 
+                    className="mainpromotion-promo-img"
+                    onClick={() => openImgView(promoImgSrc, "Rider Promotion")}
+                  />
                 </div>
                 <div className="mainpromotion-text-content">
                   <h3 className="mainpromotion-content-title">{t('riderBenefitTitle')}</h3>
@@ -77,7 +98,12 @@ export default function MainPromotion() {
             {activeTab === 'partner' && (
               <div className="mainpromotion-content mainpromotion-content--partner">
                 <div className="mainpromotion-icon-wrapper">
-                  <PartnerPromotionIcon />
+                  <img 
+                    src={promoImgSrc} 
+                    alt="Partner Promotion" 
+                    className="mainpromotion-promo-img" 
+                    onClick={() => openImgView(promoImgSrc, "Partner Promotion")}
+                  />
                 </div>
                 <div className="mainpromotion-text-content">
                   <h3 className="mainpromotion-content-title">{t('partnerBenefitTitle')}</h3>
@@ -96,6 +122,12 @@ export default function MainPromotion() {
           </div>
         </div>
       </section>
+      <MypageImgView
+        isOpen={imgViewOpen}
+        onClose={closeImgView}
+        src={imgViewSrc}
+        alt={imgViewAlt}
+      />
     </div>
   );
 }

@@ -26,7 +26,7 @@
 
 /* 3. 섹션 간 간격 조절용 프레임 */
 .mainshow-section-frame {
-  padding: var(--com-section-padding) 0;
+  padding: var(40px) 0;
 }
 
 .mainshow-branches-section-style {
@@ -158,9 +158,7 @@
   width: 100%;
   position: relative;
   overflow: hidden; /* 자식이 튀어나가는 것 방지 */
-  
-  /* 캐러셀 위아래로 넉넉한 여백을 주어 답답하지 않게 함 */
-  padding: 60px 0; 
+  padding: 60px 0;
   background-color: #fff; /* 섹션 배경색 */
   text-align: center;
 }

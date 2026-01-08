@@ -49,4 +49,17 @@
     height: var(--com-size-button-md);
     bottom: calc(var(--com-gap-md) + var(--com-size-button-md) + var(--com-gap-sm));
   }
+  .partner-apply-button:hover {
+    transform: none;
+    box-shadow: none;
+    background: var(--com-color-black);
+    border: 2px solid transparent; /* default */
+    color: var(--com-color-white);
+  }
+  .partner-apply-button:active {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: var(--com-shadow-md);
+    background: var(--com-gradient-rainbow);
+    color: var(--com-color-black);
+  }
 }

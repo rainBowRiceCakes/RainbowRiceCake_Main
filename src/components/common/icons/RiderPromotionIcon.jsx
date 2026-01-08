@@ -1,3 +1,8 @@
+/**
+ * @file src/components/common/icons/RiderPromotionIcon.jsx
+ * @description A simple SVG icon for partner promotions.
+ */
+
 import React from 'react';
 
 const RiderPromotionIcon = () => {

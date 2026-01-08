@@ -112,11 +112,13 @@ export default function Header01() {
       <header className="header01-frame">
         <div className="header01-inner-group">
           <div className="header01-left-box">
-            <button type="button" className="header01-logo-button" onClick={onLogoClick}>
-              <div className="header01-brand-img-container">
-                <img src={mainLogo} alt={t('headerLogoAlt')} className="header01-brand-img" />
-              </div>
-            </button>
+            <div className="header01-logo-wrapper">
+              <button type="button" className="header01-logo-button" onClick={onLogoClick}>
+                <div className="header01-brand-img-container">
+                  <img src={mainLogo} alt={t('headerLogoAlt')} className="header01-brand-img" />
+                </div>
+              </button>
+            </div>
           </div>
 
           <div className="header01-actions-group">

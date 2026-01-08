@@ -29,6 +29,10 @@
   animation: ptnssearch-fade-in 0.3s ease-out;
 }
 
+.ptnssearch-frame {
+  padding: var(--com-section-padding) 0; /* 60px top/bottom padding */
+}
+
 .ptnssearch-modal-content {
   width: 90vw;
   height: 85vh;
@@ -182,21 +186,37 @@
   transition: transform 0.4s ease, bottom 0.4s ease;
 }
 
-/* --- 상세 정보 팝업 --- */
+/* --- 위치 오버레이 --- */
+.ptnssearch-location-overlay {
+  background-color: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-md);
+  padding: 4px 8px;
+  font-size: var(--com-size-mini);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+  box-shadow: var(--com-shadow-xs);
+  white-space: nowrap;
+}
+
+/* --- 상세 정보 팝업 (v2.1.0 Redesign) --- */
 .ptnssearch-detail-popup {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: var(--com-gap-md);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 400px;
   background: var(--com-color-white);
-  padding: var(--com-gap-md);
-  border-top: 1px solid var(--com-border-default);
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
-  z-index: 1001; /* GPS 버튼보다 위에 위치 */
+  border-radius: var(--com-radius-lg);
+  border: 1px solid var(--com-border-default);
+  box-shadow: var(--com-shadow-default);
+  z-index: 1001;
   animation: ptnssearch-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   gap: var(--com-gap-sm);
+  padding: var(--com-gap-md);
 }
 
 .ptnssearch-detail-header {
@@ -206,31 +226,42 @@
 }
 
 .ptnssearch-detail-logo {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
   border-radius: var(--com-radius-md);
   border: 1px solid var(--com-border-default);
+  flex-shrink: 0;
 }
 
 .ptnssearch-detail-title {
-  font-size: var(--com-size-icon);
+  font-size: var(--mng-font-size-xl);
   font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
 }
 
 .ptnssearch-detail-body {
-  font-size: var(--com-size-subtitle);
+  font-size: var(--mng-font-size-md);
   color: var(--com-font-gray);
   line-height: 1.5;
+  border-top: 1px solid var(--com-border-default);
+  padding-top: var(--com-gap-sm);
 }
-.ptnssearch-detail-info { margin: var(--com-gap-xs) 0; }
+.ptnssearch-detail-info { 
+  margin: var(--com-gap-xs) 0; 
+  display: flex;
+  align-items: center;
+  gap: var(--com-gap-sm);
+}
 
-.ptnssearch-detail-footer { margin-top: var(--com-gap-sm); }
+.ptnssearch-detail-footer { 
+  margin-top: var(--com-gap-sm); 
+}
 
 .ptnssearch-detail-nav-btn {
   width: 100%;
   padding: var(--com-gap-md);
-  background-color: #FEE500; /* 카카오 노란색 */
+  background-color: var(--com-kakao-bg); /* 카카오 노란색 */
   color: #191919;
   border: none;
   border-radius: var(--com-radius-md);
@@ -241,17 +272,31 @@
   align-items: center;
   justify-content: center;
   gap: var(--com-gap-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ptnssearch-detail-nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--com-shadow-md);
 }
 
 .ptnssearch-detail-close-button {
   position: absolute;
   top: var(--com-gap-md);
   right: var(--com-gap-md);
-  background: none;
-  border: none;
-  font-size: var(--com-size-icon);
+  background: var(--com-color-bg-light);
+  border: 1px solid var(--com-border-default);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  font-size: var(--com-size-subtitle);
   cursor: pointer;
   color: var(--com-font-muted);
+}
+.ptnssearch-detail-close-button:hover {
+  background-color: #f0f0f0;
+  color: var(--com-color-black);
 }
 
 /* --- 메인 섹션의 버튼 (모달 열기 전) --- */
@@ -260,13 +305,16 @@
   border-radius: var(--com-radius-lg);
   padding: var(--com-section-padding) 0;
   text-align: center;
+  background-color: #ffffff;
+  box-shadow: var(--com-shadow-default);
+  margin-top: var(--com-gap-md);
 }
 
 .ptnssearch-search-find-btn {
   display: inline-flex;
   align-items: center;
   gap: var(--com-gap-sm);
-  padding: var(--com-gap-md) var(--com-gap-xl);
+  padding: var(--com-gap-xs) var(--com-gap-sm);
   border-radius: var(--com-radius-pill);
   border: none;
   background-color: var(--com-color-black);
@@ -344,5 +392,10 @@
   .ptnssearch-detail-popup {
     /* 모바일에서는 상세 팝업을 바텀시트와 같은 위치에 렌더링 */
     z-index: 1001; /* 시트보다 한 단계 위 */
+  }
+
+  .ptnssearch-search-find-btn {
+    font-size: 14px;
+    padding: var(--com-gap-md)
   }
 }

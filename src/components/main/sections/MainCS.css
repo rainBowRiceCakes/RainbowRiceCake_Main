@@ -186,7 +186,7 @@
 }
 
 .maincs-callback-desc-text {
-  margin: var(--com-gap-xs) 0 0;
+  margin: var(--com-gap-xs) 0 var(--com-gap-sm);
   font-size: var(--com-size-content);
 }
 
@@ -194,7 +194,7 @@
   display: block;
   font-size: var(--com-size-content);
   color: var(--com-font-muted);
-  margin-bottom: 6px;
+  margin: 6px;
 }
 
 .maincs-field-input {
@@ -364,6 +364,7 @@
   /* 내부 요소가 둥근 모서리를 넘지 않도록 */
   background-color: var(--com-color-white);
   transition: box-shadow 0.2s ease;
+  margin-bottom: var(--com-gap-md);
 }
 
 .maincs-custom-file-input-wrapper:hover {

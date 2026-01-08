@@ -184,4 +184,12 @@
     border-radius: var(--com-radius-md);
     padding: var(--com-size-sidebar);
   }
+
+  .maincover-hero-title {
+    font-size: var(--com-size-title);
+  }
+
+  .maincover-hero-subtitle {
+    font-size: var(--com-size-subtitle);
+  }
 }

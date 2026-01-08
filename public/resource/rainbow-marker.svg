@@ -1,0 +1,15 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" style="stop-color:rgba(255, 173, 173, 1); stop-opacity:1" />
+    <stop offset="16.6%" style="stop-color:rgba(255, 214, 165, 1); stop-opacity:1" />
+    <stop offset="33.3%" style="stop-color:rgba(253, 255, 182, 1); stop-opacity:1" />
+    <stop offset="50%" style="stop-color:rgba(202, 255, 191, 1); stop-opacity:1" />
+    <stop offset="66.6%" style="stop-color:rgba(155, 246, 255, 1); stop-opacity:1" />
+    <stop offset="83.3%" style="stop-color:rgba(160, 196, 255, 1); stop-opacity:1" />
+    <stop offset="100%" style="stop-color:rgba(189, 178, 255, 1); stop-opacity:1" />
+  </linearGradient>
+</defs>
+<path d="M24 0C14.0589 0 6 8.05887 6 18C6 25.4849 14.5304 38.0183 22.4497 46.4278C23.2384 47.266 24.7616 47.266 25.5503 46.4278C33.4696 38.0183 42 25.4849 42 18C42 8.05887 33.9411 0 24 0Z" fill="url(#rainbowGradient)"/>
+<circle cx="24" cy="18" r="8" fill="white"/>
+</svg>

@@ -9,7 +9,7 @@
 /* 1. 전체 컨테이너 및 배경 */
 .mainptns-frame {
   width: 100%;
-  padding: var(--com-section-padding) 0;
+  padding: 30px;
   background-color: var(--com-color-white);
   display: flex;
   justify-content: center;
@@ -18,7 +18,6 @@
 .mainptns-container {
   width: 100%;
   max-width: var(--com-web-max-width);
-  padding: 0 var(--com-web-max-width-padding);
 }
 
 /* 2. 상단 헤더 */
@@ -57,7 +56,7 @@
   background: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
-  padding: 30px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   position: relative; /* 오버레이 기준점 */
@@ -295,11 +294,12 @@
 }
 
 .mainptns-modal-header {
-  padding: var(--com-gap-md) var(--com-container-padding);
+  padding: 20px;
+  background-color: var(--com-color-white);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--com-border-default);
+  border-bottom: 1px solid var(--com-border-default); 
 }
 
 .mainptns-modal-header h3 {
@@ -412,6 +412,9 @@
 @media (max-width: 480px) {
   .mainptns-input-grid-2 {
     grid-template-columns: 1fr;
+  }
+  .mainptns-frame {
+    padding: 30px 12px; /* Maintain top/bottom 30px, set left/right to 12px */
   }
 }
 
