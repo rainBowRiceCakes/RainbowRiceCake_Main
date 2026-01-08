@@ -44,6 +44,8 @@ export default function MainCS() {
     { q: t("csFaq1Question"), a: t("csFaq1Answer") },
     { q: t("csFaq2Question"), a: t("csFaq2Answer") },
     { q: t("csFaq3Question"), a: t("csFaq3Answer") },
+    { q: t("csFaq4Question"), a: t("csFaq4Answer") },
+    { q: t("csFaq5Question"), a: t("csFaq5Answer") },
   ];
 
   // 파일 미리보기 로직

@@ -333,28 +333,44 @@ export const LANG_CNG = {
 
   // --- src/components/main/sections/MainCS.jsx ---
   csFaq1Question: {
-    ko: "배송은 얼마나 걸려요?",
-    en: "How long does delivery take?",
+    ko: "짐이 도착하기까지 시간이 얼마나 걸리나요?",
+    en: "How long does it take for my luggage to arrive?",
   },
   csFaq1Answer: {
-    ko: "지점/거리/기사 배정 상황에 따라 달라요. 배송 현황에서 상태를 확인해줘.",
-    en: "It depends on the branch, distance, and courier assignment. Please check the status in the Delivery Status menu.",
+    ko: "배송 시간은 지점 간 거리와 현장 상황에 따라 조금씩 차이가 발생할 수 있습니다. 진행 상황이 궁금하다면 [배송 조회]를 확인해 주세요.",
+    en: "Delivery times may vary slightly depending on the distance between branches and on-site conditions. If you'd like to check the status of your order, please check [Delivery Tracking].",
   },
   csFaq2Question: {
-    ko: "보관 불가 물품이 있나요?",
-    en: "Are there any non-storable items?",
+    ko: "맡길 수 없는 물건이 정해져 있나요?",
+    en: "Are there any items that cannot be left in your care?",
   },
   csFaq2Answer: {
-    ko: "현금/귀중품, 위험물, 파손 위험 물품, 음식물(부패 가능)은 불가예요.",
-    en: "Cash/valuables, hazardous materials, fragile items, and perishable food are not accepted.",
+    ko: "고객님의 소중한 물품 보호를 위해 정책상 제한되는 품목들이 있습니다. 현금 및 귀중품, 위험물, 파손되기 쉬운 물건, 상하기 쉬운 음식물은 접수가 어려우니 미리 확인해 주세요.",
+    en: "To protect your valuables, certain items are restricted by policy. Please check in advance, as we cannot accept cash, valuables, hazardous materials, fragile items, or perishable food items.",
   },
   csFaq3Question: {
-    ko: "분실/파손은 어떻게 처리돼요?",
+    ko: "배송 중 물건에 문제가 생기면 어떻게 하나요?",
     en: "How are lost or damaged items handled?",
   },
   csFaq3Answer: {
-    ko: "정책 기준에 따라 접수 후 처리돼요. 필요 시 Email Callback으로 접수 가능.",
-    en: "Claims are processed based on our policy. You can submit a claim via Email Callback if needed.",
+    ko: "혹시라도 분실이나 파손이 발생했다면 당황하지 마시고 문의 폼을 통해 내용을 남겨주세요. 남겨주신 증빙 자료를 바탕으로 보상 정책에 맞춰 최대한 빠르게 도와드리겠습니다.",
+    en: "If you experience loss or damage, don't panic. Please submit your details through the inquiry form. Based on the supporting documentation you provide, we will assist you as quickly as possible, in accordance with our compensation policy.",
+  },
+  csFaq4Question: {
+    ko: "배송 시간이 늦으면 어떡하나요?",
+    en: "What if the delivery time is late?"
+  },
+  csFaq4Answer: {
+    ko: "걱정하지 마세요. 저희는 '3시간 이내 배송'을 원칙으로 하고 있어요. 만약 약속된 3시간보다 늦게 도착한다면, 지연 시간에 따라 배송비의 일부를 환불해 드립니다.",
+    en: "Don't worry. We aim to deliver within three hours. If your order arrives later than the promised three hours, we'll refund a portion of the shipping fee based on the delay."
+  },
+  csFaq5Question: {
+    ko: "매장에서 짐을 맡기고 숙소로 바로 보낼 수 있나요?",
+    en: "Can I leave my luggage at the store and have it sent directly to my accommodation?"
+  },
+  csFaq5Answer: {
+    ko: "네, 가능합니다. 매장에 무거운 짐은 맡겨두시고 가볍게 여행을 즐기세요. 고객님의 체크인 시간에 맞춰 숙소로 안전하게 가져다 드릴게요.",
+    en: "Yes, you can. Leave your heavy luggage at the store and enjoy a light trip. We'll safely deliver it to your accommodations in time for your check-in."
   },
   csEmailCallbackAlert: {
     ko: "Email Callback 접수 완료(더미)",
@@ -369,8 +385,8 @@ export const LANG_CNG = {
     en: "Customer Center",
   },
   csDesc: {
-    ko: "저희 서비스는 복잡하지 않게 FAQ → Email 문의 순으로 안내해요.",
-    en: "Our service is simple and is guided in the order of FAQ → Email inquiry.",
+    ko: "고객님의 편안한 여행을 위해 최선을 다하겠습니다. 궁금하신 점은 아래 FAQ에서 확인하거나 문의를 남겨주세요.",
+    en: "We will do our best to ensure your comfortable travel. If you have any questions, please check the FAQ below or submit an inquiry.",
   },
   csEmailInquiryButton: {
     ko: "Email 문의하기",
@@ -393,8 +409,8 @@ export const LANG_CNG = {
     en: "09:00 – 18:00 (KST)",
   },
   csOperatingHoursNote: {
-    ko: "운영 시간 외에도 Email 문의를 남겨줘.",
-    en: "You can leave an email inquiry outside of operating hours.",
+    ko: "업무 시간 이후라도 이메일로 문의를 남겨주시면, 담당자가 확인하는 대로 친절히 안내해 드리겠습니다.",
+    en: "If you leave an inquiry by email even after business hours, a representative will kindly assist you as soon as he or she confirms it.",
   },
   csChatbotTitle: {
     ko: "챗봇 상담",
@@ -450,24 +466,24 @@ export const LANG_CNG = {
     en: "Inquiry",
   },
   csInquiryDesc: {
-    ko: "운영시간 외에도 문의를 남기면 확인 후 순차적으로 안내드려요.",
-    en: "If you leave an inquiry outside of business hours, we will check and guide you sequentially.",
+    ko: "서비스 이용 중 불편사항이나 궁금한 점을 남겨주세요. 파손 및 분실 관련 문의는 물품 사진을 첨부해 주세요.",
+    en: "Please let us know if you experience any inconveniences or have any questions while using the service. For inquiries regarding damage or loss, please attach a photo of the item.",
   },
   csInquirySubjectLabel: {
     ko: "제목",
     en: "Subject",
   },
   csInquirySubjectPlaceholder: {
-    ko: "예: 배송 완료 사진이 안 보여요",
-    en: "e.g., I can't see the delivery completion photo",
+    ko: "예) 예약 취소 요청합니다 / 배송 상태가 변경되지 않아요",
+    en: "ex) I would like to cancel my reservation / The delivery status has not changed.",
   },
   csInquiryContentLabel: {
     ko: "내용",
     en: "Content",
   },
   csInquiryContentPlaceholder: {
-    ko: "내용은 10~5000자로 입력해주세요.",
-    en: "Please enter content between 10 and 5000 characters.",
+    ko: "문의 내용을 상세히 적어주세요.(내용은 10~5000자로 입력 가능해요.)",
+    en: "Please describe your inquiry in detail. (You can enter between 10 and 5000 characters.)",
   },
   csInquiryFileLabel: {
     ko: "첨부파일 (선택)",
