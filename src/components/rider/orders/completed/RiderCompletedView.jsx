@@ -3,9 +3,19 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react"; // ✅ 추가
 import "./RiderCompletedView.css";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
 import 'dayjs/locale/ko';
 
+const KST = "Asia/Seoul";
+
 dayjs.locale('ko');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
+
+const RIDER_FEE_RATE = 0.8;
 
 function CompletedOrderRow({ order }) {
   const navigate = useNavigate();
@@ -37,18 +47,21 @@ export default function RiderCompletedView() {
   // ✅ 오늘 완료된 주문들만 따로 필터링 (수익과 횟수 계산의 기준)
   const todayCompletedOrders = useMemo(() => {
     if (!orders || !Array.isArray(orders)) return [];
-    const today = dayjs().format("YYYY-MM-DD");
+    const today = dayjs().tz(KST).format("YYYY-MM-DD");
 
     return orders.filter((order) => {
       const isCompleted = order.status === "com";
-      const isToday = dayjs(order.updatedAt).format("YYYY-MM-DD") === today;
+      const isToday = dayjs(order.updatedAt).tz(KST).format("YYYY-MM-DD") === today;
       return isCompleted && isToday;
     });
   }, [orders]);
 
   // ✅ 1. 오늘 총 수익 계산
   const todayRevenue = useMemo(() => {
-    return todayCompletedOrders.reduce((sum, order) => sum + (Number(order.price) || 0), 0);
+    return todayCompletedOrders.reduce((sum, order) => {
+      const price = Number(order.price) || 0;
+      return sum + Math.floor(price * RIDER_FEE_RATE);
+    }, 0);
   }, [todayCompletedOrders]);
 
   // ✅ 2. 오늘 배달 횟수 계산

@@ -27,8 +27,8 @@ export default function RiderMyPage() {
   const handleLogout = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       await dispatch(logoutThunk());
-      dispatch(clearAuth()); // 1. Redux 상태 초기화
       navigate('/');         // 2. 로그인 화면으로 이동
+      dispatch(clearAuth()); // 1. Redux 상태 초기화
     }
   };
 

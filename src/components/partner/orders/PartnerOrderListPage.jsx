@@ -6,6 +6,17 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './PartnerOrderListPage.css';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
+
+const KST = "Asia/Seoul";
 
 const PartnerOrderListPage = () => {
   const navigate = useNavigate();
@@ -183,7 +194,7 @@ const PartnerOrderListPage = () => {
                         {order.cntL > 0 && <div>프리미엄 - {order.cntL}</div>}
                       </div>
                     </td>
-                    <td>{dayjs(order.createdAt).format('YYYY-MM-DD A HH:mm')}</td>
+                    <td>{dayjs(order.createdAt).tz(KST).format('YYYY.MM.DD (ddd) A hh:mm')}</td>
                     <td>{renderStatusBadge(order.status)}</td>
                   </tr>
                 ))
