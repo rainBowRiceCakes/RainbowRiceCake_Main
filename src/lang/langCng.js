@@ -369,8 +369,8 @@ export const LANG_CNG = {
     en: "Customer Center",
   },
   csDesc: {
-    ko: "FAQ → 챗봇 → Email 문의 순으로 안내해요.",
-    en: "We provide support in the order of FAQ → Chatbot → Email Inquiry.",
+    ko: "저희 서비스는 복잡하지 않게 FAQ → Email 문의 순으로 안내해요.",
+    en: "Our service is simple and is guided in the order of FAQ → Email inquiry.",
   },
   csEmailInquiryButton: {
     ko: "Email 문의하기",
@@ -462,8 +462,8 @@ export const LANG_CNG = {
     en: "Content",
   },
   csInquiryContentPlaceholder: {
-    ko: "상황을 간단히 적어주세요. (주문번호/지점/시간대 등)",
-    en: "Please briefly describe the situation. (Order number/branch/time, etc.)",
+    ko: "내용은 10~5000자로 입력해주세요.",
+    en: "Please enter content between 10 and 5000 characters.",
   },
   csInquiryFileLabel: {
     ko: "첨부파일 (선택)",
@@ -482,8 +482,36 @@ export const LANG_CNG = {
     en: "Inquiry successfully submitted.",
   },
   csInquiryErrorMsg: {
-    ko: "문의 접수 중 오류 발생",
-    en: "Error submitting inquiry",
+    ko: "문의 접수 중 오류가 발생했습니다.",
+    en: "An error occurred while receiving an inquiry.",
+  },
+  csInquiryErrorCheck: {
+    ko: "확인 필요",
+    en: "Need to check"
+  },
+  csInquiryErrorTitle: {
+    ko: "제목 입력 오류",
+    en: "Error entering subject"
+  },
+  csInquiryTitleErrorMsg: {
+    ko: "제목은 2~200자로 입력해주세요.",
+    en: "Please enter the title in 2~200 characters."
+  },
+  csInquiryErrorContent: {
+    ko: "내용 입력 오류",
+    en: "Content entry error"
+  },
+  csInquiryErrorInput: {
+    ko: "입력 확인 필요",
+    en: "Input Verification Required"
+  },
+  csInquiryInputErrorMsg: {
+    ko: "제목 또는 내용이 잘못 입력되었습니다.",
+    en: "Invalid title or content entered."
+  },
+  csInquirySuccessTitle: {
+    ko: "접수 완료",
+    en: "Acceptance completed"
   },
   csInquirySuccessMsg: {
     ko: "문의가 접수되었습니다. 확인 후 연락드리겠습니다.",
@@ -704,8 +732,8 @@ export const LANG_CNG = {
     en: "Apply for partnership",
   },
   ptnsDesc: {
-    ko: "상호/주소/연락처 필수, 검증 후 접수 시간 기록.",
-    en: "Company name/address/contact are required. Submission time will be recorded after verification.",
+    ko: "서비스에 제휴 신청하기 위해서는 상호/주소/연락처가 필수이고 검증 후 접수 시간을 기록해요.",
+    en: "To apply for service partnership, business name/address/contact information is required, and the time of application is recorded after verification.",
   },
   ptnsFormRiderTitle: {
     ko: "라이더 제휴 신청",
@@ -858,6 +886,14 @@ export const LANG_CNG = {
   ptnsInvalidAccountAlert: {
     ko: "계좌번호는 숫자만 입력해주세요.",
     en: "Please enter numbers only for the account number.",
+  },
+  ptnsLicenseRequiredAlert: {
+    ko: "운전면허증 사진을 등록해주세요.",
+    en: "Please register a photo of your driver's license.",
+  },
+  ptnsLogoRequiredAlert: {
+    ko: "매장 로고 사진을 등록해주세요.",
+    en: "Please upload a photo of your store logo."
   },
   ptnsErrorAlert: {
     ko: "오류가 발생했습니다: ",

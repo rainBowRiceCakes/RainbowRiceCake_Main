@@ -13,6 +13,8 @@ import { questionStoreThunk } from '../../../store/thunks/questions/questionStor
 import { questionImageUploadThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
 import TrashBinIcon from '../../common/icons/TrashBinIcon.jsx';
+import CustomAlertModal from '../../common/CustomAlertModal.jsx';
+
 
 export default function MainCS() {
   const { t } = useContext(LanguageContext);
@@ -21,7 +23,7 @@ export default function MainCS() {
   
   // 로그인 상태 및 로딩 상태
   const { isLoggedIn } = useSelector((s) => s.auth);
-  const { isLoading: loading, error: questionError } = useSelector((s) => s.questionStore);
+  const { isLoading: loading } = useSelector((s) => s.questionStore);
 
   const [openItems, setOpenItems] = useState(new Set());
   const fileInputRef = useRef(null);
@@ -30,6 +32,13 @@ export default function MainCS() {
   const [inqContent, setInqContent] = useState("");
   const [inqFiles, setInqFiles] = useState(null);
   const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
+
+  // [추가] 모달 제어를 위한 State
+  const [alertModal, setAlertModal] = useState({
+    isOpen: false,
+    title: "",
+    message: ""
+  });
 
   const FAQ_DATA = [
     { q: t("csFaq1Question"), a: t("csFaq1Answer") },
@@ -71,16 +80,26 @@ export default function MainCS() {
     }
   };
 
+  // [추가] 모달 닫기 핸들러
+  const handleCloseModal = () => {
+    setAlertModal((prev) => ({ ...prev, isOpen: false }));
+  };
+
   const onInquirySubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
+      // 로그인 안 된 상태면 알림 또는 로그인 페이지 이동 처리
       alert(t('coverLoginRequired'));
       return;
     }
+
+    // 기존 에러 메시지 초기화
     setFormStatus({ state: "idle", message: "" });
 
+    // 이미지 업로드 로직
     try {
       let uploadedImagePath = null;
+
       if (inqFiles) {
         const resultUpload = await dispatch(questionImageUploadThunk(inqFiles)).unwrap();
         if (resultUpload?.data?.path) {
@@ -94,20 +113,84 @@ export default function MainCS() {
         qnaImg: uploadedImagePath,
       };
 
+      // 문의 등록 요청
       const result = await dispatch(questionStoreThunk(payload));
+
+      // 결과 처리
       if (questionStoreThunk.fulfilled.match(result)) {
-        setFormStatus({ state: "success", message: t("csInquirySuccessMsg") });
+        // 성공 시 모달 띄우기 로직
         setInqTitle("");
         setInqContent("");
         setInqFiles(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
+        
         dispatch(clearQuestionStore());
-      } else {
-        setFormStatus({ state: "error", message: t("csInquiryErrorMsg") || t("csSubmitFailed") });
+
+        // 성공 모달 표시
+        setAlertModal({
+          isOpen: true,
+          title: t("csInquirySuccessTitle") || "Success", 
+          message: t("csInquirySuccessMsg") // "문의가 성공적으로 접수되었습니다."
+        });
+      }
+      // 실패 시 (백엔드 유효성 검사 걸림)
+      else {
+        // thunk의 rejectWithValue로 넘어온 데이터 (백엔드 응답)
+        const errorPayload = result.payload;
+        const errorList = errorPayload?.data || []; // data 배열 추출
+        
+        // 기본 에러 메시지 설정
+        let modalTitle = t("csInquiryErrorCheck") || "확인 필요";
+        let modalMessage = t("csInquiryErrorMsg") || "처리 중 오류가 발생했습니다.";
+
+        // 에러가 2개 이상인 경우 (제목, 내용 둘 다 문제)
+        if (errorList.length >= 2) {
+            modalTitle = t("csInquiryErrorInput");
+            modalMessage = t("csInquiryInputErrorMsg");
+        } 
+        
+        // 2. 에러가 1개인 경우 (기존 로직 유지)
+        else if (errorList.length === 1) {
+            const rawErrorMsg = errorList[0];
+            
+            if (typeof rawErrorMsg === 'string') {
+                if (rawErrorMsg.startsWith('title:') || rawErrorMsg.includes('title')) {
+                    modalTitle = t("csInquiryErrorTitle");
+                    modalMessage = t("csInquiryTitleErrorMsg");
+                } 
+                else if (rawErrorMsg.startsWith('content:') || rawErrorMsg.includes('content')) {
+                    modalTitle = t("csInquiryErrorContent");
+                    modalMessage = t("csInquiryContentPlaceholder");
+                } 
+                else {
+                    modalMessage = rawErrorMsg;
+                }
+            }
+        } 
+        
+        // 3. data 배열이 없고 msg만 있는 경우 (일반 에러)
+        else if (errorPayload?.msg) {
+            modalMessage = errorPayload.msg;
+        }
+
+        // 실패 모달 표시 (성공 모달과 같은 컴포넌트 재사용)
+        setAlertModal({
+          isOpen: true,
+          title: modalTitle,
+          message: modalMessage
+        });
+        
+        // 폼 하단 텍스트 에러도 동기화
+        setFormStatus({ state: "error", message: modalMessage });
       }
     } catch (err) {
       console.error("Submission Error:", err);
-      setFormStatus({ state: "error", message: t('csFileUploadError') });
+      // 네트워크 에러 등
+      setAlertModal({
+        isOpen: true,
+        title: "Error",
+        message: t('csFileUploadError')
+      });
     }
   };
 
@@ -253,17 +336,17 @@ export default function MainCS() {
                 {loading ? t("csInquirySubmitLoading") : t("csInquirySubmit")}
               </button>
 
-              {questionError && (
+              {/* {questionError && (
                 <div className="maincs-form-note-text" style={{ color: "crimson" }}>
                   {t('csInquiryErrorMsg')}
                 </div>
-              )}
+              )} */}
 
-              {formStatus.state === 'error' && (
+              {/* {formStatus.state === 'error' && (
                 <div className="maincs-form-note-text" style={{ color: "crimson" }}>
                   {formStatus.message}
                 </div>
-              )}
+              )} */}
               {formStatus.state === 'success' && (
                 <div className="maincs-form-note-text">
                   {formStatus.message}
@@ -273,6 +356,13 @@ export default function MainCS() {
           </div>
         </div>
       </div>
+      {/* 모달 컴포넌트 렌더링 */}
+      <CustomAlertModal 
+        isOpen={alertModal.isOpen}
+        onClose={handleCloseModal}
+        title={alertModal.title}
+        message={alertModal.message}
+      />
   </div> 
   );
 }
