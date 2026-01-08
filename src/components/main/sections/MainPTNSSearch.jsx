@@ -40,12 +40,11 @@ const StoreDetailPopup = ({ store, onClose, onNavigate }) => {
     <div className="ptnssearch-detail-popup" onClick={handleModalClick}>
       <button onClick={handleCloseClick} className="ptnssearch-detail-close-button"><FaXmark /></button>
       <div className="ptnssearch-detail-header">
-        <img src={store.logoImg || '/resource/main-logo.png'} alt={store.krName} className="ptnssearch-detail-logo" />
-        <h4 className="ptnssearch-detail-title">{store.krName}</h4>
+        <img src={store.logoImg || '/resource/main-logo.png'} alt={store[t('mainLocationPartnerName')]} className="ptnssearch-detail-logo" />
+        <h4 className="ptnssearch-detail-title">{store[t('mainLocationPartnerName')]}</h4>
       </div>
       <div className="ptnssearch-detail-body">
         <p className="ptnssearch-detail-info"><FaMap /> {store.address}</p>
-        <p className="ptnssearch-detail-info"><FaPhone /> {store.phone || t('noPhoneInfo')}</p>
       </div>
       <div className="ptnssearch-detail-footer">
         <button onClick={handleModalClick} className="ptnssearch-detail-nav-btn">
@@ -138,6 +137,9 @@ export default function MainPTNSSearch() {
 
   // 업체 선택 핸들러
   const handleSelectStore = (store) => {
+    // [수정] 같은 리스트/마커를 다시 누르면 지도 이동 방지
+    if (selectedStore?.id === store.id) return;
+
     setSelectedStore(store);
     const newCenter = { lat: store.lat, lng: store.lng };
     
@@ -250,7 +252,7 @@ export default function MainPTNSSearch() {
                           zIndex={10}
                         />
                         <CustomOverlayMap position={myLocation} yAnchor={2.5}>
-                          <div className="ptnssearch-location-overlay">{t('mainLocationMyLocation')}</div>
+                          <div className="location-overlay">{t('mainLocationMyLocation')}</div>
                         </CustomOverlayMap>
                       </>
                     )}
@@ -266,8 +268,24 @@ export default function MainPTNSSearch() {
                         zIndex={selectedStore?.id === store.id ? 100 : 1}
                       />
                     ))}
-                    <button 
-                      className={`ptnssearch-current-location-btn ${isSheetOpen ? "sheet-open" : ""}`} 
+                      {filteredStores.map((store) => {
+                            const isSelected = selectedStore?.id === store.id;
+                            return (
+                              <CustomOverlayMap 
+                                key={`overlay-${store.id}`} 
+                                position={{ lat: store.lat, lng: store.lng }} 
+                                // [수정] 선택된 마커(커진 마커)일 경우 텍스트를 더 위로 올림 (yAnchor 변경)
+                                yAnchor={isSelected ? 3.2 : 2.5}
+                              >
+                                <div className={`location-overlay ${isSelected ? "is-selected" : ""}`}>
+                                  {store[t('mainLocationPartnerName')]}
+                                </div>
+                              </CustomOverlayMap>
+                            );
+                          })}
+
+                      <button     
+                      className={`ptnssearch-current-location-btn ${isSheetOpen ? "sheet-open" : ""} ${selectedStore ? "popup-open" : ""}`}
                       onClick={findMyCurrentLocation}
                     >
                       <GpsIcon />

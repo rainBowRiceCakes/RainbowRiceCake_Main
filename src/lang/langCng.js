@@ -1458,5 +1458,10 @@ export const LANG_CNG = {
   "searchPartnerName": {
     "ko": "krName",
     "en": "enName"
-  }
+  },
+  // --- 커스텀 마커 위에 제휴업체 이름 띄우기 ---
+  "mainLocationPartnerName": {
+    "ko": "krName",
+    "en": "enName"
+  },
 };

@@ -168,10 +168,10 @@
   background-color: var(--com-color-bg-light); /* 지도 로딩 중 배경색 */
 }
 
-/* --- GPS 버튼 --- */
+/* --- GPS 버튼 (상세 정보 팝업과의 관계 설정) --- */
 .ptnssearch-current-location-btn {
   position: absolute;
-  bottom: calc(var(--com-gap-xl) + 25px); /* 20px + 10px = 30px */
+  bottom: calc(var(--com-gap-xl) + 25px);
   right: var(--com-gap-md);
   z-index: 1000;
   width: 48px;
@@ -186,8 +186,13 @@
   transition: transform 0.4s ease, bottom 0.4s ease;
 }
 
-/* --- 위치 오버레이 --- */
-.ptnssearch-location-overlay {
+/* [추가] 상세 팝업이 떴을 때 GPS 버튼을 팝업 위로 올림 */
+.ptnssearch-current-location-btn.popup-open {
+  z-index: 1200; /* 상세 팝업(1100)보다 높게 설정 */
+}
+
+/* --- 위치 오버레이 (디자인 시스템 반영) --- */
+.location-overlay {
   background-color: var(--com-color-white);
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-md);
@@ -195,28 +200,35 @@
   font-size: var(--com-size-mini);
   font-weight: var(--com-font-weight-heavy);
   color: var(--com-color-black);
-  box-shadow: var(--com-shadow-xs);
+  box-shadow: var(--com-shadow-xm);
   white-space: nowrap;
+  pointer-events: none; /* 오버레이가 마커 클릭을 방해하지 않도록 설정 */
+  z-index: 10;
 }
 
-/* --- 상세 정보 팝업 (v2.1.0 Redesign) --- */
+/* 선택된 상태의 오버레이 강조 */
+.location-overlay.is-selected {
+  border: 2px solid var(--com-color-black);
+  z-index: 20;
+}
+
+/* --- 상세 정보 팝업 (데스크탑: 우측 하단) --- */
 .ptnssearch-detail-popup {
   position: absolute;
-  bottom: var(--com-gap-md);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%;
-  max-width: 400px;
+  bottom: 160px; /* 마커와 가깝게 위로 배치 */
+  right: var(--com-gap-md);
+  width: calc(100% - 40px);
+  max-width: 360px;
   background: var(--com-color-white);
   border-radius: var(--com-radius-lg);
   border: 1px solid var(--com-border-default);
   box-shadow: var(--com-shadow-default);
-  z-index: 1001;
-  animation: ptnssearch-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1100; 
   display: flex;
   flex-direction: column;
   gap: var(--com-gap-sm);
   padding: var(--com-gap-md);
+  animation: ptnssearch-slide-up 0.3s ease-out;
 }
 
 .ptnssearch-detail-header {
@@ -389,13 +401,29 @@
     z-index: 1;
   }
   
+  /* --- 상세 정보 팝업 --- */
   .ptnssearch-detail-popup {
-    /* 모바일에서는 상세 팝업을 바텀시트와 같은 위치에 렌더링 */
-    z-index: 1001; /* 시트보다 한 단계 위 */
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 80px; /* 바텀시트 핸들 위 */
+    width: 92%;
+    max-width: none;
+    transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .ptnssearch-search-find-btn {
-    font-size: 14px;
-    padding: var(--com-gap-md)
+  /* 바텀시트가 열렸을 때 팝업 위치 */
+  .ptnssearch-sidebar.ptnssearch-sheet-open ~ .ptnssearch-map-container .ptnssearch-detail-popup {
+    bottom: 43vh;
+  }
+
+  /* 문제 1 해결: 모바일에서 팝업이 뜨면 GPS 버튼을 팝업 위로 이동 */
+  .ptnssearch-current-location-btn.popup-open {
+    bottom: 300px; /* 상세 팝업 박스 위쪽으로 점프 */
+  }
+
+  /* 바텀시트 열림 + 팝업 열림 동시 상황 */
+  .ptnssearch-sidebar.ptnssearch-sheet-open ~ .ptnssearch-map-container .ptnssearch-current-location-btn.popup-open {
+    bottom: calc(43vh + 220px);
   }
 }
