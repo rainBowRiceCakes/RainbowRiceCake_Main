@@ -37,6 +37,18 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
+// [추가] 전화번호 자동 하이픈 포맷터
+const formatPhone = (value) => {
+  const nums = value.replace(/[^0-9]/g, ""); // 숫자만 남기기
+  if (nums.length <= 3) return nums;
+  if (nums.length <= 7) return `${nums.slice(0, 3)}-${nums.slice(3)}`;
+  // 10자리(02-XXX-XXXX) 또는 11자리(010-XXXX-XXXX) 대응
+  if (nums.length <= 11) {
+    return nums.replace(/(\d{2,3})(\d{3,4})(\d{4})/, "$1-$2-$3");
+  }
+  return nums.slice(0, 11).replace(/(\d{2,3})(\d{3,4})(\d{4})/, "$1-$2-$3");
+};
+
 export default function MainPTNS() {
   const { t, lang } = useContext(LanguageContext);
   const dispatch = useDispatch();
@@ -126,8 +138,15 @@ export default function MainPTNS() {
   }, [debouncedSearchKeyword, kakaoLoading, activeSearchInput]);
 
   // 10. 핸들러 함수들
+  // 입력 핸들러 (자동 하이픈 적용)
   const handleInputChange = (e, formType) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    // 전화번호 필드일 경우 자동 포맷팅
+    if (name === 'riderPhone' || name === 'partnerPhone') {
+      value = formatPhone(value);
+    }
+
     const setter = formType === 'rider' ? setRiderFormData : setPartnerFormData;
     setter(prev => ({ ...prev, [name]: value }));
   };
@@ -256,7 +275,7 @@ export default function MainPTNS() {
 
     // 항목별 상세 유효성 검사
     // [라이더] 연락처
-    const phoneRegex = /^(01[016789]-\d{3,4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
+    const phoneRegex = /^010-\d{3,4}-\d{4}$/;
 
     if (!riderFormData.riderPhone.trim()) {
       setAlertState({ isOpen: true, title: t('ptnsPartnerPhoneInputErrorMsg'), message: t('ptnsPartnerPhoneInputError') });
@@ -382,7 +401,7 @@ export default function MainPTNS() {
     }
 
     // [파트너] 연락처
-    const phoneRegex = /^(01[016789]-\d{3,4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
+    const phoneRegex = /^010-\d{3,4}-\d{4}$/;
 
     if (!partnerFormData.partnerPhone.trim()) {
       setAlertState({ isOpen: true, title: t('ptnsPartnerPhoneInputErrorMsg'), message: t('ptnsPartnerPhoneInputError') });
