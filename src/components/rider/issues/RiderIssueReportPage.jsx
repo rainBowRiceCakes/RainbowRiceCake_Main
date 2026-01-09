@@ -6,53 +6,83 @@ import { useDispatch, useSelector } from "react-redux";
 import { questionImageUploadThunk, questionStoreThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import "./RiderIssueReportPage.css";
 
-const MAX_PHOTOS = 1;
+// 1. 유효성 검사 상수 정의
+const VALIDATION = {
+  TITLE: { MIN: 2, MAX: 200 },
+  CONTENT: { MIN: 10, MAX: 5000 },
+  ALLOWED_EXTS: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'],
+  MAX_PHOTOS: 1
+};
 
-export default function RiderIssueReportPage({ reporterTypeFixed = null }) {
+export default function RiderIssueReportPage({ reporterTypeFixed = "DLV" }) { // 기본값 DLV(기사) 설정
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderId } = useParams();
-
-  // Store에서 user 정보 가져오기
   const user = useSelector((state) => state.auth?.user);
-
-  // props가 있으면 props 우선, 없으면 user.role 사용
-  const reporterType = reporterTypeFixed || user?.role;
-
-  const getReporterLabel = (type) => {
-    const labels = {
-      COM: "일반 유저",
-      DLV: "기사",
-      PTN: "매장"
-    };
-    return labels[type] || "사용자";
-  };
-
-  const reporterTypeLabel = getReporterLabel(reporterType);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [errors, setErrors] = useState({ title: null, content: null }); // 에러 상태 추가
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ 사진 업로드 상태
   const fileRef = useRef(null);
-  const [photos, setPhotos] = useState([]); // { file, url, id }
+  const [photos, setPhotos] = useState([]);
+
+  // 2. 실시간 검증 로직
+  const validateField = (name, value) => {
+    const trimmed = value.trim();
+    if (name === 'title') {
+      if (!trimmed) return "제목은 필수입니다.";
+      if (trimmed.length < VALIDATION.TITLE.MIN) return `최소 ${VALIDATION.TITLE.MIN}자 이상 입력해주세요.`;
+      if (trimmed.length > VALIDATION.TITLE.MAX) return `최대 ${VALIDATION.TITLE.MAX}자까지 가능합니다.`;
+      if (/\s{2,}/.test(value)) return "연속된 공백은 허용되지 않습니다.";
+    }
+    if (name === 'content') {
+      if (!trimmed) return "내용은 필수입니다.";
+      if (trimmed.length < VALIDATION.CONTENT.MIN) return `상황 설명을 위해 10자 이상 입력해주세요.`;
+      if (trimmed.length > VALIDATION.CONTENT.MAX) return `최대 ${VALIDATION.CONTENT.MAX}자까지 가능합니다.`;
+      if (/<script[\s\S]*?>[\s\S]*?<\/script>/gi.test(value)) return "허용되지 않는 문자가 포함되어 있습니다.";
+    }
+    return null;
+  };
+
+  const handleTitleChange = (e) => {
+    const val = e.target.value;
+    setTitle(val);
+    setErrors(prev => ({ ...prev, title: validateField('title', val) }));
+  };
+
+  const handleContentChange = (e) => {
+    const val = e.target.value;
+    setContent(val);
+    setErrors(prev => ({ ...prev, content: validateField('content', val) }));
+  };
 
   const handleFilesSelected = (e) => {
     const fileList = Array.from(e.target.files || []);
     if (fileList.length === 0) return;
 
-    const remain = MAX_PHOTOS - photos.length;
-    const picked = fileList.slice(0, remain);
+    const file = fileList[0];
+    const ext = file.name.split('.').pop().toLowerCase();
 
-    const mapped = picked.map((file) => ({
-      id: `${Date.now()}-${Math.random()}`,
+    // 확장자 및 파일명 보안 검증 (백엔드 조건 반영)
+    if (!VALIDATION.ALLOWED_EXTS.includes(ext)) {
+      alert("이미지 파일만 업로드 가능합니다.");
+      return;
+    }
+    if (/[<>:"|?*\x00-\x1f]/.test(file.name)) {
+      alert("파일명에 특수문자를 제거해주세요.");
+      return;
+    }
+
+    const mapped = {
+      id: `${Date.now()}`,
       file,
       url: URL.createObjectURL(file),
-    }));
+    };
 
-    setPhotos((prev) => [...prev, ...mapped]);
+    setPhotos([mapped]); // MAX_PHOTOS가 1이므로 교체 방식
     e.target.value = "";
   };
 
@@ -60,171 +90,118 @@ export default function RiderIssueReportPage({ reporterTypeFixed = null }) {
     setPhotos((prev) => {
       const target = prev.find((p) => p.id === id);
       if (target?.url) URL.revokeObjectURL(target.url);
-      return prev.filter((p) => p.id !== id);
+      return [];
     });
   };
 
-  // ✅ 언마운트 시 objectURL 정리 (메모리 누수 방지)
   useEffect(() => {
-    return () => {
-      photos.forEach((p) => {
-        if (p?.url) URL.revokeObjectURL(p.url);
-      });
-    };
-    // 의도: 언마운트 시점에 마지막 photos를 정리
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => photos.forEach((p) => URL.revokeObjectURL(p.url));
   }, []);
 
-  // ✅ 활성화 조건: "제목 + 이슈 내용"
-  const canSubmit = title.trim() && content.trim();
+  // 3. 버튼 활성화 조건 (에러가 없고 글자수 충족 시)
+  const canSubmit = !errors.title && !errors.content &&
+    title.trim().length >= VALIDATION.TITLE.MIN &&
+    content.trim().length >= VALIDATION.CONTENT.MIN;
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (isSubmitting || !canSubmit) return;
 
     setIsSubmitting(true);
+    // 연속 공백 자동 치환 (백엔드 custom val 정책 대응)
+    const cleanTitle = title.trim().replace(/\s{2,}/g, ' ');
+    const cleanContent = content.trim();
 
     try {
       const requestData = {
         orderId,
-        title: title.trim(),
-        content: content.trim(),
-        reporterType: reporterTypeFixed
+        title: cleanTitle,
+        content: cleanContent,
+        reporterType: reporterTypeFixed || "DLV"
       };
 
-      // 2. 이미지 업로드 처리
-      if (photos.length > 0 && photos[0].file) {
-        try {
-          const uploadResult = await dispatch(
-            questionImageUploadThunk(photos[0].file)
-          ).unwrap();
-
-          // 서비스단에서 createData.qnaImg를 찾으므로 키 이름을 qnaImg로 맞춤
-          if (uploadResult?.data?.path) {
-            requestData.qnaImg = uploadResult.data.path;
-          }
-        } catch (uploadError) {
-          console.error('이미지 업로드 실패:', uploadError);
-          if (!window.confirm('이미지 업로드에 실패했습니다. 이미지 없이 진행할까요?')) {
-            setIsSubmitting(false);
-            return;
-          }
-        }
+      if (photos.length > 0) {
+        const uploadResult = await dispatch(questionImageUploadThunk(photos[0].file)).unwrap();
+        if (uploadResult?.data?.path) requestData.qnaImg = uploadResult.data.path;
       }
 
       await dispatch(questionStoreThunk(requestData)).unwrap();
       setIsSubmitted(true);
-
     } catch (error) {
-      console.error('문의 접수 실패:', error);
-      const errorMsg = error.response?.data?.msg || '문의 접수에 실패했습니다.';
-      alert(errorMsg);
+      alert(error.message || "신고 접수에 실패했습니다.");
     } finally {
       setIsSubmitting(false);
     }
   }
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="rip-form-container">
       <div className="rip-wrap">
         <div className="rip-main">
+          {/* 제목 필드 */}
           <div className="rip-field">
-            <p className="rip-label">신고자 유형</p>
-            <div className="rip-input readOnly">{reporterTypeLabel}</div>
-          </div>
-
-          <div className="rip-field">
-            <p className="rip-label">
-              제목 <span className="req">*</span>
-            </p>
+            <p className="rip-label">제목 <span className="req">*</span></p>
             <input
-              className="rip-input"
-              placeholder="제목을 입력해주세요."
+              className={`rip-input ${errors.title ? 'is-invalid' : ''}`}
+              placeholder="예: 픽업지 주소가 다릅니다."
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleTitleChange}
             />
+            <div className="rip-field-info">
+              {errors.title && <span className="rip-err-text">{errors.title}</span>}
+              <span className="rip-char-count">{title.length}/{VALIDATION.TITLE.MAX}</span>
+            </div>
           </div>
+
+          {/* 내용 필드 */}
           <div className="rip-field">
-            <p className="rip-label">
-              내용 <span className="req">*</span>
-            </p>
+            <p className="rip-label">내용 <span className="req">*</span></p>
             <textarea
-              className="rip-textarea"
-              placeholder="주문 번호와 이슈 내용을 입력해주세요."
+              className={`rip-textarea ${errors.content ? 'is-invalid' : ''}`}
+              placeholder="구체적인 상황을 입력해주세요 (10자 이상)"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={handleContentChange}
             />
+            <div className="rip-field-info">
+              {errors.content && <span className="rip-err-text">{errors.content}</span>}
+              <span className="rip-char-count">{content.length}/{VALIDATION.CONTENT.MAX}</span>
+            </div>
           </div>
 
+          {/* 사진 업로드 영역 */}
           <div className="rip-field rip-photo-block">
-            <p className="rip-label">사진 정보</p>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFilesSelected}
-              style={{ display: "none" }}
-            />
-
+            <p className="rip-label">증빙 사진</p>
             <div className="rip-photo-grid">
               {photos.map((p) => (
                 <div key={p.id} className="rip-photo-thumb">
-                  <img src={p.url} alt="첨부 이미지" />
-                  <button
-                    type="button"
-                    onClick={() => removePhoto(p.id)}
-                    aria-label="사진 삭제"
-                    className="rip-photo-remove"
-                  >
-                    ×
-                  </button>
+                  <img src={p.url} alt="첨부" />
+                  <button type="button" onClick={() => removePhoto(p.id)} className="rip-photo-remove">×</button>
                 </div>
               ))}
-
-              {photos.length < MAX_PHOTOS && (
-                <button
-                  type="button"
-                  className="rip-photo-add"
-                  onClick={() => fileRef.current?.click()}
-                >
+              {photos.length < VALIDATION.MAX_PHOTOS && (
+                <button type="button" className="rip-photo-add" onClick={() => fileRef.current?.click()}>
                   <div className="rip-photo-plus">+</div>
                 </button>
               )}
             </div>
-
-            <p className="rip-photo-hint">
-              Optional / 최대 {MAX_PHOTOS}장까지 첨부 가능
-            </p>
+            <input ref={fileRef} type="file" accept="image/*" onChange={handleFilesSelected} style={{ display: "none" }} />
           </div>
 
-          <button
-            type="submit"
-            className="rip-submit"
-            disabled={!canSubmit || isSubmitting}
-          >
+          <button type="submit" className="rip-submit" disabled={!canSubmit || isSubmitting}>
             {isSubmitting ? '전송 중...' : '이슈 신고하기'}
           </button>
         </div>
-
-        {isSubmitted && (
-          <div className="rip-modal-overlay">
-            <div className="rip-modal">
-              <p className="rip-modal-title">이슈가 신고 완료되었습니다.</p>
-              <p className="rip-modal-desc">
-                담당 부서에서 확인 후 순차적으로 안내드릴 예정입니다.
-              </p>
-              <button
-                type="button"
-                className="rip-modal-btn"
-                onClick={() => navigate(-1)}
-              >
-                확인
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+
+      {isSubmitted && (
+        <div className="rip-modal-overlay">
+          <div className="rip-modal">
+            <p className="rip-modal-title">접수 완료</p>
+            <p className="rip-modal-desc">신고가 정상적으로 접수되었습니다.</p>
+            <button type="button" className="rip-modal-btn" onClick={() => navigate(-1)}>확인</button>
+          </div>
+        </div>
+      )}
     </form>
   );
 }
-
-// TODO: <RiderIssueReportPage reporterTypeFixed="PARTNER" /> 점주용에서는 이렇게 쓰기!

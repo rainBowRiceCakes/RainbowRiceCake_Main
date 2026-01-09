@@ -5,8 +5,17 @@ import { useEffect } from 'react';
 import { orderShowThunk } from '../../../store/thunks/orders/orderShowThunk.js'
 import { clearOrderDetail } from '../../../store/slices/ordersDetailSlice.js'
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
 import 'dayjs/locale/ko';
+
 dayjs.locale('ko');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
+
+const KST = "Asia/Seoul";
 
 const PartnerOrderDetailPage = () => {
   const { orderCode } = useParams(); // URL의 :orderCode 값
@@ -130,7 +139,7 @@ const PartnerOrderDetailPage = () => {
               <div className="t_text">
                 <p className="t_title">주문생성</p>
                 <span className="t_time">
-                  {dayjs(order.createdAt).format('YYYY.MM.DD (ddd) A hh:mm')}
+                  {dayjs(order.createdAt).tz(KST).format('YYYY.MM.DD (ddd) A hh:mm')}
                 </span>
               </div>
             </div>
@@ -156,7 +165,7 @@ const PartnerOrderDetailPage = () => {
                 <div className="t_text">
                   <p className="t_title">기사님 픽업 완료</p>
                   <span className="t_time">
-                    {dayjs(order.order_partner.pickupAt).format('A h:mm')}
+                    {dayjs(order.pickupAt).tz(KST).format('YYYY.MM.DD (ddd) A hh:mm')}
                   </span>
                 </div>
               </div>
@@ -169,7 +178,7 @@ const PartnerOrderDetailPage = () => {
                 <div className="t_text">
                   <p className="t_title">배달 완료</p>
                   <span className="t_time">
-                    {dayjs(order.updatedAt).format('YYYY.MM.DD (ddd) A hh:mm')}
+                    {dayjs(order.updatedAt).tz(KST).format('YYYY.MM.DD (ddd) A hh:mm')}
                   </span>
                 </div>
               </div>

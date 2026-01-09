@@ -7,9 +7,17 @@ import HourlyOrderChart from './barChart.jsx';
 import PartnerStatCard from './PartnerStatCard.jsx';
 import './PartnerDashboard.css';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
 import 'dayjs/locale/ko';
 
 dayjs.locale('ko');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
+
+const KST = "Asia/Seoul";
 
 const PartnerDashboard = () => {
   const navigate = useNavigate();
@@ -58,7 +66,7 @@ const PartnerDashboard = () => {
 
     // 전체 주문 중 '오늘' 생성된 것만 필터링
     const todayList = orders.filter(o =>
-      dayjs(o.createdAt).isSame(startOfToday, 'day')
+      dayjs(o.createdAt).tz(KST).isSame(startOfToday, 'day')
     );
 
     // 상태별 분류
@@ -86,7 +94,7 @@ const PartnerDashboard = () => {
 
   return (
     <div className="dashboard_container">
-      <div className='today_date'>{now.format('YYYY년 M월 D일 (dd) HH:mm')}</div>
+      <div className='today_date'>{now.tz(KST).format('YYYY년 M월 D일 (dd) HH:mm')}</div>
 
       {/* 1. 웰컴 메시지 */}
       <div className="welcome_msg">

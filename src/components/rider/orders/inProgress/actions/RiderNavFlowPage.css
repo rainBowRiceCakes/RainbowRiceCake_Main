@@ -33,18 +33,49 @@
 .rnp-map {
   position: relative;
   width: 100%;
-  flex: 1 1 auto;
-  min-height: 52vh;
+  /* flex-grow를 통해 남은 공간을 다 차지하게 함 */
+  flex: 1;
+  min-height: 400px;
+  /* 최소 높이를 확실히 지정 */
   background: #e9ecef;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Map */
 .rnp-map-area {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: grid;
-  place-items: center;
+}
+
+.rnp-map-refresh-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 300px;
+  z-index: 20;
+  /* 지도 위에 표시 */
+
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  padding: 8px 16px;
+
+  font-size: 13px;
+  font-weight: 700;
+  color: #212529;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rnp-map-refresh-btn:active {
+  background: #f8f9fa;
+  transform: translateY(1px);
 }
 
 /* ===== Bottom sheet ===== */

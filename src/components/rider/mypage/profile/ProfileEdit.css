@@ -1,61 +1,25 @@
-/* src/components/rider/mypage/profile/ProfileEdit.css */
+/* 1. 변수 및 초기화 */
 :root {
-  --pe-primary-color: #597ef7; /* A pleasant blue/purple for interactive elements */
+  --pe-primary-color: #cdb9ff;
+  /* 수정하신 연보라색 테마로 통일 */
+  --pe-primary-hover: #b89eff;
+  --pe-error-color: #ff4d4f;
+  --pe-warning-color: #faad14;
   --pe-background-color: #f0f2f5;
-  --pe-card-background-color: #ffffff;
+  --pe-card-background: #ffffff;
   --pe-text-primary: #262626;
   --pe-text-secondary: #8c8c8c;
   --pe-border-color: #f0f0f0;
+  --pe-input-border: #d9d9d9;
 }
 
+/* 2. 레이아웃 컨테이너 */
 .pe-container {
-  background-color: transparent;
-  padding: 16px 0; /* Vertical padding, horizontal will be on cards */
-}
-
-.pe-avatar-section {
-  display: flex;
-  justify-content: center;
   padding: 16px 0;
-  margin-bottom: 8px;
-}
-
-.pe-avatar-wrapper {
-  position: relative;
-  width: 90px;
-  height: 90px;
-}
-
-.pe-avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.pe-edit-avatar-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: var(--pe-card-background-color);
-  border: 1px solid var(--pe-border-color);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-.pe-edit-avatar-btn svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--pe-text-primary);
 }
 
 .pe-card {
-  background-color: var(--pe-card-background-color);
+  background-color: var(--pe-card-background);
   margin: 0 16px 16px;
   padding: 8px 16px;
   border-radius: 12px;
@@ -63,10 +27,24 @@
   box-shadow: 0 2px 10px rgba(16, 24, 40, 0.05);
 }
 
+.pe-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--pe-text-primary);
+  margin: 16px 0 8px;
+}
+
+.pe-section-title-text {
+  font-size: 11px;
+  color: #929292;
+}
+
+/* 3. 필드 및 텍스트 요소 */
 .pe-field {
   padding: 16px 0;
   border-bottom: 1px solid var(--pe-border-color);
 }
+
 .pe-field:last-child {
   border-bottom: none;
 }
@@ -78,6 +56,12 @@
   margin-bottom: 6px;
 }
 
+.pe-value-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .pe-value {
   font-size: 16px;
   color: var(--pe-text-primary);
@@ -85,37 +69,125 @@
   margin: 0;
 }
 
-.pe-value-group {
+/* 4. 입력창 (Input) 상태별 관리 */
+.pe-edit-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+}
+
+.pe-address-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.pe-address-input-group .pe-input {
+  flex: 1;
+  cursor: pointer;
+  /* 클릭 가능하다는 시각적 힌트 */
+}
+
+.pe-address-search-btn {
+  padding: 10px 14px;
+  background-color: var(--pe-text-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pe-address-search-btn:hover {
+  background-color: #434343;
+}
+
+.pe-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--pe-input-border);
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+.pe-input:focus {
+  border-color: var(--pe-primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(205, 185, 255, 0.3);
+}
+
+/* 유효성 검사 실패 상태 (중복 제거 및 통합) */
+.pe-input.is-invalid {
+  border-color: var(--pe-error-color) !important;
+  background-color: #fff2f0;
+}
+
+.pe-error-message {
+  color: var(--pe-error-color);
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 500;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* 5. 버튼 (Buttons) */
+.pe-field-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pe-edit-btn,
+.pe-cancel-btn,
+.pe-save-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
 .pe-edit-btn {
-  background: #cdb9ff;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  color: #000000;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 8px 16px;
+  background: var(--pe-primary-color);
+  border: none;
+  color: #000;
 }
 
+.pe-cancel-btn {
+  background-color: #fff;
+  border: 1px solid var(--pe-input-border);
+  color: var(--pe-text-primary);
+}
+
+.pe-save-btn {
+  background-color: var(--pe-primary-color);
+  border: none;
+  color: #000;
+}
+
+.pe-save-btn:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+/* 6. 기타 컴포넌트 (Warning, Policy) */
 .pe-warning {
   font-size: 12px;
-  color: #faad14;
+  color: #d48806;
   background-color: #fffbe6;
   border: 1px solid #ffe58f;
-  border-radius: 6px;
-  padding: 8px;
-  margin: 12px 0 0 0;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-.pe-warning-icon {
-  font-size: 14px;
+  gap: 8px;
 }
 
 .pe-policy-link {
@@ -125,61 +197,30 @@
   width: 100%;
   background: none;
   border: none;
-  text-align: left;
-  font-size: 16px;
-  color: var(--pe-text-primary);
-  text-decoration: none;
   padding: 16px 0;
   border-bottom: 1px solid var(--pe-border-color);
   cursor: pointer;
+  font-size: 16px;
+  color: var(--pe-text-primary);
 }
+
 .pe-policy-link:last-child {
   border-bottom: none;
 }
 
-/* Styles for Edit Mode */
-.pe-input {
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #d9d9d9;
-  box-sizing: border-box;
-  margin-bottom: 12px;
-}
-.pe-input:focus {
-  border-color: #cdb9ff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(89, 126, 247, 0.2);
-}
-
-.pe-field-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.pe-cancel-btn, .pe-save-btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  cursor: pointer;
-}
-
-.pe-cancel-btn {
-  background-color: #fff;
-  border-color: #d9d9d9;
-  color: var(--pe-text-primary);
-}
-
-.pe-save-btn {
-  background-color: #cdb9ff;
-  color: #000000;
-}
-
 .pe-policy-chev {
-  font-size: 16px;
   color: var(--pe-text-secondary);
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

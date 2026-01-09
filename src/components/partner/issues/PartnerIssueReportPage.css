@@ -270,6 +270,38 @@
   margin-bottom: 40px;
 }
 
+.rip-field-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.rip-error-msg {
+  color: #ff4d4f;
+  font-size: 12px;
+}
+
+.rip-count {
+  color: #8c8c8c;
+  font-size: 12px;
+  margin-left: auto;
+  /* 우측 정렬 */
+}
+
+.rip-input.is-invalid,
+.rip-textarea.is-invalid {
+  border-color: #ff4d4f;
+  background-color: #fff2f0;
+}
+
+/* 연속 공백 입력 시 사용자에게 주의를 주는 효과 */
+.rip-input:focus,
+.rip-textarea:focus {
+  outline: none;
+  border-color: #cdb9ff;
+  box-shadow: 0 0 0 2px rgba(205, 185, 255, 0.2);
+}
+
 /* 입력 UI는 작성하신 스타일 유지하되 간격만 조정 */
 .rip-input,
 .rip-textarea {

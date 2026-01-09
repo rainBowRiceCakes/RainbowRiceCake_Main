@@ -66,7 +66,7 @@ export default function DeliveryHistory() {
 
     // 날짜별로 그룹핑
     const groups = filteredData.reduce((acc, item) => {
-      const date = dayjs(item.completedAt).format("MM/DD (ddd)");
+      const date = dayjs(item.completedAt).format("YYYY-MM-DD (ddd)");
       if (!acc[date]) {
         acc[date] = [];
       }

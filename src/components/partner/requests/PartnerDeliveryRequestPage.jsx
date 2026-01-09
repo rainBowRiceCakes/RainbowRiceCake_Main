@@ -12,6 +12,7 @@ import { submitDeliveryRequest } from '../../../store/thunks/requests/submitDeli
 import { hotelIndexThunk } from '../../../store/thunks/hotels/hotelIndexThunk.js';
 import dayjs from 'dayjs';
 import './PartnerDeliveryRequestPage.css';
+import { generateOrderNo } from '../../../utils/orderGenerator.js';
 
 const PartnerDeliveryRequest = () => {
   const dispatch = useDispatch();
@@ -64,13 +65,15 @@ const PartnerDeliveryRequest = () => {
       return;
     }
 
+    const newOrderNo = generateOrderNo();
+
     const payload = {
       ...customerDetails,
       hotelId: Number(customerDetails.hotel),
       // selectedPlan이 존재할 때만 배열로 감싸서 보내기
       plans: selectedPlan ? [selectedPlan] : [],
       price: selectedPlan?.price || 0,
-      orderDate: dayjs().toISOString()
+      orderCode: newOrderNo
     };
 
     dispatch(submitDeliveryRequest(payload))

@@ -45,7 +45,7 @@ const riderRoutes = [
       { path: "orders/:orderCode", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
       { path: "orders/:orderCode/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
       { path: "settlement", element: <SettlementList />, handle: { title: "정산 내역" } },
-      { path: "help", element: <RiderFaqList />, handle: { title: "자주 묻는 질문" } },
+      { path: "help", element: <RiderFaqList />, handle: { title: "문의하기" } },
       { path: "help/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
     ],
   },

@@ -7,8 +7,17 @@ import { orderShowThunk } from "../../../store/thunks/orders/orderShowThunk.js";
 import { useEffect } from "react";
 import { clearOrderDetail } from "../../../store/slices/ordersDetailSlice.js";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
 import 'dayjs/locale/ko';
+
 dayjs.locale('ko');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
+
+const KST = "Asia/Seoul";
 
 export default function RiderOrderDetailPage() {
   const navigate = useNavigate();
@@ -55,6 +64,15 @@ export default function RiderOrderDetailPage() {
 
   const statusText = order.statusLabel ?? (order.status === "com" ? "완료" : "진행 중");
 
+  const formatDateTime = (value, pendingText = '대기 중') => {
+    if (!value) return pendingText;
+
+    const d = dayjs(value);
+    if (!d.isValid()) return pendingText;
+
+    return d.tz(KST).format('YYYY.MM.DD (ddd) A hh:mm');
+  };
+
   return (
     <div className="rod-wrap">
       <div className="rod-main">
@@ -76,12 +94,16 @@ export default function RiderOrderDetailPage() {
             <span className="rod-value rod-mono">{order.order_hotel.krName}</span>
           </div>
           <div className="rod-row">
+            <span className="rod-label">주문 요청 시간</span>
+            <span className="rod-value">{formatDateTime(order.createdAt, '주문 요청 전')}</span>
+          </div>
+          <div className="rod-row">
             <span className="rod-label">픽업 시간</span>
-            <span className="rod-value">{dayjs(order.order_rider.pickupAt).format('YYYY-MM-DD A hh:mm')}</span>
+            <span className="rod-value">{formatDateTime(order.pickupAt, '픽업 전')}</span>
           </div>
           <div className="rod-row">
             <span className="rod-label">배송 완료 시간</span>
-            <span className="rod-value">{dayjs(order.updatedAt).format('YYYY-MM-DD A hh:mm')}</span>
+            <span className="rod-value">{formatDateTime(order.updatedAt, '배송 미완료')}</span>
           </div>
 
           <div className="rod-divider" />
@@ -98,8 +120,8 @@ export default function RiderOrderDetailPage() {
           </div>
 
           <div className="rod-row">
-            <span className="rod-label">배달 금액</span>
-            <span className="rod-value">{order.price?.toLocaleString()}원</span>
+            <span className="rod-label">보수 금액</span>
+            <span className="rod-value">{Math.round(order.price * 0.8).toLocaleString()}원</span>
           </div>
         </div>
 

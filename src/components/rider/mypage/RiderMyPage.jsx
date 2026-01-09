@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getProfileThunk } from "../../../store/thunks/profile/getProfileThunk.js";
 import { logoutThunk } from "../../../store/thunks/authThunk.js";
+import { updateWorkStatusThunk } from "../../../store/thunks/riders/updateWorkStatusThunk.js";
 
 const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
 
@@ -15,11 +16,19 @@ export default function RiderMyPage() {
   const profileData = useSelector((state) => state.profile?.profileData);
   const profile = profileData?.rider_user;
 
+  const isWorking = profile?.isWorking || false;
+
+  const handleToggleWorkStatus = (e) => {
+    const nextStatus = e.target.checked;
+    // 서버로 true/false 전송
+    dispatch(updateWorkStatusThunk(nextStatus));
+  };
+
   const handleLogout = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       await dispatch(logoutThunk());
-      dispatch(clearAuth()); // 1. Redux 상태 초기화
       navigate('/');         // 2. 로그인 화면으로 이동
+      dispatch(clearAuth()); // 1. Redux 상태 초기화
     }
   };
 
@@ -40,7 +49,7 @@ export default function RiderMyPage() {
           </div>
 
           <label className="clockInAndOutToggle"> {/* 기사들의 출근 on and off 기능 */}
-            <input type="checkbox" defaultChecked />
+            <input type="checkbox" checked={isWorking} onChange={handleToggleWorkStatus} />
             <span className="clockInAndOutToggleUi" />
           </label>
         </div>
@@ -71,7 +80,7 @@ export default function RiderMyPage() {
         <div className="mypageSection">
           <button className="navigation" onClick={() => nav(`/riders/mypage/help`)}>
             <span className="icon">✅</span>
-            <span className="label">자주 묻는 질문</span>
+            <span className="label">문의하기</span>
             <span className="chev">›</span>
           </button>
 

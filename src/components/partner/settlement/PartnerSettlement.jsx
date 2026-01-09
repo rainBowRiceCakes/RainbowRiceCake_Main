@@ -86,7 +86,6 @@ const PartnerSettlement = () => {
         <div className="summary_card">
           <span className="label">이번 달 배달 완료</span>
           <p className="value">{settlementData.count}건</p>
-          <span className="unit_desc">(건당 1,000원 별도)</span>
         </div>
         <div className="summary_card highlight">
           <span className="label">결제 예정 금액 (VAT 별도)</span>

@@ -23,6 +23,7 @@ import myPageIndexReducer from './slices/myPageIndexSlice.js';
 import orderPicsReducer from './slices/orderPicsSlice.js';
 import ordersDetailReducer from './slices/ordersDetailSlice.js';
 import hotelReducer from './slices/hotelListSlice.js';
+import riderSettlementReducer from './slices/riderSettlementSlice.js';
 
 const store = configureStore({
   reducer: {
@@ -44,6 +45,7 @@ const store = configureStore({
     partnerCarousel: partnerCarouselReducer,
     orderPics: orderPicsReducer,
     hotels: hotelReducer,
+    settlement: riderSettlementReducer,
   },
 });
 
