@@ -189,48 +189,48 @@ export const LANG_CNG = {
     en: "Partner Promotion",
   },
   riderBenefitTitle: {
-    ko: "안정적인 수입과 유연한 근무",
-    en: "Stable Income and Flexible Work",
+    ko: "피크타임 걱정 없이, 멈춤 없는 수익!",
+    en: "Earn non-stop profits without worrying about peak times!",
   },
   riderBenefitDesc: {
-    ko: "원하는 시간에 원하는 만큼 일하세요. 저희가 안정적인 배송 물량을 보장해 드립니다.",
-    en: "Work as much as you want, whenever you want. We guarantee a steady volume of deliveries.",
+    ko: "09시부터 22시까지, 비는 시간을 짐 배송으로 채우세요. 현금·귀중품·부패/파손 걱정 없는 안전한 짐만 깔끔하게 배송하고 수익을 더하세요.",
+    en: "From 9:00 AM to 10:00 PM, fill your downtime with luggage deliveries. Deliver only cash, valuables, and other items safely and securely, increasing your profits.",
   },
   riderBenefit1: {
-    ko: "<b>업계 최고</b> 수준의 배송비",
-    en: "<b>Industry-leading</b> delivery fees",
+    ko: "<b>유휴 시간 수익 창출</b>: 점심/저녁 피크타임 사이, 놀지 않고 버는 알짜배기 추가 수익",
+    en: "<b>Make Money During Your Idle Hours</b>: Earn extra cash while you're not working during peak lunch and dinner hours.",
   },
   riderBenefit2: {
-    ko: "<b>유연한</b> 근무 시간",
+    ko: "<b>야간 할증 수당 지급</b>: 근무 시간",
     en: "<b>Flexible</b> working hours",
   },
   riderBenefit3: {
-    ko: "<b>AI 기반</b> 최적화된 배송 경로",
-    en: "<b>AI-powered</b> optimized delivery routes",
+    ko: "<b>프로 라이더 키트 지급</b>: 가입 즉시 전용 고정 로프, 우의 등 5만원 상당 장비 무료 지원",
+    en: "<b>Pro Rider Kit</b>: Free equipment worth 50,000 won, including a dedicated fixed rope and raincoat, provided immediately upon registration.",
   },
   riderCta: {
-    ko: "지금 라이더로 지원하기",
-    en: "Apply as a Rider Now",
+    ko: "DGD 라이더로 입점 신청하기",
+    en: "Apply to become a DGD rider",
   },
   partnerBenefitTitle: {
-    ko: "더 많은 고객을 만나고 매출을 늘리세요",
-    en: "Meet more customers and increase your sales",
+    ko: "첫 달 무료! 사장님을 위한 프리미엄 파트너십",
+    en: "First month free! Premium partnership for business owners.",
   },
   partnerBenefitDesc: {
-    ko: "저희 플랫폼에 입점하여 수많은 잠재 고객에게 당신의 가게를 홍보하세요.",
-    en: "Promote your store to countless potential customers by joining our platform.",
+    ko: "일단 부담 없이 경험해보세요. 1개월 무료 체험 후, 월 5만원의 합리적인 멤버십으로 매장 홍보 효과와 짐 보관 수익을 동시에 누리실 수 있습니다.",
+    en: "Try it out without any obligation. After a one-month free trial, enjoy the benefits of store promotion and luggage storage revenue with a reasonable monthly membership of 50,000 won.",
   },
   partnerBenefit1: {
-    ko: "<b>신규 고객</b> 확보",
-    en: "Acquire <b>new customers</b>",
+    ko: "<b>1개월 무료 체험 혜택</b>: 가입 첫 달 멤버십 비용 0원! 효과를 직접 확인하고 결정하는 안심 플랜",
+    en: "<b>1-Month Free Trial</b>: Free membership for your first month! A safe plan that lets you see the effects for yourself.",
   },
   partnerBenefit2: {
-    ko: "<b>마케팅</b> 비용 절감",
-    en: "Reduce <b>marketing</b> costs",
+    ko: "<b>프리미엄 웰컴 키트 증정</b>: 멤버십 가입 시 매장에 꼭 필요한 공식 현판, 배너 등 10만원 상당의 물품 100% 무료 제공",
+    en: "<b>Premium Welcome Kit</b>: Upon signing up for membership, you will receive 100% free items worth 100,000 won, including official signage and banners essential for your store.",
   },
   partnerBenefit3: {
-    ko: "<b>간편한</b> 주문 관리 시스템",
-    en: "<b>Easy-to-use</b> order management system",
+    ko: "<b>확실한 매장 홍보 효과</b>: 단순 보관 수익을 넘어, 글로벌 여행객 방문 유도를 통한 매장 매출 동반 상승",
+    en: "<b>Proven store promotion</b>: Beyond simple storage revenue, store sales increase through attracting global travelers.",
   },
   partnerCta: {
     ko: "DGD 파트너로 입점 신청하기",
@@ -896,6 +896,10 @@ export const LANG_CNG = {
   ptnsAgreeRequiredAlert: {
     ko: "개인정보 수집·이용 동의가 필요합니다.",
     en: "Agreement to the collection and use of personal information is required.",
+  },
+  ptnsModalConfirmErrorMsg: {
+    ko: "약관 동의 확인 필요",
+    en: "Requires confirmation of agreement to terms and conditions"
   },
   ptnsSubmitSuccessAlert: {
     ko: "제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.",
