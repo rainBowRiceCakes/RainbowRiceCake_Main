@@ -50,6 +50,15 @@ export const LANG_CNG = {
     ko: "대체 이미지",
     en: "Fallback image",
   },
+  coverOrderNumberInputErrorMsg: {
+    ko: "배송 조회 입력 확인",
+    en: "Confirm delivery tracking entry"
+  },
+  coverOrderNumberCheckError: {
+    ko: "배송번호 조회 실패",
+    en: "Delivery number search failed"
+  },
+  
 
   // --- src/components/main/sections/MainInfo.jsx (Pricing Plans) ---
   planTitle: {

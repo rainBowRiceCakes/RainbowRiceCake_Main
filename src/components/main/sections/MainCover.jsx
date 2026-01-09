@@ -4,6 +4,7 @@
  * 251216 v1.0.0 sara init 
  * 251229 v1.1.0 video & motion 추가
  * 251229 v1.2.0 텅크, 슬라이스 추가 및 통신 작업 추가
+ * 260109 v1.3.0 jun 배송 조회 오류 시 모달 창 출력
  */
 
 import { useState, useEffect } from 'react';
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { deliveryShowThunk } from '../../../store/thunks/deliveryShowThunk.js';
 import { clearDeliveryShow } from '../../../store/slices/deliveryShowSlice.js';
 import MainCoverModal from "./MainCoverItems/MainCoverModal.jsx";
+import CustomAlertModal from '../../common/CustomAlertModal.jsx';
 import './MainCover.css';
 
 export default function MainCover() {
@@ -22,55 +24,106 @@ export default function MainCover() {
   const navigate = useNavigate();
 
   const [orderNumber, setOrderNumber] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 결과 조회 모달 상태
+  
+  // 에러/알림용 모달 상태
+  const [alertModal, setAlertModal] = useState({
+    isOpen: false,
+    title: "",
+    message: ""
+  });
 
   const { isLoggedIn } = useSelector((state) => state.auth);
-  // deliveryShow 슬라이스에서 상태 가져오기
-  const { show, loading, error } = useSelector((state) => state.deliveryShow);
+  // error 상태를 useEffect로 감시하지 않으므로 여기서 error를 꺼내올 필요성은 줄어들었지만,
+  // loading이나 show 데이터는 여전히 필요합니다.
+  const { show, loading } = useSelector((state) => state.deliveryShow);
 
-  // 이 컴포넌트가 마운트될 때, 이전 배송 조회 결과(show)를 초기화
+  // 컴포넌트 마운트 시 초기화 (이전 검색 기록 삭제)
   useEffect(() => {
     dispatch(clearDeliveryShow());
   }, [dispatch]);
 
   const handleOrderNumberChange = (e) => {
     const value = e.target.value;
-    const numericValue = value.replace(/[^0-9]/g, ''); // 숫자만 입력가능
+    const numericValue = value.replace(/[^0-9]/g, ''); 
     setOrderNumber(numericValue);
   };
 
-  const handleTrackOrder = (e) => {
+  // [핵심 수정] unwrap()을 사용한 비동기 에러 핸들링
+  const handleTrackOrder = async (e) => {
     e.preventDefault();
-    if (!orderNumber) {
-      alert(t('coverOrderNumberPlaceholder'));
+    
+    // 1. 유효성 검사
+    if (!orderNumber || orderNumber.trim() === "") {
+      setAlertModal({
+        isOpen: true,
+        title: t('coverOrderNumberInputErrorMsg') || "입력 확인",
+        message: t('coverOrderNumberPlaceholder') || "주문번호를 입력해주세요."
+      });
       return;
     }
-    dispatch(deliveryShowThunk(orderNumber));
+
+    // 2. 로딩/결과 모달 열기 (데이터 오기 전이라도 로딩 표시 등을 위해 염)
     setIsModalOpen(true);
+
+    try {
+      // 3. 비동기 요청 및 결과 직접 확인
+      await dispatch(deliveryShowThunk(orderNumber)).unwrap();
+    } catch (err) {
+      // 4. 실패 시: 즉시 에러 처리
+      console.error("조회 실패:", err);
+      
+      // (1) 조회 모달 닫기
+      setIsModalOpen(false);
+
+      // (2) 에러 메시지 추출
+      let errorMsg = t('coverOrderNotFound'); // 기본 메시지
+      
+      if (typeof err === 'object' && err.message) {
+          errorMsg = err.message;
+      } else if (typeof err === 'string') {
+          errorMsg = err;
+      }
+
+      // (3) 에러 모달 띄우기
+      setAlertModal({
+        isOpen: true,
+        title: t('coverOrderNumberCheckError') || "배송번호 조회 실패",
+        message: errorMsg
+      });
+
+      // (4) Redux 에러 상태 초기화 (재검색을 위해 깔끔하게 정리)
+      dispatch(clearDeliveryShow());
+    }
   };
 
-  // 로그인 여부에 따른 마이페이지 이동 로직
   const handleGoToMyDeliveries = () => {
     if (isLoggedIn) {
       navigate('/mypage');
     } else {
-      alert(t('coverLoginRequired'));
-      navigate('/login'); // 소셜 로그인 유도 
+      setAlertModal({
+        isOpen: true,
+        title: t('alertErrorTitle') || "로그인 필요",
+        message: t('coverLoginRequired') || "로그인이 필요한 서비스입니다."
+      });
+      // 확인 후 이동하고 싶다면 모달 닫기 핸들러 등에서 처리하거나,
+      // UX 정책에 따라 setTimeout 등을 사용
     }
   };
 
+  // 결과 조회 모달 닫기
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    dispatch(clearDeliveryShow()); // 상태 초기화
+    dispatch(clearDeliveryShow()); 
   };
 
-  // 에러 발생 시 처리
-  useEffect(() => {
-    if (error) {
-      alert(t('coverOrderNotFound'));
-      dispatch(clearDeliveryShow()); //에러 상태를 비워야 다음 검색 시 alert가 중복되지 않음
-    }
-  }, [error, dispatch, t]);
+  // 알림 모달 닫기
+  const handleCloseAlert = () => {
+    setAlertModal((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  // [삭제됨] 기존에 error를 감지하던 useEffect는 제거되었습니다.
+  // unwrap()을 통해 handleTrackOrder 내부에서 catch로 처리하기 때문입니다.
 
   /** [Motion] 애니메이션 설정 */
   const containerVariants = {
@@ -125,7 +178,6 @@ export default function MainCover() {
               onChange={handleOrderNumberChange}
               placeholder={t('coverOrderNumberPlaceholder')}
               className="maincover-input-field"
-              required
             />
             <button type="submit" className="maincover-submit-button" disabled={loading}>
               {loading ? t('coverLoading') : t('coverTrackButton')}
@@ -143,6 +195,14 @@ export default function MainCover() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         show={show}
+      />
+
+      {/* [추가] 에러/알림용 모달 */}
+      <CustomAlertModal
+        isOpen={alertModal.isOpen}
+        onClose={handleCloseAlert}
+        title={alertModal.title}
+        message={alertModal.message}
       />
     </div>
   );
