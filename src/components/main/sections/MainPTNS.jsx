@@ -269,7 +269,7 @@ export default function MainPTNS() {
       return navigate('/login');
     }
     if (!riderAgreements.terms || !riderAgreements.privacy) {
-        setAlertState({ isOpen: true, title: '동의 필요', message: t('ptnsAgreeRequiredAlert') });
+        setAlertState({ isOpen: true, title: t('ptnsModalConfirmErrorMsg'), message: t('ptnsAgreeRequiredAlert') });
         return;
     }
 
@@ -383,7 +383,7 @@ export default function MainPTNS() {
       return navigate('/login');
     }
     if (!partnerAgreements.terms || !partnerAgreements.privacy) {
-      setAlertState({ isOpen: true, title: '동의 필요', message: t('ptnsAgreeRequiredAlert') });
+      setAlertState({ isOpen: true, title: t('ptnsModalConfirmErrorMsg'), message: t('ptnsAgreeRequiredAlert') });
       return;
     }
     
