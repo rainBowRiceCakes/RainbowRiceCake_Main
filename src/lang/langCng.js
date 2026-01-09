@@ -815,6 +815,7 @@ export const LANG_CNG = {
     en: "Driver's License (Required)",
   },
 
+
   /* 파트너 전용 필드 */
   ptnsManagerNameLabel: {
     ko: "담당자 이름 (필수)",
@@ -857,6 +858,7 @@ export const LANG_CNG = {
     en: "Store Logo Image (Required)",
   },
 
+
   /* 공통 요소 및 알림 */
   ptnsUploadPlaceholder: {
     ko: "사진을 등록해주세요.",
@@ -890,6 +892,18 @@ export const LANG_CNG = {
     ko: "제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.",
     en: "Your partnership inquiry has been successfully submitted. We will review it and contact you.",
   },
+  ptnsApplicationCompletedMsg: {
+    ko: "신청 완료",
+    en: "Application completed"
+  },
+  ptnsPartnerApplicationCompleted: {
+    ko: "제휴 파트너 신청이 성공적으로 접수되었습니다.",
+    en: "Your affiliate partner application has been successfully received."
+  },
+  ptnsRiderApplicationCompleted: {
+    ko: "제휴 라이더 신청이 성공적으로 접수되었습니다.",
+    en: "Your rider application has been successfully received."
+  },
 
   /* 유효성 검사 알림 */
   ptnsInvalidPhoneAlert: {
@@ -915,6 +929,98 @@ export const LANG_CNG = {
   ptnsErrorAlert: {
     ko: "오류가 발생했습니다: ",
     en: "An error occurred: ",
+  },
+  ptnsManagerNameInputErrorMsg: {
+    ko: "담당자명 입력 오류",
+    en: "Contact person name input error"
+  },
+  ptnsManagerNameInputError: {
+    ko: "담당자명을 입력해주세요.",
+    en: "Please enter the name of the person in charge."
+  },
+  ptnsManagerNameValidationError: {
+    ko: "담당자명 형식이 올바르지 않습니다.<br>(한글, 영어대소문자, 숫자로 2~50자 허용)",
+    en: "The contact name format is incorrect.<br>(2-50 characters allowed, including Korean, English uppercase and lowercase letters, and numbers)"
+  },
+  ptnsPartnerPhoneInputErrorMsg: {
+    ko: "휴대폰 번호 입력 오류",
+    en: "Mobile phone number input error"
+  },
+  ptnsPartnerPhoneInputError: {
+    ko: "휴대폰 번호를 입력해주세요.",
+    en: "Please enter your mobile phone number."
+  },
+  ptnsBusinessNameInputErrorMsg: {
+    ko: "상호명 입력 오류",
+    en: "Business name input error"
+  },
+  ptnsBusinessKrNameInputError: {
+    ko: "상호명(한글)을 입력해주세요.",
+    en: "Please enter your business name (in Korean)."
+  },
+  ptnsBusinessKrNameValidationError: {
+    ko: "가계 이름 형식이 올바르지 않습니다.<br>(영어-특수문자 제외, 한글로 2~100자 허용)",
+    en: "The family name format is incorrect.<br>(English - excluding special characters, 2-100 Korean characters allowed)"
+  },
+  ptnsBusinessEnNameInputError: {
+    ko: "상호명(영문)을 입력해주세요.",
+    en: "Please enter your business name (in English)."
+  },
+  ptnsBusinessEnNameValidationError: {
+    ko: "가계 이름 형식이 올바르지 않습니다.<br>(한글-특수문자 제외, 영어대-소문자로 2~100자 허용)",
+    en: "The family name format is incorrect.<br>(Korean - excluding special characters, English uppercase and lowercase letters, 2-100 characters allowed)"
+  },
+  ptnsBusinessNumInputErrorMsg: {
+    ko: "사업자 번호 입력 오류",
+    en: "Business registration number input error"
+  },
+  ptnsBusinessNumInputError: {
+    ko: "사업자 등록 번호를 입력해주세요.",
+    en: "Please enter your business registration number."
+  },
+  ptnsAddressInputErrorMsa: {
+    ko: "주소 입력 오류",
+    en: "Address input error"
+  },
+  ptnsAddressInputError: {
+    ko: "사업장 주소를 검색해주세요.",
+    en: "Please search for your business address."
+  },
+  ptnsAddressLengthError: {
+    ko: "주소는 2자 이상 200자 이하로 입력해주세요.",
+    en: "Please enter an address of at least 2 characters and no more than 200 characters."
+  },
+  ptnsAddressValidationError: {
+    ko: "주소 형식이 올바르지 않습니다.",
+    en: "The address format is incorrect."
+  },
+  ptnsImageInputErrorMsg: {
+    ko: "첨부파일 누락",
+    en: "Attachment missing"
+  },
+  ptnsBankNameInputErrorMsg: {
+    ko: "은행명 입력 오류",
+    en: "Bank name input error"
+  },
+  ptnsBankNameInputError: {
+    ko: "은행명을 입력해주세요.",
+    en: "Please enter the bank name."
+  },
+  ptnsBankNameValidationError: {
+    ko: "은행명 형식이 올바르지 않습니다.<br>(특수문자-숫자 제외, 한글,영어대-소문자 2~10자 허용)",
+    en: "The bank name format is incorrect.<br>(2-10 characters allowed, including special characters and numbers, uppercase and lowercase Korean and English letters)"
+  },
+  ptnsBankNumInputErrorMsg: {
+    ko: "계좌번호 입력 오류",
+    en: "Account number input error"
+  },
+  ptnsBankNumInputError: {
+    ko: "계좌번호를 입력해주세요.",
+    en: "Please enter your account number."
+  },
+  ptnsBankNumLengthError: {
+    ko: "계좌번호는 10자 이상 16자 이하로 입력해주세요.",
+    en: "Please enter an account number that is between 10 and 16 characters long."
   },
 
   /* 제휴 안내 가이드 */

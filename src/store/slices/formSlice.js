@@ -25,12 +25,10 @@ const slice = createSlice({
       })
       .addCase(riderFormThunk.fulfilled, (state) => {
         state.loading = false;
-        alert("라이더 신청이 접수되었습니다!");
       })
       .addCase(riderFormThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        alert("라이더 신청 실패: " + action.payload?.message);
       })
 
       // 파트너 신청
@@ -40,12 +38,10 @@ const slice = createSlice({
       })
       .addCase(partnerFormThunk.fulfilled, (state) => {
         state.loading = false;
-        alert("파트너 신청이 접수되었습니다!");
       })
       .addCase(partnerFormThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        alert("파트너 신청 실패: " + action.payload?.message);
       });
   }
 });

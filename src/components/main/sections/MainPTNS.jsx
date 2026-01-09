@@ -59,23 +59,24 @@ export default function MainPTNS() {
   const searchContainerRef = useRef(null);
   const isSelectingRef = useRef(false);
 
-  // 4. 약관 동의 및 약관 모달 상태 (이용약관/개인정보처리방침 내용 보기용)
+  // 4. 약관 동의 및 약관 모달 상태
   const [riderAgreements, setRiderAgreements] = useState({ terms: false, privacy: false });
   const [partnerAgreements, setPartnerAgreements] = useState({ terms: false, privacy: false });
   const [activeModal, setActiveModal] = useState(null);
 
-  // [추가] 4-1. 유효성 검사 알림용 커스텀 모달 상태
+  // 4-1. 유효성 검사 및 에러 알림용 커스텀 모달 상태
   const [alertState, setAlertState] = useState({
     isOpen: false,
     title: '',
     message: '',
+    onConfirm: null,
   });
 
   // 5. 카카오 주소 검색 상태
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
-  const [activeSearchInput, setActiveSearchInput] = useState(null); // 'riderAddress' or 'storeAddress'
+  const [activeSearchInput, setActiveSearchInput] = useState(null); 
   const [isRiderPostcodeOpen, setIsRiderPostcodeOpen] = useState(false);
   const debouncedSearchKeyword = useDebounce(searchKeyword, 300);
 
@@ -85,7 +86,7 @@ export default function MainPTNS() {
     libraries: ["services"],
   });
 
-  // 7. 메모리 누수 방지 (Object URL 해제)
+  // 7. 메모리 누수 방지
   useEffect(() => {
     return () => {
       if (licensePreview) URL.revokeObjectURL(licensePreview);
@@ -93,7 +94,7 @@ export default function MainPTNS() {
     };
   }, [licensePreview, logoPreview]);
   
-  // 8. 외부 클릭 시 검색 드롭다운 닫기
+  // 8. 외부 클릭 핸들러
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
@@ -106,15 +107,13 @@ export default function MainPTNS() {
     };
   }, []);
 
-  // 9. Debounced 키워드로 카카오 플레이스 검색
+  // 9. 카카오 플레이스 검색
   useEffect(() => {
     if (!debouncedSearchKeyword?.trim()) return;
     if (!activeSearchInput) return;
-
     if (kakaoLoading || isSelectingRef.current || !window.kakao?.maps?.services) return;
 
     const ps = new window.kakao.maps.services.Places();
-
     ps.keywordSearch(debouncedSearchKeyword, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
         setSearchResults(data);
@@ -123,7 +122,7 @@ export default function MainPTNS() {
         setSearchResults([]);
         setIsSearchDropdownOpen(false);
       }
-    }, { useMapBounds: false }); // 옵션 추가 권장
+    }, { useMapBounds: false }); 
   }, [debouncedSearchKeyword, kakaoLoading, activeSearchInput]);
 
   // 10. 핸들러 함수들
@@ -149,8 +148,6 @@ export default function MainPTNS() {
     setSearchKeyword(address);
     setIsSearchDropdownOpen(false);
     setActiveSearchInput(null);
-    
-    // 선택 후 플래그 초기화 (다음 입력을 위해)
     setTimeout(() => { isSelectingRef.current = false; }, 100);
   };
   
@@ -183,15 +180,15 @@ export default function MainPTNS() {
     }
   };
 
-  // [추가] 커스텀 모달 닫기 핸들러
   const closeAlert = () => {
-    setAlertState(prev => ({ ...prev, isOpen: false }));
+    setAlertState(prev => {
+      if (prev.onConfirm) prev.onConfirm();
+      return { ...prev, isOpen: false, onConfirm: null };
+    });
   };
 
-  // 약관 모달 열기 (기존 로직 유지 - 내용 보여주기용)
   const openModal = (target, type) => {
     if (!isLoggedIn) {
-      // 로그인 안했으면 커스텀 모달로 알림
       setAlertState({ isOpen: true, title: '로그인 필요', message: t('coverLoginRequired') });
       return;
     }
@@ -243,57 +240,89 @@ export default function MainPTNS() {
     document.body.style.overflow = "auto";
   };
 
-  // 11. 폼 제출 로직 (CustomAlertModal 적용)
+  // 11. 폼 제출 로직 (라이더)
   const onSubmitRider = async (e) => {
     e.preventDefault();
 
-    // 로그인 체크
+    // [1] 로그인 & 약관 체크
     if (!isLoggedIn) {
       setAlertState({ isOpen: true, title: '로그인 필요', message: t('coverLoginRequired') });
       return navigate('/login');
     }
-
-    // 약관 동의 체크
     if (!riderAgreements.terms || !riderAgreements.privacy) {
         setAlertState({ isOpen: true, title: '동의 필요', message: t('ptnsAgreeRequiredAlert') });
         return;
     }
 
-    // 연락처 정규식 체크
-    const phoneRegex = /^010-\d{4}-\d{4}$/;
-    if (!phoneRegex.test(riderFormData.riderPhone)) {
-        setAlertState({ isOpen: true, title: '입력 오류', message: t('ptnsInvalidPhoneAlert') });
-        return;
+    // 항목별 상세 유효성 검사
+    // [라이더] 연락처
+    const phoneRegex = /^(01[016789]-\d{3,4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
+
+    if (!riderFormData.riderPhone.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsPartnerPhoneInputErrorMsg'), message: t('ptnsPartnerPhoneInputError') });
+      return;
     }
-    
-    // 계좌번호 숫자 체크
-    const numericRegex = /^\d+$/;
-    if (!numericRegex.test(riderFormData.accountNumber)) {
-        setAlertState({ isOpen: true, title: '입력 오류', message: t('ptnsInvalidAccountAlert') });
+    if (!phoneRegex.test(riderFormData.riderPhone)) {
+        setAlertState({ isOpen: true, title: t('ptnsPartnerPhoneInputErrorMsg'), message: t('ptnsInvalidPhoneAlert') });
         return;
     }
 
-    // 운전면허증 이미지 체크
+    // [라이더] 주소
+    // 빈 값 체크
+    if (!riderFormData.riderAddress.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsAddressInputErrorMsa'), message: t('ptnsAddressInputError') });
+      return;
+    }
+
+    // [라이더] 은행명
+    const bankRegex = /^[a-zA-Z가-힣]{2,10}$/;
+
+    if (!riderFormData.bankName.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsBankNameInputErrorMsg'), message: t('ptnsBankNameInputError') });
+      return;
+    }
+    if (!bankRegex.test(riderFormData.bankName)) {
+      setAlertState({ isOpen: true, title: t('ptnsBankNameInputErrorMsg'), message: t('ptnsBankNameValidationError') });
+      return;
+    }
+
+    // [라이더] 계좌번호
+    const numericRegex = /^[0-9]{10,16}$/;
+
+    if (!riderFormData.accountNumber.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsBankNumInputErrorMsg'), message: t('ptnsBankNumInputError') });
+      return;
+    }
+    // 길이 체크
+    if (riderFormData.accountNumber.length < 10 || riderFormData.accountNumber.length > 16) {
+        setAlertState({ isOpen: true, title: t('ptnsBankNumInputErrorMsg'), message: t('ptnsBankNumLengthError') });
+        return;
+    }
+    // 유효 문자 체크
+    if (!numericRegex.test(riderFormData.accountNumber)) {
+        setAlertState({ isOpen: true, title: t('ptnsBankNumInputErrorMsg'), message: t('ptnsInvalidAccountAlert') });
+        return;
+    }
+
+    // 2-5. 파일 (운전면허증)
     if (!licenseFile) {
         setAlertState({ 
           isOpen: true, 
-          title: '첨부파일 누락', 
-          message: t('ptnsLicenseRequiredAlert')
+          title: t('ptnsImageInputErrorMsg'),
+          message: t('ptnsLicenseRequiredAlert') || '운전면허증 사진을 등록해주세요.'
         });
         return;
     }
 
+    // [3] 백엔드 전송
     try {
-      // 이미지 업로드
       let licenseImgPath = null;
       if (licenseFile) {
         const uploadResult = await dispatch(riderImageUploadThunk(licenseFile)).unwrap();
         licenseImgPath = uploadResult.data.path;
       }
 
-      // 주소 -> 좌표 변환
       const coords = await searchAddressToCoords(riderFormData.riderAddress);
-
       if (!coords?.lat || !coords?.lng) {
         setAlertState({ isOpen: true, title: '주소 오류', message: t('ptnsAddressCoordsError') });
         return;
@@ -311,66 +340,142 @@ export default function MainPTNS() {
 
       await dispatch(riderFormThunk(payload)).unwrap();
       
-      // 성공 모달 후 이동 (또는 바로 이동)
-      // 여기서는 성공 메시지를 모달로 보여주고 싶다면 로직 추가 가능, 현재는 바로 이동
-      navigate('/'); 
+      setAlertState({
+        isOpen: true,
+        title: t('ptnsApplicationCompletedMsg'),
+        message: t('ptnsRiderApplicationCompleted'),
+        onConfirm: () => navigate('/') 
+      });
+
     } catch (error) {
-      setAlertState({ isOpen: true, title: '오류 발생', message: t('ptnsErrorAlert') + '<br/>' + (error.msg || error.message) });
+      console.error("Rider Submit Error:", error);
+      const backendMsg = error.msg || error.message || t('ptnsErrorAlert');
+      setAlertState({ isOpen: true, title: '신청 실패', message: backendMsg, onConfirm: null });
     }
   };
 
+  // 12. 폼 제출 로직 (파트너)
   const onSubmitPartner = async (e) => {
     e.preventDefault();
 
-    // 로그인 체크
+    // 로그인 & 약관 체크
     if (!isLoggedIn) {
       setAlertState({ isOpen: true, title: '로그인 필요', message: t('coverLoginRequired') });
       return navigate('/login');
     }
-
-    // 약관 동의 체크
     if (!partnerAgreements.terms || !partnerAgreements.privacy) {
       setAlertState({ isOpen: true, title: '동의 필요', message: t('ptnsAgreeRequiredAlert') });
       return;
     }
     
-    // 연락처 정규식 체크
-    const phoneRegex = /^010-\d{4}-\d{4}$/;
-    if (!phoneRegex.test(partnerFormData.partnerPhone)) {
-      setAlertState({ isOpen: true, title: '입력 오류', message: t('ptnsInvalidPhoneAlert') });
+    // 항목별 상세 유효성 검사
+    // [파트너] 담당자명
+    const managerRegex = /^[a-zA-Z0-9가-힣 ]{2,50}$/;
+
+    if (!partnerFormData.managerName.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsManagerNameInputErrorMsg'), message: t('ptnsManagerNameInputError') });
       return;
     }
-    
-    // 사업자번호 정규식 체크
-    const businessNumRegex = /^\d{10}$/;
-    if (!businessNumRegex.test(partnerFormData.businessNumber)) {
-      setAlertState({ isOpen: true, title: '입력 오류', message: t('ptnsInvalidBusinessNumAlert') });
+    if (!managerRegex.test(partnerFormData.managerName)) {
+      setAlertState({ isOpen: true, title: t('ptnsManagerNameInputErrorMsg'), message: t('ptnsManagerNameValidationError') })
       return;
     }
 
-    // 매장 로고 이미지 체크
+    // [파트너] 연락처
+    const phoneRegex = /^(01[016789]-\d{3,4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
+
+    if (!partnerFormData.partnerPhone.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsPartnerPhoneInputErrorMsg'), message: t('ptnsPartnerPhoneInputError') });
+      return;
+    }
+    if (!phoneRegex.test(partnerFormData.partnerPhone)) {
+      setAlertState({ isOpen: true, title: t('ptnsPartnerPhoneInputErrorMsg'), message: t('ptnsInvalidPhoneAlert') });
+      return;
+    }
+
+    // [파트너] 상호명(한글)
+    const krNameRegex = /^[가-힣\s]{2,100}$/;
+
+    if (!partnerFormData.storeNameKr.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsBusinessNameInputErrorMsg'), message: t('ptnsBusinessKrNameInputError') });
+      return;
+    }
+    if (!krNameRegex.test(partnerFormData.storeNameKr)) {
+      setAlertState({ isOpen: true, title: t('ptnsBusinessNameInputErrorMsg'), message: t('ptnsBusinessKrNameValidationError') });
+      return;
+    }
+
+
+    // [파트너] 상호명(영문)
+    const enNameRegex = /^[a-zA-Z\s]{2,100}$/;
+
+    if (!partnerFormData.storeNameEn.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsBusinessNameInputErrorMsg'), message: t('ptnsBusinessEnNameInputError') });
+      return;
+    }
+
+    if (!enNameRegex.test(partnerFormData.storeNameEn)) {
+      setAlertState({ isOpen: true, title: t('ptnsBusinessNameInputErrorMsg'), message: t('ptnsBusinessEnNameValidationError') });
+      return;
+    }
+    
+    // [파트너] 사업자번호
+    const businessNumRegex = /^\d{10}$/;
+
+    if (!partnerFormData.businessNumber.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsBusinessNumInputErrorMsg'), message: t('ptnsBusinessNumInputError') });
+      return;
+    }
+    if (!businessNumRegex.test(partnerFormData.businessNumber)) {
+      setAlertState({ isOpen: true, title: t('ptnsBusinessNumInputErrorMsg'), message: t('ptnsInvalidBusinessNumAlert') });
+      return;
+    }
+
+    // [파트너] 주소
+    const addressRegex = /^[가-힣a-zA-Z0-9-\s,().#]+$/;
+
+    // 빈 값 체크
+    if (!partnerFormData.storeAddress.trim()) {
+      setAlertState({ isOpen: true, title: t('ptnsAddressInputErrorMsa'), message: t('ptnsAddressInputError') });
+      return;
+    }
+
+    // 정규식 체크(길이 체크)
+    if (partnerFormData.storeAddress.length < 2 || partnerFormData.storeAddress.length > 200) {
+        setAlertState({ isOpen: true, title: t('ptnsAddressInputErrorMsa'), message: t('ptnsAddressLengthError') });
+        return;
+    }
+
+    // 유효 문자 체크
+    if (!addressRegex.test(partnerFormData.storeAddress)) {
+      setAlertState({ isOpen: true, title: t('ptnsAddressInputErrorMsa'), message: t('ptnsAddressValidationError') });
+      return;
+    }
+
+    // [파트너] 이미지 파일
     if (!logoFile) {
       setAlertState({ 
         isOpen: true, 
-        title: '첨부파일 누락', 
-        message: t('ptnsLogoRequiredAlert')
+        title: t('ptnsImageInputErrorMsg'), 
+        message: t('ptnsLogoRequiredAlert') || '매장 로고 사진을 등록해주세요.'
       });
       return;
     }
 
+    // 백엔드 전송
     try {
-      // 이미지 업로드
       let logoImgPath = null;
+
+      console.log(logoFile);
+
       if (logoFile) {
         const uploadResult = await dispatch(partnerImageUploadThunk(logoFile)).unwrap();
         logoImgPath = uploadResult.data.path;
       }
 
-      // 주소 -> 좌표 변환
       const coords = await searchAddressToCoords(partnerFormData.storeAddress);
-      
       if (!coords?.lat || !coords?.lng) {
-        setAlertState({ isOpen: true, title: '주소 오류', message: t('ptnsAddressCoordsError') });
+        setAlertState({ isOpen: true, title: t('ptnsAddressInputErrorMsa'), message: t('ptnsAddressCoordsError') });
         return;
       }
 
@@ -385,21 +490,28 @@ export default function MainPTNS() {
         lat: coords.lat, 
         lng: coords.lng,
         status: 'REQ'
-    };
+      };
 
       await dispatch(partnerFormThunk(payload)).unwrap();
       
-      // 성공 시 완료 모달을 띄우고 싶다면 아래 로직 사용, 지금은 바로 이동
-      navigate('/');
+      setAlertState({
+        isOpen: true,
+        title: t('ptnsApplicationCompletedMsg'),
+        message: t('ptnsPartnerApplicationCompleted'),
+        onConfirm: () => navigate('/') 
+      });
+
     } catch (error) {
-      setAlertState({ isOpen: true, title: '오류 발생', message: t('ptnsErrorAlert') + '<br/>' + (error.msg || error.message) });
+      console.error("Partner Submit Error:", error);
+      const backendMsg = error.msg || error.message || t('ptnsErrorAlert');
+      setAlertState({ isOpen: true, title: '신청 실패', message: backendMsg, onConfirm: null });
     }
   };
 
   const modalType = activeModal ? activeModal.split('_')[1] : null;
   const modalContent = modalType ? footerData[lang]?.[modalType] || footerData.ko?.[modalType] : null;
 
-  // 12. 렌더링
+  // 13. 렌더링
   return (
     <>
       <div className="mainptns-frame" id="partners">
@@ -423,7 +535,7 @@ export default function MainPTNS() {
                 <div className="form-header-row"><h3 className="mainptns-card-title-text">{t('ptnsFormRiderTitle')}</h3></div>
                 <div className="mainptns-form-fields-group">
                   <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
-                    <input className="mainptns-field-input" name="riderPhone" required placeholder={t('ptnsRiderPhonePlaceholder')} value={riderFormData.riderPhone} onChange={(e) => handleInputChange(e, 'rider')} />
+                    <input className="mainptns-field-input" name="riderPhone" placeholder={t('ptnsRiderPhonePlaceholder')} value={riderFormData.riderPhone} onChange={(e) => handleInputChange(e, 'rider')} />
                   </label>
                   <div style={{ position: 'relative' }}>
                     <label className="mainptns-field-label">{t('ptnsAddressLabel')}
@@ -432,7 +544,6 @@ export default function MainPTNS() {
                         <input
                           className="mainptns-field-input"
                           name="riderAddress"
-                          required
                           placeholder={t('ptnsAddressPlaceholder')}
                           value={riderFormData.riderAddress}
                           readOnly
@@ -460,10 +571,10 @@ export default function MainPTNS() {
                     )}
                   </div>
                   <label className="mainptns-field-label">{t('ptnsBankNameLabel')}
-                    <input className="mainptns-field-input" name="bankName" required placeholder={t('ptnsBankNamePlaceholder')} value={riderFormData.bankName} onChange={(e) => handleInputChange(e, 'rider')} />
+                    <input className="mainptns-field-input" name="bankName" placeholder={t('ptnsBankNamePlaceholder')} value={riderFormData.bankName} onChange={(e) => handleInputChange(e, 'rider')} />
                   </label>
                   <label className="mainptns-field-label">{t('ptnsAccountNumLabel')}
-                    <input className="mainptns-field-input" name="accountNumber" required placeholder={t('ptnsAccountNumPlaceholder')} value={riderFormData.accountNumber} onChange={(e) => handleInputChange(e, 'rider')} />
+                    <input className="mainptns-field-input" name="accountNumber" placeholder={t('ptnsAccountNumPlaceholder')} value={riderFormData.accountNumber} onChange={(e) => handleInputChange(e, 'rider')} />
                   </label>
                   <div className="mainptns-field-label">
                     {t('ptnsLicenseLabel')}
@@ -472,7 +583,7 @@ export default function MainPTNS() {
                       <label htmlFor="licenseImg" className="mainptns-file-box" style={{ backgroundImage: licensePreview ? `url("${licensePreview}")` : 'none', backgroundSize: 'contain', height: licensePreview ? '200px' : '80px', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', color: licensePreview ? 'transparent' : '#ccc' }}>
                         {!licensePreview && (t('ptnsUploadPlaceholder'))}
                       </label>
-                      {licensePreview && (<button type="button" className="mainptns-preview-delete-btn" onClick={() => removeFile('license')}><TrashBinIcon size={22} /></button>)}
+                      {licensePreview && (<button type="button" className="mainptns-preview-delete-btn" onClick={() => removeFile('licenseImg')}><TrashBinIcon size={22} /></button>)}
                     </div>
                   </div>
                 </div>
@@ -501,26 +612,26 @@ export default function MainPTNS() {
                 <div className="mainptns-form-fields-group">
                     <div className="mainptns-input-grid-2">
                       <label className="mainptns-field-label">{t('ptnsManagerNameLabel')}
-                        <input className="mainptns-field-input" name="managerName" required placeholder={t('ptnsManagerNamePlaceholder')} disabled={!isLoggedIn} value={partnerFormData.managerName} onChange={(e) => handleInputChange(e, 'partner')} />
+                        <input className="mainptns-field-input" name="managerName" placeholder={t('ptnsManagerNamePlaceholder')} disabled={!isLoggedIn} value={partnerFormData.managerName} onChange={(e) => handleInputChange(e, 'partner')} />
                       </label>
                       <label className="mainptns-field-label">{t('ptnsPhoneLabel')}
-                        <input className="mainptns-field-input" name="partnerPhone" required placeholder={t('ptnsPartnerPhonePlaceholder')} disabled={!isLoggedIn} value={partnerFormData.partnerPhone} onChange={(e) => handleInputChange(e, 'partner')} />
+                        <input className="mainptns-field-input" name="partnerPhone" placeholder={t('ptnsPartnerPhonePlaceholder')} disabled={!isLoggedIn} value={partnerFormData.partnerPhone} onChange={(e) => handleInputChange(e, 'partner')} />
                       </label>
                     </div>
                     <div className="mainptns-input-grid-2">
                       <label className="mainptns-field-label">{t('ptnsStoreNameKrLabel')}
-                        <input className="mainptns-field-input" name="storeNameKr" required placeholder={t('ptnsStoreNameKrPlaceholder')} disabled={!isLoggedIn} value={partnerFormData.storeNameKr} onChange={(e) => handleInputChange(e, 'partner')} />
+                        <input className="mainptns-field-input" name="storeNameKr" placeholder={t('ptnsStoreNameKrPlaceholder')} disabled={!isLoggedIn} value={partnerFormData.storeNameKr} onChange={(e) => handleInputChange(e, 'partner')} />
                       </label>
                       <label className="mainptns-field-label">{t('ptnsStoreNameEnLabel')}
-                        <input className="mainptns-field-input" name="storeNameEn" required placeholder={t('ptnsStoreNameEnPlaceholder')} disabled={!isLoggedIn} value={partnerFormData.storeNameEn} onChange={(e) => handleInputChange(e, 'partner')} />
+                        <input className="mainptns-field-input" name="storeNameEn" placeholder={t('ptnsStoreNameEnPlaceholder')} disabled={!isLoggedIn} value={partnerFormData.storeNameEn} onChange={(e) => handleInputChange(e, 'partner')} />
                       </label>
                     </div>
                     <label className="mainptns-field-label">{t('ptnsBusinessNumLabel')}
-                      <input className="mainptns-field-input" name="businessNumber" required placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="10" disabled={!isLoggedIn} value={partnerFormData.businessNumber} onChange={(e) => handleInputChange(e, 'partner')} />
+                      <input className="mainptns-field-input" name="businessNumber" placeholder={t('ptnsBusinessNumPlaceholder')} maxLength="10" disabled={!isLoggedIn} value={partnerFormData.businessNumber} onChange={(e) => handleInputChange(e, 'partner')} />
                     </label>
                     <div style={{ position: 'relative' }}>
                       <label className="mainptns-field-label">{t('ptnsAddressLabel')}
-                        <input className="mainptns-field-input" name="storeAddress" required placeholder={t('ptnsAddressPlaceholder')} disabled={!isLoggedIn} value={partnerFormData.storeAddress} onChange={(e) => handleAddressSearch(e, 'partner')} autoComplete="off" />
+                        <input className="mainptns-field-input" name="storeAddress" placeholder={t('ptnsAddressPlaceholder')} disabled={!isLoggedIn} value={partnerFormData.storeAddress} onChange={(e) => handleAddressSearch(e, 'partner')} autoComplete="off" />
                       </label>
                       {isSearchDropdownOpen && activeSearchInput === 'storeAddress' && searchResults.length > 0 && (
                           <ul className="ptnssearch-dropdown-list">
@@ -558,7 +669,7 @@ export default function MainPTNS() {
               </form>
           </div>
 
-          {/* 약관 상세 내용 모달 (FooterData 기반) */}
+          {/* 약관 상세 내용 모달 */}
           {modalContent && (
             <div className="mainptns-modal-overlay" onClick={closeModal}>
               <div className="mainptns-modal-box" onClick={(e) => e.stopPropagation()}>
@@ -605,7 +716,6 @@ export default function MainPTNS() {
               </div>
            )}
            
-           {/* [추가] 유효성 검사 및 알림용 커스텀 모달 */}
            <CustomAlertModal 
              isOpen={alertState.isOpen}
              title={alertState.title}
