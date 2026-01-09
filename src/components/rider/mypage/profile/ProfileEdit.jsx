@@ -69,8 +69,10 @@ export default function ProfileEdit() {
   });
 
   useEffect(() => {
-    dispatch(getProfileThunk());
-  }, [dispatch]);
+    if (!profileData) { // 데이터가 없을 때만 호출
+      dispatch(getProfileThunk());
+    }
+  }, [dispatch, profileData]);
 
   useEffect(() => {
     if (profileData) {

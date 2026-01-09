@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RiderPhotoPage from "./RiderPhotoPage.jsx";
 import { orderShowThunk } from "../../../../../store/thunks/orders/orderShowThunk.js";
-import KakaoMapView from "./KakaoMapView.jsx";
+import KakaoMapView from "./kakaoMapView.jsx";
 
 export default function RiderNavFlowPage() {
   const { orderCode } = useParams();

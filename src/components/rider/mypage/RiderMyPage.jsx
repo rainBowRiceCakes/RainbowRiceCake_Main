@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { getProfileThunk } from "../../../store/thunks/profile/getProfileThunk.js";
 import { logoutThunk } from "../../../store/thunks/authThunk.js";
 import { updateWorkStatusThunk } from "../../../store/thunks/riders/updateWorkStatusThunk.js";
+import { clearAuth } from "../../../store/slices/authSlice.js";
 
 const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
 
@@ -13,30 +14,32 @@ export default function RiderMyPage() {
   const dispatch = useDispatch();
   const nav = useNavigate();
 
-  const profileData = useSelector((state) => state.profile?.profileData);
-  const profile = profileData?.rider_user;
+  const { profileData, isLoading } = useSelector((state) => state.profile);
 
-  const isWorking = profile?.isWorking || false;
+  const isWorking = profileData?.isWorking || false;
+  const userName = profileData?.rider_user?.name || "Guest";
 
+  useEffect(() => {
+    dispatch(getProfileThunk());
+  }, [dispatch]);
+
+  // 2. 이벤트 핸들러 정의
   const handleToggleWorkStatus = (e) => {
     const nextStatus = e.target.checked;
-    // 서버로 true/false 전송
     dispatch(updateWorkStatusThunk(nextStatus));
   };
 
   const handleLogout = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       await dispatch(logoutThunk());
-      navigate('/');         // 2. 로그인 화면으로 이동
-      dispatch(clearAuth()); // 1. Redux 상태 초기화
+      nav('/');         // 2. 로그인 화면으로 이동
+      dispatch(clearAuth()); // 1. Redux 상태 초기화  
     }
   };
 
-  useEffect(() => {
-    if (!profile) {
-      dispatch(getProfileThunk());
-    }
-  }, [dispatch, profile]);
+  if (isLoading && !profileData) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <div className="mypage">
@@ -45,7 +48,7 @@ export default function RiderMyPage() {
         <div className="profile">
           <div className="avatar" style={{ backgroundImage: `url("${externalImageUrl}")` }} />
           <div className="info">
-            <div className="name">{profile?.name || "Guest"}<span className="rider-info-sub-title">기사님</span></div> {/* 추후 수정 {user.name} */}
+            <div className="name">{userName}<span className="rider-info-sub-title">기사님</span></div> {/* 추후 수정 {user.name} */}
           </div>
 
           <label className="clockInAndOutToggle"> {/* 기사들의 출근 on and off 기능 */}

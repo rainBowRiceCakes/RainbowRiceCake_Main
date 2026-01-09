@@ -6,7 +6,7 @@ import { updateWorkStatusThunk } from "../thunks/riders/updateWorkStatusThunk.js
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
-    profileData: null,
+    profileData: null, // { id, email, name, rider_user: { isWorking, phone, address ... } }
     isLoading: false,
     error: null,
   },
@@ -19,7 +19,32 @@ const profileSlice = createSlice({
       })
       .addCase(getProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.profileData = action.payload.data;
+        const incomingData = action.payload.data;
+
+        if (!incomingData) return;
+
+        // 기본적으로 들어온 데이터를 모두 펼쳐 넣고 (isWorking, phone, address 등 포함)
+        // 중첩된 객체(rider_user 또는 partner_user)만 안전하게 병합합니다.
+        state.profileData = {
+          ...state.profileData,
+          ...incomingData,
+
+          // 기사 데이터인 경우 중첩 객체 병합
+          ...(incomingData.rider_user && {
+            rider_user: {
+              ...state.profileData?.rider_user,
+              ...incomingData.rider_user
+            }
+          }),
+
+          // 파트너 데이터인 경우 중첩 객체 병합
+          ...(incomingData.partner_user && {
+            partner_user: {
+              ...state.profileData?.partner_user,
+              ...incomingData.partner_user
+            }
+          })
+        };
       })
       .addCase(getProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
@@ -32,7 +57,39 @@ const profileSlice = createSlice({
       })
       .addCase(updateProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.profileData = { ...state.profileData, ...action.payload.data };
+
+        const newData = action.payload.data;
+        if (!newData) return; // 데이터가 없는 경우 방어 로직
+
+        // 1. 기사(Rider) 데이터 구조 처리
+        if (newData.rider_user) {
+          state.profileData = {
+            ...state.profileData, // 기존 데이터 유지
+            ...newData,           // 새 데이터(isWorking, address, phone 등) 덮어쓰기
+            rider_user: {
+              ...state.profileData?.rider_user, // 기존 유저 정보(name, email) 유지
+              ...newData.rider_user             // 새 유저 정보 병합
+            }
+          };
+        }
+        // 2. 파트너(Partner) 데이터 구조 처리
+        else if (newData.partner_user) {
+          state.profileData = {
+            ...state.profileData,
+            ...newData,           // 파트너의 기본 정보들 덮어쓰기
+            partner_user: {
+              ...state.profileData?.partner_user,
+              ...newData.partner_user
+            }
+          };
+        }
+        // 3. 그 외 공통 처리
+        else {
+          state.profileData = {
+            ...state.profileData,
+            ...newData
+          };
+        }
       })
       .addCase(updateProfileThunk.rejected, (state, action) => {
         state.isLoading = false;

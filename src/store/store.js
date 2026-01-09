@@ -9,7 +9,6 @@ import ordersReducer from "./slices/ordersSlice.js";
 import noticesReducer from "./slices/noticesSlice.js";
 import questionsReducer from "./slices/questionsSlice.js";
 import partnerMenuReducer from "./slices/partnerMenuSlice.js";
-import riderReducer from "./slices/riderSlice.js";
 import uiReducer from "./slices/partnerUiSlice.js";
 import deliveryReducer from "./slices/parternerDeliverySlice.js";
 import profileReducer from "./slices/profileSlice.js";
@@ -37,7 +36,6 @@ const store = configureStore({
     notices: noticesReducer,
     questions: questionsReducer,
     menu: partnerMenuReducer,
-    rider: riderReducer,
     profile: profileReducer, // 파트너/라이더 프로필 get, update 
     ui: uiReducer, // 파트너 대시보드 UI 상태 관리 (사이드바 접기/펼치기 등)
     delivery: deliveryReducer, // 배송 요청 상태 관리
