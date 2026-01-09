@@ -42,92 +42,92 @@ export default function MainPromotion() {
     }
   };
 
-  const promoImgSrc = "/resource/promotionWelcomBox.png";
-
-  return (
-    <div className="mainshow-section-wrapper main-section-padding">
-      <section className="mainpromotion-frame">
-        <header className="mainpromotion-header-frame">
-          <p className="mainpromotion-eyebrow-text">{t('promotionEyebrow')}</p>
-          <h2 className="mainpromotion-title-text">{t('promotionTitle')}</h2>
-          <p className="mainpromotion-subtitle-text">{t('promotionSubtitle')}</p>
-        </header>
-
-        <div className="mainpromotion-card">
-          <div className="mainpromotion-tabs">
-            <button
-              className={`mainpromotion-tab-btn ${activeTab === 'rider' ? 'active' : ''}`}
-              onClick={() => setActiveTab('rider')}
-            >
-              {t('riderTab')}
-            </button>
-            <button
-              className={`mainpromotion-tab-btn ${activeTab === 'partner' ? 'active' : ''}`}
-              onClick={() => setActiveTab('partner')}
-            >
-              {t('partnerTab')}
-            </button>
+    const promoImgSrc = "/resource/promotionWelcomBox.png";
+  
+    return (
+      <div className="mainshow-section-wrapper main-section-padding">
+        <section className="mainpromotion-frame">
+          <header className="mainpromotion-header-frame">
+            <p className="mainpromotion-eyebrow-text">{t('promotionEyebrow')}</p>
+            <h2 className="mainpromotion-title-text">{t('promotionTitle')}</h2>
+            <p className="mainpromotion-subtitle-text">{t('promotionSubtitle')}</p>
+          </header>
+  
+          <div className="mainpromotion-card">
+            <div className="mainpromotion-tabs">
+              <button
+                className={`mainpromotion-tab-btn ${activeTab === 'rider' ? 'active' : ''}`}
+                onClick={() => setActiveTab('rider')}
+              >
+                {t('riderTab')}
+              </button>
+              <button
+                className={`mainpromotion-tab-btn ${activeTab === 'partner' ? 'active' : ''}`}
+                onClick={() => setActiveTab('partner')}
+              >
+                {t('partnerTab')}
+              </button>
+            </div>
+  
+            <div className="mainpromotion-content-wrapper">
+              {activeTab === 'rider' && (
+                <div className="mainpromotion-content mainpromotion-content--rider">
+                  <div className="mainpromotion-icon-wrapper">
+                    <img
+                      src={promoImgSrc}
+                      alt="Rider Promotion"
+                      className="mainpromotion-promo-img"
+                      onClick={() => openImgView(promoImgSrc, "Rider Promotion")}
+                    />
+                  </div>
+                  <div className="mainpromotion-text-content">
+                    <h3 className="mainpromotion-content-title">{t('riderBenefitTitle')}</h3>
+                    <p className="mainpromotion-content-desc">{t('riderBenefitDesc')}</p>
+                    <ul className="mainpromotion-benefit-list">
+                      {[1, 2, 3].map(num => (
+                        <li key={`rider-${num}`} dangerouslySetInnerHTML={{ __html: t(`riderBenefit${num}`) }} />
+                      ))}
+                    </ul>
+                    <button type="button" className="mainpromotion-cta-btn" onClick={handleRiderApplyClick}>
+                      {t('riderCta')}
+                    </button>
+                  </div>
+                </div>
+              )}
+  
+              {activeTab === 'partner' && (
+                <div className="mainpromotion-content mainpromotion-content--partner">
+                  <div className="mainpromotion-icon-wrapper">
+                    <img
+                      src={promoImgSrc}
+                      alt="Partner Promotion"
+                      className="mainpromotion-promo-img"
+                      onClick={() => openImgView(promoImgSrc, "Partner Promotion")}
+                    />
+                  </div>
+                  <div className="mainpromotion-text-content">
+                    <h3 className="mainpromotion-content-title">{t('partnerBenefitTitle')}</h3>
+                    <p className="mainpromotion-content-desc">{t('partnerBenefitDesc')}</p>
+                    <ul className="mainpromotion-benefit-list">
+                      {[1, 2, 3].map(num => (
+                        <li key={`partner-${num}`} dangerouslySetInnerHTML={{ __html: t(`partnerBenefit${num}`) }} />
+                      ))}
+                    </ul>
+                    <button type="button" className="mainpromotion-cta-btn" onClick={handlePartnerApplyClick}>
+                      {t('partnerCta')}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-
-          <div className="mainpromotion-content-wrapper">
-            {activeTab === 'rider' && (
-              <div className="mainpromotion-content mainpromotion-content--rider">
-                <div className="mainpromotion-icon-wrapper">
-                  <img 
-                    src={promoImgSrc} 
-                    alt="Rider Promotion" 
-                    className="mainpromotion-promo-img"
-                    onClick={() => openImgView(promoImgSrc, "Rider Promotion")}
-                  />
-                </div>
-                <div className="mainpromotion-text-content">
-                  <h3 className="mainpromotion-content-title">{t('riderBenefitTitle')}</h3>
-                  <p className="mainpromotion-content-desc">{t('riderBenefitDesc')}</p>
-                  <ul className="mainpromotion-benefit-list">
-                    {[1, 2, 3].map(num => (
-                      <li key={`rider-${num}`} dangerouslySetInnerHTML={{ __html: t(`riderBenefit${num}`) }} />
-                    ))}
-                  </ul>
-                  <button type="button" className="mainpromotion-cta-btn" onClick={handleRiderApplyClick}>
-                    {t('riderCta')}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'partner' && (
-              <div className="mainpromotion-content mainpromotion-content--partner">
-                <div className="mainpromotion-icon-wrapper">
-                  <img 
-                    src={promoImgSrc} 
-                    alt="Partner Promotion" 
-                    className="mainpromotion-promo-img" 
-                    onClick={() => openImgView(promoImgSrc, "Partner Promotion")}
-                  />
-                </div>
-                <div className="mainpromotion-text-content">
-                  <h3 className="mainpromotion-content-title">{t('partnerBenefitTitle')}</h3>
-                  <p className="mainpromotion-content-desc">{t('partnerBenefitDesc')}</p>
-                  <ul className="mainpromotion-benefit-list">
-                    {[1, 2, 3].map(num => (
-                      <li key={`partner-${num}`} dangerouslySetInnerHTML={{ __html: t(`partnerBenefit${num}`) }} />
-                    ))}
-                  </ul>
-                  <button type="button" className="mainpromotion-cta-btn" onClick={handlePartnerApplyClick}>
-                    {t('partnerCta')}
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-      <MypageImgView
-        isOpen={imgViewOpen}
-        onClose={closeImgView}
-        src={imgViewSrc}
-        alt={imgViewAlt}
-      />
-    </div>
-  );
-}
+        </section>
+        <MypageImgView
+          isOpen={imgViewOpen}
+          onClose={closeImgView}
+          src={imgViewSrc}
+          alt={imgViewAlt}
+        />
+      </div>
+    );
+  }

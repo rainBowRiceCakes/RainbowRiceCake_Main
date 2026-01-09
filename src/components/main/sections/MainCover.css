@@ -192,4 +192,14 @@
   .maincover-hero-subtitle {
     font-size: var(--com-size-subtitle);
   }
+
+  .maincover-submit-button {
+    border: 1px solid var(--com-color-black);
+  }
+
+  .maincover-submit-button:active {
+    background: var(--com-gradient-rainbow);
+    color: var(--com-color-black);
+    border-color: var(--com-color-white);
+  }
 }

@@ -181,12 +181,12 @@ export const LANG_CNG = {
     en: "Join as a Rider or Partner today and enjoy special benefits.",
   },
   riderTab: {
-    ko: "🚴 라이더",
-    en: "🚴 Rider",
+    ko: "라이더 프로모션",
+    en: "Rider Promotion",
   },
   partnerTab: {
-    ko: "🎯 파트너",
-    en: "🎯 Partner",
+    ko: "파트너 프로모션",
+    en: "Partner Promotion",
   },
   riderBenefitTitle: {
     ko: "안정적인 수입과 유연한 근무",
@@ -651,8 +651,8 @@ export const LANG_CNG = {
     en: "←",
   },
   myPageSubTitleDefault: {
-    ko: "내 활동 요약",
-    en: "My activity overview",
+    ko: "DGD 서비스를 이용해 주셔서 감사합니다.",
+    en: "Thank you for using DGD services.",
   },
   deliveryStatusOrderReceived: {
     ko: "접수 완료",
@@ -675,16 +675,16 @@ export const LANG_CNG = {
     en: "Response Sent",
   },
   inquiryStatusUnderReview: {
-    ko: "검토 중",
+    ko: "접수 완료",
     en: "Under Review",
   },
   deliverySummaryProcessing: {
-    ko: "처리 중",
-    en: "Processing",
+    ko: "처리 중인 주문 모아보기",
+    en: "View Processing Orders",
   },
   deliverySummaryDelivered: {
-    ko: "배송 완료",
-    en: "Delivered",
+    ko: "배송 완료된 주문 모아보기",
+    en: "View Delivered Orders",
   },
   deliveryOrderNumber: {
     ko: "주문 번호",
@@ -731,12 +731,12 @@ export const LANG_CNG = {
     en: "Payment Amount",
   },
   inquirySummaryUnderReview: {
-    ko: "검토 중",
-    en: "Under Review",
+    ko: "처리 중인 문의 모아보기",
+    en: "View Under Review",
   },
   inquirySummaryResponseSent: {
-    ko: "답변 완료",
-    en: "Response Sent",
+    ko: "답변 완료 문의 모아보기",
+    en: "View Answered Inquiries",
   },
   inquiryTitle: {
     ko: "제목",
@@ -1429,14 +1429,29 @@ export const LANG_CNG = {
     "en": "Pending"
   },
   "myDeliveryHistory": {
-    "ko": "주문 내역",
-    "en": "Order History"
+    "ko": "전체 주문 내역",
+    "en": "All Order History"
   },
-  "myQuestionHistory": { 
-    "ko": "문의 내역",
-    "en": "Inquiry History"
-  },
-  "deliveryPlan": {
+    "myQuestionHistory": {
+      "ko": "전체 문의 내역",
+      "en": "All Question History"
+    },
+    "myPageViewAllOrders": {
+      "ko": "전체 주문 보기",
+      "en": "View All Orders",
+    },
+      "myPageViewAllInquiries": {
+        "ko": "전체 문의 보기",
+        "en": "View All Inquiries",
+      },
+      "myPageSearchByOrderNumber": {
+        "ko": "주문 번호로 검색",
+        "en": "Search by Order Number",
+      },
+      "myPageSearchByInquiryTitle": {
+        "ko": "제목으로 검색",
+        "en": "Search by Title",
+      },  "deliveryPlan": {
     "ko": "주문 옵션",
     "en": "Selected Plan"
   },

@@ -20,7 +20,12 @@
 }
 
 .hamburger01-nav-item:active {
-  background-color: var(--com-border-default);
+  background: var(--com-gradient-rainbow);
+}
+
+.hamburger01-nav-item:active .hamburger01-nav-icon,
+.hamburger01-nav-item:active .hamburger01-nav-label {
+  color: var(--com-color-black);
 }
 
 .hamburger01-nav-icon {

@@ -11,7 +11,7 @@ import { Map, MapMarker, CustomOverlayMap, useKakaoLoader } from "react-kakao-ma
 import axiosInstance from "../../../api/axiosInstance.js";
 import "./MainPTNSSearch.css";
 import { LanguageContext } from "../../../context/LanguageContext";
-import { FaLocationDot, FaXmark, FaMagnifyingGlass, FaStore, FaChevronUp, FaChevronDown, FaPhone, FaMap } from "react-icons/fa6";
+import { FaLocationDot, FaXmark, FaMagnifyingGlass, FaStore, FaChevronUp, FaChevronDown, FaMap } from "react-icons/fa6";
 import GpsIcon from "../../common/icons/GpsIcon";
 import ToastNotification from "../../common/ToastNotification.jsx";
 
@@ -240,7 +240,7 @@ export default function MainPTNSSearch() {
                 {loading ? (
                   <div className="ptnssearch-map-loading">{t('mapLoading')}</div>
                 ) : (
-                  <Map center={center} style={{ width: "100%", height: "100%" }} level={5} onCreate={setMap}>
+                  <Map center={center} style={{ width: "100%", height: "100%" }} level={4} onCreate={setMap}>
                     {myLocation && (
                       <>
                         <MapMarker

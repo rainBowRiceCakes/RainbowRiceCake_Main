@@ -90,6 +90,7 @@
   display: flex;
   align-items: center;
   gap: 32px;
+  justify-content: center;
 }
 
 .mainpromotion-icon-wrapper {
@@ -162,6 +163,7 @@
   color: var(--com-color-black);
   transform: translateY(-2px);
   box-shadow: var(--com-shadow-md);
+  border: 1px solid var(--com-color-white);
 }
 
 /* 5. Responsive Design */
@@ -195,6 +197,7 @@
     color: var(--com-color-black);
     transform: translateY(-2px);
     box-shadow: var(--com-shadow-md);
+    border: 1px solid var(--com-color-white);
   }
 }
 

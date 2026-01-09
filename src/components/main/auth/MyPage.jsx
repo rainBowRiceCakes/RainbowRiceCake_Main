@@ -34,6 +34,8 @@ export default function MyPage() {
   const [inquiryFilter, setInquiryFilter] = useState('all'); // 'all', 'reviewing', 'answered'
   const [deliveryPage, setDeliveryPage] = useState(1);
   const [inquiryPage, setInquiryPage] = useState(1);
+  const [orderSearchQuery, setOrderSearchQuery] = useState('');
+  const [inquirySearchQuery, setInquirySearchQuery] = useState('');
 
   useEffect(() => {
     if (location.state?.activeTab) {
@@ -45,11 +47,11 @@ export default function MyPage() {
   // 필터 변경 시 페이지를 1로 리셋
   useEffect(() => {
     setDeliveryPage(1);
-  }, [deliveryFilter]);
+  }, [deliveryFilter, orderSearchQuery]);
 
   useEffect(() => {
     setInquiryPage(1);
-  }, [inquiryFilter]);
+  }, [inquiryFilter, inquirySearchQuery]);
 
   // 원본 목록 (역순 정렬)
   const deliveryList = useMemo(() => {
@@ -65,24 +67,40 @@ export default function MyPage() {
 
   // 필터링된 목록
   const filteredDeliveryList = useMemo(() => {
-    if (deliveryFilter === 'all') {
-      return deliveryList;
+    let list = deliveryList;
+    
+    // Apply status filter
+    if (deliveryFilter !== 'all') {
+      const isProcessing = deliveryFilter === 'processing';
+      list = list.filter(order => (order.status !== 'com') === isProcessing);
     }
-    if (deliveryFilter === 'com') {
-      return deliveryList.filter(order => order.status === 'com');
+
+    // Apply search query filter
+    if (orderSearchQuery.trim()) {
+      list = list.filter(order => 
+        order.orderCode.toLowerCase().includes(orderSearchQuery.trim().toLowerCase())
+      );
     }
-    return deliveryList.filter(order => order.status !== 'com');
-  }, [deliveryList, deliveryFilter]);
+    return list;
+  }, [deliveryList, deliveryFilter, orderSearchQuery]);
 
   const filteredInquiryList = useMemo(() => {
-    if (inquiryFilter === 'all') {
-      return inquiryList;
+    let list = inquiryList;
+    
+    // Apply status filter
+    if (inquiryFilter !== 'all') {
+      const isAnswered = inquiryFilter === 'answered';
+      list = list.filter(q => (Number(q.status) === 1) === isAnswered);
     }
-    if (inquiryFilter === 'answered') {
-      return inquiryList.filter(q => Number(q.status) === 1);
+
+    // Apply search query filter
+    if (inquirySearchQuery.trim()) {
+      list = list.filter(q => 
+        q.title.toLowerCase().includes(inquirySearchQuery.trim().toLowerCase())
+      );
     }
-    return inquiryList.filter(q => Number(q.status) !== 1);
-  }, [inquiryList, inquiryFilter]);
+    return list;
+  }, [inquiryList, inquiryFilter, inquirySearchQuery]);
   
   // 페이지네이션된 목록
   const paginatedDeliveries = useMemo(() => {
@@ -168,14 +186,16 @@ export default function MyPage() {
     <div className="mypage-frame mypage-frame--auth">
       {/* profile */}
       <div className="mypage-profile-card">
-        <div className="mypage-profile-circle">👤</div>
+        <div className="mypage-profile-circle">
+            👤
+        </div>
         <div className="mypage-profile-meta">
           <div className="mypage-user-name">{summary.userName}</div>
           <div className="mypage-user-sub">{t("myPageSubTitleDefault")}</div>
         </div>
       </div>
 
-      {/* toggle tabs */}
+      {/* 주문 내역  */}
       <div className="mypage-tabs" role="tablist">
         <button
           type="button"
@@ -183,38 +203,55 @@ export default function MyPage() {
           onClick={() => setActiveTab("delivery")}
         >
           {t("myDeliveryHistory")}
-          <span className="mypage-tab-badge">{deliveryList.length}</span>
         </button>
 
+       {/* 문의 내역  */}
         <button
           type="button"
           className={activeTab === "inquiry" ? "mypage-tab is-active" : "mypage-tab"}
           onClick={() => setActiveTab("inquiry")}
         >
           {t("myQuestionHistory")}
-          <span className="mypage-tab-badge">{inquiryList.length}</span>
         </button>
       </div>
 
       {activeTab === "delivery" && (
         <>
           <div className="mypage-summary-card">
-            <div className="mypage-summary-head">
-              <h3 className="mypage-panel-title" onClick={() => setDeliveryFilter('all')} style={{cursor: 'pointer'}}>
-                {t("myDeliveryHistory")}
-              </h3>
-              <span className="mypage-panel-count">{deliveryList.length}</span>
+            <div 
+              className={`mypage-filter-item is-all ${deliveryFilter === 'all' ? 'is-active' : ''}`} 
+              onClick={() => setDeliveryFilter('all')}
+            >
+              <span className="mypage-summary-k">{t('myPageViewAllOrders')}</span>
+              <strong className="mypage-summary-v">{deliveryList.length}</strong>
             </div>
-
-            <div className="mypage-summary-grid">
-              <div className={`mypage-summary-item ${deliveryFilter === 'processing' ? 'is-active' : ''}`} onClick={() => setDeliveryFilter('processing')} style={{cursor: 'pointer'}}>
+            
+            <div className="mypage-filter-grid-2col">
+              <div 
+                className={`mypage-filter-item ${deliveryFilter === 'processing' ? 'is-active' : ''}`} 
+                onClick={() => setDeliveryFilter('processing')}
+              >
                 <span className="mypage-summary-k">{t('deliverySummaryProcessing')}</span>
                 <strong className="mypage-summary-v">{deliverySummary.wait}</strong>
               </div>
-              <div className={`mypage-summary-item ${deliveryFilter === 'com' ? 'is-active' : ''}`} onClick={() => setDeliveryFilter('com')} style={{cursor: 'pointer'}}>
+
+              <div 
+                className={`mypage-filter-item ${deliveryFilter === 'com' ? 'is-active' : ''}`} 
+                onClick={() => setDeliveryFilter('com')}
+              >
                 <span className="mypage-summary-k">{t('deliverySummaryDelivered')}</span>
                 <strong className="mypage-summary-v">{deliverySummary.done}</strong>
               </div>
+            </div>
+            
+            <div className="mypage-order-search">
+              <input
+                type="text"
+                className="mypage-order-search-input"
+                placeholder={t('myPageSearchByOrderNumber')}
+                value={orderSearchQuery}
+                onChange={(e) => setOrderSearchQuery(e.target.value)}
+              />
             </div>
           </div>
 
@@ -257,7 +294,7 @@ export default function MyPage() {
                           src={
                             (["pick", "com"].includes(order.status)) && order.pickupImage
                               ? order.pickupImage
-                              : "/resource/main-logo.png"
+                              : "/resource/defaultBeforeDelivery.png"
                           }
                           alt="pickup"
                           onClick={() => {
@@ -265,7 +302,7 @@ export default function MyPage() {
                               openImgView(order.pickupImage, "pickup");
                             }
                           }}
-                          onError={(e) => (e.target.src = "/resource/main-logo.png")}
+                          onError={(e) => (e.target.src = "/resource/defaultBeforeDelivery.png")}
                         />
                         <span className="mypage-img-label">{t('deliveryPickedUpLabel')}</span>
                       </div>
@@ -276,7 +313,7 @@ export default function MyPage() {
                             src={
                               order.status === "com" && order.completeImage
                                 ? order.completeImage
-                                : "/resource/main-logo.png"
+                                : "/resource/defaultBeforeDelivery.png"
                             }
                             alt="delivered"
                             onClick={() => {
@@ -284,7 +321,7 @@ export default function MyPage() {
                                 openImgView(order.completeImage, "delivered");
                               }
                             }}
-                            onError={(e) => (e.target.src = "/resource/main-logo.png")}
+                            onError={(e) => (e.target.src = "/resource/defaultBeforeDelivery.png")}
                           />
                         <span className="mypage-img-label">{t('deliveryDeliveredLabel')}</span>
                       </div>
@@ -334,22 +371,40 @@ export default function MyPage() {
       {activeTab === "inquiry" && (
         <>
           <div className="mypage-summary-card">
-            <div className="mypage-summary-head">
-               <h3 className="mypage-panel-title" onClick={() => setInquiryFilter('all')} style={{cursor: 'pointer'}}>
-                {t("myQuestionHistory")}
-              </h3>
-              <span className="mypage-panel-count">{inquiryList.length}</span>
+            <div 
+              className={`mypage-filter-item is-all ${inquiryFilter === 'all' ? 'is-active' : ''}`} 
+              onClick={() => setInquiryFilter('all')}
+            >
+              <span className="mypage-summary-k">{t('myPageViewAllInquiries')}</span>
+              <strong className="mypage-summary-v">{inquiryList.length}</strong>
             </div>
 
-            <div className="mypage-summary-grid">
-              <div className={`mypage-summary-item ${inquiryFilter === 'reviewing' ? 'is-active' : ''}`} onClick={() => setInquiryFilter('reviewing')} style={{cursor: 'pointer'}}>
+            <div className="mypage-filter-grid-2col">
+              <div 
+                className={`mypage-filter-item ${inquiryFilter === 'reviewing' ? 'is-active' : ''}`} 
+                onClick={() => setInquiryFilter('reviewing')}
+              >
                 <span className="mypage-summary-k">{t('inquirySummaryUnderReview')}</span>
                 <strong className="mypage-summary-v">{inquirySummary.wait}</strong>
               </div>
-              <div className={`mypage-summary-item ${inquiryFilter === 'answered' ? 'is-active' : ''}`} onClick={() => setInquiryFilter('answered')} style={{cursor: 'pointer'}}>
+
+              <div 
+                className={`mypage-filter-item ${inquiryFilter === 'answered' ? 'is-active' : ''}`} 
+                onClick={() => setInquiryFilter('answered')}
+              >
                 <span className="mypage-summary-k">{t('inquirySummaryResponseSent')}</span>
                 <strong className="mypage-summary-v">{inquirySummary.done}</strong>
               </div>
+            </div>
+
+            <div className="mypage-order-search">
+              <input
+                type="text"
+                className="mypage-order-search-input"
+                placeholder={t('myPageSearchByInquiryTitle')}
+                value={inquirySearchQuery}
+                onChange={(e) => setInquirySearchQuery(e.target.value)}
+              />
             </div>
           </div>
 

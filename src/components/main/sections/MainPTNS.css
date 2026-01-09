@@ -250,16 +250,28 @@
   margin-top: 10px;
   background-color: #1a1a2e;
   color: var(--com-color-white);
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
   font-size: 16px;
   font-weight: var(--com-font-weight-bold);
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
 }
 
 .mainptns-submit-button:hover {
-  opacity: 0.9;
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+  border-color: var(--com-color-white);
+  transform: translateY(-3px);
+  box-shadow: var(--com-shadow-md);
+}
+
+.mainptns-submit-button:active {
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+  border-color: var(--com-color-white);
+  transform: translateY(0);
+  box-shadow: var(--com-shadow-xs);
 }
 
 .mainptns-submit-button:disabled {

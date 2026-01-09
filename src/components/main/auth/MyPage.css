@@ -7,6 +7,7 @@
  * 260106 v1.3.0 sara - 뒤로가기 버튼 스타일 추가
  * 260106 v1.4.0 sara - 배송/문의 토글 + 모바일 친화 카드 UI
  * 260107 v2.0.0 sara - 모바일 유지 + 웹(데스크톱) 레이아웃/타이포/여백 개선
+ * 260109 v3.0.0 sara - 마이 페이지 및 배송 상태 가이드(step img) 검색바 추가
  */
 
 .mypage-frame {
@@ -44,6 +45,7 @@
   display: grid;
   place-items: center;
   font-size: 22px;
+  overflow: hidden;
 }
 .mypage-profile-meta {
   display: flex;
@@ -73,6 +75,7 @@
   background: var(--com-color-white);
   color: var(--com-color-black);
   font-weight: var(--com-font-weight-heavy);
+  font-size: var(--com-size-content);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,149 +89,182 @@
   transform: translateY(-1px);
 }
 .mypage-tab.is-active {
-  background: var(--com-color-black);
-  color: var(--com-color-white);
-  border-color: var(--com-color-black);
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+  border-color: var(--com-color-white);
 }
 .mypage-tab-badge {
   min-width: 26px;
   height: 20px;
-  padding: 0 8px;
+  padding: 0 4px;
   border-radius: 999px;
   background: var(--com-color-bg-light);
   border: 1px solid var(--com-border-default);
   display: grid;
   place-items: center;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--com-color-black);
 }
 .mypage-tab.is-active .mypage-tab-badge {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.22);
+  background: var(--com-color-white);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--com-color-black);
+}
+
+/* 7. 개별 카드(히스토리) */
+.mypage-card {
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 20px; /* 현대적인 부드러운 곡선 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* 은은한 그림자 */
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px; /* 카드 간 간격 */
+}
+
+/* 4. 요약(필터) 영역 */
+.mypage-summary-card {
+  padding: 16px; /* 여백 약간 확대 */
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 20px; /* 카드와 통일감 있는 라운드 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* 2열 그리드 간격 최적화 */
+.mypage-filter-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px; /* 간격 살짝 확대 */
+}
+
+.mypage-filter-item {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+  display: flex;
+  flex-direction: row; /* Changed from column to row for single-line display of k and v */
+  align-items: center; /* Vertically center k and v */
+  justify-content: space-between; /* Distribute k to left and v to right */
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mypage-filter-item.is-all {
+  align-items: center;
+  margin-bottom: 10px;
+  border-style: solid;
+  justify-content: center; /* Center the content (k and v) within this item */
+}
+
+.mypage-filter-item:hover {
+  border-color: var(--com-color-black);
+  background: var(--com-color-bg-light);
+}
+
+.mypage-filter-item.is-active .mypage-summary-k,
+.mypage-filter-item.is-active .mypage-summary-v {
   color: var(--com-color-white);
 }
 
-/* summary */
-.mypage-summary-card {
-  padding: 14px;
-  background: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: 16px;
-  box-shadow: var(--com-shadow-xs);
+.mypage-filter-item.is-active {
+  background: rgba(0, 0, 0, 0.58);
+  color: var(--com-color-black);
+  border-color: rgba(0, 0, 0, 0.25);
 }
-.mypage-summary-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.mypage-panel-title {
-  margin: 0;
-  font-size: 15px;
-  font-weight: var(--com-font-weight-heavy);
-}
-.mypage-panel-count {
-  min-width: 28px;
-  height: 22px;
-  padding: 0 8px;
-  border-radius: 999px;
-  background: var(--com-color-bg-light);
-  border: 1px solid var(--com-border-default);
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: var(--com-font-weight-heavy);
+.mypage-filter-item.is-active .mypage-summary-k,
+.mypage-filter-item.is-active .mypage-summary-v {
+  color: var(--com-color-black);
 }
 
-.mypage-summary-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.mypage-summary-item {
-  padding: 12px;
-  border-radius: 14px;
-  background: var(--com-color-bg-light);
-  border: 1px solid var(--com-border-default);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+.mypage-filter-item.is-active .mypage-summary-k,
+.mypage-filter-item.is-active .mypage-summary-v {
+  color: var(--com-color-white);
 }
 
-.mypage-summary-item.is-active {
-  background: var(--com-color-black); /* Dark background for active state */
-  color: var(--com-color-white); /* White text for active state */
-  border-color: var(--com-color-black); /* Dark border for active state */
-}
-
-.mypage-summary-item.is-active .mypage-summary-k,
-.mypage-summary-item.is-active .mypage-summary-v {
-  color: var(--com-color-white); /* Ensure text within active item is white */
-}
+/* 필터 아이템 내 텍스트 크기 조절 */
 .mypage-summary-k {
   color: var(--com-font-muted);
-  font-size: 12px;
-}
-.mypage-summary-v {
-  color: var(--com-color-black);
-  font-size: 14px; 
-  font-size: 18px;
-  font-weight: var(--com-font-weight-heavy);
+  padding-left: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  overflow: hidden; /* Hide any content that overflows the element's box */
+  text-overflow: ellipsis; /* Display an ellipsis (...) to indicate clipped text */
 }
 
-/* list */
+.mypage-summary-v {
+  color: var(--com-color-black);
+  font-size: 18px; /* 숫자를 더 강조 */
+  font-weight: 800;
+}
+
+/* 5. 검색창 */
+.mypage-order-search {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--com-color-overlay);
+}
+
+.mypage-order-search-input {
+  width: 100%;
+  padding: 12px 4px;
+  border: none;
+  border-bottom: 2px solid var(--com-border-default);
+  font-size: 14px;
+  outline: none;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.mypage-order-search-input:focus {
+  border-bottom-color: var(--com-color-black);
+}
+
+/* 6. 내역 리스트 및 이미지 분할 */
 .mypage-history-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.mypage-history-list .mypage-img {
-  max-height: 200px; /* 기존 260px에서 축소 */
-}
-
-/* 이미지 분할 컨테이너 */
 .mypage-img-split-container {
   display: flex;
   gap: 2px;
   margin-top: 12px;
   border-radius: 12px;
-  overflow: hidden; /* 중요: 자식 이미지가 삐져나오지 않게 함 */
+  overflow: hidden;
   border: 1px solid var(--com-border-default);
   background: #f0f0f0;
-  height: 160px; /* 높이 고정 */
+  height: 160px;
 }
 
 .mypage-img-half {
   flex: 1;
   position: relative;
-  overflow: hidden; /* 이미지 탈출 방지 */
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--com-color-bg-light);
 }
 
-.mypage-img-half:last-child {
-  border-right: none;
-}
-
-.mypage-img-half .mypage-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* 영역에 꽉 차게 */
-  display: block;
-}
-
 .mypage-img-split {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 원본 비율 유지하며 컨테이너 안에 가둠 */
+  object-fit: contain;
   display: block;
 }
 
-/* 이미지 위 라벨 (선택 사항) */
 .mypage-img-label {
   position: absolute;
   bottom: 8px;
@@ -241,82 +277,116 @@
   z-index: 2;
 }
 
-/* card */
-.mypage-card {
-  background: var(--com-color-white);
-  border: 1px solid var(--com-border-default);
-  border-radius: 16px;
-  box-shadow: var(--com-shadow-xs);
-  overflow: hidden;
-  transition: transform 0.12s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+/* 10. 데이터 없음(Empty Message) 디자인 보강 */
+.empty-msg {
+  text-align: center;
+  padding: 80px 20px; /* 상하 여백 대폭 확대하여 시원하게 배치 */
+  color: var(--com-font-muted);
+  font-size: 14px;
+  font-weight: 500;
+  background: #fafafa; /* 아주 연한 회색 배경으로 영역 구분 */
+  border-radius: 20px;
+  border: 1px dashed var(--com-border-default); /* 데이터 없음은 점선 테두리가 직관적 */
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
+/* 데이터 없음 문구 앞에 아이콘 느낌 추가 (선택 사항) */
+.empty-msg::before {
+  content: '📄'; /* 혹은 프로젝트의 아이콘 사용 */
+  font-size: 30px;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+/* 웹 호버 효과 */
+@media screen and (min-width: 768px) {
+  .mypage-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    border-color: var(--com-color-black);
+  }
+}
+
+/* [헤더 영역] 타이틀과 배지 */
 .mypage-card-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center; 
   justify-content: space-between;
   gap: 12px;
-  padding: 14px 14px 10px;
+  padding: 18px 20px 14px;
+  background: linear-gradient(to bottom, #fafafa, #ffffff);
 }
 
 .mypage-card-title {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   min-width: 0;
 }
+
 .mypage-card-mini {
-  font-size: 12px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
   color: var(--com-font-muted);
+  text-transform: uppercase;
 }
+
 .mypage-card-strong {
-  font-size: 14px;
-  font-weight: var(--com-font-weight-heavy);
+  font-size: 15px;
+  font-weight: 800; /* 주문번호/제목 강조 */
   color: var(--com-color-black);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* badge */
+/* [배지 스타일] 상태 표시 */
 .mypage-badge {
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: var(--com-font-weight-heavy);
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
   border: 1px solid var(--com-border-default);
-  background: var(--com-color-bg-light);
+  background: var(--com-color-white);
+  transition: all 0.2s ease;
   white-space: nowrap;
 }
+
 .mypage-badge.is-completed {
   background: var(--com-color-black);
   color: var(--com-color-white);
   border-color: var(--com-color-black);
 }
+
 .mypage-badge.is-progress {
   background: rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 0, 0, 0.12);
+  color: #333;
 }
+
 .mypage-badge.is-matching {
   background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-.mypage-badge.is-wait {
-  background: var(--com-color-bg-light);
 }
 
-/* card body */
+/* [바디 영역] 데이터 정보 */
 .mypage-card-body {
-  padding: 0 14px 14px;
+  padding: 4px 20px 18px;
 }
 
+/* 데이터 행(Row) */
 .mypage-kv {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-  border-top: 1px solid var(--com-color-overlay);
+  padding: 12px 0;
+  border-top: 1px dotted var(--com-border-default); /* 점선 구분선 */
 }
+
 .mypage-kv.no-border {
   border-top: none;
 }
@@ -324,32 +394,39 @@
 .mypage-k {
   color: var(--com-font-muted);
   font-size: 13px;
+  font-weight: 600; /* Key 레이블 강조 */
 }
+
 .mypage-v {
   color: var(--com-color-black);
   font-size: 13px;
   font-weight: var(--com-font-weight-heavy);
+  text-align: right;
 }
+
 .mypage-v.price {
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #333;
 }
 
-/* driver group */
+/* [특수 영역] 기사 정보 그룹 */
 .mypage-kv-group {
-  margin-top: 6px;
-  border-top: 1px solid var(--com-color-overlay);
-  border-radius: 12px;
+  margin-top: 10px; /* Adjusted for better spacing */
+  /* border-top: removed for consistency */
+  /* background-color: removed for consistency */
+  /* border-radius: removed for consistency */
+  padding: 0; /* Let inner mypage-kv handle padding */
 }
 
-/* inquiry content */
+/* [특수 영역] 문의 내용 및 이미지 */
 .mypage-content {
   margin-top: 8px;
-  padding-top: 10px;
+  padding: 12px 0;
   border-top: 1px solid var(--com-color-overlay);
   color: var(--com-color-black);
-  font-size: 13px;
-  line-height: 1.45;
-  word-break: break-word;
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
 .mypage-img-wrap {
@@ -357,239 +434,68 @@
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--com-border-default);
-  background: var(--com-color-bg-light);
 }
+
 .mypage-img {
   width: 100%;
   display: block;
   max-height: 240px;
   object-fit: contain;
+  cursor: zoom-in;
 }
 
-/* answer */
+/* [특수 영역] 관리자 답변 */
 .mypage-answer {
   margin-top: 12px;
-  padding: 12px;
+  padding: 14px;
   border-radius: 14px;
   background: var(--com-color-bg-light);
   border: 1px solid var(--com-border-default);
 }
+
 .mypage-answer-k {
   font-size: 12px;
   color: var(--com-font-muted);
   margin-bottom: 6px;
+  font-weight: 600;
 }
+
 .mypage-answer-v {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--com-color-black);
-  line-height: 1.45;
+  line-height: 1.6;
 }
 
-/* empty/loading */
-.empty-msg,
-.mypage-loading {
-  text-align: center;
-  padding: 18px 0;
-  color: var(--com-font-muted);
-}
-
-/* ✅ media query (모바일 최적화) - 기존 유지 */
+/* 8. 미디어 쿼리 (모바일 최적화) */
 @media screen and (max-width: 420px) {
-  .mypage-frame {
-    padding: 14px;
+  .mypage-frame { padding: 14px; }
+  
+  /* 작은 화면에서도 무조건 2열로 들어가도록 고정 */
+  .mypage-filter-grid-2col {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4px;
   }
-  .mypage-summary-item {
-    padding: 10px;
-  }
-  .mypage-summary-v {
-    font-size: 17px;
-  }
-  .mypage-card-head {
-    padding: 12px 12px 8px;
-  }
-  .mypage-card-body {
-    padding: 0 12px 12px;
-  }
-  .mypage-k,
-  .mypage-v {
-    font-size: 12.5px;
-  }
-  .mypage-img-split-container {
-    height: 120px;
-  }
+  
+  .mypage-summary-v { font-size: 15px; }
+  .mypage-filter-item { padding: 10px 8px; }
 }
 
 @media screen and (max-width: 768px) {
-  .mypage-frame--auth {
-    padding-top: 20px; /* 기존 76px → 증가 (겹침 방지) */
-  }
-
-  .mypage-profile-card {
-    margin-top: 6px; /* 혹시 모를 미세 겹침 방지용(기존 값 유지/안정화) */
-  }
+  .mypage-frame--auth { padding-top: 20px; }
 }
 
-/* =========================
-   ✅ WEB / DESKTOP 개선
-   - 모바일은 그대로
-   - 넓은 화면에서 전체 톤/여백/가독성/호버 개선
-========================= */
 @media screen and (min-width: 768px) {
-  .mypage-frame {
-    max-width: 1100px;
-    padding: 28px;
-  }
-
-  /* 페이지 전체 톤을 "프로모션 카드" 느낌처럼 정리 */
-  .mypage-frame--auth {
-    padding-top: 0; /* 웹에선 back 버튼을 flow로 내려서 겹침 제거 */
-    gap: 18px;
-  }
-
-  /* profile 카드: 웹에서 조금 더 고급스럽게 */
-  .mypage-profile-card {
-    padding: 18px 18px;
-    border-radius: var(--com-radius-lg);
-    box-shadow: var(--com-shadow-md);
-  }
-  .mypage-profile-circle {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-  }
-  .mypage-user-name {
-    font-size: 18px;
-  }
-  .mypage-user-sub {
-    font-size: 13px;
-  }
-
-  /* tabs: 웹에서 버튼 높이/타이포 업 */
-  .mypage-tabs {
-    gap: 12px;
-  }
-  .mypage-tab {
-    height: 48px;
-    border-radius: var(--com-radius-pill);
-    box-shadow: var(--com-shadow-md);
-  }
-  .mypage-tab:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--com-shadow-default);
-  }
-  .mypage-tab.is-active {
-    background: var(--com-color-black);
-    border-color: var(--com-color-black);
-  }
-
-  /* summary: 카드 톤 업 */
-  .mypage-summary-card {
-    border-radius: var(--com-radius-lg);
-    box-shadow: var(--com-shadow-md);
-    padding: 18px;
-  }
-  .mypage-panel-title {
-    font-size: 16px;
-  }
-  .mypage-summary-item {
-    padding: 14px;
-    border-radius: var(--com-radius-md);
-    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-  }
-  .mypage-summary-item:not(.is-active):hover {
-    transform: translateY(-2px);
-    background-color: var(--com-color-white);
-  }
-  .mypage-summary-k {
-    font-size: 13px;
-  }
-  .mypage-summary-v {
-    font-size: 20px;
-  }
-
-  /* 카드: 웹에서 hover 시 살짝 상승 */
-  .mypage-card {
-    border-radius: var(--com-radius-lg);
-    box-shadow: var(--com-shadow-md);
-  }
-  .mypage-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--com-shadow-default);
-    border-color: rgba(0, 0, 0, 0.9);
-  }
-
-  .mypage-card-head {
-    padding: 18px 18px 12px;
-  }
-  .mypage-card-mini {
-    font-size: 12px;
-  }
-  .mypage-card-strong {
-    font-size: 15px;
-  }
-
-  .mypage-card-body {
-    padding: 0 18px 18px;
-  }
-  .mypage-k,
-  .mypage-v {
-    font-size: 13.5px;
-  }
-  .mypage-v.price {
-    font-size: 15px;
-  }
-
-  /* 이미지 영역: 웹에서는 더 시원하게 */
-  .mypage-img-split-container {
-    height: 200px;
-    border-radius: var(--com-radius-md);
-    background: var(--com-color-bg-light);
-  }
-  .mypage-img-label {
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
-
-  .mypage-img-wrap {
-    border-radius: var(--com-radius-md);
-  }
-  .mypage-img {
-    max-height: 320px;
-  }
-
-  /* 문의 답변/콘텐츠: 웹 가독성 */
-  .mypage-content {
-    font-size: 13.5px;
-    line-height: 1.6;
-  }
-  .mypage-answer {
-    border-radius: var(--com-radius-md);
-    padding: 14px;
-  }
-  .mypage-answer-v {
-    font-size: 13.5px;
-    line-height: 1.6;
-  }
-
-  .empty-msg,
-  .mypage-loading {
-    padding: 26px 0;
-    font-size: 14px;
-  }
+  .mypage-frame { max-width: 1100px; padding: 28px; }
+  .mypage-frame--auth { padding-top: 0; gap: 18px; }
+  .mypage-profile-card { padding: 18px; box-shadow: var(--com-shadow-md); }
+  .mypage-tab { height: 48px; box-shadow: var(--com-shadow-md); }
+  .mypage-summary-k { font-size: 14px; } /* Increased font size for web */
+  .mypage-summary-v { font-size: 24px; } /* Increased font size for web */
+  .mypage-card:hover { box-shadow: var(--com-shadow-default); border-color: var(--com-font-muted); }
+  .mypage-img-split-container { height: 200px; }
 }
 
-/* 초대형 화면에서 너무 길어 보이지 않게 약간 정리 */
 @media screen and (min-width: 1100px) {
-  .mypage-frame {
-    padding: 34px;
-  }
-  .mypage-history-list {
-    gap: 14px;
-  }
-}
-
-.mypage-img,
-.mypage-img-split {
-  cursor: zoom-in;
+  .mypage-frame { padding: 34px; }
+  .mypage-img, .mypage-img-split { cursor: zoom-in; }
 }

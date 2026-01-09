@@ -84,6 +84,22 @@
   border-color: var(--com-color-black);
 }
 
+.maincs-button--primary:hover {
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+  border-color: var(--com-color-white);
+  transform: translateY(-3px);
+  box-shadow: var(--com-shadow-md);
+}
+
+.maincs-button--primary:active {
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+  border-color: var(--com-color-white);
+  transform: translateY(0);
+  box-shadow: var(--com-shadow-xs);
+}
+
 /* Grid Layouts */
 .maincs-grid-2 {
   display: grid;
