@@ -544,7 +544,7 @@ export const LANG_CNG = {
   },
   csInquirySuccessMsg: {
     ko: "문의가 접수되었습니다. 확인 후 연락드리겠습니다.",
-    en: "Your inquiry has been received. We will contact you after checking.",
+    en: "Your inquiry has been received. <br/> We will contact you after checking.",
   },
   csInquiryFailMsg: {
     ko: "문의 접수 실패",
