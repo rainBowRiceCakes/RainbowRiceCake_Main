@@ -251,3 +251,39 @@
     padding: 24px 20px;
   }
 }
+
+/* 필드 하단 정보 (에러메시지 + 글자수) */
+.rip-field-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  min-height: 18px;
+  /* 레이아웃 흔들림 방지 */
+}
+
+.rip-err-text {
+  color: #ff4d4f;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rip-char-count {
+  color: #8c8c8c;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+/* 유효성 실패 시 스타일 */
+.rip-input.is-invalid,
+.rip-textarea.is-invalid {
+  border-color: #ff4d4f !important;
+  background-color: #fff2f0;
+}
+
+/* 버튼 비활성화 시 시각적 처리 */
+.rip-submit:disabled {
+  background-color: #d9d9d9;
+  color: #ffffff;
+  cursor: not-allowed;
+}

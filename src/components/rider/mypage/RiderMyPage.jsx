@@ -80,7 +80,7 @@ export default function RiderMyPage() {
         <div className="mypageSection">
           <button className="navigation" onClick={() => nav(`/riders/mypage/help`)}>
             <span className="icon">✅</span>
-            <span className="label">자주 묻는 질문</span>
+            <span className="label">문의하기</span>
             <span className="chev">›</span>
           </button>
 

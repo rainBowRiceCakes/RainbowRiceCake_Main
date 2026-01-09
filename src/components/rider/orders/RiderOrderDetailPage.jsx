@@ -94,6 +94,10 @@ export default function RiderOrderDetailPage() {
             <span className="rod-value rod-mono">{order.order_hotel.krName}</span>
           </div>
           <div className="rod-row">
+            <span className="rod-label">주문 요청 시간</span>
+            <span className="rod-value">{formatDateTime(order.createdAt, '주문 요청 전')}</span>
+          </div>
+          <div className="rod-row">
             <span className="rod-label">픽업 시간</span>
             <span className="rod-value">{formatDateTime(order.pickupAt, '픽업 전')}</span>
           </div>
@@ -116,7 +120,7 @@ export default function RiderOrderDetailPage() {
           </div>
 
           <div className="rod-row">
-            <span className="rod-label">배달 금액</span>
+            <span className="rod-label">보수 금액</span>
             <span className="rod-value">{Math.round(order.price * 0.8).toLocaleString()}원</span>
           </div>
         </div>

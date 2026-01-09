@@ -31,6 +31,10 @@ export default function RiderWaitingView({ orders = [] }) {
   const profileData = useSelector((state) => state.profile?.profileData);
   const isWorking = profileData?.rider_user?.isWorking ?? false;
 
+  if (orders.length === 0 && isWorking) {
+    return <div className="rw-empty">현재 수락 가능한 오더가 없습니다.</div>;
+  }
+
   const handleOpenModal = (order) => {
     if (!isWorking) return;
     setSelectedOrder(order);
@@ -64,10 +68,6 @@ export default function RiderWaitingView({ orders = [] }) {
       setIsModalOpen(false);
     }
   };
-
-  if (orders.length === 0) {
-    return <div className="rw-empty">현재 수락 가능한 오더가 없습니다.</div>;
-  }
 
   return (
     <div className="rider-waiting-view">

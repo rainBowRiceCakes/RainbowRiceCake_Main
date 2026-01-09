@@ -6,10 +6,40 @@ import "./PartnerIssueReportPage.css";
 
 const MAX_PHOTOS = 1;
 
+const VALIDATION = {
+  TITLE: { MIN: 2, MAX: 200 },
+  CONTENT: { MIN: 10, MAX: 5000 },
+  ALLOWED_EXTS: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']
+};
+
+const getTitleError = (val) => {
+  const trimmed = val.trim();
+  if (!trimmed) return "제목은 필수 항목입니다.";
+  if (trimmed.length < VALIDATION.TITLE.MIN || trimmed.length > VALIDATION.TITLE.MAX) {
+    return `제목은 ${VALIDATION.TITLE.MIN}~${VALIDATION.TITLE.MAX}자로 입력해주세요.`;
+  }
+  if (/\s{2,}/.test(val)) return "연속된 공백은 허용되지 않습니다.";
+  return null;
+};
+
+const getContentError = (val) => {
+  const trimmed = val.trim();
+  if (!trimmed) return "내용은 필수 항목입니다.";
+  if (trimmed.length < VALIDATION.CONTENT.MIN || trimmed.length > VALIDATION.CONTENT.MAX) {
+    return `내용은 ${VALIDATION.CONTENT.MIN}~${VALIDATION.CONTENT.MAX}자로 입력해주세요.`;
+  }
+  if (/<script[\s\S]*?>[\s\S]*?<\/script>/gi.test(val)) {
+    return "보안상 허용되지 않는 태그가 포함되어 있습니다.";
+  }
+  return null;
+};
+
+// ---------------------------------------------------------------------✅ 컴포넌트 시작
 export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderId } = useParams();
+  const [errors, setErrors] = useState({ title: null, content: null });
 
   // Store에서 user 정보 가져오기
   const user = useSelector((state) => state.auth?.user);
@@ -33,6 +63,18 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const handleTitleChange = (e) => {
+    const val = e.target.value;
+    setTitle(val);
+    setErrors(prev => ({ ...prev, title: getTitleError(val) }));
+  };
+
+  const handleContentChange = (e) => {
+    const val = e.target.value;
+    setContent(val);
+    setErrors(prev => ({ ...prev, content: getContentError(val) }));
+  };
+
   // ✅ 사진 업로드 상태
   const fileRef = useRef(null);
   const [photos, setPhotos] = useState([]); // { file, url, id }
@@ -40,6 +82,21 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
   const handleFilesSelected = (e) => {
     const fileList = Array.from(e.target.files || []);
     if (fileList.length === 0) return;
+
+    const file = fileList[0];
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    // 1. 확장자 체크
+    if (!VALIDATION.ALLOWED_EXTS.includes(ext)) {
+      alert(`허용되지 않는 파일 형식입니다. (${VALIDATION.ALLOWED_EXTS.join(', ')})`);
+      return;
+    }
+
+    // 2. 파일명 보안 체크 (특수문자 등)
+    if (/[<>:"|?*\x00-\x1f]/.test(file.name)) {
+      alert("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.");
+      return;
+    }
 
     const remain = MAX_PHOTOS - photos.length;
     const picked = fileList.slice(0, remain);
@@ -161,21 +218,29 @@ export default function PartnerIssueReportPage({ reporterTypeFixed = "PTN" }) {
             <div className="rip-field">
               <label className="rip-label">제목 <span className="req">*</span></label>
               <input
-                className="rip-input"
+                className={`rip-input ${errors.title ? 'is-invalid' : ''}`}
                 placeholder="어떤 문제가 발생했나요?"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={handleTitleChange}
               />
+              <div className="rip-field-footer">
+                {errors.title && <span className="rip-error-msg">{errors.title}</span>}
+                <span className="rip-count">{title.length}/{VALIDATION.TITLE.MAX}</span>
+              </div>
             </div>
 
             <div className="rip-field">
               <label className="rip-label">이슈 상세 내용 <span className="req">*</span></label>
               <textarea
-                className="rip-textarea"
-                placeholder="상황을 구체적으로 설명해 주세요. (예: 기사가 픽업을 오지 않음, 상품 파손 등)"
+                className={`rip-textarea ${errors.content ? 'is-invalid' : ''}`}
+                placeholder="상황을 구체적으로 설명해 주세요."
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={handleContentChange}
               />
+              <div className="rip-field-footer">
+                {errors.content && <span className="rip-error-msg">{errors.content}</span>}
+                <span className="rip-count">{content.length}/{VALIDATION.CONTENT.MAX}</span>
+              </div>
             </div>
           </section>
 
