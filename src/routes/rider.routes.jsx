@@ -15,6 +15,7 @@ import RiderFaqList from "../components/rider/mypage/help/RiderFaqList.jsx";
 import RiderMyPageLayout from "./layouts/RiderMyPageLayout.jsx";
 import RiderMyPage from "../components/rider/mypage/RiderMyPage.jsx";
 import RiderOrderDetailLayout from "./layouts/RiderOrderDetailLayout.jsx";
+import InquiryHistoryPage from "../components/rider/mypage/inquiry/InquiryHistoryPage.jsx";
 
 const riderRoutes = [
   { index: true, element: <RiderMainPage /> },
@@ -47,6 +48,7 @@ const riderRoutes = [
       { path: "settlement", element: <SettlementList />, handle: { title: "정산 내역" } },
       { path: "help", element: <RiderFaqList />, handle: { title: "문의하기" } },
       { path: "help/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
+      { path: "inquiry", element: <InquiryHistoryPage />, handle: { title: "1:1 문의 내역" } },
     ],
   },
 ];

@@ -94,6 +94,12 @@ export default function RiderMyPage() {
           </button>
         </div>
 
+        <button className="navigation" onClick={() => nav(`/riders/mypage/inquiry`)}>
+          <span className="icon">❓</span>
+          <span className="label">1:1 문의 내역</span>
+          <span className="chev">›</span>
+        </button>
+
         <div className="mypageSection">
           <button className="navigation navigationLogout" onClick={handleLogout}>
             <span className="icon iconLogout">🚪</span>
