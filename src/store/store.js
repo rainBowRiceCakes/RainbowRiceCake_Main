@@ -12,7 +12,6 @@ import partnerMenuReducer from "./slices/partnerMenuSlice.js";
 import uiReducer from "./slices/partnerUiSlice.js";
 import deliveryReducer from "./slices/parternerDeliverySlice.js";
 import profileReducer from "./slices/profileSlice.js";
-import authReducer from './slices/authSlice.js';
 import formReducer from './slices/formSlice.js';
 import questionStoreReducer from "./slices/questionStoreSlice.js";
 import deliveryShowReducer from './slices/deliveryShowSlice.js';
@@ -23,6 +22,7 @@ import orderPicsReducer from './slices/orderPicsSlice.js';
 import ordersDetailReducer from './slices/ordersDetailSlice.js';
 import hotelReducer from './slices/hotelListSlice.js';
 import riderSettlementReducer from './slices/riderSettlementSlice.js';
+import authReducer from './slices/authSlice.js';
 
 const store = configureStore({
   reducer: {

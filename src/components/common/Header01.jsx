@@ -35,10 +35,10 @@ export default function Header01() {
   const mainLogo = "/resource/main-logo.png";
   const LoginIcon = "/resource/main-loginIcon.png";
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector(state => state.auth);
+  const { isLoggedIn, isAuthChecked } = useSelector(state => state.auth);
   const onlyTitleList = ['/login', '/mypage'];
   const onlyTitleFlg = onlyTitleList.some(path => path === location.pathname);
-  
+
   const dropdownRef = useRef(null);
   const hamburgerRef = useRef(null);
 
@@ -56,13 +56,13 @@ export default function Header01() {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (isOpen && 
-          dropdownRef.current && !dropdownRef.current.contains(e.target) &&
-          hamburgerRef.current && !hamburgerRef.current.contains(e.target)) {
+      if (isOpen &&
+        dropdownRef.current && !dropdownRef.current.contains(e.target) &&
+        hamburgerRef.current && !hamburgerRef.current.contains(e.target)) {
         setIsOpen(false);
       }
     };
-    
+
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [isOpen]);
@@ -81,7 +81,7 @@ export default function Header01() {
       const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-    setIsOpen(false); 
+    setIsOpen(false);
   };
 
   const onLogoClick = () => {
@@ -92,8 +92,8 @@ export default function Header01() {
 
   async function logout() {
     try {
-       await dispatch(logoutThunk());
-       setAlertModal({ isOpen: true, message: t('logoutSuccess') });
+      await dispatch(logoutThunk());
+      setAlertModal({ isOpen: true, message: t('logoutSuccess') });
     } catch (error) {
       console.log('Logout failed:', error);
       setAlertModal({ isOpen: true, message: t('logoutFailed') });
@@ -123,9 +123,10 @@ export default function Header01() {
 
           <div className="header01-actions-group">
             <LanguageToggle />
-              {
-                !onlyTitleFlg && (
-                  <div className="header01-desktop-links">
+            {
+              !onlyTitleFlg && (
+                <div className="header01-desktop-links">
+                  {/* 이제 isAuthChecked를 기다리지 않고 isLoggedIn 값에 따라 바로 그립니다. */}
                   {isLoggedIn ? (
                     <>
                       <button type="button" className="header01-action-button-link" onClick={logout}>
@@ -139,12 +140,14 @@ export default function Header01() {
                     <button type="button" className="header01-action-button-link" onClick={() => navigate('/login')}>
                       {t('headerLogin')}
                     </button>
-                  )} 
+                  )}
                 </div>
               )}
 
             <div className="header01-mobile-icons-group">
-              {isLoggedIn ? (
+              {!isAuthChecked ? (
+                <div style={{ width: '40px' }}></div> // 인증 확인 전까지 아이콘 자리를 비워둠
+              ) : isLoggedIn ? (
                 <>
                   <Link to="/mypage" className="header01-icon-mypage-btn" onClick={() => setIsOpen(false)}>
                     <img src={LoginIcon} alt={t('headerMyPageIconAlt')} className="header01-login-img" />
@@ -158,10 +161,10 @@ export default function Header01() {
                   <img src={LoginIcon} alt={t('headerLoginIconAlt')} className="header01-login-img" />
                 </Link>
               )}
-              <button 
+              <button
                 ref={hamburgerRef}
-                type="button" 
-                className={`header01-hamburger-button ${isOpen ? "is-active" : ""}`} 
+                type="button"
+                className={`header01-hamburger-button ${isOpen ? "is-active" : ""}`}
                 onClick={toggleMenu}
               >
                 <span className="header01-bar header01-hamburger-bar1" />
@@ -174,7 +177,7 @@ export default function Header01() {
 
         <AnimatePresence>
           {isOpen && (
-            <motion.div 
+            <motion.div
               ref={dropdownRef}
               className="header01-mobile-dropdown-frame"
               initial={{ x: "100%" }}
@@ -193,9 +196,9 @@ export default function Header01() {
           )}
         </AnimatePresence>
       </header>
-      <CustomAlertModal 
-        isOpen={alertModal.isOpen} 
-        onClose={handleLogoutAlertClose} 
+      <CustomAlertModal
+        isOpen={alertModal.isOpen}
+        onClose={handleLogoutAlertClose}
         message={alertModal.message}
       />
     </>
