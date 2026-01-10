@@ -94,7 +94,7 @@ const PartnerOrderDetailPage = () => {
           <section className="info_card customer_card">
             <div className="card_header">
               <span className="icon">👤</span>
-              <h3>Customer Info</h3>
+              <h3>고객 정보</h3>
             </div>
             <div className="customer_profile">
               <div className="profile_text">
@@ -108,11 +108,11 @@ const PartnerOrderDetailPage = () => {
           <section className="info_card destination_card">
             <div className="card_header">
               <span className="icon">📍</span>
-              <h3>Destination</h3>
+              <h3>배송 목적지</h3>
             </div>
             <div className="address_info">
-              <p className="hotel_name">{order.order_partner?.krName}</p>
-              <p className="hotel_address">{order.order_partner?.address}</p>
+              <p className="hotel_name">{order.order_hotel?.krName}</p>
+              <p className="hotel_address">{order.order_hotel?.address}</p>
               {/* 팁: 주소 복사 버튼이나 지도 보기 링크를 여기에 추가하면 UX가 훨씬 좋아집니다. */}
             </div>
           </section>
@@ -120,7 +120,7 @@ const PartnerOrderDetailPage = () => {
         </div>
 
         <section className="info_card">
-          <h3>Delivery Plans</h3>
+          <h3>배송 옵션</h3>
           <div className="plan_item">
             <span className="plan_icon">📦</span>
             <span className="plan_name">{order.orderDetail || "Basic x 1"}</span>
@@ -131,7 +131,7 @@ const PartnerOrderDetailPage = () => {
       {/* 오른쪽 섹션: 타임라인 (Chase 기능의 핵심) */}
       <div className="detail_right">
         <section className="info_card timeline_card">
-          <h3>Delivery Timeline</h3>
+          <h3>배송 타임라인</h3>
           <div className="timeline">
             {/* 1. 주문 생성 (req): 항상 표시 */}
             <div className="timeline_item active">

@@ -1,6 +1,6 @@
 import './PartnerPolicyModal.css';
 
-const PolicyModal = ({ isOpen, onClose, title, content }) => {
+const PartnerPolicyModal = ({ isOpen, onClose, title, content }) => {
   if (!isOpen) return null;
 
   return (
@@ -26,4 +26,4 @@ const PolicyModal = ({ isOpen, onClose, title, content }) => {
   );
 };
 
-export default PolicyModal;
+export default PartnerPolicyModal;

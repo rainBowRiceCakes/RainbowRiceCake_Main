@@ -167,40 +167,85 @@
     /* 편집 중임을 알리는 배경색 */
 }
 
-/* 3. 알림 설정 및 서비스 섹션 */
-.settings_section h4,
-.policy_links_section h4 {
+/* 3. 고객 지원 섹션 (기존 settings_section 대체) */
+.support_section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f3f9;
+}
+
+.support_section h4 {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 20px;
     color: #202224;
 }
 
-.settings_grid {
+.support_grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr;
+    /* 단일 컬럼 혹은 1fr 1fr 가능 */
+    gap: 15px;
 }
 
-.setting_toggle_item {
+.support_card {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 24px;
+    padding: 20px 24px;
     background: #ffffff;
     border: 1px solid #f1f3f9;
     border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.setting_text strong {
+/* 카드에 마우스를 올렸을 때 강조 효과 */
+.support_card:hover {
+    background: #f8f9ff;
+    border-color: #4d44ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(77, 68, 255, 0.08);
+}
+
+.support_icon {
+    font-size: 24px;
+    margin-right: 20px;
+    background: #f1f3ff;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.support_text {
+    flex: 1;
+}
+
+.support_text strong {
     display: block;
-    font-size: 15px;
-    margin-bottom: 6px;
+    font-size: 16px;
+    color: #202224;
+    margin-bottom: 4px;
 }
 
-.setting_text span {
+.support_text span {
     font-size: 13px;
     color: #888;
+}
+
+.support_card .arrow {
+    font-size: 20px;
+    color: #ccc;
+    transition: color 0.2s;
+}
+
+.support_card:hover .arrow {
+    color: #4d44ff;
 }
 
 /* 4. 약관 링크 스타일 */

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateProfileThunk } from '../../../store/thunks/profile/updateProfileThunk.js';
 import { getProfileThunk } from '../../../store/thunks/profile/getProfileThunk.js';
 import PartnerPolicyModal from './PartnerPolicyModal.jsx';
+import InquiryHistoryModal from './InquiryHistoryModal.jsx';
 import './PartnerProfile.css';
 
 const PartnerProfile = () => {
@@ -18,6 +19,7 @@ const PartnerProfile = () => {
   const [phone, setPhone] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({ manager: "", phone: "" });
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getProfileThunk());
@@ -167,21 +169,24 @@ const PartnerProfile = () => {
         </div>
       </section>
 
-      <section className="settings_section">
-        <h4>알림 설정</h4>
-        <div className="settings_grid">
-          <div className="setting_toggle_item">
-            <div className="setting_text">
-              <strong>배송 및 정산</strong>
-              <span>배송 상태, 정산 완료 등의 업데이트 알림</span>
+      <section className="support_section">
+        <h4>고객 지원</h4>
+        <div className="support_grid">
+          <div className="support_card" onClick={() => setIsInquiryModalOpen(true)}>
+            <div className="support_icon">💬</div>
+            <div className="support_text">
+              <strong>내 문의 및 신고 내역</strong>
+              <span>이전에 접수한 질문과 답변 상태를 확인하세요.</span>
             </div>
-            <label className="switch">
-              <input type="checkbox" defaultChecked />
-              <span className="slider round"></span>
-            </label>
+            <span className="arrow">›</span>
           </div>
         </div>
       </section>
+
+      <InquiryHistoryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+      />
 
       <section className="policy_links_section">
         <div className="policy_link_item" onClick={() => setIsModalOpen(true)}>

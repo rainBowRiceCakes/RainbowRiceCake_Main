@@ -19,6 +19,7 @@ dayjs.extend(isBetween);
 const KST = "Asia/Seoul";
 
 const PartnerOrderListPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // ✅ Redux에서 데이터와 함께 '서버가 계산한 pagination 정보'를 가져와야 합니다.
