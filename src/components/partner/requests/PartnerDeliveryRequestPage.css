@@ -242,6 +242,25 @@
   gap: 12px;
 }
 
+/* 에러 발생 시 입력창 스타일 */
+.input_error {
+  border-color: #ff4d4f !important;
+  background-color: #fff2f0;
+}
+
+/* 에러 메시지 텍스트 */
+.error_text {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* 라벨 색상 변경 (선택사항) */
+.form_group.has_error label {
+  color: #ff4d4f;
+}
+
 .customer_details_card input,
 .customer_details_card select {
   width: 100%;

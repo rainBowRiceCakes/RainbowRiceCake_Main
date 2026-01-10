@@ -5,7 +5,7 @@ import { getProfileThunk } from '../../../store/thunks/profile/getProfileThunk.j
 import PartnerPolicyModal from './PartnerPolicyModal.jsx';
 import './PartnerProfile.css';
 
-const PartnerMyPage = () => {
+const PartnerProfile = () => {
   const dispatch = useDispatch();
 
   const profile = useSelector((state) => state.profile.profileData);
@@ -17,22 +17,73 @@ const PartnerMyPage = () => {
   const [manager, setManager] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({ manager: "", phone: "" });
 
-  // 마운트 시 프로필 가져오기
   useEffect(() => {
     dispatch(getProfileThunk());
   }, [dispatch]);
 
-  // 프로필 데이터 동기화
   useEffect(() => {
     if (profile && !isEditing) {
       setManager(profile.manager || "");
       setPhone(profile.phone || "");
+      setFieldErrors({ manager: "", phone: "" }); // 수정 모드 아닐 때 에러 초기화
     }
   }, [profile, isEditing]);
 
+  // 연락처 하이픈 자동 삽입 함수
+  const formatPhoneNumber = (value) => {
+    const rawValue = value.replace(/[^0-9]/g, ""); // 숫자만 남김
+    if (rawValue.length <= 3) return rawValue;
+    if (rawValue.length <= 7) return `${rawValue.slice(0, 3)}-${rawValue.slice(3)}`;
+    if (rawValue.length <= 11) return `${rawValue.slice(0, 3)}-${rawValue.slice(3, 7)}-${rawValue.slice(7)}`;
+    return `${rawValue.slice(0, 3)}-${rawValue.slice(3, 7)}-${rawValue.slice(7, 11)}`;
+  };
+
+  const handlePhoneChange = (e) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setPhone(formatted);
+    if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: "" });
+  };
+
+  const handleManagerChange = (e) => {
+    setManager(e.target.value);
+    if (fieldErrors.manager) setFieldErrors({ ...fieldErrors, manager: "" });
+  };
+
+  // 취소 버튼 핸들러: 수정한 내용을 버리고 서버 데이터로 복구
+  const handleCancel = () => {
+    if (profile) {
+      setManager(profile.manager || "");
+      setPhone(profile.phone || "");
+    }
+    setFieldErrors({ manager: "", phone: "" });
+    setIsEditing(false);
+  };
+
+  // 프론트엔드 유효성 검사 (백엔드 규칙 반영)
+  const validate = () => {
+    const errors = { manager: "", phone: "" };
+    const managerRegex = /^[a-zA-Z0-9가-힣 ]{2,50}$/;
+    const phoneRegex = /^(01[016789]-\d{3,4}-\d{4}|0\d{1,2}-\d{3,4}-\d{4})$/;
+
+    if (!manager.trim()) {
+      errors.manager = "담당자 이름은 필수 항목입니다.";
+    } else if (!managerRegex.test(manager)) {
+      errors.manager = "한글, 영문, 숫자 조합으로 2~50자 사이로 입력해주세요.";
+    }
+
+    if (phone && !phoneRegex.test(phone)) {
+      errors.phone = "올바른 전화번호 형식이어야 합니다. (예: 010-1234-5678)";
+    }
+
+    setFieldErrors(errors);
+    return !errors.manager && !errors.phone;
+  };
+
   const handleSave = async () => {
     if (!profile) return;
+    if (!validate()) return; // 유효성 검증 실패 시 중단
 
     try {
       const updatedProfile = await dispatch(updateProfileThunk({
@@ -41,22 +92,18 @@ const PartnerMyPage = () => {
         userType: user?.role || 'PTN'
       })).unwrap();
 
-      // 수정된 데이터로 상태 동기화
       setManager(updatedProfile.manager || "");
       setPhone(updatedProfile.phone || "");
-
       setIsEditing(false);
       alert("매장 정보가 성공적으로 수정되었습니다.");
-
-      // 필요 시 전체 프로필 다시 불러오기
       dispatch(getProfileThunk());
     } catch (err) {
       alert(err?.msg || err || "수정에 실패했습니다.");
     }
   };
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>오류: {error?.msg || "알 수 없는 오류"}</div>;
+  if (isLoading) return <div className="loading_box">로딩 중...</div>;
+  if (error) return <div className="error_box">오류: {error?.msg || "알 수 없는 오류"}</div>;
 
   return (
     <div className="mypage_container">
@@ -69,12 +116,17 @@ const PartnerMyPage = () => {
             <h3 className="store_name">{profile?.krName || "매장 정보 로딩 중..."}</h3>
             <p className="store_address_display">{profile?.address}</p>
           </div>
-          <button
-            className={`edit_toggle_btn ${isEditing ? 'save' : ''}`}
-            onClick={isEditing ? handleSave : () => setIsEditing(true)}
-          >
-            {isEditing ? "저장하기" : "수정하기"}
-          </button>
+
+          <div className="profile_action_buttons">
+            {isEditing ? (
+              <>
+                <button className="cancel_btn" onClick={handleCancel}>취소</button>
+                <button className="edit_toggle_btn save" onClick={handleSave}>저장</button>
+              </>
+            ) : (
+              <button className="edit_toggle_btn" onClick={() => setIsEditing(true)}>수정</button>
+            )}
+          </div>
         </div>
 
         <div className="info_grid">
@@ -83,25 +135,31 @@ const PartnerMyPage = () => {
             <input
               type="text"
               value={manager}
-              onChange={(e) => setManager(e.target.value)}
+              onChange={handleManagerChange}
               readOnly={!isEditing}
-              className={isEditing ? "editable_input" : "readonly_input"}
+              className={`${isEditing ? "editable_input" : "readonly_input"} ${fieldErrors.manager ? "error_input" : ""}`}
             />
+            {fieldErrors.manager && <span className="field_error_text">{fieldErrors.manager}</span>}
           </div>
+
           <div className="info_item">
             <label>연락처</label>
             <input
               type="text"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
+              placeholder="010-0000-0000"
               readOnly={!isEditing}
-              className={isEditing ? "editable_input" : "readonly_input"}
+              className={`${isEditing ? "editable_input" : "readonly_input"} ${fieldErrors.phone ? "error_input" : ""}`}
             />
+            {fieldErrors.phone && <span className="field_error_text">{fieldErrors.phone}</span>}
           </div>
+
           <div className="info_item">
             <label>이메일</label>
             <input type="text" value={profile?.partner_user?.email || ""} readOnly className="readonly_input" />
           </div>
+
           <div className="info_item full_width">
             <label>매장 주소</label>
             <input type="text" value={profile?.address || ""} readOnly className="readonly_input" />
@@ -142,4 +200,4 @@ const PartnerMyPage = () => {
   );
 };
 
-export default PartnerMyPage;
+export default PartnerProfile;

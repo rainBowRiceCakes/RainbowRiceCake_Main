@@ -26,28 +26,52 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use(async (config) => { //request 객체 config에 전달
-  const noRetry = /^\/api\/auth\/reissue$/; // 리트라이 제외 URL 설정
-  let { accessToken } = store.getState().auth; // auth state 획득
+axiosInstance.interceptors.request.use(async (config) => {
+  // 1. 리트라이 제외 URL 설정 (기존 유지)
+  const noRetry = /^\/api\/auth\/reissue$/;
+
+  let { accessToken } = store.getState().auth;
+  const hasLoginSignal = !!localStorage.getItem('isLoginSignal');
 
   try {
-    // 엑세스 토큰 있음 && 리트라이 제외 URL 아님
-    if (accessToken && !noRetry.test(config.url)) {
-      // 엑세스 토큰 만료 확인
-      const claims = jwtDecode(accessToken);
-      const now = dayjs().unix();
-      const expTime = dayjs.unix(claims.exp).add(-5, 'minute').unix();
+    // 2. reissue 요청은 로직을 타지 않고 즉시 반환 (무한 루프 방지)
+    if (noRetry.test(config.url)) {
+      return config;
+    }
 
-      if (now >= expTime) {
-        const response = await store.dispatch(reissueThunk()).unwrap();
-        accessToken = response.data.accessToken;
+    // 3. 로그인 신호가 있는데 토큰이 없거나(새로고침) 만료된 경우
+    if (hasLoginSignal) {
+      let shouldReissue = false;
+
+      if (!accessToken) {
+        // 새로고침으로 인해 리덕스에 토큰이 없는 상태
+        shouldReissue = true;
+      } else {
+        // 토큰 만료 확인 (5분 전 미리 갱신)
+        const claims = jwtDecode(accessToken);
+        const now = dayjs().unix();
+        const expTime = dayjs.unix(claims.exp).subtract(5, 'minute').unix();
+        if (now >= expTime) {
+          shouldReissue = true;
+        }
       }
 
+      if (shouldReissue) {
+        // ✅ reissue 수행 및 새로운 토큰 확보
+        const response = await store.dispatch(reissueThunk()).unwrap();
+        // 백엔드 응답 구조에 따라 수정 (예: response.accessToken)
+        accessToken = response.data?.accessToken || response.accessToken;
+      }
+    }
+
+    // 4. 최종 확보된 토큰이 있다면 헤더에 주입
+    if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
+
     return config;
-  }
-  catch (error) {
+  } catch (error) {
+    // reissue 실패 시 (Refresh Token 만료 등) 요청 중단
     return Promise.reject(error);
   }
 });

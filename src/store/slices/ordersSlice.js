@@ -54,34 +54,36 @@ const ordersSlice = createSlice({
       })
       .addCase(orderIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-        const payload = action.payload;
+        const payload = action.payload; // Thunk에서 return response.data.data 한 값
+        console.log('RTK Payload:', payload)
 
-        // 1. 데이터 추출 고도화 (배열 찾기)
-        // 상황에 따라 payload 자체가 배열이거나, data/rows/orders 필드 안에 있을 수 있음
         let extractedOrders = [];
-        if (Array.isArray(payload)) {
-          extractedOrders = payload;
-        } else if (payload?.data && Array.isArray(payload.data)) {
+
+        // ✅ 1. 가장 먼저 현재 백엔드 구조(data.data)를 확인합니다.
+        if (payload?.data && Array.isArray(payload.data)) {
           extractedOrders = payload.data;
-        } else if (payload?.data?.rows && Array.isArray(payload.data.rows)) {
-          extractedOrders = payload.data.rows;
-        } else if (payload?.rows && Array.isArray(payload.rows)) {
+        }
+        // 2. 만약 구조가 바뀌어 payload 자체가 배열인 경우
+        else if (Array.isArray(payload)) {
+          extractedOrders = payload;
+        }
+        // 3. 기존 방어 코드들 (순서가 밀려도 상관없음)
+        else if (payload?.rows && Array.isArray(payload.rows)) {
           extractedOrders = payload.rows;
-        } else if (payload?.orders && Array.isArray(payload.orders)) {
-          extractedOrders = payload.orders;
         }
 
         state.orders = extractedOrders;
 
-        // 2. 페이지네이션 정보 추출
-        const p = payload?.pagination || payload?.data || payload;
+        // ✅ 2. 페이지네이션 정보 추출
+        // 현재 구조는 payload.pagination에 정보가 있습니다.
+        const p = payload?.pagination;
 
         if (p) {
           state.pagination = {
-            currentPage: Number(p.currentPage || p.page) || 1,
-            totalPages: Number(p.totalPages || p.totalPage) || 1,
-            totalItems: Number(p.totalItems || p.count || p.totalCount) || extractedOrders.length,
-            itemsPerPage: Number(p.itemsPerPage || p.limit) || state.pagination.itemsPerPage
+            currentPage: Number(p.currentPage) || 1,
+            totalPages: Number(p.totalPages) || 1,
+            totalItems: Number(p.totalItems) || extractedOrders.length,
+            itemsPerPage: Number(p.itemsPerPage) || state.pagination.itemsPerPage
           };
         }
       })

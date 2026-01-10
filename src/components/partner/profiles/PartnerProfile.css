@@ -63,6 +63,42 @@
     margin-top: 4px;
 }
 
+/* 취소 버튼 스타일 */
+.cancel_btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    background: #ffffff;
+    color: #666;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel_btn:hover {
+    background: #f8f9fa;
+    color: #333;
+}
+
+/* 기존 수정/저장 버튼 (기존 유지하되 margin-left 제거) */
+.edit_toggle_btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #4d44ff;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* 버튼 그룹 배치 */
+.profile_action_buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
 /* 수정/저장 버튼 스타일 */
 .edit_toggle_btn {
     margin-left: auto;
@@ -239,4 +275,26 @@ input:checked+.slider {
 
 input:checked+.slider:before {
     transform: translateX(24px);
+}
+
+/* 유효성 에러 발생 시 인풋 스타일 */
+.editable_input.error_input {
+    border-bottom: 2px solid #ff4d4f;
+    background-color: #fff2f0;
+}
+
+/* 에러 메시지 텍스트 */
+.field_error_text {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* 로딩/에러 박스 기본 스타일 */
+.loading_box,
+.error_box {
+    padding: 100px;
+    text-align: center;
+    font-weight: bold;
 }

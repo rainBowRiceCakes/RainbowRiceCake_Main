@@ -5,7 +5,7 @@ import './Header.css';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { profileData, isLoading } = useSelector((state) => state.profile);
+  const { profileData } = useSelector((state) => state.profile);
 
   useEffect(() => {
     // Thunk를 강제로 실행해보고 로그를 찍습니다.
@@ -29,7 +29,7 @@ const Header = () => {
         <div className="user-profile">
           <span className="store-name">
             {/* 로딩 중일 때와 데이터가 들어왔을 때의 처리 */}
-            {isLoading ? '로딩 중...' : profileData?.krName || '매장 정보 없음'}
+            {profileData?.krName || '매장 정보 없음'}
           </span>
           <span>{profileData?.manager} 파트너님</span>
         </div>

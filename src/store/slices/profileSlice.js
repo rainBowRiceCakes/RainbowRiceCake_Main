@@ -2,15 +2,26 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getProfileThunk } from "../thunks/profile/getProfileThunk.js";
 import { updateProfileThunk } from "../thunks/profile/updateProfileThunk.js";
 import { updateWorkStatusThunk } from "../thunks/riders/updateWorkStatusThunk.js";
+import { logoutThunk } from "../thunks/authThunk.js";
+
+// ✅ [추가] 새로고침 시 로컬스토리지에서 기존 프로필 정보를 가져옴 (깜빡임 방지)
+const savedProfile = localStorage.getItem('cachedProfile');
+const initialProfile = savedProfile ? JSON.parse(savedProfile) : null;
 
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
-    profileData: null, // { id, email, name, rider_user: { isWorking, phone, address ... } }
+    profileData: initialProfile, // { id, email, name, rider_user: { isWorking, phone, address ... } }
     isLoading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    // ✅ 로그아웃 시 프로필 캐시도 삭제하기 위한 액션 (선택 사항)
+    clearProfile(state) {
+      state.profileData = null;
+      localStorage.removeItem('cachedProfile');
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProfileThunk.pending, (state) => {
@@ -20,7 +31,6 @@ const profileSlice = createSlice({
       .addCase(getProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         const incomingData = action.payload.data;
-
         if (!incomingData) return;
 
         // 기본적으로 들어온 데이터를 모두 펼쳐 넣고 (isWorking, phone, address 등 포함)
@@ -45,6 +55,9 @@ const profileSlice = createSlice({
             }
           })
         };
+
+        // ✅ 새로고침 시 프로필 캐시 저장
+        localStorage.setItem('cachedProfile', JSON.stringify(state.profileData));
       })
       .addCase(getProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
@@ -57,9 +70,8 @@ const profileSlice = createSlice({
       })
       .addCase(updateProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-
         const newData = action.payload.data;
-        if (!newData) return; // 데이터가 없는 경우 방어 로직
+        if (!newData) return;
 
         // 1. 기사(Rider) 데이터 구조 처리
         if (newData.rider_user) {
@@ -90,6 +102,8 @@ const profileSlice = createSlice({
             ...newData
           };
         }
+        // ✅ 새로고침 시 프로필 캐시 저장
+        localStorage.setItem('cachedProfile', JSON.stringify(state.profileData));
       })
       .addCase(updateProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
@@ -97,14 +111,19 @@ const profileSlice = createSlice({
       })
       .addCase(updateWorkStatusThunk.fulfilled, (state, action) => {
         if (state.profileData?.rider_user) {
-          // Sequelize가 true/false를 사용하므로 그대로 대입
           state.profileData.rider_user.isWorking = action.payload.isWorking;
+          // ✅ 상태 변경 시에도 동기화
+          localStorage.setItem('cachedProfile', JSON.stringify(state.profileData));
         }
       })
       .addCase(updateWorkStatusThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "출근/퇴근 상태 변경 실패";
-      });
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.profileData = null;
+        localStorage.removeItem('cachedProfile');
+      })
   },
 });
 

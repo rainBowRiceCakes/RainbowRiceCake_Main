@@ -4,13 +4,11 @@ import { setSidebarCollapsed } from '../../../store/slices/partnerUiSlice.js';
 import {
   addPlan,
   removePlan,
-  updateQuantity,
   setCustomerDetails,
   resetDelivery,
 } from '../../../store/slices/parternerDeliverySlice.js';
 import { submitDeliveryRequest } from '../../../store/thunks/requests/submitDeliveryRequestThunk.js';
 import { hotelIndexThunk } from '../../../store/thunks/hotels/hotelIndexThunk.js';
-import dayjs from 'dayjs';
 import './PartnerDeliveryRequestPage.css';
 import { generateOrderNo } from '../../../utils/orderGenerator.js';
 
@@ -19,11 +17,12 @@ const PartnerDeliveryRequest = () => {
   const [step, setStep] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // 유효성 검사 에러 상태 추가
+  const [errors, setErrors] = useState({});
+
   const { list: hotels = [], loading } = useSelector((state) => state.hotels || {});
-  // 단일 선택이지만 데이터 구조 유지를 위해 selectedPlans[0]을 주로 활용
   const { selectedPlans, customerDetails, loading: submitLoading } = useSelector((state) => state.delivery);
 
-  // 현재 선택된 플랜 (없으면 null)
   const selectedPlan = selectedPlans.length > 0 ? selectedPlans[0] : null;
 
   useEffect(() => {
@@ -41,12 +40,50 @@ const PartnerDeliveryRequest = () => {
     { id: 'premium', name: '프리미엄', desc: '쇼핑백 3개', price: 10000, icon: '📦📦📦' },
   ];
 
-  // 단일 선택 핸들러: 기존 것이 있으면 지우고 새로 추가하거나, 이미 선택된 걸 누르면 해제
+  // --- 유효성 검사 함수 (백엔드 validator 규칙 반영) ---
+  const validateForm = () => {
+    const newErrors = {};
+    const nameRegex = /^[가-힣A-Za-z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // First Name 검증 (최대 25자, 한글/영문)
+    if (!customerDetails.firstName?.trim()) {
+      newErrors.firstName = "First Name is required";
+    } else if (customerDetails.firstName.length > 25) {
+      newErrors.firstName = "First name must be under 25 characters";
+    } else if (!nameRegex.test(customerDetails.firstName)) {
+      newErrors.firstName = "First name may only include Korean or English characters.";
+    }
+
+    // Last Name 검증 (최대 25자, 한글/영문)
+    if (!customerDetails.lastName?.trim()) {
+      newErrors.lastName = "Last Name is required";
+    } else if (customerDetails.lastName.length > 25) {
+      newErrors.lastName = "Last name must be under 25 characters";
+    } else if (!nameRegex.test(customerDetails.lastName)) {
+      newErrors.lastName = "Last name may only include Korean or English characters.";
+    }
+
+    // Email 검증
+    if (!customerDetails.email?.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(customerDetails.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // Hotel 선택 검증
+    if (!customerDetails.hotel) {
+      newErrors.hotel = "Please select a hotel";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handlePlanSelect = (plan) => {
     if (selectedPlan?.id === plan.id) {
       dispatch(removePlan(plan.id));
     } else {
-      // 기존에 뭐가 있었다면 싹 비우고 새로 담기 (단일 선택 보장)
       if (selectedPlans.length > 0) {
         selectedPlans.forEach(p => dispatch(removePlan(p.id)));
       }
@@ -56,12 +93,15 @@ const PartnerDeliveryRequest = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    // 입력 시 해당 필드의 에러 메시지 초기화
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: null }));
+    }
     dispatch(setCustomerDetails({ [name]: value }));
   };
 
   const handleSubmit = () => {
-    if (!customerDetails.email || !customerDetails.firstName || !customerDetails.lastName || !customerDetails.hotel) {
-      alert('Please fill in all required fields.');
+    if (!validateForm()) {
       return;
     }
 
@@ -70,7 +110,6 @@ const PartnerDeliveryRequest = () => {
     const payload = {
       ...customerDetails,
       hotelId: Number(customerDetails.hotel),
-      // selectedPlan이 존재할 때만 배열로 감싸서 보내기
       plans: selectedPlan ? [selectedPlan] : [],
       price: selectedPlan?.price || 0,
       orderCode: newOrderNo
@@ -79,7 +118,8 @@ const PartnerDeliveryRequest = () => {
     dispatch(submitDeliveryRequest(payload))
       .unwrap()
       .then(() => {
-        alert('주문이 성공적으로 접수되었습니다!');
+        alert('Please check your email for the order confirmation.');
+        dispatch(resetDelivery());
         setStep(1);
       })
       .catch((err) => alert(`Error: ${err.message || '오류가 발생했습니다.'}`));
@@ -141,28 +181,51 @@ const PartnerDeliveryRequest = () => {
           </div>
         </div>
       ) : (
-        /* ---------------- Step 2: 고객 정보 입력 ---------------- */
         <div className="step_container centered fade_in">
           <div className="customer_details_card">
             <button className="btn_back" onClick={() => setStep(1)}>← 이전 단계로</button>
             <h3 className='sub_title'>Customer Details</h3>
 
-            <div className="form_group">
-              <label>Full Name (as shown on passport)</label>
+            <div className={`form_group ${errors.firstName || errors.lastName ? 'has_error' : ''}`}>
+              <label>Full Name (as shown on passport) *</label>
               <div className="input_row">
-                <input type="text" name="firstName" placeholder="First Name" value={customerDetails.firstName} onChange={handleInputChange} />
-                <input type="text" name="lastName" placeholder="Last Name" value={customerDetails.lastName} onChange={handleInputChange} />
+                <input
+                  type="text"
+                  name="firstName"
+                  className={errors.firstName ? 'input_error' : ''}
+                  placeholder="First Name"
+                  value={customerDetails.firstName}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="lastName"
+                  className={errors.lastName ? 'input_error' : ''}
+                  placeholder="Last Name"
+                  value={customerDetails.lastName}
+                  onChange={handleInputChange}
+                />
               </div>
+              {(errors.firstName || errors.lastName) && (
+                <span className="error_text">{errors.firstName || errors.lastName}</span>
+              )}
             </div>
 
-            <div className="form_group">
-              <label>E-mail</label>
-              <input type="email" name="email" placeholder="ex. rc@example.com" value={customerDetails.email} onChange={handleInputChange} />
+            <div className={`form_group ${errors.email ? 'has_error' : ''}`}>
+              <label>E-mail *</label>
+              <input
+                type="email"
+                name="email"
+                className={errors.email ? 'input_error' : ''}
+                placeholder="ex. rc@example.com"
+                value={customerDetails.email}
+                onChange={handleInputChange}
+              />
+              {errors.email && <span className="error_text">{errors.email}</span>}
             </div>
 
-            <div className="form_group">
+            <div className={`form_group ${errors.hotel ? 'has_error' : ''}`}>
               <label>Hotel Search & Select *</label>
-              {/* 1. 검색어 입력창 추가 */}
               <input
                 type="text"
                 placeholder="호텔 이름을 검색하세요..."
@@ -171,8 +234,13 @@ const PartnerDeliveryRequest = () => {
                 className="hotel_search_input"
                 style={{ marginBottom: '10px', display: 'block', width: '100%' }}
               />
-              {/* 2. 필터링된 결과로 select 구성 */}
-              <select className="hotel_select" name="hotel" value={customerDetails.hotel} onChange={handleInputChange} disabled={loading}>
+              <select
+                className={`hotel_select ${errors.hotel ? 'input_error' : ''}`}
+                name="hotel"
+                value={customerDetails.hotel}
+                onChange={handleInputChange}
+                disabled={loading}
+              >
                 <option value="">{loading ? 'Loading...' : `${filteredHotels.length} hotels found`}</option>
                 {filteredHotels.map((hotel) => (
                   <option key={hotel.id} value={hotel.id}>
@@ -180,6 +248,7 @@ const PartnerDeliveryRequest = () => {
                   </option>
                 ))}
               </select>
+              {errors.hotel && <span className="error_text">{errors.hotel}</span>}
             </div>
 
             <button className="btn_submit" onClick={handleSubmit} disabled={submitLoading}>

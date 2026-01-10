@@ -20,6 +20,7 @@ export default function ProtectedRouter({ allowedRoles }) {
   // 자바스크립트가 즉시 읽을 수 있어 "Mount 즉시 로그인 상태" 유지가 가능합니다.
   const hasLoginSignal = !!localStorage.getItem('isLoginSignal');
 
+  const [isReissuing, setIsReissuing] = useState(hasLoginSignal && !isLoggedIn);
   // 2. ⭐ 신호가 있다면 일단 인증 체크가 된 것으로 간주하여 Loading을 건너뜁니다.
   const [isAuthChecked, setIsAuthChecked] = useState(isLoggedIn || hasLoginSignal);
 
@@ -27,32 +28,32 @@ export default function ProtectedRouter({ allowedRoles }) {
   const GUEST_ONLY_ROUTES = [/^\/login$/];
 
   useEffect(() => {
-    async function checkAuth() {
-      // 3. 신호는 있는데 리덕스 정보(user, isLoggedIn)가 없다면 새로고침 상황!
-      if (!isLoggedIn && hasLoginSignal) {
+    async function restoreSession() {
+      if (hasLoginSignal && !isLoggedIn) {
         try {
-          if (location.pathname !== '/social') {
-            // 서버에 조용히 reissue 요청하여 user 정보를 복구합니다.
-            await dispatch(reissueThunk()).unwrap();
-          }
+          setIsReissuing(true);
+          // ✅ unwrap을 통해 성공 여부를 확실히 확인
+          await dispatch(reissueThunk()).unwrap();
         } catch (error) {
-          console.error('ProtectedRouter: Session expired');
+          console.error('Session restoration failed:', error);
           localStorage.removeItem('isLoginSignal');
           dispatch(clearAuth());
+        } finally {
+          setIsReissuing(false);
         }
       }
-      setIsAuthChecked(true);
     }
 
     if (location.pathname !== '/social') {
-      checkAuth();
-    } else {
-      setIsAuthChecked(true);
+      restoreSession();
     }
-  }, [dispatch, isLoggedIn, location.pathname, hasLoginSignal]);
+  }, [dispatch, isLoggedIn, hasLoginSignal, location.pathname]);
 
   // 4. 로딩 가드 (신호도 없고 로그인도 안 된 완전 초기 상태만 로딩)
   if (!isAuthChecked) return null; // 또는 빈 div
+
+  // 1️⃣ 유저 정보 복구 중(reissue 실행 중)이라면 대기 화면 (깜빡임 방지)
+  if (isReissuing) return null;
 
   const isGuestRoute = GUEST_ONLY_ROUTES.some(regex => regex.test(location.pathname));
 
@@ -62,22 +63,15 @@ export default function ProtectedRouter({ allowedRoles }) {
     return <Outlet />;
   }
 
-  // 6. 비로그인 사용자 처리
+  // 3️⃣ 비로그인 사용자 처리
   if (!isLoggedIn) {
-    // 🚩 핵심: reissue 중일 때(hasLoginSignal은 true지만 isLoggedIn은 아직 false일 때) 
-    // 여기서 바로 튕겨내지 않도록 잠시 기다려주는 로직이 필요할 수 있습니다.
-    // 하지만 isLoggedIn이 비동기로 채워지므로, '/' 같은 공통 경로는 Outlet을 보여줍니다.
-    if (location.pathname === '/' || location.pathname === '/social') {
-      return <Outlet />;
-    }
+    if (location.pathname === '/' || location.pathname === '/social') return <Outlet />;
 
-    // 완전히 로그아웃된 상태라면 로그인으로 리다이렉트
+    // 신호가 없거나 복구가 실패했다면 로그인으로 보냄
     if (!hasLoginSignal) {
       alert('로그인이 필요한 서비스입니다.');
       return <Navigate to="/login" replace state={{ from: location }} />;
     }
-
-    // 만약 reissue 중이라면 잠깐 아무것도 안 보여주고 대기 (깜빡임 방지)
     return null;
   }
 

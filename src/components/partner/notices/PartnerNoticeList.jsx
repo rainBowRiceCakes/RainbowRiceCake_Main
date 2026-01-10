@@ -53,7 +53,6 @@ const PartnerNoticeListPage = () => {
                   <span className="notice_subject">{notice.title}</span>
                   {notice.isNew && <span className="new_badge">NEW</span>}
                   <span className="notice_date">{notice.date}</span>
-                  <span className="comment_icon">💬</span>
                 </div>
                 <p className="notice_summary">{notice.content}</p>
               </div>
