@@ -26,8 +26,8 @@
 }
 
 .current_month_badge {
-  background-color: #eff6ff;
-  color: #2563eb;
+  background-color: #ded9ff;
+  color: #7a69d5;
   padding: 8px 16px;
   border-radius: 99px;
   font-weight: 600;
@@ -41,6 +41,13 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
   margin-bottom: 40px;
+}
+
+.label_base {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 12px;
+  font-weight: 500;
 }
 
 .summary_card {
@@ -57,7 +64,7 @@
 }
 
 .summary_card.highlight {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: #BDB2FF;
   color: #ffffff;
   border: none;
 }
@@ -83,7 +90,7 @@
 .summary_card.highlight .total_value {
   font-size: 28px;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .unit_desc {

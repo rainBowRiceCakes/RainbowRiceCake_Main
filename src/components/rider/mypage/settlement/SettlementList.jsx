@@ -50,15 +50,18 @@ export default function SettlementList() {
       }
 
       const columns = [
-        { header: '완료 시간', key: 'completedAt', width: 25 },
-        { header: '주문 번호', key: 'orderCode', width: 20 },
-        { header: '실지급액(원)', key: 'riderPrice', width: 15 },
+        { header: '완료 시간', key: 'completedAt', width: 22 },
+        { header: '주문 번호', key: 'orderCode', width: 18 },
+        { header: '픽업지', key: 'pickupArea', width: 18 },
+        { header: '배달지', key: 'deliveryArea', width: 18 },
+        { header: '배달 금액(원)', key: 'riderPrice', width: 15 },
       ];
 
       const excelData = detailData.map(order => ({
         completedAt: dayjs(order.updatedAt).tz(KST).format("YYYY-MM-DD HH:mm:ss"),
-        orderCode: order.orderCode || order.id,
-        // ✅ 2. Orders 테이블의 price는 원본이므로 명세서 생성 시 0.8을 곱함
+        orderCode: order.orderCode,
+        pickupArea: order.order_partner.krName || '-',
+        deliveryArea: order.order_hotel.krName || '-',
         riderPrice: Math.floor(Number(order.price || 0) * RIDER_FEE_RATE),
       }));
 

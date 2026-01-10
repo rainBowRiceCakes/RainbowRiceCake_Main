@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js';
+import axiosInstance from '../../../api/axiosInstance.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -15,6 +16,8 @@ dayjs.extend(isBetween);
 const KST = "Asia/Seoul";
 
 const PartnerSettlement = () => {
+  const { user } = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.profile.profileData);
   const dispatch = useDispatch();
 
   // 1. Slice 구조에 맞게 상태 가져오기
@@ -65,6 +68,44 @@ const PartnerSettlement = () => {
   if (error) return <div className="error_msg">데이터 로드 실패: {error}</div>;
   if (isLoading) return <div className="loading_msg">정산 내역 집계 중...</div>;
 
+  const handleRegister = async () => {
+    try {
+      if (!window.PortOne) {
+        alert("결제 모듈을 불러올 수 없습니다.");
+        return;
+      }
+
+      const response = await window.PortOne.requestIssueBillingKey({
+        storeId: "store-2bb7ea05-d9ae-4bc9-b00b-e029044a403f", // '내 식별 코드'의 V2 Store ID
+        channelKey: "channel-key-2bb7ea05-d9ae-4bc9-b00b-e029044a403f",   // '채널 관리'에서 만든 V2 채널 키
+        customer: {
+          customerId: String(user?.id || 'guest'), // 파트너사 고유 ID (DB의 PK 등)
+          fullName: profile?.manager || user?.name || '파트너',
+          email: user?.email || profile?.partner_user?.email,
+          phone: profile?.phone
+        },
+        method: "CARD",
+        issueName: "정기결제 등록",
+      });
+
+      if (response.code !== undefined) {
+        return alert(`등록 실패: ${response.message}`);
+      }
+
+      // 서버로 빌링키와 카드 정보를 보냅니다.
+      await axiosInstance.post('/api/partners/billing-key', {
+        partnerId: user?.id,
+        billingKey: response.billingKey,
+        cardName: response.card?.name || '등록 카드', // 카드사 이름 저장
+      });
+
+      alert("자동 결제 수단이 등록되었습니다.");
+    } catch (e) {
+      console.error("결제 등록 프로세스 에러:", e);
+      alert("처리 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <div className="settlement_page">
       <header className="settlement_header">
@@ -80,16 +121,21 @@ const PartnerSettlement = () => {
       {/* 상단 요약 카드 */}
       <div className="summary_grid">
         <div className="summary_card">
-          <span className="label">기본 월 회비</span>
+          <span className="label_base">기본 월 회비</span>
           <p className="value">{settlementData.baseFee}원</p>
         </div>
         <div className="summary_card">
-          <span className="label">이번 달 배달 완료</span>
+          <span className="label_base">이번 달 배달 완료</span>
           <p className="value">{settlementData.count}건</p>
         </div>
         <div className="summary_card highlight">
-          <span className="label">결제 예정 금액 (VAT 별도)</span>
-          <p className="total_value">{settlementData.totalAmount}원</p>
+          <span className="label_base">결제 예정 금액 (VAT 별도)</span>
+          <p className="total_value">{settlementData.totalAmount.toLocaleString()}원</p>
+
+          {/* 2. 여기에 버튼 배치 */}
+          <button className="pay_reg_btn" onClick={handleRegister}>
+            네이버페이 자동결제 등록
+          </button>
         </div>
       </div>
 
