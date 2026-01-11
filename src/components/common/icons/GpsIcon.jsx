@@ -1,3 +1,9 @@
+/**
+ * @file src/components/common/icons/GpsIcon.jsx
+ * @description A simple SVG icon for GPS icons.
+ * 260110 v1.0.0 sara init
+ */
+
 export default function GpsIcon({
   size = 24,
   color = "currentColor",

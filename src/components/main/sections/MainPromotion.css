@@ -1,15 +1,16 @@
 /**
  * @file src/components/main/sections/MainPromotion.css
  * @description Styles for the new tabbed promotion section.
- * 260106 v2.0.0 YourName redesign for responsiveness and UX.
+ * 260105 v1.0.0 sara init
+ * 260106 v2.0.0 sara update redesign for responsiveness and UX.
  */
 
 /* 1. Section Header */
 .mainpromotion-frame {
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--com-gap-xl);
+  box-sizing: border-box;
 }
 
 .mainpromotion-header-frame {
@@ -17,28 +18,7 @@
   flex-direction: column;
   text-align: center;
   gap: var(--com-gap-xs);
-}
-
-.mainpromotion-eyebrow-text {
-  font-size: 12px;
-  font-weight: var(--com-font-weight-heavy);
-  letter-spacing: 0.18em;
-  color: var(--com-font-secondary-color);
-  margin: 0;
-}
-
-.mainpromotion-title-text {
-  font-size: var(--com-size-title);
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-  margin: 0;
-}
-
-.mainpromotion-subtitle-text {
-  font-size: var(--com-size-subtitle);
-  color: var(--com-font-secondary-color);
-  line-height: 1.6;
-  margin: 0;
+  padding: 0 20px;
 }
 
 /* 2. Main Promotion Card */
@@ -47,7 +27,7 @@
   border: 1px solid var(--com-border-default);
   border-radius: var(--com-radius-lg);
   box-shadow: var(--com-shadow-md);
-  overflow: hidden;
+  overflow: hidden; /* 내부 요소 탈출 방지 */
 }
 
 /* 3. Tab Navigation */
@@ -73,42 +53,39 @@
 
 .mainpromotion-tab-btn.active {
   color: var(--com-font-primary-color);
-  border-image: var(--com-gradient-rainbow) 1;
+  border-bottom: 3px solid var(--com-color-primary);
 }
 
-.mainpromotion-tab-btn:hover:not(.active) {
-  background-color: var(--com-color-overlay);
-}
-
-
-/* 4. Tab Content */
+/* 4. Tab Content (Wrapper & Items) */
 .mainpromotion-content-wrapper {
   display: flex;
-  justify-content: center; /* 가로(수평) 중앙 정렬 */
-  align-items: center;     /* 세로(수직) 중앙 정렬 */
-
-  /* 내용이 많아져도 잘리지 않고, 내용이 적어도 틀이 유지되도록 함 */
-  min-height: 400px; 
-  padding: 0 20px; /* 모바일에서 좌우 여백 확보 */
-  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  padding: 20px;
 }
 
 .mainpromotion-content {
   display: flex;
   align-items: center;
-  gap: 32px;
-
-  /* 컨텐츠 박스의 너비를 고정하여 흔들림 방지 */
+  justify-content: space-between;
+  gap: 50px;
   width: 100%;
-  max-width: 800px; /* 이 너비 안에서 텍스트만 늘었다 줄었다 함 */
+  max-width: 1000px;
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 함 */
 }
 
 .mainpromotion-icon-wrapper {
-  flex-shrink: 0;
-  opacity: 0.7;
-  width: 150px;
-  height: 150px;
-}
+  flex: 0 0 400px; /* 고정 너비 유지 */
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--com-color-bg-light);
+  border-radius: var(--com-radius-md);
+  overflow: hidden;
+  cursor: pointer;
+} 
 
 .mainpromotion-promo-img {
   width: 100%;
@@ -117,24 +94,12 @@
 }
 
 .mainpromotion-text-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-
-  /* 텍스트 영역이 남은 공간을 모두 차지하도록 설정 */
-  flex: 1;
-}
-
-.mainpromotion-content-title {
-  font-size: 22px;
-  font-weight: var(--com-font-weight-heavy);
-  color: var(--com-font-primary-color);
-}
-
-.mainpromotion-content-desc {
-  font-size: var(--com-size-body);
-  color: var(--com-font-secondary-color);
-  line-height: 1.6;
+  gap: 20px;
+  text-align: left;
+  min-width: 0; /* 텍스트가 부모를 뚫고 나가는 현상 방지 */
 }
 
 .mainpromotion-benefit-list {
@@ -149,11 +114,10 @@
   font-size: var(--com-size-body);
   padding-left: 20px;
   position: relative;
-
-  /* [추가] 한 줄 유지 및 말줄임표 처리 */
-  white-space: nowrap;      /* 1. 줄바꿈 금지 */
-  overflow: hidden;         /* 2. 넘치는 텍스트 숨김 */
-  text-overflow: ellipsis;  /* 3. 숨겨진 부분 '...' 처리 */
+  /* 텍스트 래핑 설정: 부모 컨테이너를 절대 벗어나지 않음 */
+  white-space: normal;      
+  word-break: keep-all;     
+  line-height: 1.6;
 }
 
 .mainpromotion-benefit-list li::before {
@@ -163,24 +127,25 @@
   color: var(--com-color-primary);
 }
 
+/* 요청하신 무지개 호버 & 이동 버튼 디자인 유지 */
 .mainpromotion-cta-btn {
   width: fit-content;
   padding: 12px 24px;
   border-radius: var(--com-radius-pill);
-  border: none;
+  border: 1px solid transparent; /* 호버 시 테두리 대응 */
   background: var(--com-color-black);
   color: var(--com-color-white);
   font-size: 14px;
   font-weight: var(--com-font-weight-heavy);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease; /* 모든 변화에 부드러운 애니메이션 적용 */
 }
 
 .mainpromotion-cta-btn:hover {
-  background: var(--com-gradient-rainbow);
-  color: var(--com-color-black);
-  transform: translateY(-2px);
-  box-shadow: var(--com-shadow-md);
+  background: var(--com-gradient-rainbow); /* 무지개 배경 */
+  color: var(--com-color-black);           /* 글자색 반전 */
+  transform: translateY(-4px);             /* 위로 살짝 이동 */
+  box-shadow: var(--com-shadow-md);        /* 그림자 추가 */
   border: 1px solid var(--com-color-white);
 }
 
@@ -189,6 +154,14 @@
   .mainpromotion-content {
     flex-direction: column;
     text-align: center;
+    gap: 30px;
+  }
+
+  .mainpromotion-icon-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
   }
 
   .mainpromotion-text-content {
@@ -196,49 +169,11 @@
   }
 
   .mainpromotion-benefit-list li {
-    /* 1. 강제 줄바꿈 허용 (이게 핵심) */
-    white-space: normal;
-    
-    /* 2. 한글 단어 중간이 뚝 끊기지 않도록 설정 (단어 단위 줄바꿈) */
-    word-break: keep-all;
-    
-    /* 3. 두 줄이 되었을 때 겹치지 않게 줄 간격 늘리기 */
-    line-height: 1.6;
-    
-    /* 4. 모바일에서도 왼쪽 정렬 유지 (중앙 정렬이면 긴 글 읽기 힘듦) */
     text-align: left;
-    
-    /* 5. 체크표시(::before)와 겹치지 않게 여백 확보 */
     padding-left: 24px;
   }
 
-  .mainpromotion-benefit-list li::before {
-    display: none; /* Hide checkmark on mobile for cleaner look */
-  }
-
   .mainpromotion-cta-btn:hover {
-    background: var(--com-color-black);
-    color: var(--com-color-white);
-    transform: none;
-    box-shadow: none;
-  }
-  .mainpromotion-cta-btn:active {
-    background: var(--com-gradient-rainbow);
-    color: var(--com-color-black);
-    transform: translateY(-2px);
-    box-shadow: var(--com-shadow-md);
-    border: 1px solid var(--com-color-white);
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .mainpromotion-content-wrapper {
-    padding: 24px;
-  }
-  .mainpromotion-tab-btn {
-    font-size: 14px;
-  }
-  .mainpromotion-content-title {
-    font-size: 20px;
+    transform: translateY(-2px); /* 모바일에서는 이동 폭 감소 */
   }
 }

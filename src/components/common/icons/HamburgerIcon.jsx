@@ -1,4 +1,8 @@
-import React from 'react';
+/**
+ * @file src/components/common/icons/HamburgerIcon.jsx
+ * @description A simple SVG icon for HamburgerIcons
+ * 260110 v1.0.0 sara init
+ */
 
 const HamburgerIcon = ({ icon }) => {
   const svgProps = {

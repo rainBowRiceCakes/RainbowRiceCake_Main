@@ -6,11 +6,6 @@
  * 251229 v2.1.0 sara - Applied monochrome theme and new mobile layout
  */
 
-/**
- * @file src/components/main/sections/MainInfo.css
- * @description index.css의 --com 변수를 100% 활용한 플랜 섹션 (Monochrome)
- */
-
 /* 1. 섹션 레이아웃 및 헤더 */
 .mainshow-section-wrapper {
   max-width: var(--com-web-max-width);

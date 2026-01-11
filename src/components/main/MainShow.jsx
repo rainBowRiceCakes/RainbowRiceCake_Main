@@ -8,6 +8,7 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import MainCover from './sections/MainCover.jsx';
+import MainIntro from './sections/MainIntro.jsx';
 import MainInfo from './sections/MainInfo.jsx';              // 1. 서비스 소개
 import MainPTNSSearch from './sections/MainPTNSSearch.jsx';
 import MainPromotion from './sections/MainPromotion.jsx';
@@ -33,6 +34,7 @@ export default function MainShow() {
   const [activeSection, setActiveSection] = useState(0);
 
   const sectionConfig = [
+    { id: 'intro', key: 'navIntro' },
     { id: 'plans', key: 'navPlans' } ,
     { id: 'branches', key: 'navBranches' },
     { id: 'support', key: 'navSupport' },
@@ -106,7 +108,7 @@ export default function MainShow() {
             <div
               key={id}
               className="mainshow-nav-item"
-              onClick={() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' })}
             >
               <div className="mainshow-nav-label-box">
                 <span className={`mainshow-nav-text ${activeSection === index ? 'active' : ''}`}>
@@ -118,6 +120,9 @@ export default function MainShow() {
           ))}
         </div>
       </nav>
+
+      {/* 0. 서비스소개 섹션 */}
+      <div id="intro" className="mainshow-section-frame"><MainIntro /></div>
 
       {/* 1. 요금제 섹션 */}
       <div id="plans" className="mainshow-section-frame"><MainInfo /></div>

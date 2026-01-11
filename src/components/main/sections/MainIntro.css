@@ -1,0 +1,223 @@
+/**
+ * @file src/components/main/sections/MainIntro.css
+ * @description 서비스 소개 섹션 (Hero + Side Cards)
+ * 260110 v1.1.0 - layout redesign
+ */
+
+.mainIntro-frame {
+  padding: var(--com-section-padding) 0;
+  border-top: 1px solid var(--com-color-overlay);
+}
+
+/* ===== Layout ===== */
+.mainIntro-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--com-gap-md);
+  align-items: start;
+}
+
+/* ===== HERO (Left) ===== */
+.mainIntro-hero {
+  /* 배경 이미지 */
+  --mainIntro-hero-img: url("/resource/serviceIntro.png");
+
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--com-radius-lg);
+  border: 1px solid var(--com-color-overlay);
+  box-shadow: var(--com-shadow-default);
+
+  min-height: 520px;
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.55)),
+    var(--mainIntro-hero-img);
+  background-size: cover;
+  background-position: center;
+  color: var(--com-color-white);
+}
+
+.mainIntro-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 14px 0;
+}
+
+.mainIntro-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  font-weight: var(--com-font-weight-heavy);
+  letter-spacing: 0.06em;
+  font-size: 12px;
+}
+
+.mainIntro-hero-content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 22px 18px 18px;
+}
+
+.mainIntro-hero-eyebrow {
+  font-size: 13px;
+  opacity: 0.92;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+.mainIntro-hero-title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.mainIntro-hero-desc {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  opacity: 0.92;
+  max-width: 44ch;
+}
+
+.mainIntro-hero-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mainIntro-cta {
+  appearance: none;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-weight: var(--com-font-weight-heavy);
+  font-size: 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.14);
+  color: var(--com-color-white);
+  backdrop-filter: blur(10px);
+
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.mainIntro-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--com-shadow-xs);
+  background: rgba(255,255,255,0.18);
+}
+
+.mainIntro-cta--primary {
+  background: rgba(0,0,0,0.65);
+  border-color: rgba(0,0,0,0.28);
+}
+
+.mainIntro-cta--primary:hover {
+  background: rgba(0,0,0,0.72);
+}
+
+/* ===== Side (Right) ===== */
+.mainIntro-side {
+  display: grid;
+  gap: 12px;
+}
+
+.mainIntro-side-card {
+  background: var(--com-color-white);
+  border: 1px solid var(--com-color-overlay);
+  border-radius: var(--com-radius-lg);
+  box-shadow: var(--com-shadow-default);
+  padding: 14px 14px 12px;
+}
+
+.mainIntro-side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.mainIntro-side-title {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--com-color-black);
+}
+
+.mainIntro-side-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--com-color-overlay);
+  background: var(--com-color-white);
+  color: var(--com-font-gray);
+  font-weight: var(--com-font-weight-heavy);
+}
+
+.mainIntro-side-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--com-font-gray);
+  font-size: var(--com-size-sub-title);
+  line-height: 1.65;
+}
+
+.mainIntro-side-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0 0;
+}
+
+.mainIntro-miniLink {
+  color: var(--com-font-muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: var(--com-font-weight-bold);
+}
+
+.mainIntro-miniLink:hover {
+  text-decoration: underline;
+}
+
+.mainIntro-miniDot {
+  opacity: 0.35;
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 900px) {
+  .mainIntro-layout {
+    grid-template-columns: 1.35fr 0.85fr;
+    gap: var(--com-gap-xl);
+  }
+
+  .mainIntro-hero {
+    min-height: 620px;
+  }
+
+  .mainIntro-hero-title {
+    font-size: 40px;
+  }
+}

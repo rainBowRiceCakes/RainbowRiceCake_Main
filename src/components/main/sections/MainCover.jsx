@@ -16,6 +16,7 @@ import { deliveryShowThunk } from '../../../store/thunks/deliveryShowThunk.js';
 import { clearDeliveryShow } from '../../../store/slices/deliveryShowSlice.js';
 import MainCoverModal from "./MainCoverItems/MainCoverModal.jsx";
 import CustomAlertModal from '../../common/CustomAlertModal.jsx';
+import FormShortcutIcon from '../../common/icons/FormShortcutIcon.jsx';
 import './MainCover.css';
 
 export default function MainCover() {
@@ -122,8 +123,13 @@ export default function MainCover() {
     setAlertModal((prev) => ({ ...prev, isOpen: false }));
   };
 
-  // [삭제됨] 기존에 error를 감지하던 useEffect는 제거되었습니다.
-  // unwrap()을 통해 handleTrackOrder 내부에서 catch로 처리하기 때문입니다.
+  // 제휴신청 폼 바로가기 스크롤 핸들러 추가
+  const scrollToForm = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   /** [Motion] 애니메이션 설정 */
   const containerVariants = {
@@ -140,6 +146,25 @@ export default function MainCover() {
     <div className="maincover-frame">
       {/* --- 섹션 1: 상단 비주얼 (블렌딩 효과 적용) --- */}
       <div className="maincover-visual-area">
+
+        {/* [추가] 우측 상단 숏컷 버튼 그룹 */}
+        <div className="maincover-shortcut-group">
+          <button 
+            type="button" 
+            className="maincover-shortcut-btn"
+            onClick={() => scrollToForm('rider-application-form')}
+          >
+            {t('ptnsFormRiderTitle')} <FormShortcutIcon />
+          </button>
+          <button 
+            type="button" 
+            className="maincover-shortcut-btn"
+            onClick={() => scrollToForm('partner-application-form')} 
+          >
+            {t('ptnsFormPartnerTitle')} <FormShortcutIcon />
+          </button>
+        </div>
+        
         {/* 우측 배경 영상 */}
         <video autoPlay muted loop playsInline className="maincover-video">
           <source src="/resource/main-cover.mp4" type="video/mp4" />

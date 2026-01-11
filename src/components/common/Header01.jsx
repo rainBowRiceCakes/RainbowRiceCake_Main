@@ -19,6 +19,7 @@ import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 // 6개 메뉴 설정
 const NAV_ITEMS_CONFIG = [
+  { id: "intro", key: "navIntro", icon: "info" },
   { id: "plans", key: "navPlans", icon: "plans" },
   { id: "branches", key: "navBranches", icon: "search" },
   { id: "support", key: "navSupport", icon: "cs" },

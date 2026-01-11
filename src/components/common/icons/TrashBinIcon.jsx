@@ -1,3 +1,9 @@
+/**
+ * @file src/components/common/icons/TrashBinIcon.jsx
+ * @description A simple SVG icon for TrashBinIcons
+ * 260110 v1.0.0 sara init
+ */
+
 export default function TrashBinIcon({ size = 22, color = "currentColor", strokeWidth = 13, className = "", ...props }) {
   return (
     <svg

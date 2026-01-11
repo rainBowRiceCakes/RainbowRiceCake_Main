@@ -359,6 +359,13 @@ export default function MainPTNS() {
 
       await dispatch(riderFormThunk(payload)).unwrap();
       
+      // 폼 초기화
+      setRiderFormData({ riderPhone: '', riderAddress: '', bankName: '', accountNumber: '' });
+      setLicenseFile(null);
+      setLicensePreview(null);
+      setRiderAgreements({ terms: false, privacy: false });
+      if (riderFileInputRef.current) riderFileInputRef.current.value = '';
+
       setAlertState({
         isOpen: true,
         title: t('ptnsApplicationCompletedMsg'),
@@ -513,6 +520,13 @@ export default function MainPTNS() {
 
       await dispatch(partnerFormThunk(payload)).unwrap();
       
+      // 폼 초기화
+      setPartnerFormData({ managerName: '', partnerPhone: '', storeNameKr: '', storeNameEn: '', businessNumber: '', storeAddress: '' });
+      setLogoFile(null);
+      setLogoPreview(null);
+      setPartnerAgreements({ terms: false, privacy: false });
+      if (partnerFileInputRef.current) partnerFileInputRef.current.value = '';
+
       setAlertState({
         isOpen: true,
         title: t('ptnsApplicationCompletedMsg'),

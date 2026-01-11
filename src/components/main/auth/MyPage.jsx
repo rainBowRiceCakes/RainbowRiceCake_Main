@@ -17,6 +17,7 @@ import "./MyPage.css";
 import { myPageIndexThunk } from "../../../store/thunks/myPage/myPageIndexThunk.js";
 import MypageImgView from "../auth/MypageImgView/MypageImgView.jsx";
 import Pagination from "../../common/Pagination.jsx";
+import ProfileImg from '/resource/mypage-profileIcon.png';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -186,12 +187,12 @@ export default function MyPage() {
     <div className="mypage-frame mypage-frame--auth">
       {/* profile */}
       <div className="mypage-profile-card">
-        <div className="mypage-profile-circle">
-            👤
+        <div className="mypage-profile-section">
+          <img src={ProfileImg} alt="ProfileImg" />
         </div>
         <div className="mypage-profile-meta">
           <div className="mypage-user-name">{summary.userName}</div>
-          <div className="mypage-user-sub">{t("myPageSubTitleDefault")}</div>
+          <div className="mypage-user-sub">{summary.email}</div>
         </div>
       </div>
 
@@ -217,43 +218,52 @@ export default function MyPage() {
 
       {activeTab === "delivery" && (
         <>
-          <div className="mypage-summary-card">
-            <div 
-              className={`mypage-filter-item is-all ${deliveryFilter === 'all' ? 'is-active' : ''}`} 
-              onClick={() => setDeliveryFilter('all')}
-            >
-              <span className="mypage-summary-k">{t('myPageViewAllOrders')}</span>
-              <strong className="mypage-summary-v">{deliveryList.length}</strong>
-            </div>
-            
-            <div className="mypage-filter-grid-2col">
+          <div className="mypage-summary-card mypage-summary-card--compact">
+            {/* 상단: 타이틀 + 검색 */}
+            <div className="mypage-summary-top">
               <div 
-                className={`mypage-filter-item ${deliveryFilter === 'processing' ? 'is-active' : ''}`} 
-                onClick={() => setDeliveryFilter('processing')}
+                className={`mypage-summary-title ${deliveryFilter === 'all' ? 'is-active' : ''}`}
+                onClick={() => setDeliveryFilter('all')}
               >
-                <span className="mypage-summary-k">{t('deliverySummaryProcessing')}</span>
-                <strong className="mypage-summary-v">{deliverySummary.wait}</strong>
+                <div className="mypage-summary-title-k">{t("myDeliveryHistory")}</div>
+                <div className="mypage-summary-title-v">
+                  {t("myPageViewAllOrders")} <span className="mypage-summary-title-count">{deliveryList.length}</span>
+                </div>
               </div>
 
-              <div 
-                className={`mypage-filter-item ${deliveryFilter === 'com' ? 'is-active' : ''}`} 
-                onClick={() => setDeliveryFilter('com')}
-              >
-                <span className="mypage-summary-k">{t('deliverySummaryDelivered')}</span>
-                <strong className="mypage-summary-v">{deliverySummary.done}</strong>
+              <div className="mypage-summary-search">
+                <input
+                  type="text"
+                  className="mypage-order-search-input mypage-order-search-input--compact"
+                  placeholder={t("myPageSearchByOrderNumber")}
+                  value={orderSearchQuery}
+                  onChange={(e) => setOrderSearchQuery(e.target.value)}
+                />
               </div>
             </div>
-            
-            <div className="mypage-order-search">
-              <input
-                type="text"
-                className="mypage-order-search-input"
-                placeholder={t('myPageSearchByOrderNumber')}
-                value={orderSearchQuery}
-                onChange={(e) => setOrderSearchQuery(e.target.value)}
-              />
+
+            {/* 하단: Segmented Filter */}
+            <div className="mypage-seg" role="tablist" aria-label="Delivery filter">
+              <button
+                type="button"
+                className={deliveryFilter === "processing" ? "mypage-seg-btn is-active" : "mypage-seg-btn"}
+                onClick={() => setDeliveryFilter("processing")}
+              >
+                <span className="mypage-seg-label">{t("deliverySummaryProcessing")}</span>
+                <span className="mypage-seg-count">{deliverySummary.wait}</span>
+              </button>
+
+              <button
+                type="button"
+                className={deliveryFilter === "com" ? "mypage-seg-btn is-active" : "mypage-seg-btn"}
+                onClick={() => setDeliveryFilter("com")}
+              >
+                <span className="mypage-seg-label">{t("deliverySummaryDelivered")}</span>
+                <span className="mypage-seg-count">{deliverySummary.done}</span>
+              </button>
             </div>
           </div>
+
 
           <div className="mypage-history-list">
             {paginatedDeliveries.length === 0 ? (
@@ -370,41 +380,47 @@ export default function MyPage() {
 
       {activeTab === "inquiry" && (
         <>
-          <div className="mypage-summary-card">
-            <div 
-              className={`mypage-filter-item is-all ${inquiryFilter === 'all' ? 'is-active' : ''}`} 
-              onClick={() => setInquiryFilter('all')}
-            >
-              <span className="mypage-summary-k">{t('myPageViewAllInquiries')}</span>
-              <strong className="mypage-summary-v">{inquiryList.length}</strong>
-            </div>
-
-            <div className="mypage-filter-grid-2col">
+          <div className="mypage-summary-card mypage-summary-card--compact">
+            <div className="mypage-summary-top">
               <div 
-                className={`mypage-filter-item ${inquiryFilter === 'reviewing' ? 'is-active' : ''}`} 
-                onClick={() => setInquiryFilter('reviewing')}
+                className={`mypage-summary-title ${inquiryFilter === 'all' ? 'is-active' : ''}`}
+                onClick={() => setInquiryFilter("all")}
               >
-                <span className="mypage-summary-k">{t('inquirySummaryUnderReview')}</span>
-                <strong className="mypage-summary-v">{inquirySummary.wait}</strong>
+                <div className="mypage-summary-title-k">{t("myQuestionHistory")}</div>
+                <div className="mypage-summary-title-v">
+                  {t("myPageViewAllInquiries")} <span className="mypage-summary-title-count">{inquiryList.length}</span>
+                </div>
               </div>
 
-              <div 
-                className={`mypage-filter-item ${inquiryFilter === 'answered' ? 'is-active' : ''}`} 
-                onClick={() => setInquiryFilter('answered')}
-              >
-                <span className="mypage-summary-k">{t('inquirySummaryResponseSent')}</span>
-                <strong className="mypage-summary-v">{inquirySummary.done}</strong>
+              <div className="mypage-summary-search">
+                <input
+                  type="text"
+                  className="mypage-order-search-input mypage-order-search-input--compact"
+                  placeholder={t("myPageSearchByInquiryTitle")}
+                  value={inquirySearchQuery}
+                  onChange={(e) => setInquirySearchQuery(e.target.value)}
+                />
               </div>
             </div>
 
-            <div className="mypage-order-search">
-              <input
-                type="text"
-                className="mypage-order-search-input"
-                placeholder={t('myPageSearchByInquiryTitle')}
-                value={inquirySearchQuery}
-                onChange={(e) => setInquirySearchQuery(e.target.value)}
-              />
+            <div className="mypage-seg" role="tablist" aria-label="Inquiry filter">
+              <button
+                type="button"
+                className={inquiryFilter === "reviewing" ? "mypage-seg-btn is-active" : "mypage-seg-btn"}
+                onClick={() => setInquiryFilter("reviewing")}
+              >
+                <span className="mypage-seg-label">{t("inquirySummaryUnderReview")}</span>
+                <span className="mypage-seg-count">{inquirySummary.wait}</span>
+              </button>
+
+              <button
+                type="button"
+                className={inquiryFilter === "answered" ? "mypage-seg-btn is-active" : "mypage-seg-btn"}
+                onClick={() => setInquiryFilter("answered")}
+              >
+                <span className="mypage-seg-label">{t("inquirySummaryResponseSent")}</span>
+                <span className="mypage-seg-count">{inquirySummary.done}</span>
+              </button>
             </div>
           </div>
 

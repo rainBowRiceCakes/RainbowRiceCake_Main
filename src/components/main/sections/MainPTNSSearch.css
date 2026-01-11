@@ -122,7 +122,6 @@
 
 .ptnssearch-sidebar-store-list {
   flex: 1;
-  overflow-y: auto;
 }
 
 .ptnssearch-sidebar-store-item {
@@ -189,7 +188,7 @@
 /* [추가] 상세 팝업이 떴을 때 GPS 버튼을 팝업 위로 올림 */
 .ptnssearch-current-location-btn.popup-open {
   z-index: 1200; /* 상세 팝업(1100)보다 높게 설정 */
-  bottom: calc(var(--com-gap-xl) + 60px); /* 기존보다 조금 더 위로 */
+  bottom: calc(var(--com-gap-xl) + 300px); /* 기존보다 조금 더 위로 */
 }
 
 /* --- 위치 오버레이 (디자인 시스템 반영) --- */
@@ -356,16 +355,29 @@
 @media screen and (max-width: 768px) {
   .ptnssearch-modal-content {
     width: 100%;
-    height: 100%;
+    height: 100%; /* Use full viewport height for the modal container */
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    /* Remove overflow: hidden here as main-layout will handle it */
+  }
+  .ptnssearch-modal-header {
+    padding: var(--com-gap-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--com-border-default);
+    flex-shrink: 0; /* Prevent header from shrinking */
+    background-color: var(--com-color-white); /* Ensure header has background */
+    z-index: 2; /* Ensure header is above map/sidebar */
   }
   .ptnssearch-main-layout {
-    flex-direction: column;
-    position: relative;
-  }
-
-  .ptnssearch-card-box {
-    padding: var(--com-section-padding) 0; /* Revert to default for mobile */
+    display: flex;
+    flex: 1; /* This makes it take all available space below the header */
+    flex-direction: column; /* Ensure children stack vertically */
+    position: relative; /* For absolute positioning of sidebar */
+    overflow: hidden; /* To clip the sliding sidebar */
+    /* No need for height: 100% here directly, flex: 1 handles it */
   }
 
   /* --- 모바일 바텀시트 --- */
@@ -374,27 +386,31 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 40vh; /* 화면 높이의 40% */
+    height: 100%; /* Fill all available space in ptnssearch-main-layout */
     background: var(--com-color-white);
     z-index: 1000;
     border-right: none;
     border-top: 1px solid var(--com-border-default);
     border-radius: var(--com-radius-lg) var(--com-radius-lg) 0 0;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-    transform: translateY(calc(100% - 50px)); /* 핸들 높이만큼만 노출 */
+    transform: translateY(calc(100% - 50px)); /* 핸들 높이(50px)만큼만 노출 */
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* This will be the single scrollbar */
   }
 
   .ptnssearch-sidebar.ptnssearch-sheet-open {
     transform: translateY(0); /* 시트 전체 노출 */
+    border-radius: 0; /* 전체 노출 시 radius 제거 */
   }
 
   /* --- GPS 버튼 애니메이션 --- */
   .ptnssearch-current-location-btn.sheet-open {
-    /* (바텀시트 높이 40%) + (기본여백 20px) 만큼 위로 이동 */
-    transform: translateY(calc(-35vh));
+    transform: translateY(calc(-100% + 50px)); /* 시트가 올라간 만큼 GPS 버튼도 이동 */
   }
 
+  /* 핸들바 (사이드바 내부에 위치) */
   .ptnssearch-mobile-sheet-handle {
     display: flex;
     align-items: center;
@@ -404,52 +420,46 @@
     background: var(--com-color-white);
     border: none;
     border-bottom: 1px solid var(--com-border-default);
-    border-radius: var(--com-radius-lg) var(--com-radius-lg) 0 0;
+    border-radius: var(--com-radius-lg) var(--com-radius-lg) 0 0; /* 상단 모서리만 둥글게 */
     cursor: pointer;
     font-weight: var(--com-font-weight-bold);
+    flex-shrink: 0; /* 내용 축소 방지 */
   }
-
+  
   /* 핸들바의 위/아래 화살표 아이콘 */
   .ptnssearch-mobile-sheet-handle svg { font-size: var(--com-size-subtitle); }
 
+  .ptnssearch-sidebar-search-area {
+    padding-top: var(--com-gap-md); /* 핸들 아래부터 검색 영역 시작 */
+  }
+
   .ptnssearch-map-container {
-    height: 60vh; /* 지도 영역을 60%로 고정 */
+    flex: 1; /* 남은 공간을 지도가 차지 */
+    position: relative; /* 자식 요소 절대 위치 기준 */
     z-index: 1;
   }
 
-  /* --- 상세 정보 팝업 --- */
+  /* --- 상세 정보 팝업 (모바일에서 시트 오픈 시 숨김) --- */
   .ptnssearch-detail-popup {
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    bottom: 80px; /* 바텀시트 핸들 위 */
+    bottom: 80px;
     width: 92%;
     max-width: none;
     transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* 바텀시트가 열렸을 때 팝업 위치 */
+  /* 바텀시트가 열렸을 때 팝업 숨김 */
   .ptnssearch-sidebar.ptnssearch-sheet-open ~ .ptnssearch-map-container .ptnssearch-detail-popup {
-    bottom: 43vh;
+    display: none;
   }
 
-  /* 문제 1 해결: 모바일에서 팝업이 뜨면 GPS 버튼을 팝업 위로 이동 */
-  .ptnssearch-current-location-btn.popup-open {
-    bottom: 320px; /* 상세 팝업 박스 위쪽으로 점프 (기존 300px에서 30px 상승) */
-  }
-
-  /* 바텀시트 열림 + 팝업 열림 동시 상황 */
+  /* 바텀시트 열림 + 팝업 열림 동시 상황 (팝업이 없으므로 GPS 버튼만 고려) */
   .ptnssearch-sidebar.ptnssearch-sheet-open ~ .ptnssearch-map-container .ptnssearch-current-location-btn.popup-open {
-    bottom: calc(43vh + 220px); /* 팝업 위에 버튼이 적절히 위치하도록 조정 */
+    bottom: calc(100% - 50px - var(--com-gap-md)); /* 시트 상단 근처 */
   }
 
-  .ptnssearch-search-find-btn {
-    min-height: 50px;
-    padding: 0 30px;
-    font-size: var(--com-size-subtitle); /* 16px */
-    gap: var(--com-gap-sm);
-  }
-}
 
 /* 📱 아이폰 SE (375px 이하) 전용 최적화 */
 @media screen and (max-width: 375px) {
@@ -461,4 +471,5 @@
     padding: 0 24px;
     font-size: var(--com-size-sub-title); /* 13px */
   }
+ }
 }

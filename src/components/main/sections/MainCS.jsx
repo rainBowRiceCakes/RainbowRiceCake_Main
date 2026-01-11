@@ -133,45 +133,39 @@ export default function MainCS() {
       }
       // 실패 시 (백엔드 유효성 검사 걸림)
       else {
-        // thunk의 rejectWithValue로 넘어온 데이터 (백엔드 응답)
         const errorPayload = result.payload;
-        const errorList = errorPayload?.data || []; // data 배열 추출
+        const errorList = Array.isArray(errorPayload?.data) ? errorPayload.data : [];
         
-        // 기본 에러 메시지 설정
-        let modalTitle = t("csInquiryErrorCheck") || "확인 필요";
-        let modalMessage = t("csInquiryErrorMsg") || "처리 중 오류가 발생했습니다.";
+        let modalTitle = t("csInquiryErrorCheck");
+        let modalMessage = t("csInquiryErrorMsg");
 
-        // 에러가 2개 이상인 경우 (제목, 내용 둘 다 문제)
-        if (errorList.length >= 2) {
-            modalTitle = t("csInquiryErrorInput");
-            modalMessage = t("csInquiryInputErrorMsg");
-        } 
-        
-        // 2. 에러가 1개인 경우 (기존 로직 유지)
-        else if (errorList.length === 1) {
-            const rawErrorMsg = errorList[0];
-            
-            if (typeof rawErrorMsg === 'string') {
-                if (rawErrorMsg.startsWith('title:') || rawErrorMsg.includes('title')) {
-                    modalTitle = t("csInquiryErrorTitle");
-                    modalMessage = t("csInquiryTitleErrorMsg");
-                } 
-                else if (rawErrorMsg.startsWith('content:') || rawErrorMsg.includes('content')) {
-                    modalTitle = t("csInquiryErrorContent");
-                    modalMessage = t("csInquiryContentPlaceholder");
-                } 
-                else {
-                    modalMessage = rawErrorMsg;
-                }
-            }
-        } 
-        
-        // 3. data 배열이 없고 msg만 있는 경우 (일반 에러)
-        else if (errorPayload?.msg) {
-            modalMessage = errorPayload.msg;
+        const titleError = errorList.find(e => e.param === 'title');
+        const contentError = errorList.find(e => e.param === 'content');
+
+        if (titleError && !contentError) {
+          // 제목 단독 에러
+          modalTitle = t("csInquiryErrorTitle");
+          modalMessage = t("csInquiryTitleErrorMsg");
+        } else if (!titleError && contentError) {
+          // 내용 단독 에러
+          modalTitle = t("csInquiryErrorContent");
+          modalMessage = t("csInquiryContentPlaceholder");
+        } else if (titleError && contentError) {
+          // 제목, 내용 동시 에러
+          modalTitle = t("csInquiryErrorInput");
+          modalMessage = t("csInquiryInputErrorMsg");
+        } else if (errorPayload?.msg) {
+          // 그 외 백엔드 에러
+          if (errorPayload.msg === "요청 파라미터에 이상이 있습니다.") {
+            modalMessage = t("genericBadRequestError");
+          } else if (errorPayload.msg === "서비스 제공 상태가 원활하지 않습니다.") {
+            modalMessage = t("genericSystemError");
+          } else {
+            modalMessage = errorPayload.msg; // 알 수 없는 에러는 그대로 표시
+          }
         }
 
-        // 실패 모달 표시 (성공 모달과 같은 컴포넌트 재사용)
+        // 실패 모달 표시
         setAlertModal({
           isOpen: true,
           title: modalTitle,

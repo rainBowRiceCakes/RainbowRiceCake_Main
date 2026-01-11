@@ -64,17 +64,19 @@
 
 /* 7. 도트 스타일 (기본 상태) */
 .mainshow-nav-dot {
-  width: 14px; /* Slightly increased size */
-  height: 14px; /* Slightly increased size */
+  width: 16px; /* Slightly increased size */
+  height: 16px; /* Slightly increased size */
   background-color: var(--com-font-muted);
+  border:rgba(0, 0, 0, 0.145) 0.5px solid;
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0; /* level 0 */
+
 }
 
 /* 8. 활성 도트 강조 */
 .mainshow-nav-dot.active {
-  background-color: var(--com-color-black);
+  background-color: var(--com-color-red);
   transform: scale(1.4);
 }
 
@@ -136,23 +138,26 @@
 
 /* 16. 도트 색상 순차 적용 (무지개 톤) */
 .mainshow-nav-item:nth-child(1) .mainshow-nav-dot { 
-  background-color: rgba(255, 173, 173, 0.8); 
+  background-color: rgba(255, 173, 173, 0.5); /* Red */
 }
 .mainshow-nav-item:nth-child(2) .mainshow-nav-dot { 
-  background-color: rgba(255, 214, 165, 0.8); 
+  background-color: rgba(255, 214, 165, 0.5); /* Orange */
 }
 .mainshow-nav-item:nth-child(3) .mainshow-nav-dot { 
-  background-color: rgba(253, 255, 182, 0.8); 
+  background-color: rgba(253, 255, 182, 0.5); /* Yellow */
 }
 .mainshow-nav-item:nth-child(4) .mainshow-nav-dot { 
-  background-color: rgba(202, 255, 191, 0.8); 
+  background-color: rgba(202, 255, 191, 0.5); /* Green */
 }
 .mainshow-nav-item:nth-child(5) .mainshow-nav-dot { 
-  background-color: rgba(155, 246, 255, 0.8); 
+  background-color: rgba(155, 246, 255, 0.5); /* Cyan */
 }
 .mainshow-nav-item:nth-child(6) .mainshow-nav-dot { 
-  background-color: rgba(160, 196, 255, 0.8); 
+  background-color: rgba(160, 196, 255, 0.5); /* Blue */
 }
+.mainshow-nav-item:nth-child(7) .mainshow-nav-dot { 
+  background-color: rgba(189, 178, 255, 0.5); /* Purple */
+}  
 
 .mainshow-carousel-wrapper {
   width: 100%;

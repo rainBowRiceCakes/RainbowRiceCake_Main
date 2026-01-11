@@ -16,6 +16,10 @@ export const LANG_CNG = {
     ko: "제휴문의",
     en: "Partners",
   },
+  navIntro: {
+    ko: "DGD Service",
+    en: "About DGD",
+  },
   navPromotion: {
     ko: "프로모션",
     en: "Promotion",
@@ -56,7 +60,7 @@ export const LANG_CNG = {
   },
   coverOrderNumberCheckError: {
     ko: "배송번호 조회 실패",
-    en: "Delivery number search failed"
+    en: "Invalid order number"
   },
   
 
@@ -476,23 +480,23 @@ export const LANG_CNG = {
   },
   csInquiryDesc: {
     ko: "서비스 이용 중 불편사항이나 궁금한 점을 남겨주세요. 파손 및 분실 관련 문의는 물품 사진을 첨부해 주세요.",
-    en: "Please let us know if you experience any inconveniences or have any questions while using the service. For inquiries regarding damage or loss, please attach a photo of the item.",
+    en: "Please let us know if you experience any inconveniences or have any questions while using DGD service. For inquiries regarding damage or loss, please attach a photo of the item.",
   },
   csInquirySubjectLabel: {
     ko: "제목",
     en: "Subject",
   },
   csInquirySubjectPlaceholder: {
-    ko: "예) 예약 취소 요청합니다 / 배송 상태가 변경되지 않아요",
-    en: "ex) I would like to cancel my reservation / The delivery status has not changed.",
+    ko: "예) 예약 취소 요청 / 배송 상태가 업데이트되지 않아요",
+    en: "e.g. Request to cancel a reservation / Delivery status hasn’t updated",
   },
   csInquiryContentLabel: {
     ko: "내용",
     en: "Content",
   },
   csInquiryContentPlaceholder: {
-    ko: "문의 내용을 상세히 적어주세요.(내용은 10~5000자로 입력 가능해요.)",
-    en: "Please describe your inquiry in detail. (You can enter between 10 and 5000 characters.)",
+    ko: "문의 내용을 상세히 입력해주세요.(문의 내용을 입력해주세요. (10~5000자))",
+    en: "Enter your inquiry in detail. (10-5000 chars.)",
   },
   csInquiryFileLabel: {
     ko: "첨부파일 (선택)",
@@ -528,23 +532,23 @@ export const LANG_CNG = {
   },
   csInquiryErrorContent: {
     ko: "내용 입력 오류",
-    en: "Content entry error"
+    en: "Invalid Message"
   },
   csInquiryErrorInput: {
-    ko: "입력 확인 필요",
-    en: "Input Verification Required"
+    ko: "입력 오류",
+    en: "Input Error"
   },
   csInquiryInputErrorMsg: {
-    ko: "제목 또는 내용이 잘못 입력되었습니다.",
-    en: "Invalid title or content entered."
+    ko: "문의 내용을 상세히 입력해주세요.(문의 내용을 입력해주세요. (10~5000자)",
+    en: "Enter your inquiry in detail. (10-5000 chars.)"
   },
   csInquirySuccessTitle: {
     ko: "접수 완료",
-    en: "Acceptance completed"
+    en: "Submitted"
   },
   csInquirySuccessMsg: {
     ko: "문의가 접수되었습니다. 확인 후 연락드리겠습니다.",
-    en: "Your inquiry has been received. <br/> We will contact you after checking.",
+    en: "Your inquiry has been successfully submitted. <br/> We’ll get back to you shortly.",
   },
   csInquiryFailMsg: {
     ko: "문의 접수 실패",
@@ -651,8 +655,8 @@ export const LANG_CNG = {
     en: "←",
   },
   myPageSubTitleDefault: {
-    ko: "DGD 서비스를 이용해 주셔서 감사합니다.",
-    en: "Thank you for using DGD services.",
+    ko: "My account",
+    en: "My account",
   },
   deliveryStatusOrderReceived: {
     ko: "접수 완료",
@@ -679,12 +683,12 @@ export const LANG_CNG = {
     en: "Under Review",
   },
   deliverySummaryProcessing: {
-    ko: "처리 중인 주문 모아보기",
-    en: "View Processing Orders",
+    ko: "처리 중",
+    en: "Processing",
   },
   deliverySummaryDelivered: {
-    ko: "배송 완료된 주문 모아보기",
-    en: "View Delivered Orders",
+    ko: "배송 완료",
+    en: "Delivered",
   },
   deliveryOrderNumber: {
     ko: "주문 번호",
@@ -731,12 +735,12 @@ export const LANG_CNG = {
     en: "Payment Amount",
   },
   inquirySummaryUnderReview: {
-    ko: "처리 중인 문의 모아보기",
-    en: "View Under Review",
+    ko: "처리 중",
+    en: "Under Review",
   },
   inquirySummaryResponseSent: {
-    ko: "답변 완료 문의 모아보기",
-    en: "View Answered Inquiries",
+    ko: "답변 완료",
+    en: "Response Sent",
   },
   inquiryTitle: {
     ko: "제목",
@@ -762,12 +766,12 @@ export const LANG_CNG = {
     en: "To apply for service partnership, business name/address/contact information is required, and the time of application is recorded after verification.",
   },
   ptnsFormRiderTitle: {
-    ko: "라이더 제휴 신청",
-    en: "Rider Affiliate Application",
+    ko: "라이더 모집",
+    en: "Rider recruitment",
   },
   ptnsFormPartnerTitle: {
-    ko: "파트너 제휴 신청",
-    en: "Partner Affiliate Application",
+    ko: "파트너 모집",
+    en: "Partner recruitment",
   },
   ptnsTabRider: {
     ko: "라이더",
@@ -894,16 +898,16 @@ export const LANG_CNG = {
     en: "Agree and Confirm",
   },
   ptnsAgreeRequiredAlert: {
-    ko: "개인정보 수집·이용 동의가 필요합니다.",
-    en: "Agreement to the collection and use of personal information is required.",
+    ko: "모든 약관에 동의하셔야 신청이 가능합니다",
+    en: "You must agree to all terms to proceed with your application.",
   },
   ptnsModalConfirmErrorMsg: {
-    ko: "약관 동의 확인 필요",
-    en: "Requires confirmation of agreement to terms and conditions"
+    ko: "약관 동의 필요",
+    en: "Agreement required"
   },
   ptnsSubmitSuccessAlert: {
     ko: "제휴 문의가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다.",
-    en: "Your partnership inquiry has been successfully submitted. We will review it and contact you.",
+    en: "Your partnership inquiry has been successfully submitted. We'll review it and contact you.",
   },
   ptnsApplicationCompletedMsg: {
     ko: "신청 완료",
@@ -1434,11 +1438,11 @@ export const LANG_CNG = {
   },
   "myDeliveryHistory": {
     "ko": "전체 주문 내역",
-    "en": "All Order History"
+    "en": "Order History"
   },
     "myQuestionHistory": {
       "ko": "전체 문의 내역",
-      "en": "All Question History"
+      "en": "Question History"
     },
     "myPageViewAllOrders": {
       "ko": "전체 주문 보기",
@@ -1597,5 +1601,14 @@ export const LANG_CNG = {
   "mainLocationPartnerName": {
     "ko": "krName",
     "en": "enName"
+  },
+  // --- Generic Backend Errors ---
+  "genericBadRequestError": {
+    "ko": "요청 형식이 올바르지 않습니다. 입력 내용을 다시 확인해주세요.",
+    "en": "The request format is incorrect. Please check your input."
+  },
+  "genericSystemError": {
+    "ko": "일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+    "en": "A temporary error occurred. Please try again later."
   },
 };
