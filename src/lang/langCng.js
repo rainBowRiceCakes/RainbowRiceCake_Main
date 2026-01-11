@@ -350,8 +350,8 @@ export const LANG_CNG = {
     en: "How long does it take for my luggage to arrive?",
   },
   csFaq1Answer: {
-    ko: "배송 시간은 지점 간 거리와 현장 상황에 따라 조금씩 차이가 발생할 수 있습니다. 진행 상황이 궁금하다면 [배송 조회]를 확인해 주세요.",
-    en: "Delivery times may vary slightly depending on the distance between branches and on-site conditions. If you'd like to check the status of your order, please check [Delivery Tracking].",
+    ko: "배송은 접수 후 최대 3시간 이내에 완료됩니다. 다만 지점 간 거리와 현장 상황에 따라 도착 시간이 달라질 수 있습니다. 진행 상황이 궁금하다면 [배송 조회]를 확인해 주세요.",
+    en: "Delivery is guaranteed within 3 hours of pickup. However, arrival time may vary slightly depending on the distance between branches and on-site conditions. If you'd like to check your order status, please check [Delivery Tracking].",
   },
   csFaq2Question: {
     ko: "맡길 수 없는 물건이 정해져 있나요?",

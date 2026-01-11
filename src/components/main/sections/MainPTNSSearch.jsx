@@ -6,7 +6,7 @@
  * - 백엔드 API 연동 복구 및 useMemo 최적화 적용
  */
 
-import { useState, useContext, useCallback, useMemo } from "react";
+import { useState, useContext, useCallback, useMemo, useRef, useEffect } from "react";
 import { Map, MapMarker, CustomOverlayMap, useKakaoLoader } from "react-kakao-maps-sdk";
 import axiosInstance from "../../../api/axiosInstance.js";
 import "./MainPTNSSearch.css";
@@ -69,6 +69,13 @@ export default function MainPTNSSearch() {
   const [keyword, setKeyword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [map, setMap] = useState(null);
+  const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    if (!isSheetOpen && sidebarRef.current) {
+      sidebarRef.current.scrollTop = 0;
+    }
+  }, [isSheetOpen]);
 
   // 카카오맵 SDK 로더
   const [loading] = useKakaoLoader({
@@ -203,7 +210,7 @@ export default function MainPTNSSearch() {
               <button onClick={() => setIsModalOpen(false)} className="ptnssearch-modal-close-button"><FaXmark /></button>
             </div>
             <div className="ptnssearch-main-layout">
-              <div className={`ptnssearch-sidebar ${isSheetOpen ? "ptnssearch-sheet-open" : ""}`}>
+              <div ref={sidebarRef} className={`ptnssearch-sidebar ${isSheetOpen ? "ptnssearch-sheet-open" : ""}`}>
                 <button className="ptnssearch-mobile-sheet-handle" onClick={() => setIsSheetOpen(!isSheetOpen)}>
                   {isSheetOpen ? <FaChevronDown /> : <FaChevronUp />}
                 </button>
