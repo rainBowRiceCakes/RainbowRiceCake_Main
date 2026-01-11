@@ -4,19 +4,32 @@
   min-height: 100vh;
 }
 
-/* 헤더 영역 */
+/* 헤더 전체 정렬 */
 .settlement_header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  /* 버튼이 아래쪽에 붙도록 유지 */
   margin-bottom: 32px;
+  padding-top: 5px;
+}
+
+/* 타이틀과 뱃지를 가로로 정렬 */
+.title_area {
+  display: flex;
+  align-items: center;
+  /* 세로 중앙 맞춤 */
+  gap: 12px;
+  /* 타이틀과 뱃지 사이 간격 */
+  margin-bottom: 8px;
+  /* 아래 서브타이틀과의 간격 */
 }
 
 .page_title {
   font-size: 24px;
   font-weight: 700;
   color: #1e293b;
-  margin: 0 0 8px 0;
+  margin: 0;
 }
 
 .subtitle {
@@ -26,13 +39,19 @@
 }
 
 .current_month_badge {
+  /* width: fit-content; 는 유지해도 좋고, 
+     flex 컨테이너 안에서는 자동으로 자기 크기만큼만 차지합니다. */
   background-color: #ded9ff;
   color: #7a69d5;
-  padding: 8px 16px;
+  padding: 6px 14px;
+  /* 폰트 크기에 맞춰 살짝 조절 */
   border-radius: 99px;
   font-weight: 600;
   font-size: 14px;
   border: 1px solid #dbeafe;
+  white-space: nowrap;
+  margin-bottom: 15px;
+  /* 글자가 줄바꿈되지 않도록 방지 */
 }
 
 /* 요약 카드 그리드 */
@@ -91,6 +110,21 @@
   font-size: 28px;
   font-weight: 800;
   color: #0f172a;
+}
+
+.pay_reg_btn {
+  padding: 10px 20px;
+  background-color: #FEE500;
+  color: rgb(51, 51, 51);
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pay_reg_btn:hover {
+  background-color: #E6CF00;
 }
 
 .unit_desc {
@@ -179,6 +213,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+    padding-top: 5px;
   }
 }
 

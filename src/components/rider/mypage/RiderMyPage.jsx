@@ -31,9 +31,19 @@ export default function RiderMyPage() {
 
   const handleLogout = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
-      await dispatch(logoutThunk());
-      nav('/');         // 2. 로그인 화면으로 이동
-      dispatch(clearAuth()); // 1. Redux 상태 초기화  
+      try {
+        // 1. 서버 로그아웃 요청 (성공 여부와 관계없이 진행하려면 try-catch)
+        await dispatch(logoutThunk()).unwrap();
+      } catch (error) {
+        console.error("Logout failed:", error);
+      } finally {
+        // 2. Redux 상태를 먼저 초기화 (인증 정보 제거)
+        dispatch(clearAuth());
+
+        // 3. 페이지 이동을 마지막에 수행
+        // replace: true를 사용하면 뒤로가기로 다시 마이페이지에 오는 것을 방지합니다.
+        nav('/', { replace: true });
+      }
     }
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js';
+import axiosInstance from '../../../api/axiosInstance.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -15,6 +16,8 @@ dayjs.extend(isBetween);
 const KST = "Asia/Seoul";
 
 const PartnerSettlement = () => {
+  const { user } = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.profile.profileData);
   const dispatch = useDispatch();
 
   // 1. Slice 구조에 맞게 상태 가져오기
@@ -65,16 +68,74 @@ const PartnerSettlement = () => {
   if (error) return <div className="error_msg">데이터 로드 실패: {error}</div>;
   if (isLoading) return <div className="loading_msg">정산 내역 집계 중...</div>;
 
+  const handleRegister = async () => {
+    console.log("=== 포트원 전송 데이터 확인 ===");
+    console.log("User ID (String):", String(user?.id));
+    console.log("Manager Name:", profile?.manager);
+    console.log("Email:", user?.email);
+    console.log("Phone:", profile?.phone);
+
+    if (!user?.id) {
+      alert("유저 정보를 찾을 수 없습니다. 다시 로그인 해주세요.");
+      return;
+    }
+    try {
+      if (!window.PortOne) {
+        alert("결제 모듈을 불러올 수 없습니다.");
+        return;
+      }
+
+      const response = await window.PortOne.requestIssueBillingKey({
+        storeId: "store-75c769ee-16f3-47dc-abf3-b06e7fce3851", // '내 식별 코드'의 V2 Store ID
+        channelKey: "channel-key-2bb7ea05-d9ae-4bc9-b00b-e029044a403f",   // '채널 관리'에서 만든 V2 채널 키
+        billingKeyMethod: "EASY_PAY", // 간편결제 방식 지정
+        easyPay: {
+          provider: "KAKAOPAY", // 카카오페이 명시
+        },
+
+        customer: {
+          customerId: String(user?.id || 'guest'),
+          fullName: profile?.manager || user?.name || '파트너',
+          email: user?.email || profile?.partner_user?.email,
+          phoneNumber: profile?.phone
+        },
+        issueName: "카카오페이 자동결제 등록",
+      });
+
+      if (response.code !== undefined) {
+        return alert(`등록 실패: ${response.message}`);
+      }
+
+      // 서버로 빌링키와 카드 정보를 보냅니다.
+      await axiosInstance.post('/api/partners/billing-key', {
+        billingKey: response.billingKey,
+        cardName: response.card?.name || '등록 카드', // 카드사 이름 저장
+      });
+
+      alert("자동 결제 수단이 등록되었습니다.");
+
+    } catch (e) {
+      console.error("결제 등록 프로세스 에러:", e);
+      alert("처리 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <div className="settlement_page">
       <header className="settlement_header">
         <div>
-          <h2 className="page_title">서비스 이용료 정산</h2>
+          <div className='title_area'>
+            <h2 className="page_title">서비스 이용료 정산</h2>
+            <div className="current_month_badge">
+              {dayjs().tz(KST).format('YYYY년 MM월')} 기준
+            </div>
+          </div>
           <p className="subtitle">배달 완료된 건에 대해서만 과금됩니다.</p>
         </div>
-        <div className="current_month_badge">
-          {dayjs().tz(KST).format('YYYY년 MM월')} 기준
-        </div>
+        {/* 2. 여기에 버튼 배치 */}
+        <button className="pay_reg_btn" onClick={handleRegister}>
+          카카오페이 자동결제 등록
+        </button>
       </header>
 
       {/* 상단 요약 카드 */}
@@ -89,7 +150,7 @@ const PartnerSettlement = () => {
         </div>
         <div className="summary_card highlight">
           <span className="label_base">결제 예정 금액 (VAT 별도)</span>
-          <p className="total_value">{settlementData.totalAmount}원</p>
+          <p className="total_value">{settlementData.totalAmount.toLocaleString()}원</p>
         </div>
       </div>
 
