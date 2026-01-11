@@ -1,7 +1,9 @@
 /**
  * @file src/components/main/sections/MainCS.jsx
  * @description 고객센터 페이지
- * 260103 v1.0.5 update (비로그인 UI 개선: 오버레이 + 로그인 버튼 추가)
+ * 251230 v1.0.0 sara init
+ * 260103 v2.0.0 sara update (비로그인 UI 개선: 오버레이 + 로그인 버튼 추가)
+ * 260111 v3.0.0 sara update (FAQ 화살표 아이콘 추가 및 레이아웃 수정)
  */
 
 import { useState, useContext, useMemo, useEffect, useRef } from "react";
@@ -13,6 +15,7 @@ import { questionStoreThunk } from '../../../store/thunks/questions/questionStor
 import { questionImageUploadThunk } from '../../../store/thunks/questions/questionStoreThunk.js';
 import { clearQuestionStore } from "../../../store/slices/questionStoreSlice.js";
 import TrashBinIcon from '../../common/icons/TrashBinIcon.jsx';
+import ArrowIcon from '../../common/icons/ArrowIcon.jsx';
 import CustomAlertModal from '../../common/CustomAlertModal.jsx';
 
 
@@ -186,7 +189,7 @@ export default function MainCS() {
     }
   };
 
-  return (
+return (
     <div className="maincs-frame mainshow-section-wrapper">
       <div className="maincs-header-group">
         <div>
@@ -223,7 +226,11 @@ export default function MainCS() {
                   }}
                   className="maincs-faq-button"
                 >
-                  {x.q}
+                  {/* 화살표 아이콘 영역 추가 */}
+                  <div className="maincs-faq-icon-wrapper">
+                    <ArrowIcon isOpen={openItems.has(idx)} size={20} />
+                  </div>
+                  <span className="maincs-faq-q-text">{x.q}</span>
                 </button>
                 {openItems.has(idx) && <div className="maincs-faq-body-text">{x.a}</div>}
               </div>
@@ -328,17 +335,6 @@ export default function MainCS() {
                 {loading ? t("csInquirySubmitLoading") : t("csInquirySubmit")}
               </button>
 
-              {/* {questionError && (
-                <div className="maincs-form-note-text" style={{ color: "crimson" }}>
-                  {t('csInquiryErrorMsg')}
-                </div>
-              )} */}
-
-              {/* {formStatus.state === 'error' && (
-                <div className="maincs-form-note-text" style={{ color: "crimson" }}>
-                  {formStatus.message}
-                </div>
-              )} */}
               {formStatus.state === 'success' && (
                 <div className="maincs-form-note-text">
                   {formStatus.message}
@@ -348,7 +344,6 @@ export default function MainCS() {
           </div>
         </div>
       </div>
-      {/* 모달 컴포넌트 렌더링 */}
       <CustomAlertModal 
         isOpen={alertModal.isOpen}
         onClose={handleCloseModal}

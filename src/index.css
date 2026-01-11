@@ -4,6 +4,10 @@
  * 251210 v1.0.0 wook init
  */
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
    margin: 0;
    padding: 0;
@@ -320,4 +324,9 @@ header span,
       --com-section-sub-padding: 60px:
          /* 섹션 간격 조금 축소 */
    }
+}
+
+#maininfo,
+#mainptnssearch {
+  scroll-margin-top: 90px;
 }

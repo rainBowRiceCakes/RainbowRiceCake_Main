@@ -51,7 +51,7 @@ export default function TopButton01({ bottomOffset = 18 }) {
       type="button"
       className="topbutton01-button"
       style={{ bottom: bottomOffset }}
-      onClick={() => scrollToTop(1200)} // 1.2초 동안 천천히 이동
+      onClick={() => scrollToTop(100)}
       aria-label={t('scrollToTopAriaLabel')}
     >
       {t('scrollToTopButtonText')}

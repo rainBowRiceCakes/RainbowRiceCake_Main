@@ -187,13 +187,14 @@ export default function MainPTNSSearch() {
 
   return (
     <>
-      <div className="ptnssearch-frame mainshow-section-wrapper">
+      <div id="mainptnssearch" className="ptnssearch-frame mainshow-section-wrapper">
         <div className="ptnssearch-header-group">
           <h2 className="ptnssearch-title-text">{t("ptnsSearchTitle")}</h2>
           <p className="ptnssearch-desc-text">{t("ptnsSearchDesc")}</p>
         </div>
         <div className="ptnssearch-card-box">
           <div className="ptnssearch-search-placeholder-content">
+            <p className="ptnssearch-intro-text">{t("ptnsSearchPlaceholder")}</p>
             <button className="ptnssearch-search-find-btn" onClick={findMyCurrentLocation}>
               <FaLocationDot />
               <span>{t("ptnsSearchFindNearMe")}</span>

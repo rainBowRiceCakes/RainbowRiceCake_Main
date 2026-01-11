@@ -19,7 +19,7 @@ export default function MainInfo() {
   const { t } = useTranslation();
 
   return (
-    <div className="mainshow-section-wrapper main-section-padding">
+    <div id="maininfo" className="mainshow-section-wrapper main-section-padding">
         <div className="maininfo-header-group">
           <h2 className="maininfo-title-text">{t('planTitle')}</h2>
         </div>

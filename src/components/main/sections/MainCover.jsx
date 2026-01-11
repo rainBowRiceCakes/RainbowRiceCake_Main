@@ -17,6 +17,7 @@ import { clearDeliveryShow } from '../../../store/slices/deliveryShowSlice.js';
 import MainCoverModal from "./MainCoverItems/MainCoverModal.jsx";
 import CustomAlertModal from '../../common/CustomAlertModal.jsx';
 import FormShortcutIcon from '../../common/icons/FormShortcutIcon.jsx';
+import MainCoverVideo from '/resource/main-cover.mp4';
 import './MainCover.css';
 
 export default function MainCover() {
@@ -146,7 +147,7 @@ export default function MainCover() {
     <div className="maincover-frame">
       {/* --- 섹션 1: 상단 비주얼 (블렌딩 효과 적용) --- */}
       <div className="maincover-visual-area">
-
+        <video src={MainCoverVideo} autoPlay muted loop playsInline className="maincover-video"> </video>
         {/* [추가] 우측 상단 숏컷 버튼 그룹 */}
         <div className="maincover-shortcut-group">
           <button 

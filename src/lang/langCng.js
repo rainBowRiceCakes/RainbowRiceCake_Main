@@ -63,6 +63,62 @@ export const LANG_CNG = {
     en: "Invalid order number"
   },
   
+  // --- src/components/main/sections/MainIntro.jsx (DGD intro)
+  introCardStep1Title: {
+    ko: "STEP 1. 매장에서 바로 신청",
+    en: "STEP 1. Request at Store",
+  },
+  introCardStep1Desc: {
+    ko: "쇼핑 후 짐이 무겁다면? 제휴 매장에서 DGD 서비스를 이용하세요. 무거운 쇼핑백 없이 가뿐한 여행이 시작됩니다.",
+    en: "Heavy bags after shopping? Use DGD service at our partner stores and start your journey light and free.",
+  },
+  introCardStep2Title: {
+    ko: "STEP 2. 간편한 폼 작성",
+    en: "STEP 2. Simple Form Filing",
+  },
+  introCardStep2Desc: {
+    ko: "이름과 이메일, 숙소명만 적으면 끝! 1분 만에 신청하면 짐이 숙소로 '슝' 배송됩니다.",
+    en: "Just enter your name, email, and hotel. Your luggage will be sent to your stay in just a minute.",
+  },
+  introCardStep3Title: {
+    ko: "STEP 3. 실시간 배송 추적",
+    en: "STEP 3. Real-time Tracking",
+  },
+  introCardStep3Desc: {
+    ko: "이메일로 받은 주문번호로 내 짐의 위치를 바로 검색하세요. 현재 어디까지 왔는지 한눈에 볼 수 있습니다.",
+    en: "Track your luggage instantly with the order number sent to your email. See exactly where your items are.",
+  },
+  introCardStep4Title: {
+    ko: "STEP 4. 숙소 프론트 도착",
+    en: "STEP 4. Safe Arrival at Hotel",
+  },
+  introCardStep4Desc: {
+    ko: "안전하게 호텔 프론트에 도착한 짐을 확인하세요. 무거운 짐 걱정 없는 완벽한 여행의 마무리!",
+    en: "Your luggage arrives safely at the hotel front desk. The perfect, hassle-free end to your shopping day.",
+  },
+  introHeroEyebrow: {
+    ko: "짐 없는 이동의 시작",
+    en: "Travel without the burden",
+  },
+  introHeroTitle: {
+    ko: "짐은 맡기고, 이동은 가볍게",
+    en: "Leave your luggage behind, travel light",
+  },
+  introHeroDesc: {
+    ko: "쇼핑부터 이동까지, 무거운 짐은 DGD가 책임집니다. 도착지는 호텔 프론트, 여행은 더 자유롭게.",
+    en: "DGD delivers your luggage safely to your hotel front desk, so you can enjoy your journey without the weight.",
+  },
+  introHeroCtaPrimary: {
+    ko: "플랜 보러가기",
+   en: "View Plans",
+  },
+  introHeroCtaSecondary: {
+    ko: "제휴업체 보러가기",
+    en: "View Partners",
+  },
+
+
+
 
   // --- src/components/main/sections/MainInfo.jsx (Pricing Plans) ---
   planTitle: {
@@ -123,8 +179,8 @@ export const LANG_CNG = {
     en: "Search for nearby affiliated stores to check their positions.",
   },
   ptnsSearchPlaceholder: {
-    ko: "버튼을 눌러 내 주변 제휴점을 찾아보세요.",
-    en: "Press the button to find affiliated stores near you.",
+    ko: "주변의 가까운 제휴업체를 찾아보세요",
+    en: "Find nearby affiliated businesses",
   },
   ptnsSearchFindNearMe: {
     ko: "내 주변 찾기",
@@ -194,35 +250,35 @@ export const LANG_CNG = {
   },
   riderBenefitTitle: {
     ko: "피크타임 걱정 없이, 멈춤 없는 수익!",
-    en: "Earn non-stop profits without worrying about peak times!",
+    en: "Non-stop earnings, no peak-time worries!",
   },
   riderBenefitDesc: {
-    ko: "09시부터 22시까지, 비는 시간을 짐 배송으로 채우세요. 현금·귀중품·부패/파손 걱정 없는 안전한 짐만 깔끔하게 배송하고 수익을 더하세요.",
-    en: "From 9:00 AM to 10:00 PM, fill your downtime with luggage deliveries. Deliver only cash, valuables, and other items safely and securely, increasing your profits.",
+    ko: "<b>비는 시간은 줄이고, 수익은 채우고!</b><br />음식 배달 사이 공백기, 파손/부패 걱정 없는 안전한 '짐 배송'으로 끊김 없는 수익을 만드세요.",
+    en: "<b>Zero Downtime, Max Earnings!</b><br />Fill the gaps between food deliveries with safe luggage transport—no spills, no stress, just extra profit.",
   },
   riderBenefit1: {
-    ko: "<b>유휴 시간 수익 창출</b>: 점심/저녁 피크타임 사이, 놀지 않고 버는 알짜배기 추가 수익",
-    en: "<b>Make Money During Your Idle Hours</b>: Earn extra cash while you're not working during peak lunch and dinner hours.",
+    ko: "<b>피크타임 사이 알짜 수익</b>: 점심·저녁 피크 사이 남는 시간, 짐 배송으로 알차게 추가 수익 창출",
+    en: "<b>Seamless Profit Between Peaks</b>: Keep earning during the post-lunch and dinner lulls with steady luggage orders.",
   },
   riderBenefit2: {
-    ko: "<b>야간 할증 수당 지급</b>: 근무 시간",
-    en: "<b>Flexible</b> working hours",
+    ko: "<b>100% 자율 근무</b>: 내가 원하는 시간에, 원하는 만큼만! 강요 없는 자유로운 배송 환경",
+    en: "<b>100% Flexible Shifts</b>: Work whenever and however much you want. You are the boss of your own schedule.",
   },
   riderBenefit3: {
-    ko: "<b>프로 라이더 키트 지급</b>: 가입 즉시 전용 고정 로프, 우의 등 5만원 상당 장비 무료 지원",
-    en: "<b>Pro Rider Kit</b>: Free equipment worth 50,000 won, including a dedicated fixed rope and raincoat, provided immediately upon registration.",
+    ko: "<b>프로 라이더 웰컴 키트</b>: 연락 장비, 안전 장비 등 배송에 필요한 필수 장비 풀세트 무료 지원",
+    en: "<b>Premium Welcome Gear Set</b>: We set you up for success with a complimentary pro-kit, featuring essential communication and safety equipment for a seamless start.",
   },
   riderCta: {
     ko: "DGD 라이더로 입점 신청하기",
     en: "Apply to become a DGD rider",
   },
   partnerBenefitTitle: {
-    ko: "첫 달 무료! 사장님을 위한 프리미엄 파트너십",
-    en: "First month free! Premium partnership for business owners.",
+    ko: "첫 달 무료!<br /> 사장님을 위한 프리미엄 파트너십",
+    en: "<b>First month free!</b><br /> Premium partnership for business owners.",
   },
   partnerBenefitDesc: {
-    ko: "일단 부담 없이 경험해보세요. 1개월 무료 체험 후, 월 5만원의 합리적인 멤버십으로 매장 홍보 효과와 짐 보관 수익을 동시에 누리실 수 있습니다.",
-    en: "Try it out without any obligation. After a one-month free trial, enjoy the benefits of store promotion and luggage storage revenue with a reasonable monthly membership of 50,000 won.",
+    ko: "일단 부담 없이 경험해보세요.<br /> 1개월 무료 체험 후, 월 5만원의 합리적인 멤버십으로 매장 홍보 효과와 짐 보관 수익을 동시에 누리실 수 있습니다.",
+    en: "Try it out without any <b>obligation</b>.<br /> After a one-month free trial, enjoy the benefits of store promotion and luggage storage revenue with a reasonable monthly membership of 50,000 won.",
   },
   partnerBenefit1: {
     ko: "<b>1개월 무료 체험 혜택</b>: 가입 첫 달 멤버십 비용 0원! 효과를 직접 확인하고 결정하는 안심 플랜",
@@ -399,7 +455,7 @@ export const LANG_CNG = {
   },
   csDesc: {
     ko: "고객님의 편안한 여행을 위해 최선을 다하겠습니다. 궁금하신 점은 아래 FAQ에서 확인하거나 문의를 남겨주세요.",
-    en: "We will do our best to ensure your comfortable travel. If you have any questions, please check the FAQ below or submit an inquiry.",
+    en: "We're here to help you travel with ease. Check our FAQ or contact support for any questions.",
   },
   csEmailInquiryButton: {
     ko: "Email 문의하기",

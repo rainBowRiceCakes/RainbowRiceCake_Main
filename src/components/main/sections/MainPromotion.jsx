@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useTranslation } from "../../../context/LanguageContext";
 import "./MainPromotion.css";
 import MypageImgView from "../auth/MypageImgView/MypageImgView.jsx";
+import CheckIcon from "../../common/icons/CheckIcon.jsx";
 
 export default function MainPromotion() {
   const { t } = useTranslation();
@@ -42,8 +43,8 @@ export default function MainPromotion() {
     }
   };
 
-    const promoDLVImgSrc = "/resource/promotionWelcomBox.png";
-    const promoPTNSImgSrc = "/resource/promotionRiderImg.png";
+    const promoDLVImgSrc = "/resource/promotionDLVImg.png";
+    const promoPTNSImgSrc = "/resource/promotionPTNSImg.png";
     
   
 return (
@@ -84,12 +85,15 @@ return (
                 </div>
                 <div className="mainpromotion-text-content">
                   <h3 className="mainpromotion-content-title">{t('riderBenefitTitle')}</h3>
-                  <p className="mainpromotion-content-desc">{t('riderBenefitDesc')}</p>
-                  <ul className="mainpromotion-benefit-list">
+                  <p className="mainpromotion-content-desc" dangerouslySetInnerHTML={{ __html: t('riderBenefitDesc') }} />
+                  <div className="mainpromotion-benefit-list">
                     {[1, 2, 3].map(num => (
-                      <li key={`rider-${num}`} dangerouslySetInnerHTML={{ __html: t(`riderBenefit${num}`) }} />
+                      <div key={`rider-${num}`} className="mainpromotion-benefit-item">
+                        <CheckIcon size={28} />
+                        <span dangerouslySetInnerHTML={{ __html: t(`riderBenefit${num}`) }} />
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                   <button type="button" className="mainpromotion-cta-btn" onClick={handleRiderApplyClick}>
                     {t('riderCta')}
                   </button>
@@ -108,13 +112,16 @@ return (
                   />
                 </div>
                 <div className="mainpromotion-text-content">
-                  <h3 className="mainpromotion-content-title">{t('partnerBenefitTitle')}</h3>
-                  <p className="mainpromotion-content-desc">{t('partnerBenefitDesc')}</p>
-                  <ul className="mainpromotion-benefit-list">
+                  <h3 className="mainpromotion-content-title" dangerouslySetInnerHTML={{ __html: t('partnerBenefitTitle') }} />
+                  <p className="mainpromotion-content-desc" dangerouslySetInnerHTML={{ __html: t('partnerBenefitDesc') }} />
+                  <div className="mainpromotion-benefit-list">
                     {[1, 2, 3].map(num => (
-                      <li key={`partner-${num}`} dangerouslySetInnerHTML={{ __html: t(`partnerBenefit${num}`) }} />
+                      <div key={`partner-${num}`} className="mainpromotion-benefit-item">
+                        <CheckIcon size={28} />
+                        <span dangerouslySetInnerHTML={{ __html: t(`partnerBenefit${num}`) }} />
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                   <button type="button" className="mainpromotion-cta-btn" onClick={handlePartnerApplyClick}>
                     {t('partnerCta')}
                   </button>

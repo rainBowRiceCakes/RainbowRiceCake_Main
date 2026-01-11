@@ -26,7 +26,16 @@
 
 /* 3. 섹션 간 간격 조절용 프레임 */
 .mainshow-section-frame {
-  padding: var(40px) 0;
+  padding: 60px 0;
+}
+
+#intro,
+#plans,
+#branches,
+#support,
+#promotion,
+#partners {
+  scroll-margin-top: 90px;
 }
 
 .mainshow-branches-section-style {
@@ -158,6 +167,12 @@
 .mainshow-nav-item:nth-child(7) .mainshow-nav-dot { 
   background-color: rgba(189, 178, 255, 0.5); /* Purple */
 }  
+
+/* ✅ intro 섹션만 공백 제거 (MainShow.jsx 수정 없이) */
+#intro.mainshow-section-frame {
+  padding: 0;
+  border-top: 0;
+}
 
 .mainshow-carousel-wrapper {
   width: 100%;

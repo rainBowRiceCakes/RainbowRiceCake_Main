@@ -16,6 +16,25 @@
   to { transform: translateY(0); }
 }
 
+.ptnssearch-title-text {
+  font-size: var(--com-size-title);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.92);
+  font-weight: var(--com-font-weight-bold);
+  text-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+.ptnssearch-desc-text {
+  font-size: var(--com-size-sub-title);
+  color: rgba(0, 0, 0, 0.62);
+  line-height: 1.5;
+  margin: 0;
+  margin: var(--com-gap-md) 0 0;
+  font-weight: 700;
+}
+
 /* --- 모달 --- */
 .ptnssearch-modal-overlay {
   position: fixed;
@@ -31,6 +50,7 @@
 
 .ptnssearch-frame {
   padding: var(--com-section-padding) 0; /* 60px top/bottom padding */
+  background: var(--com-color-white);
 }
 
 .ptnssearch-modal-content {
@@ -310,41 +330,88 @@
   color: var(--com-color-black);
 }
 
-/* --- 메인 섹션의 버튼 (모달 열기 전) --- */
 .ptnssearch-card-box {
-  border: 1px solid var(--com-border-default);
-  border-radius: var(--com-radius-lg);
-  padding: 200px 0;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
+  padding: 120px 20px;
   text-align: center;
-  background-color: #ffffff;
-  box-shadow: var(--com-shadow-default);
-  margin-top: var(--com-gap-md);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px) saturate(1.2);
+  -webkit-backdrop-filter: blur(4px) saturate(1.2);
+  box-shadow:
+    0 16px 30px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  margin-top: 32px;
+  overflow: hidden;
+}
+
+.ptnssearch-card-box::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  background: var(--com-gradient-rainbow);
+  filter: blur(90px);
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.ptnssearch-search-placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.ptnssearch-intro-text {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 600;
+  margin-bottom: -8px;
 }
 
 .ptnssearch-search-find-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--com-gap-md);
+  gap: 12px;
   min-height: 60px;
-  padding: 0 40px;
-  border-radius: var(--com-radius-pill);
-  border: 1px solid var(--com-color-black);
-  background-color: var(--com-color-black);
-  color: var(--com-color-white);
-  font-size: 20px;
-  font-weight: var(--com-font-weight-bold);
+  padding: 0 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: var(--com-color-black);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 17px;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.ptnssearch-search-find-btn svg {
+  font-size: 19px;
+  transition: transform 0.2s ease;
+  opacity: 0.92;
 }
 
 .ptnssearch-search-find-btn:hover {
-  background: var(--com-gradient-rainbow); /* Use rainbow gradient */
-  color: var(--com-color-black); /* Text color for better contrast on gradient */
-  border: 1px solid var(--com-color-white); /* Add white border on hover */
-  transform: translateY(-3px);
-  box-shadow: var(--com-shadow-md);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.34);
+
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.ptnssearch-search-find-btn:hover svg {
+  transform: scale(1.08);
 }
 
 /* ------------------------------------ */
@@ -438,7 +505,6 @@
     overflow-y: auto; /* Enable scrolling for list on mobile */
   }
 
-
   .ptnssearch-map-container {
     flex: 1; /* 남은 공간을 지도가 차지 */
     position: relative; /* 자식 요소 절대 위치 기준 */
@@ -471,17 +537,24 @@
     bottom: calc(var(--com-gap-xl) + 300px); /* Adjust position on mobile when popup is open */
   }
 
+  .ptnssearch-card-box {
+    padding: 80px 20px;
+    border-radius: 22px;
+  }
 
+  .ptnssearch-search-find-btn {
+      width: 100%;
+      max-width: 300px;
+      min-height: 56px;
+      padding: 0 24px;
+      font-size: 16px;
+  }
 
 /* 📱 아이폰 SE (375px 이하) 전용 최적화 */
 @media screen and (max-width: 375px) {
   .ptnssearch-card-box {
-    padding: 120px 0; /* 아이폰 SE 크기에서 높이 확보 */
-  }
-  .ptnssearch-search-find-btn {
-    min-height: 44px;
-    padding: 0 24px;
-    font-size: var(--com-size-sub-title); /* 13px */
+    padding: 60px 20px;
   }
  }
+
 }
