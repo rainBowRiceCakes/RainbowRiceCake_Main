@@ -46,9 +46,9 @@ const riderRoutes = [
       { path: "orders/:orderCode", element: <RiderOrderDetailPage />, handle: { title: "주문 상세보기" } },
       { path: "orders/:orderCode/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
       { path: "settlement", element: <SettlementList />, handle: { title: "정산 내역" } },
-      { path: "help", element: <RiderFaqList />, handle: { title: "문의하기" } },
+      { path: "help", element: <RiderFaqList />, handle: { title: "고객센터" } },
+      { path: "inquiry", element: <InquiryHistoryPage />, handle: { title: "내 문의 내역" } },
       { path: "help/questions", element: <RiderIssueReportPage />, handle: { title: "도움 요청하기" } },
-      { path: "inquiry", element: <InquiryHistoryPage />, handle: { title: "1:1 문의 내역" } },
     ],
   },
 ];

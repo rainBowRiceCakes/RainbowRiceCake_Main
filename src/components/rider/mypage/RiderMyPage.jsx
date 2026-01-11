@@ -83,7 +83,13 @@ export default function RiderMyPage() {
         <div className="mypageSection">
           <button className="navigation" onClick={() => nav(`/riders/mypage/help`)}>
             <span className="icon">✅</span>
-            <span className="label">문의하기</span>
+            <span className="label">고객센터</span>
+            <span className="chev">›</span>
+          </button>
+
+          <button className="navigation" onClick={() => nav(`/riders/mypage/inquiry`)}>
+            <span className="icon">❓</span>
+            <span className="label">내 문의 내역</span>
             <span className="chev">›</span>
           </button>
 
@@ -92,13 +98,8 @@ export default function RiderMyPage() {
             <span className="label">공지사항</span>
             <span className="chev">›</span>
           </button>
-        </div>
 
-        <button className="navigation" onClick={() => nav(`/riders/mypage/inquiry`)}>
-          <span className="icon">❓</span>
-          <span className="label">1:1 문의 내역</span>
-          <span className="chev">›</span>
-        </button>
+        </div>
 
         <div className="mypageSection">
           <button className="navigation navigationLogout" onClick={handleLogout}>

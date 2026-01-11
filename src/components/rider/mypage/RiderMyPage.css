@@ -61,6 +61,7 @@
 .info {
   min-width: 0;
 }
+
 .name {
   font-size: 18px;
   font-weight: 800;
@@ -109,11 +110,11 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
 
-.clockInAndOutToggle input:checked + .clockInAndOutToggleUi {
+.clockInAndOutToggle input:checked+.clockInAndOutToggleUi {
   background: #2ecc71;
 }
 
-.clockInAndOutToggle input:checked + .clockInAndOutToggleUi::after {
+.clockInAndOutToggle input:checked+.clockInAndOutToggleUi::after {
   transform: translateX(20px);
 }
 
@@ -147,7 +148,7 @@
   cursor: pointer;
 }
 
-.navigation + .navigation {
+.navigation+.navigation {
   border-top: 1px solid #f0f2f4;
 }
 

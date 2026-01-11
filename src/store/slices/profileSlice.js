@@ -110,9 +110,10 @@ const profileSlice = createSlice({
         state.error = action.payload || "프로필 수정 실패";
       })
       .addCase(updateWorkStatusThunk.fulfilled, (state, action) => {
-        if (state.profileData?.rider_user) {
-          state.profileData.rider_user.isWorking = action.payload.isWorking;
-          // ✅ 상태 변경 시에도 동기화
+        if (state.profileData) {
+          // 1. 실제 데이터 위치에 맞게 업데이트 (isWorking이 어디에 있는지 확인!)
+          state.profileData.isWorking = action.payload.isWorking;
+          // ✅ 로컬 스토리지 동기화
           localStorage.setItem('cachedProfile', JSON.stringify(state.profileData));
         }
       })

@@ -34,10 +34,14 @@ export default function RiderMainPage() {
 
   // Fetch orders based on activeTab
   useEffect(() => {
-    // 유저 정보가 없으면 요청하지 않음
-    if (!user?.id) return;
-
+    // 공지사항은 유저 ID가 없어도 불러올 수 있다면 위로 올림
     dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }));
+
+    // 유저 정보가 아직 로드되지 않았다면 여기서 중단
+    if (!user?.id) {
+      console.log("⏳ 유저 정보를 기다리는 중...");
+      return;
+    }
 
     let params = {
       date: 'today',

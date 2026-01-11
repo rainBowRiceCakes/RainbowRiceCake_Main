@@ -29,7 +29,7 @@ export default function RiderWaitingView({ orders = [] }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const profileData = useSelector((state) => state.profile?.profileData);
-  const isWorking = profileData?.rider_user?.isWorking ?? false;
+  const isWorking = profileData?.isWorking ?? false;
 
   if (orders.length === 0 && isWorking) {
     return <div className="rw-empty">현재 수락 가능한 오더가 없습니다.</div>;
