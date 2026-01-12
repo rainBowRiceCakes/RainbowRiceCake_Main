@@ -36,11 +36,25 @@ export default function MainCS() {
   const [inqFiles, setInqFiles] = useState(null);
   const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
 
+  const goMyInquiry = () => {
+  if (!isLoggedIn) {
+    setAlertModal({
+      isOpen: true,
+      title: t("alertErrorTitle"),
+      message: t("coverLoginRequired"),
+      next: () => navigate("/login", { state: { activeTab: "inquiry" } }),
+    });
+    return;
+  }
+  navigate("/mypage", { state: { activeTab: "inquiry" } });
+};
+
   // [추가] 모달 제어를 위한 State
   const [alertModal, setAlertModal] = useState({
     isOpen: false,
     title: "",
-    message: ""
+    message: "",
+    next: null
   });
 
   const FAQ_DATA = [
@@ -83,8 +97,15 @@ export default function MainCS() {
 
   // [추가] 모달 닫기 핸들러
   const handleCloseModal = () => {
-    setAlertModal((prev) => ({ ...prev, isOpen: false }));
-  };
+  setAlertModal((prev) => {
+    const nextFn = prev.next;
+    // 모달 먼저 닫고
+    setTimeout(() => {
+      if (typeof nextFn === "function") nextFn();
+    }, 0);
+    return { ...prev, isOpen: false, next: null };
+  });
+};
 
   const onInquirySubmit = async (e) => {
     e.preventDefault();
@@ -197,13 +218,13 @@ return (
           <p className="maincs-subtitle-text">{t("csDesc")}</p>
         </div>
         <div className="maincs-actions-group">
-          <button
-            className="maincs-button maincs-button--primary"
-            type="button"
-            onClick={() => navigate('/mypage', { state: { activeTab: 'inquiry' } })}
-          >
-            {t("csViewMyInquiriesButton")}
-          </button>
+        <button
+          className="maincs-button maincs-button--primary"
+          type="button"
+          onClick={goMyInquiry}
+        >
+          {t("csViewMyInquiriesButton")}
+        </button>
         </div>
       </div>
 
@@ -344,12 +365,12 @@ return (
           </div>
         </div>
       </div>
-      <CustomAlertModal 
-        isOpen={alertModal.isOpen}
-        onClose={handleCloseModal}
-        title={alertModal.title}
-        message={alertModal.message}
-      />
+        <CustomAlertModal 
+          isOpen={alertModal.isOpen}
+          onClose={handleCloseModal}
+          title={alertModal.title}
+          message={alertModal.message}
+        />
   </div> 
   );
 }

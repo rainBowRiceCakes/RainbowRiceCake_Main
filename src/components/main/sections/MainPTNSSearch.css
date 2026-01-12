@@ -63,7 +63,7 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--com-border-default);
-  box-shadow: var(--com-shadow-md);
+  box-shadow: var(--com-shadow-default);
 }
 
 .ptnssearch-modal-header {
@@ -340,7 +340,7 @@
   backdrop-filter: blur(4px) saturate(1.2);
   -webkit-backdrop-filter: blur(4px) saturate(1.2);
   box-shadow:
-    0 16px 30px rgba(0, 0, 0, 0.55),
+    0 16px 30px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
   margin-top: 32px;
   overflow: hidden;
