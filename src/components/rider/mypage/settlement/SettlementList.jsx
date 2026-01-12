@@ -38,11 +38,13 @@ export default function SettlementList() {
   }, [settlementHistory, monthRange]);
 
   const handleDownloadDetail = async (item) => {
-    // ✅ 1. 정산대기(REQ) 상태거나 로딩 중이면 실행 차단
-    if (detailLoading || item.statusCode === 'REQ') return;
+    // ✅ REQ(대기) 또는 REJ(반려) 상태면 실행 차단
+    if (detailLoading || item.statusCode === 'REQ' || item.statusCode === 'REJ') return;
 
     try {
       const response = await dispatch(getSettlementDetailThunk(item.id)).unwrap();
+
+      console.log('response', response);
       const detailData = response.data || [];
 
       if (detailData.length === 0) {
@@ -52,16 +54,12 @@ export default function SettlementList() {
       const columns = [
         { header: '완료 시간', key: 'completedAt', width: 22 },
         { header: '주문 번호', key: 'orderCode', width: 18 },
-        { header: '픽업지', key: 'pickupArea', width: 18 },
-        { header: '배달지', key: 'deliveryArea', width: 18 },
         { header: '배달 금액(원)', key: 'riderPrice', width: 15 },
       ];
 
       const excelData = detailData.map(order => ({
         completedAt: dayjs(order.updatedAt).tz(KST).format("YYYY-MM-DD HH:mm:ss"),
         orderCode: order.orderCode,
-        pickupArea: order.order_partner.krName || '-',
-        deliveryArea: order.order_hotel.krName || '-',
         riderPrice: Math.floor(Number(order.price || 0) * RIDER_FEE_RATE),
       }));
 
@@ -93,18 +91,18 @@ export default function SettlementList() {
       <div className="sl-list-area">
         {filteredHistory.length > 0 ? (
           filteredHistory.map((item) => {
-            const isPending = item.statusCode === 'REQ';
+            const isUnavailable = item.statusCode === 'REQ' || item.statusCode === 'REJ';
 
             return (
               <article key={item.id} className="sl-item-card">
                 <div className="sl-item-header">
                   <h3 className="sl-item-period">{item.period}</h3>
                   <button
-                    className={`sl-item-download-btn ${isPending ? 'disabled' : ''}`}
+                    className={`sl-item-download-btn ${isUnavailable ? 'disabled' : ''}`}
                     onClick={() => handleDownloadDetail(item)}
-                    disabled={detailLoading || isPending}
+                    disabled={detailLoading || isUnavailable}
                   >
-                    {isPending ? '준비 중' : (detailLoading ? '생성 중...' : '명세서 다운로드')}
+                    {isUnavailable ? '준비 중' : (detailLoading ? '생성 중...' : '명세서 다운로드')}
                   </button>
                 </div>
 

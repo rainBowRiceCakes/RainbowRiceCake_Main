@@ -30,21 +30,21 @@ export default defineConfig({
           // Android (Chrome)의 경우, `maskable`을 우선 사용
           // IOS의 경우, manifest를 무시하고, index.html의 <link rel="apple-touch-icon">만 사용
           {
-            src: '/icons/meerkat_192.png', // 로컬 경로로 설정
+            src: '/icons/main-logo192.svg', // 로컬 경로로 설정
             sizes: '192x192', // 아이콘 크기
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any' // purpose 속성을 설정하지 않으면 기본 `any`
           },
           {
-            src: '/icons/meerkat_512.png',
+            src: '/icons/main-logo512.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any' // purpose 속성을 설정하지 않으면 기본 `any`
           },
           {
-            src: '/icons/meerkat_512.png',
+            src: '/icons/main-logo512.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'maskable' // 마스크 가능 속성 추가
           }
         ]

@@ -86,8 +86,8 @@ const PartnerSettlement = () => {
       }
 
       const response = await window.PortOne.requestIssueBillingKey({
-        storeId: "store-75c769ee-16f3-47dc-abf3-b06e7fce3851", // '내 식별 코드'의 V2 Store ID
-        channelKey: "channel-key-2bb7ea05-d9ae-4bc9-b00b-e029044a403f",   // '채널 관리'에서 만든 V2 채널 키
+        storeId: import.meta.env.VITE_PORTONE_STORE_ID,
+        channelKey: import.meta.env.VITE_PORTONE_CHANNEL_KEY,
         billingKeyMethod: "EASY_PAY", // 간편결제 방식 지정
         easyPay: {
           provider: "KAKAOPAY", // 카카오페이 명시
