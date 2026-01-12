@@ -17,8 +17,8 @@ export const LANG_CNG = {
     en: "Partners",
   },
   navIntro: {
-    ko: "DGD Service",
-    en: "About DGD",
+    ko: "DGD 소개",
+    en: "About us",
   },
   navPromotion: {
     ko: "프로모션",

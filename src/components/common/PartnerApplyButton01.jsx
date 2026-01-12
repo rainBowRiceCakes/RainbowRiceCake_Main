@@ -1,35 +1,17 @@
 /**
  * @file src/components/common/PartnerApplyButton01.jsx
  * @description Floating button to apply for partnership. 제휴 신청 페이지로 이동하는 버튼!
- * 260101 sara init 
+ * 260101 v1.0.0 sara init 
+ * 260112 v2.0.0 sara update - pill button (60x40) + ko/en text
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../context/LanguageContext';
 import './PartnerApplyButton01.css';
 
-const PartnerIcon = () => {
-  return (
-    <svg 
-        width="60%" 
-        height="60%" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="2.2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-    >
-      <path d="M8 12l2-2a3 3 0 0 1 4 0l2 2" />
-      <path d="M4 13l3.5-3.5 4.5 4.5-3.5 3.5L4 13Z" />
-      <path d="M20 13l-3.5-3.5-4.5 4.5 3.5 3.5L20 13Z" />
-    </svg>
-  );
-};
-
 const PartnerApplyButton01 = () => {
-  const { t } = useContext(LanguageContext);
+  const { t, lang } = useContext(LanguageContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -44,14 +26,18 @@ const PartnerApplyButton01 = () => {
     }
   };
 
+  // 버튼 내부 텍스트 
+    const labelText =
+    lang === "ko" ? "라이더 / 파트너 모집" : "Rider, Partner Recruitment";
+
   return (
     <button
       type="button"
       className="partner-apply-button"
       onClick={scrollToPartners}
-      aria-label={t('partnerApplyAriaLabel')}
+      aria-label={t("partnerApplyAriaLabel")}
     >
-      <PartnerIcon />
+      <span className="partner-apply-button__text">{labelText}</span>
     </button>
   );
 };

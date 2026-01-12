@@ -1,65 +1,104 @@
 /**
  * @file src/components/common/PartnerApplyButton01.css
- * @description Styles for the floating partnership apply button.
+ * @description Floating button to apply for partnership. 제휴 신청 페이지로 이동하는 버튼! Styles for the floating partnership apply button.
+ * 260101 v1.0.0 sara init 
+ * 260112 v2.0.0 sara update - pill button (60x40) + ko/en text Styles for the floating partnership apply button.
  */
 
+/**
+ * @file src/components/common/PartnerApplyButton01.css
+ * @description Floating partner apply button – refined / minimal version
+ */
+
+/* =========================
+   Base Floating Button
+========================= */
 .partner-apply-button {
   position: fixed;
   right: var(--com-container-padding);
-  /* Position it above the TopButton01 */
-  bottom: calc(var(--com-gap-md) + var(--com-size-button-lg) + var(--com-gap-sm));
+  bottom: calc(
+    var(--com-gap-md) +
+    var(--com-size-button-lg) +
+    var(--com-gap-sm)
+  );
   z-index: 3;
-
-  width: var(--com-size-button-lg);
-  height: var(--com-size-button-lg);
-  border-radius: var(--com-radius-pill);
-  
+  width: 150px;
+  height: 60px;
+  border-radius: 14px;
   background: var(--com-color-black);
-  border: 2px solid transparent;
-  
-  backdrop-filter: blur(10px);
-  box-shadow: var(--com-shadow-default);
-  cursor: pointer;
-
   color: var(--com-color-white);
-  
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  padding: 0;
   display: grid;
   place-items: center;
-  transition: all 0.3s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.partner-apply-button:hover {
-  transform: translateY(-6px) scale(1.05);
-  box-shadow: var(--com-shadow-md);
+/* =========================
+   Subtle rainbow accent (NOT border)
+========================= */
+.partner-apply-button::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 6px;
+  height: 2px;
   background: var(--com-gradient-rainbow);
-  color: var(--com-color-black);
+  opacity: 0.85;
 }
 
-/* Reduced motion accessibility */
-@media (prefers-reduced-motion: reduce) {
+/* =========================
+   Hover / Active (절제된 모션)
+========================= */
+.partner-apply-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================
+   Button Text
+========================= */
+.partner-apply-button__text {
+  font-size: 12px;
+  font-weight: 600; /* 800 → 600으로 낮춰서 세련 */
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: var(--com-color-white);
+  padding: 0 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  word-break: keep-all;
+}
+
+/* =========================
+   Reduced motion
+========================= */
+@media screen and (max-width: 900px) {
   .partner-apply-button {
     transition: none;
   }
 }
 
-/* Mobile responsive adjustments */
+/* =========================
+   Mobile
+========================= */
 @media screen and (max-width: 375px) {
   .partner-apply-button {
-    width: var(--com-size-button-md);
-    height: var(--com-size-button-md);
-    bottom: calc(var(--com-gap-md) + var(--com-size-button-md) + var(--com-gap-sm));
+    width: 120px;
+    height: 40px;
+    border-radius: 12px;
   }
-  .partner-apply-button:hover {
-    transform: none;
-    box-shadow: none;
-    background: var(--com-color-black);
-    border: 2px solid transparent; /* default */
-    color: var(--com-color-white);
-  }
-  .partner-apply-button:active {
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: var(--com-shadow-md);
-    background: var(--com-gradient-rainbow);
-    color: var(--com-color-black);
+
+  .partner-apply-button__text {
+    font-size: 11px;
   }
 }
