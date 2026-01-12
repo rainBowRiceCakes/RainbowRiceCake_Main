@@ -302,7 +302,7 @@ export default function MainPTNSSearch() {
                       <StoreDetailPopup 
                         store={selectedStore}
                         onClose={() => setSelectedStore(null)}
-                        onNavigate={() => window.open(`https://map.kakao.com/link/search/${selectedStore.krName}`, '_blank')}
+                        onNavigate={() => window.open(`https://map.kakao.com/link/search/${selectedStore.address}`, '_blank')}
                       />
                     )}
                   </Map>
