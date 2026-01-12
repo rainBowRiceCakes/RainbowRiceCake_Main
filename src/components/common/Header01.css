@@ -213,9 +213,10 @@
   width: 85%;
   height: 100vh;
   background-color: var(--com-color-white);
-  z-index: 7;
+  z-index: 999;
   /* level 7 */
   box-shadow: var(--com-shadow-md);
+  overflow-y: auto; /* Added for scrollability */
 }
 
 .header01-mobile-inner-group {

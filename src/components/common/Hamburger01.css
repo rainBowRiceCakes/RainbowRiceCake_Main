@@ -2,12 +2,37 @@
  * @file src/components/common/Hamburger01.css
  * @description hamburger menu
  * 251217 v1.0.0 sara init 
+ * 260112 v2.0.0 sara update - fixed panel + internal scroll
  */
 
+/* ✅ 햄버거 "패널" 자체: 어디서 열어도 화면(top) 기준으로 고정 */
 .hamburger01-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  width: min(360px, 86vw);
+  height: 100dvh; /* 모바일 주소창 변동에도 안전 */
+
   display: flex;
   flex-direction: column;
-  margin-top: var(--com-gap-md);
+
+  padding: var(--com-size-icon);
+  background: var(--com-color-white);
+
+  z-index: 10000;
+
+  /* ✅ 메뉴가 길어져도 패널 안에서만 스크롤 */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  /* 선택: 패널이 상단에서 시작하도록 margin 제거 */
+  margin-top: 0;
+}
+
+/* (선택) 상단 여백이 필요하면 여기로 조절 */
+.hamburger01-nav-header-spacer {
+  height: var(--com-gap-md);
 }
 
 .hamburger01-nav-item {
@@ -16,7 +41,7 @@
   padding: var(--com-size-subtitle) var(--com-size-icon);
   text-decoration: none;
   border-radius: var(--com-radius-md);
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .hamburger01-nav-item:active {
