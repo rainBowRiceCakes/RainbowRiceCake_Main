@@ -4,13 +4,25 @@
  * 251210 v1.0.0 wook 최초 생성
  */
 
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import Router from './routes/Router.jsx';
 import './index.css'
-import App from './App.jsx'
+import { Provider } from 'react-redux';
+import store from './store/store.js';
+import { LanguageProvider } from './context/LanguageProvider.jsx';
+import { injectStoreInAxios } from './api/axiosInstance.js';
+import swRegister from './swRegister.js';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <Provider store={store}>
+    <LanguageProvider>
+      <Router />
+    </LanguageProvider>
+  </Provider>
 )
+
+// 스토어가 생성되자마자 axiosInstance에 주입
+injectStoreInAxios(store);
+
+// 서비스 워커 등록
+swRegister();

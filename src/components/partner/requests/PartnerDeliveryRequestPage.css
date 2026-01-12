@@ -1,0 +1,349 @@
+/* 1. Layout & Common Styles */
+.delivery_request_page {
+  padding: 40px;
+  background-color: #f8f9fc;
+  min-height: 100vh;
+  font-family: 'Pretendard', -apple-system, sans-serif;
+}
+
+.header_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main_title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+  cursor: pointer;
+}
+
+.step_indicator {
+  font-weight: 700;
+  font-size: 13px;
+  color: #4d44ff;
+  background: #ffffff;
+  padding: 8px 20px;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 2. Step 1: Single Plan Selection Layout */
+.plan_selection_single {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sub_title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 35px;
+}
+
+.plan_card_group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3단 배열 */
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.plan_card_large {
+  background: white;
+  border: 2px solid #edf0f5;
+  border-radius: 28px;
+  padding: 40px 24px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.plan_card_large:hover {
+  transform: translateY(-10px);
+  border-color: #4d44ff;
+  box-shadow: 0 20px 40px rgba(77, 68, 255, 0.08);
+}
+
+.plan_card_large.active {
+  border-color: #4d44ff;
+  background-color: #ffffff;
+  box-shadow: 0 15px 35px rgba(77, 68, 255, 0.12);
+}
+
+/* 체크 표시 아이콘 */
+.plan_check {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.plan_card_large.active .plan_check {
+  background: #4d44ff;
+  border-color: #4d44ff;
+  color: white;
+}
+
+.plan_icon_box {
+  font-size: 48px;
+  margin-bottom: 24px;
+  background: #f4f6ff;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+}
+
+.plan_info .name {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.plan_info .desc {
+  font-size: 14px;
+  color: #777;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  min-height: 42px;
+}
+
+.plan_info .price {
+  font-size: 24px;
+  font-weight: 800;
+  color: #4d44ff;
+}
+
+/* 하단 고정 액션 바 */
+.next_step_bar {
+  background: white;
+  padding: 24px 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 110px;
+  border: 1px solid #f0f0f0;
+}
+
+.selection_summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.selection_summary span {
+  font-size: 18px;
+  color: #555;
+  font-weight: 500;
+}
+
+.selection_summary strong {
+  color: #4d44ff;
+  font-size: 22px;
+  font-weight: 800;
+  margin-left: 8px;
+}
+
+.no_selection_text {
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn_next_submit {
+  padding: 18px 48px;
+  background-color: #4d44ff;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn_next_submit:hover {
+  background-color: #3529f5;
+  transform: scale(1.02);
+}
+
+/* 3. Step 2: Customer Form & Common */
+.step_container.centered {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.customer_details_card {
+  background: white;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 550px;
+  border: 1px solid #f0f0f0;
+}
+
+.btn_back {
+  background: #f4f6ff;
+  border: none;
+  color: #4d44ff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.form_group {
+  margin-bottom: 24px;
+}
+
+.form_group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #444;
+}
+
+.input_row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* 에러 발생 시 입력창 스타일 */
+.input_error {
+  border-color: #ff4d4f !important;
+  background-color: #fff2f0;
+}
+
+/* 에러 메시지 텍스트 */
+.error_text {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* 라벨 색상 변경 (선택사항) */
+.form_group.has_error label {
+  color: #ff4d4f;
+}
+
+.customer_details_card input,
+.customer_details_card select {
+  width: 100%;
+  padding: 16px;
+  border: 1.5px solid #eee;
+  border-radius: 14px;
+  font-size: 15px;
+  background-color: #fcfcfd;
+  transition: all 0.2s;
+}
+
+.customer_details_card input:focus,
+.customer_details_card select:focus {
+  outline: none;
+  border-color: #4d44ff;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(77, 68, 255, 0.08);
+}
+
+.hotel_search_input {
+  border: 1.5px solid #4d44ff !important;
+  background-color: #fff !important;
+  margin-bottom: 12px;
+}
+
+.btn_submit {
+  width: 100%;
+  padding: 20px;
+  background-color: #4d44ff;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-weight: 800;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.3s;
+}
+
+.btn_submit:hover:not(:disabled) {
+  background-color: #3529f5;
+  box-shadow: 0 10px 25px rgba(77, 68, 255, 0.25);
+}
+
+.btn_submit:disabled {
+  background-color: #ccd0d9;
+  cursor: not-allowed;
+}
+
+/* Animations & Responsive */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .plan_card_group {
+    grid-template-columns: 1fr;
+  }
+
+  .plan_card_large {
+    flex-direction: row;
+    padding: 25px;
+    text-align: left;
+  }
+
+  .plan_icon_box {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+
+  .plan_info .desc {
+    min-height: auto;
+    margin-bottom: 8px;
+  }
+}

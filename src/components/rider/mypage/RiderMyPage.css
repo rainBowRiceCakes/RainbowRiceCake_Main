@@ -1,0 +1,196 @@
+/* mypage.css */
+
+/* 화면 전체 */
+.mypage {
+  min-height: 100dvh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단 */
+.header {
+  padding: 14px 16px 10px;
+}
+
+/* 뒤로가기 버튼 */
+.backBtn {
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px 6px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.backBtn:active {
+  transform: translateY(1px);
+}
+
+/* 프로필 블록 */
+.profile {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 54px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+/* 아바타 */
+.avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: #f1f3f5;
+  background-size: cover;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  background-size: cover;
+  background-position: center;
+} */
+
+
+/* 이름/전화 */
+.info {
+  min-width: 0;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.rider-info-sub-title {
+  font-size: 12px;
+  color: #868e96;
+  margin: 0;
+  font-weight: 400;
+  padding-left: 5px;
+}
+
+/* 토글 */
+.clockInAndOutToggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.clockInAndOutToggle input {
+  display: none;
+}
+
+.clockInAndOutToggleUi {
+  width: 48px;
+  height: 28px;
+  background: #d9dbe0;
+  border-radius: 999px;
+  position: relative;
+  transition: background 150ms ease;
+}
+
+.clockInAndOutToggleUi::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border-radius: 999px;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform 150ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.clockInAndOutToggle input:checked+.clockInAndOutToggleUi {
+  background: #2ecc71;
+}
+
+.clockInAndOutToggle input:checked+.clockInAndOutToggleUi::after {
+  transform: translateX(20px);
+}
+
+/* 본문 */
+.menu {
+  padding: 10px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 섹션(카드 느낌) */
+.mypageSection {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eceef1;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(16, 24, 40, 0.05);
+}
+
+/* 메뉴 row */
+.navigation {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 14px 14px;
+  display: grid;
+  grid-template-columns: 32px 1fr 18px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.navigation+.navigation {
+  border-top: 1px solid #f0f2f4;
+}
+
+.navigation:active {
+  background: #f7f7f9;
+}
+
+/* 아이콘 */
+.icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  background: #f1f3f5;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+
+/* 라벨 */
+.label {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 750;
+  color: #111;
+}
+
+/* 우측 꺾쇠 */
+.chev {
+  text-align: right;
+  font-size: 18px;
+  color: #b3b8c1;
+}
+
+/* 로그아웃 섹션은 살짝 다르게 */
+.navigationLogout {
+  border-color: #ffe3e3;
+}
+
+.navigationLogout:active {
+  background: #fff5f5;
+}
+
+.iconLogout {
+  background: #ffe3e3;
+}

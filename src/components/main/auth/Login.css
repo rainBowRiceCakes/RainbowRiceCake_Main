@@ -1,0 +1,95 @@
+/**
+ * @file src/components/main/auth/Login.css
+ * @description 소셜 로그인 페이지
+ * 251217 v1.0.0 sara init
+ * 251222 v2.0.0 jun 카카오 소셜 로그인 버튼 디자인 수정
+ */
+
+/* 페이지 중앙 정렬을 위한 컨테이너 */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 헤더/푸터 높이를 제외한 영역에서 중앙 배치를 위해 최소 높이 설정 (필요에 따라 조절) */
+  min-height: calc(100vh - 200px); 
+  padding: 40px var(--com-container-padding);
+  background-color: transparent; /* 배경색이 필요하면 설정 */
+}
+
+/* 흰색 로그인 박스 디자인 */
+.login-box {
+  background-color: var(--com-color-white);
+  width: 100%;
+  max-width: 460px; /* 이미지와 비슷한 넓이 설정 */
+  padding: 50px 40px;
+  border-radius: var(--com-radius-lg); /* 둥근 모서리 */
+  /* 이미지의 옅은 테두리와 그림자 효과 */
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+/* "로그인" 타이틀 */
+.login-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 40px; /* 버튼과의 간격 */
+}
+
+/* 카카오 로그인 버튼 스타일 */
+.kakao-btn {
+  position: relative; /* 아이콘 배치를 위해 relative 설정 */
+  width: 100%;
+  height: 54px; /* 버튼 높이 */
+  background-color: var(--com-kakao-bg);
+  color: #191919; /* 카카오 공식 텍스트 색상 (검정 계열) */
+  border: none;
+  border-radius: var(--com-gap-xs);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* 텍스트 중앙 정렬 */
+  align-items: center;
+  transition: opacity 0.2s ease;
+}
+
+.kakao-btn:hover {
+  opacity: 0.95; /* 호버 시 약간 투명하게 */
+}
+
+/* 아이콘 왼쪽 고정 배치를 위한 래퍼 */
+.kakao-icon-wrapper {
+  position: absolute;
+  left: var(--com-container-padding); /* 왼쪽에서의 위치 */
+  top: 50%;
+  transform: translateY(-50%); /* 수직 중앙 정렬 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 텍스트 스타일 (필요시) */
+.kakao-btn-text {
+  /* 기본적으로 flex justify-content center로 인해 중앙에 옴 */
+}
+
+/* 메인으로 돌아가기 버튼 스타일 */
+.login-goto-main-btn {
+  margin-top: 20px; /* 카카오 버튼과의 간격 */
+  background: none;
+  border: none;
+  color: var(--com-font-muted); /* 은은한 회색 텍스트 */
+  font-size: var(--com-size-content); /* 좀 더 작은 폰트 사이즈 */
+  cursor: pointer;
+  padding: 8px 12px; /* 적당한 패딩 */
+  border-radius: var(--com-radius-md);
+  transition: color 0.2s, background-color 0.2s, text-decoration 0.2s;
+}
+
+.login-goto-main-btn:hover {
+  color: var(--com-color-black); /* 호버 시 진하게 */
+  background-color: var(--com-color-bg-light); /* 살짝 배경색 변화 */
+  text-decoration: underline; /* 밑줄 강조 */
+}

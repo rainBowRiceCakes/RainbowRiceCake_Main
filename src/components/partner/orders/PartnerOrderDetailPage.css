@@ -1,0 +1,214 @@
+.order_detail_page {
+  padding: 20px 0;
+}
+
+.detail_header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.back_btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.back_btn:hover {
+  background: #f4f6ff;
+  border: none;
+  color: #4d44ff;
+}
+
+
+.order_title {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.detail_status_badge {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.call_rider_btn {
+  margin-left: auto;
+  background: #f1f3f9;
+  border: 1px solid #d5d5d5;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 그리드 레이아웃 */
+.detail_content_grid {
+  display: grid;
+  grid-template-rows: 1.2fr 1fr;
+  gap: 25px;
+}
+
+.detail_left {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.info_card {
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.info_card h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* 고객 프로필 */
+.customer_profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.profile_img {
+  width: 50px;
+  height: 50px;
+  background: #f1f3f9;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.profile_text .name {
+  font-weight: 700;
+  margin: 0;
+}
+
+.profile_text .email {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.address_info {
+  margin-bottom: 20px;
+}
+
+.hotel_name {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.hotel_address {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.ref_code {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: monospace;
+}
+
+/* 타임라인 스타일 */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #eee;
+}
+
+.timeline_item {
+  display: flex;
+  gap: 15px;
+  z-index: 1;
+}
+
+.t_icon {
+  width: 30px;
+  height: 30px;
+  background: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #999;
+}
+
+.timeline_item.active .t_icon {
+  background: #7a7fd3;
+  color: white;
+}
+
+.t_text {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 10px;
+}
+
+.t_title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.t_time {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.report_problem_btn {
+  width: 100%;
+  padding: 15px;
+  background: #eee;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 뱃지 색상 (이전과 동일) */
+.status_mat {
+  background: #eeeffc;
+  color: #605bff;
+}
+
+.status_pick {
+  background: #e2f0ff;
+  color: #007aff;
+}
+
+.status_com {
+  background: #e6f9f3;
+  color: #00b69b;
+}

@@ -1,0 +1,38 @@
+/**
+ * @file src/components/main/common/Carousel.css
+ * @description 파트너 로고 캐러샐
+ * 251219 v1.0.0 jun init
+ */
+
+.carousel-container {
+  width: 100%;
+  height: 150px; /* [중요] 높이 명시 */
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+}
+
+.carousel-track {
+  display: flex;
+  width: calc(200px * var(--quantity)); /* 로고 개수만큼 너비 확보 */
+  height: 100%;
+  animation: scroll 40s linear infinite;
+}
+
+.carousel-slide {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logo {
+  max-width: 100%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-200px * var(--quantity))); }
+}

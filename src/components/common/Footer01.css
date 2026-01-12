@@ -1,0 +1,301 @@
+/**
+ * @file src/components/common/Footer01.css
+ * @description 푸터
+ * 251216 v1.0.0 sara init 
+ */
+
+/* 전체 프레임 */
+.footer01-frame {
+  background-color: var(--com-color-bg-light);
+  width: 100%;
+  padding: 30px 0; /* Adjusted from 40px */
+  background-color: var(--com-color-white);
+  border-top: 1px solid var(--com-border-default);
+  color: var(--com-font-primary-color);
+}
+
+.footer01-container {
+  max-width: var(--com-web-max-width); /* 1400px 적용 */
+  margin: 0 auto;
+  padding: 0 var(--com-container-padding);
+}
+
+.footer01-inner-group {
+  display: flex;
+  flex-direction: column; /* 요소들을 세로로 배치 (로고가 위, 텍스트가 아래) */
+  justify-content: center;
+  align-items: center; /* 가로 방향 중앙 정렬 */
+  gap: var(--com-gap-xl); /* 로고와 텍스트 정보 사이의 간격 */
+}
+
+/* 로고 스타일 */
+.footer01-brand-group {
+  margin-bottom: var(--com-gap-sm); /* 텍스트와의 추가 간격 미세 조정 (필요 시) */
+}
+
+.footer01-logo-img {
+  height: 100px; /* 이미지 높이 설정 */
+  width: auto;
+  display: block;
+}
+
+.footer01-brand-img {
+  height: 60px; /* 기존 텍스트 크기(font-size: 60px)와 높이를 맞춤 */
+  width: auto;  /* 비율에 맞게 너비 자동 조절 */
+  display: block; /* 이미지 하단 미세한 여백 제거 */
+}
+
+/* --- 중앙: 텍스트 정보 그룹 --- */
+.footer01-info-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 내부 요소(링크, 텍스트) 가로 중앙 정렬 */
+  text-align: center;  /* 텍스트 내용 중앙 정렬 */
+}
+
+/* 링크 그룹 */
+.footer01-links-group {
+  display: flex; 
+  justify-content: center;
+  margin-bottom: var(--com-gap-sm); /* Adjusted from 16px */
+  gap: var(--com-gap-sm); /* Adjusted from 12px */
+}
+
+.footer01-links-group a {
+  text-decoration: none;
+  font-size: var(--com-size-content);
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-font-primary-color);
+  border-bottom: 1px solid var(--com-font-muted); /* Make border visible by default with gray color */
+  padding-bottom: 2px;
+  transition: all 0.2s;
+}
+
+.footer01-links-group a:hover {
+  color: var(--com-font-muted);
+  border-bottom-color: var(--com-border-default);
+}
+
+.footer01-bold {
+  font-weight: var(--com-font-weight-bold);
+}
+
+.footer01-separator {
+  margin: 0 var(--com-gap-xs); /* Adjusted from 8px */
+  color: var(--com-border-default);
+}
+
+.footer01-meta-info {
+  font-size: var(--com-size-mini);
+  color: var(--com-font-muted);
+  line-height: 1.8;
+  margin-bottom: var(--com-gap-sm); /* Adjusted from 16px */
+}
+
+.footer01-meta-info p {
+  margin: 2px 0;
+}
+
+/* Copyright */
+.footer01-copyright-text {
+  font-size: var(--com-size-mini);
+  color: var(--com-font-muted);
+  opacity: 0.6;
+}
+
+/* --- 모바일 반응형 --- */
+@media (max-width: 900px) {
+  /* 1. 전체 프레임 패딩 축소 (위아래 높이 감소) */
+  .footer01-frame {
+    padding: 30px 0; /* Adjusted from 30px */
+  }
+
+  /* 2. 내부 그룹: 세로 배치하되 간격(gap)을 줄여서 높이 확보 */
+  .footer01-inner-group {
+    flex-direction: column;
+    min-height: auto; 
+    gap: var(--com-gap-md); /* Adjusted from 20px */
+  }
+  
+  /* 3. 로고 영역: 위치 초기화 및 여백 제거 */
+  .footer01-brand-group {
+    position: static; 
+    transform: none;
+  }
+
+  /* 4. 로고 폰트 크기 축소 (높이 감소 효과) */
+  .footer01-logo-text {
+    font-size: var(--com-size-title); /* Adjusted from 24px */
+  }
+
+  .footer01-logo-img {
+    height: 80px; /* Mobile-specific height */
+  }
+
+  /* 5. 링크 그룹(이용약관 등) 높이 및 폰트 조절 */
+  .footer01-links-group {
+    flex-wrap: nowrap; /* Prevent wrapping to a new line */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer01-separator {
+    display: block; /* Ensure separator is visible */
+  }
+
+  .footer01-links-group a {
+    font-size: 10px; /* Adjust font size to fit */
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+
+  /* 6. 상세 정보 텍스트(주소 등) 높이 조절 */
+  
+    .footer01-meta-info {
+      font-size: var(--com-size-mini);
+      line-height: 1.5; 
+    }
+  }
+  
+  .footer01-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); 
+    z-index: 9; /* level 9 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px); 
+  }
+
+.footer01-modal-box {
+  background-color: var(--com-color-white);
+  width: 90%;
+  max-width: 600px; 
+  height: 80vh;     
+  border-radius: var(--com-radius-lg);
+  box-shadow: var(--com-shadow-default);
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.footer01-modal-header {
+  padding: 15px;
+  background-color: var(--com-color-white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--com-border-default); 
+}
+
+.footer01-modal-header h3 {
+  margin: 0;
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+}
+
+.footer01-close-x-btn {
+  background: none;
+  border: none;
+  font-size: var(--com-size-title); /* Adjusted from 24px */
+  cursor: pointer;
+  color: var(--com-font-primary-color);
+  padding: 0;
+  line-height: 1;
+}
+
+.footer01-modal-body {
+  flex: 1; 
+  padding: var(--com-gap-md); /* Adjusted from 20px */
+  overflow-y: auto; 
+  background-color: var(--com-color-bg-light); 
+  /* 내부 요소(modal-description)밖으로 나가지 못하도록 설정 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 클래스명 변경: .modal-description -> .footer01-modal-description */
+.footer01-modal-description {
+  margin-bottom: var(--com-gap-md); /* Adjusted from 20px */
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  border-bottom: 1px dashed var(--com-border-default);
+  padding-bottom: 15px; /* Keep for now as there's no variable for this specific use */
+  font-size: var(--com-size-content);
+  /* 텍스트 줄바꿈 강제 설정 */
+  word-break: keep-all;
+}
+
+.footer01-text-content {
+  background-color: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  padding: var(--com-gap-md); /* Adjusted from 20px */
+  border-radius: var(--com-radius-md); 
+  font-size: var(--com-size-content);
+  line-height: 1.6;
+  color: var(--com-font-primary-color);
+  width: 100%;
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+  word-break: keep-all;   /* 한글 줄바꿈 자연스럽게 */
+  overflow-wrap: break-word;
+}
+
+/* --- 약관 내부 리스트 스타일 정밀 조정 --- */
+.footer01-text-content ul {
+  margin: var(--com-gap-sm) 0; /* Adjusted from 10px */
+  padding-left: var(--com-gap-md); /* Adjusted from 20px */
+  list-style-type: disc;
+}
+
+.footer01-text-content li {
+  margin-bottom: var(--com-gap-xs); /* Adjusted from 8px */
+  /* 리스트 내용이 길어질 경우 텍스트가 불렛 아래로 파고들지 않게 정렬 */
+}
+
+.footer01-text-content h3, 
+.footer01-text-content h4 {
+  margin: 15px 0 var(--com-gap-sm); /* Adjusted from 10px */
+  color: var(--com-color-black);
+  font-weight: var(--com-font-weight-bold);
+}
+
+.footer01-modal-footer {
+  padding: 15px; /* Keep for now as there's no variable for this specific use */
+  background-color: var(--com-color-white);
+  border-top: 1px solid var(--com-border-default);
+  display: flex;
+  justify-content: center;
+}
+
+.footer01-close-btn {
+  background-color: var(--com-color-bg-light); 
+  color: var(--com-color-black);
+  border: none;
+  padding: var(--com-gap-sm) 40px; /* Adjusted from 10px */
+  border-radius: var(--com-radius-md);
+  font-size: var(--com-size-content);
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.footer01-close-btn:hover {
+  background-color: var(--com-border-default);
+}
+
+@keyframes modalFadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(var(--com-gap-md)); 
+  }
+
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}

@@ -1,0 +1,181 @@
+/**
+ * @file src/components/common/PWAInstallButton.css
+ * @description PWA Install Button UI (Refined Monochrome Design)
+ * 251228 v2.0.0 wook - Refactored to a sophisticated monochrome design
+ */
+
+/* --- Base Overlay --- */
+.pwa-install-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100; /* level 10 (PWA) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Center for desktop */
+  backdrop-filter: blur(8px);
+  animation: pwaFadeIn 0.3s ease-out;
+}
+
+/* --- Main Container --- */
+.pwa-install-container {
+  width: 90%;
+  max-width: 420px;
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  border-radius: var(--com-radius-lg);
+  padding: var(--com-gap-xl);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  /* For the close button */
+  animation: pwaScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- App Icon --- */
+.pwa-app-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--com-gap-md);
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwa-app-icon img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
+}
+
+/* --- Text Content --- */
+.pwa-title {
+  font-size: 22px;
+  font-weight: var(--com-font-weight-bold);
+  margin-bottom: var(--com-gap-xs);
+  letter-spacing: -0.5px;
+}
+
+.pwa-description {
+  font-size: var(--com-size-sidebar);
+  color: #a1a1a1;
+  /* Light gray for description */
+  line-height: 1.6;
+  margin-bottom: var(--com-gap-xl);
+}
+
+/* --- Buttons --- */
+.pwa-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-sm);
+}
+
+.pwa-btn-install {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--com-radius-md);
+  background: var(--com-color-white);
+  color: var(--com-color-black);
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-bold);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pwa-btn-install:hover {
+  transform: scale(1.02);
+}
+
+.pwa-btn-later {
+  background: none;
+  border: none;
+  color: #a1a1a1;
+  font-size: var(--com-size-sub-title);
+  cursor: pointer;
+  padding: var(--com-gap-xs);
+}
+
+.pwa-btn-later:hover {
+  color: var(--com-color-white);
+}
+
+/* --- Close Button --- */
+.pwa-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--com-color-white);
+  font-size: var(--com-size-subtitle);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwa-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Animations --- */
+@keyframes pwaFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pwaScaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- Mobile Bottom Sheet --- */
+@media screen and (max-width: 767px) {
+  .pwa-install-overlay {
+    align-items: flex-end;
+    /* Align to bottom */
+  }
+
+  .pwa-install-container {
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+    /* Top corners rounded */
+    padding: var(--com-gap-xl) var(--com-container-padding);
+    padding-bottom: 40px;
+    animation: pwaSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes pwaSlideUp {
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+}

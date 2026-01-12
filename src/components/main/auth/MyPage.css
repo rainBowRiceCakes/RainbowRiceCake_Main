@@ -1,0 +1,704 @@
+/**
+ * @file src/components/main/auth/MyPage.css
+ * @description 마이 페이지 및 배송 상태 가이드(step img)
+ * 251217 v1.0.0 sara init
+ * 260102 v1.1.0 sara - 배송 상태 가이드 스타일 추가
+ * 260102 v1.2.0 sara - 로그인/ 비로그인 상태 스타일 분리
+ * 260106 v1.3.0 sara - 뒤로가기 버튼 스타일 추가
+ * 260106 v1.4.0 sara - 배송/문의 토글 + 모바일 친화 카드 UI
+ * 260107 v2.0.0 sara - 모바일 유지 + 웹(데스크톱) 레이아웃/타이포/여백 개선
+ * 260109 v3.0.0 sara - 마이 페이지 및 배송 상태 가이드(step img) 검색바 추가
+ * 260110 v4.0.0 sara - clean tone refactor
+ */
+
+/* =========================
+   Layout
+========================= */
+.mypage-frame {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.mypage-frame--auth {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  padding-top: 56px;
+}
+
+/* Loading */
+.mypage-loading {
+  padding: 48px 16px;
+  border: 1px solid var(--com-border-default);
+  border-radius: 14px;
+  background: var(--com-color-white);
+  color: var(--com-font-muted);
+  text-align: center;
+}
+
+/* =========================
+   Profile
+========================= */
+.mypage-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 16px;
+}
+
+/* MyPage.css 수정 */
+.mypage-profile-section {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* 999px 대신 50% 사용 가능 */
+}  
+
+.mypage-profile-section img {
+  width: 100%;
+  height: 100%;
+}
+
+.mypage-profile-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mypage-user-name {
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-color-black);
+  font-size: 16px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mypage-user-sub {
+  color: rgba(0, 0, 0, 0.55);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   Tabs (Delivery / Inquiry)
+   - button 느낌 제거 → navigation underline
+========================= */
+.mypage-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+
+  border-bottom: 1px solid var(--com-border-default);
+  background: transparent;
+}
+
+.mypage-tab {
+  height: 44px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+
+  color: var(--com-font-muted);
+  font-weight: 700;
+  font-size: 14px;
+
+  cursor: pointer;
+  box-shadow: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.mypage-tab:hover {
+  color: var(--com-color-black);
+}
+
+.mypage-tab.is-active {
+  color: var(--com-color-black);
+}
+
+.mypage-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: -1px;
+  height: 2px;
+  background: var(--com-color-black);
+  border-radius: 999px;
+}
+
+/* =========================
+   Summary / Filters
+========================= */
+.mypage-summary-card {
+  padding: 14px;
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.mypage-filter-item {
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.mypage-filter-item:hover {
+  background: var(--com-color-bg-light);
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+.mypage-filter-item:active {
+  transform: translateY(1px);
+}
+
+/* 전체보기는 한 줄 풀폭 */
+.mypage-filter-item.is-all {
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* ✅ 무지개 제거: 활성은 모노톤으로만 */
+.mypage-filter-item.is-active {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.22);
+}
+
+.mypage-filter-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mypage-summary-k {
+  color: var(--com-font-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mypage-summary-v {
+  color: var(--com-color-black);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* =========================
+   Search
+========================= */
+.mypage-order-search {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.mypage-order-search-input {
+  width: 100%;
+  padding: 12px 2px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+
+  font-size: 14px;
+  outline: none;
+  background: transparent;
+
+  transition: border-color 0.15s ease;
+}
+
+.mypage-order-search-input:focus {
+  border-bottom-color: rgba(0, 0, 0, 0.55);
+}
+
+/* =========================
+   List
+========================= */
+.mypage-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* =========================
+   Card
+========================= */
+.mypage-card {
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 16px;
+  overflow: hidden;
+
+  box-shadow: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.mypage-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 16px 16px 12px;
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.mypage-card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mypage-card-mini {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--com-font-muted);
+  text-transform: uppercase;
+}
+
+.mypage-card-strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--com-color-black);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mypage-card-body {
+  padding: 10px 16px 16px;
+}
+
+/* Rows */
+.mypage-kv {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.mypage-kv.no-border {
+  border-top: none;
+  padding-top: 6px;
+}
+
+.mypage-k {
+  color: var(--com-font-muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+.mypage-v {
+  color: var(--com-color-black);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mypage-v.price {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* =========================
+   Badges (Status)
+========================= */
+.mypage-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+  color: rgba(0, 0, 0, 0.78);
+  white-space: nowrap;
+}
+
+.mypage-badge.is-completed {
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
+}
+
+.mypage-badge.is-progress,
+.mypage-badge.is-matching,
+.mypage-badge.is-wait {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.10);
+  color: rgba(0, 0, 0, 0.72);
+}
+
+/* =========================
+   Images (Pickup / Delivered split)
+========================= */
+.mypage-img-split-container {
+  display: flex;
+  gap: 8px;
+
+  margin-top: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02);
+
+  height: 160px;
+}
+
+.mypage-img-half {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+}
+
+.mypage-img-split {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mypage-img-label {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+
+  padding: 4px 8px;
+  border-radius: 999px;
+  z-index: 2;
+}
+
+/* Inquiry image */
+.mypage-img-wrap {
+  margin-top: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mypage-img {
+  width: 100%;
+  display: block;
+  max-height: 260px;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+/* =========================
+   Inquiry content / answer
+========================= */
+.mypage-content {
+  margin-top: 8px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+  color: rgba(0, 0, 0, 0.86);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.mypage-answer {
+  margin-top: 12px;
+  padding: 14px;
+
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mypage-answer-k {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--com-font-muted);
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.mypage-answer-v {
+  font-size: 13.5px;
+  color: rgba(0, 0, 0, 0.86);
+  line-height: 1.65;
+}
+
+/* 기사 정보 그룹 (여백만) */
+.mypage-kv-group {
+  margin-top: 8px;
+  padding-top: 2px;
+}
+
+/* =========================
+   Empty
+========================= */
+.empty-msg {
+  text-align: center;
+  padding: 72px 18px;
+
+  color: var(--com-font-muted);
+  font-size: 14px;
+  font-weight: 600;
+
+  background: rgba(0, 0, 0, 0.015);
+  border-radius: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.14);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.empty-msg::before {
+  content: "—";
+  font-size: 20px;
+  opacity: 0.35;
+}
+
+/* =========================
+   Summary: App-like compact header + segmented controls
+========================= */
+.mypage-summary-card--compact {
+  padding: 14px;
+  border-radius: 16px;
+}
+
+.mypage-summary-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.mypage-summary-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mypage-summary-title:hover {
+  background: var(--com-color-white);
+}
+
+.mypage-summary-title.is-active {
+  background: var(--com-color-white);
+}
+
+.mypage-summary-title-k {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--com-font-muted);
+}
+
+.mypage-summary-title-v {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--com-color-black);
+}
+
+.mypage-summary-title-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  margin-left: 6px;
+  background: var(--com-color-white);
+  border: 1px solid rgba(0,0,0,0.10);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+/* compact search */
+.mypage-summary-search .mypage-order-search-input--compact {
+  padding: 10px 10px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 12px;
+  background: rgba(0,0,0,0.02);
+}
+
+.mypage-summary-search .mypage-order-search-input--compact:focus {
+  border-color: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.015);
+}
+
+/* segmented filter */
+.mypage-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.mypage-seg-btn {
+  border: none;
+  background: transparent;
+  border-radius: 11px;
+  padding: 10px 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.12s ease;
+  color: rgba(0,0,0,0.74);
+}
+
+.mypage-seg-btn:hover {
+  background: rgba(255,255,255,0.7);
+}
+
+.mypage-seg-btn:active {
+  transform: translateY(1px);
+}
+
+.mypage-seg-btn.is-active {
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+}
+
+.mypage-seg-label {
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: none;
+}
+
+.mypage-seg-count {
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+
+  background: rgba(0,0,0,0.07);
+  border: 1px solid rgba(0,0,0,0.12);
+  color: inherit;
+}
+
+.mypage-seg-btn.is-active .mypage-seg-count {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.18);
+}
+
+/* web */
+@media (min-width: 768px) {
+  .mypage-summary-top {
+    grid-template-columns: 1fr 320px;
+    align-items: center;
+  }
+}
+
+/* =========================
+   Responsive
+========================= */
+@media screen and (max-width: 420px) {
+  .mypage-frame { padding: 14px; }
+  .mypage-filter-grid-2col { gap: 8px; }
+  .mypage-summary-v { font-size: 17px; }
+  .mypage-img-split-container { height: 150px; }
+}
+
+@media screen and (max-width: 768px) {
+  .mypage-frame--auth { padding-top: 18px; }
+}
+
+@media screen and (min-width: 768px) {
+  .mypage-frame {
+    max-width: 980px;
+    padding: 28px;
+  }
+
+  .mypage-frame--auth {
+    padding-top: 0;
+    gap: 16px;
+  }
+
+  .mypage-profile-card { padding: 16px; }
+
+  .mypage-tab { height: 48px; }
+
+  .mypage-summary-v { font-size: 20px; }
+
+  .mypage-card:hover {
+    border-color: rgba(0, 0, 0, 0.22);
+    transform: translateY(-1px);
+  }
+
+  .mypage-img-split-container { height: 190px; }
+}
+
+@media screen and (min-width: 1100px) {
+  .mypage-frame { padding: 34px; }
+}

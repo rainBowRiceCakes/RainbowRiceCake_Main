@@ -1,0 +1,345 @@
+/* 전체 컨테이너 및 배경 설정 */
+.mypage_container {
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #f9fafb;
+    /* 부드러운 배경색 */
+    min-height: 100vh;
+}
+
+.page_title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #202224;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dee2e6;
+    /* 제목 하단 구분선 */
+}
+
+/* 카드형 섹션 공통 스타일 */
+.profile_card,
+.settings_section,
+.policy_links_section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    /* 은은한 그림자 */
+    border: 1px solid #f1f3f9;
+}
+
+/* 1. 매장 프로필 상단 영역 */
+.store_info_header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.store_icon {
+    font-size: 32px;
+    background: #f1f3ff;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.store_name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #202224;
+    margin: 0;
+}
+
+.store_address_display {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* 취소 버튼 스타일 */
+.cancel_btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    background: #ffffff;
+    color: #666;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel_btn:hover {
+    background: #f8f9fa;
+    color: #333;
+}
+
+/* 기존 수정/저장 버튼 (기존 유지하되 margin-left 제거) */
+.edit_toggle_btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #4d44ff;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* 버튼 그룹 배치 */
+.profile_action_buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+/* 수정/저장 버튼 스타일 */
+.edit_toggle_btn {
+    margin-left: auto;
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #4d44ff;
+    /* 디자인의 보라색 포인트 */
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.edit_toggle_btn.save {
+    background: #00c38e;
+    /* 저장 시 초록색으로 변경 */
+}
+
+/* 2. 입력 필드 그리드 레이아웃 */
+.info_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2열 배치 */
+    gap: 30px;
+}
+
+.info_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info_item.full_width {
+    grid-column: span 2;
+}
+
+.info_item label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+}
+
+/* 읽기 전용 및 편집 가능 인풋 스타일 구분 */
+.readonly_input {
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #202224;
+    outline: none;
+    background: transparent;
+}
+
+.editable_input {
+    border: none;
+    border-bottom: 2px solid #4d44ff;
+    /* 편집 시 강조선 */
+    padding: 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #202224;
+    outline: none;
+    background: #f8f9ff;
+    /* 편집 중임을 알리는 배경색 */
+}
+
+/* 3. 고객 지원 섹션 (기존 settings_section 대체) */
+.support_section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f3f9;
+}
+
+.support_section h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #202224;
+}
+
+.support_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* 단일 컬럼 혹은 1fr 1fr 가능 */
+    gap: 15px;
+}
+
+.support_card {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    background: #ffffff;
+    border: 1px solid #f1f3f9;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 카드에 마우스를 올렸을 때 강조 효과 */
+.support_card:hover {
+    background: #f8f9ff;
+    border-color: #4d44ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(77, 68, 255, 0.08);
+}
+
+.support_icon {
+    font-size: 24px;
+    margin-right: 20px;
+    background: #f1f3ff;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.support_text {
+    flex: 1;
+}
+
+.support_text strong {
+    display: block;
+    font-size: 16px;
+    color: #202224;
+    margin-bottom: 4px;
+}
+
+.support_text span {
+    font-size: 13px;
+    color: #888;
+}
+
+.support_card .arrow {
+    font-size: 20px;
+    color: #ccc;
+    transition: color 0.2s;
+}
+
+.support_card:hover .arrow {
+    color: #4d44ff;
+}
+
+/* 4. 약관 링크 스타일 */
+.policy_link_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: #ffffff;
+    border: 1px solid #f1f3f9;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.policy_link_item:hover {
+    background: #f1f3ff;
+}
+
+.policy_link_item span {
+    font-weight: 600;
+    color: #444;
+}
+
+.policy_link_item .arrow {
+    color: #ccc;
+    font-size: 20px;
+}
+
+/* 5. 디자인 이미지 속 토글 스위치 (Switch) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e2e8f0;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #818cf8;
+    /* 디자인의 연보라색 스위치 */
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+}
+
+/* 유효성 에러 발생 시 인풋 스타일 */
+.editable_input.error_input {
+    border-bottom: 2px solid #ff4d4f;
+    background-color: #fff2f0;
+}
+
+/* 에러 메시지 텍스트 */
+.field_error_text {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* 로딩/에러 박스 기본 스타일 */
+.loading_box,
+.error_box {
+    padding: 100px;
+    text-align: center;
+    font-weight: bold;
+}

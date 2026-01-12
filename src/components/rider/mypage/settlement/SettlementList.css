@@ -1,0 +1,179 @@
+/* src/components/rider/mypage/settlement/SettlementList.css */
+
+.sl-container {
+  padding: 1.2rem 1rem;
+  background-color: #f8f9fa;
+  min-height: 100%;
+}
+
+.sl-header {
+  margin-bottom: 1.5rem;
+}
+
+.sl-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.sl-description {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.sl-filter-section {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sl-filter-section label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.sl-filter-section select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 0.9rem;
+  flex-grow: 1;
+}
+
+.sl-list-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sl-item-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sl-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sl-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #f1f3f5;
+  padding-bottom: 0.8rem;
+}
+
+.sl-item-period {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.sl-item-download-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: #6c5ce7;
+  /* 원래 포인트 컬러 */
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.sl-item-download-btn:hover:not(:disabled) {
+  background-color: #5b4cc4;
+}
+
+.sl-item-download-btn:hover {
+  background-color: #b89dfa;
+}
+
+.sl-item-download-btn .sl-icon {
+  font-size: 1rem;
+}
+
+/* ✅ 5. 정산 대기 중(REQ) 또는 로딩 중일 때의 스타일 */
+.sl-item-download-btn:disabled,
+.sl-item-download-btn.disabled {
+  background-color: #e0e0e0;
+  /* 연한 회색 */
+  color: #9e9e9e;
+  /* 진한 회색 텍스트 */
+  cursor: not-allowed;
+  /* 금지 아이콘 커서 */
+  border: 1px solid #d1d1d1;
+}
+
+.sl-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.sl-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.sl-label {
+  color: #868e96;
+  font-weight: 500;
+}
+
+.sl-value {
+  color: #495057;
+  font-weight: 600;
+}
+
+.sl-value.completed {
+  color: #28a745;
+}
+
+.sl-no-results {
+  text-align: center;
+  margin-top: 3rem;
+  color: #868e96;
+}
+
+/* 상태별 텍스트 색상 */
+.status-req {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+/* 주황색 (대기) */
+.status-res {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+/* 초록색 (완료) */
+.status-rej {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* 빨간색 (반려) */
+/* 정산완료(RES) 대응 */
+
+.total-amount {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2d3436;
+}

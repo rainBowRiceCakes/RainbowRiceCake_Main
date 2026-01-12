@@ -1,0 +1,226 @@
+.rider_page_container {
+    min-height: 100vh;
+    background-color: #f8f9fc;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 상단 탭 디자인 */
+.history_tab_container {
+    display: flex;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.tab_btn {
+    flex: 1;
+    padding: 15px 0;
+    border: none;
+    background: none;
+    font-size: 15px;
+    color: #999;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tab_btn.active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+    /* 활성화 표시 */
+}
+
+.tab_btn:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+/* 목록으로 돌아가기 버튼 */
+.list_return_btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* 간단한 전환 애니메이션 */
+.animate_fade_in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rider_page_header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #202224;
+    margin: 0;
+}
+
+.header_empty_space {
+    width: 32px;
+}
+
+/* List View */
+.rider_list_view {
+    padding: 15px;
+}
+
+.modern_inquiry_card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.item_main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.item_title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.item_date {
+    font-size: 13px;
+    color: #999;
+}
+
+.item_status_text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f59e0b;
+    /* 대기중 오렌지 */
+}
+
+.item_status_text.done {
+    color: #10b981;
+    /* 완료 초록 */
+}
+
+/* Detail View */
+.rider_detail_view {
+    padding: 20px;
+}
+
+.detail_card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.status_badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.status_badge.hold {
+    background: #fff4e5;
+    color: #d97706;
+}
+
+.status_badge.done {
+    background: #e7fbf3;
+    color: #00c38e;
+}
+
+.detail_title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+/* JSX에 맞춰 클래스명 통합 */
+.content_stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 5px;
+}
+
+.content_bubble {
+    /* chat_bubble 대신 사용 */
+    padding: 16px 20px;
+    border-radius: 18px;
+    position: relative;
+    max-width: 90%;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.bubble_label {
+    /* label 대신 사용 */
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.content_bubble.question {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+    color: #374151;
+}
+
+.content_bubble.answer {
+    background: #f0f7ff;
+    border: 1px solid #dbeafe;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    color: #1e40af;
+}
+
+.loader_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #eee;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

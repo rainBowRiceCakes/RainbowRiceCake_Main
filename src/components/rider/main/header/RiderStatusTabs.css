@@ -1,0 +1,26 @@
+/* components/rider/main/RiderStatusTabs.css */
+
+.rider-status-tabs {
+  margin: 0 16px;
+  padding: 4px;
+  display: flex;
+  background: #f1f3f5;
+  border-radius: 999px;
+}
+
+.rider-status-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #868e96;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.rider-status-tab.active {
+  background: #cdb9ff;
+  color: #212529;
+}

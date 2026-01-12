@@ -1,0 +1,286 @@
+/**
+ * @file src/components/common/Header01.css
+ * @description header01 css
+ * 251216 v1.0.0 sara init 
+ * 260103 v1.0.1 sara 모바일 햄버거 버튼 스타일 수정, padding 조정
+ * 260110 v1.0.2 인증 확인 중(isAuthChecked) 레이아웃 깜빡임 방지 스타일 추가
+ */
+
+.header01-frame {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  /* level 5 */
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid var(--com-color-overlay);
+  transition: all 0.3s ease-in-out;
+}
+
+.header01-inner-group {
+  max-width: var(--com-web-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--com-container-padding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header01-left-box {
+  display: flex;
+  align-items: center;
+  margin-left: -var(--com-container-padding);
+}
+
+.header01-logo-wrapper {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.header01-logo-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+.header01-brand-img-container {
+  width: 70px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header01-brand-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.header01-actions-group {
+  display: flex;
+  align-items: center;
+  gap: var(--com-gap-sm);
+  padding: 20px 0 20px 20px;
+}
+
+/* 데스크탑 링크 컨테이너 */
+.header01-desktop-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 인증 확인 중 레이아웃 고정을 위한 Placeholder */
+.header01-auth-loading-placeholder {
+  width: 150px;
+  /* 로그인/로그아웃 버튼들의 평균 너비 확보 */
+  height: 38px;
+  visibility: hidden;
+  /* 영역은 차지하지만 보이지 않음 */
+}
+
+/* 데스크탑 버튼 스타일 */
+.header01-action-button-link {
+  padding: var(--com-gap-xs) var(--com-gap-md);
+  border-radius: var(--com-radius-pill);
+  font-size: var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+  border: 1px solid transparent;
+  background: var(--com-color-white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  /* 글자 줄바꿈 방지 */
+}
+
+.header01-action-button-link:hover {
+  background: var(--com-gradient-rainbow);
+  transform: translateY(-1px);
+}
+
+.header01-action-button-link--solid {
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+}
+
+.header01-action-button-link--solid:hover {
+  background: var(--com-gradient-rainbow);
+  color: var(--com-color-black);
+}
+
+/* 모바일 아이콘 그룹 */
+.header01-mobile-icons-group {
+  display: none;
+  align-items: center;
+  gap: var(--com-gap-xs);
+}
+
+/* 모바일 아이콘 버튼 공통 스타일 */
+.header01-icon-login-btn,
+.header01-icon-mypage-btn,
+.header01-icon-logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--com-radius-pill);
+  background-color: var(--com-color-bg-light);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header01-icon-login-btn:hover,
+.header01-icon-mypage-btn:hover,
+.header01-icon-logout-btn:hover {
+  background-color: var(--com-border-default);
+}
+
+.header01-login-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* MdExitToApp 아이콘 스타일 */
+.header01-logout-icon {
+  font-size: 22px;
+  color: var(--com-color-black);
+}
+
+/* 햄버거 버튼 */
+.header01-hamburger-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--com-color-bg-light);
+  border-radius: var(--com-radius-md);
+  border: none;
+  cursor: pointer;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.header01-hamburger-button:hover {
+  background-color: var(--com-border-default);
+}
+
+.header01-hamburger-button:active {
+  background-color: var(--com-border-default);
+  transform: scale(0.95);
+}
+
+.header01-bar {
+  width: 18px;
+  height: 2px;
+  background-color: var(--com-color-black);
+  transition: all 0.3s ease;
+}
+
+.header01-hamburger-button.is-active .header01-hamburger-bar1 {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.header01-hamburger-button.is-active .header01-hamburger-bar2 {
+  opacity: 0;
+}
+
+.header01-hamburger-button.is-active .header01-hamburger-bar3 {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* 모바일 드롭다운 */
+.header01-mobile-dropdown-frame {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 85%;
+  height: 100vh;
+  background-color: var(--com-color-white);
+  z-index: 999;
+  /* level 7 */
+  box-shadow: var(--com-shadow-md);
+  overflow-y: auto; /* Added for scrollability */
+}
+
+.header01-mobile-inner-group {
+  padding: 40px var(--com-container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-gap-xl);
+}
+
+.header01-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header01-mobile-title-text {
+  font-size: var(--com-size-title);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-primary-color);
+}
+
+.header01-close-btn {
+  font-size: var(--com-size-icon);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--com-font-primary-color);
+}
+
+.header01-close-btn:hover {
+  background-color: var(--com-border-default);
+  border-radius: var(--com-radius-pill);
+}
+
+@media screen and (max-width: 768px) {
+  .header01-frame {
+    height: 60px;
+  }
+
+  .header01-logo-button {
+    height: 60px;
+  }
+
+  .header01-brand-img-container {
+    width: 60px;
+    height: 50px;
+  }
+
+  .header01-desktop-links {
+    display: none;
+  }
+
+  .header01-mobile-icons-group {
+    display: flex;
+  }
+
+  /* 모바일에서도 확인 중일 때 아이콘 1개 분량의 자리를 유지 */
+  .header01-auth-loading-placeholder {
+    width: 40px;
+    height: 40px;
+  }
+}

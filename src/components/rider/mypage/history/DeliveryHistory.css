@@ -1,0 +1,193 @@
+/* src/components/rider/mypage/history/DeliveryHistory.css */
+:root {
+  --dh-primary-color: #A992FE;
+  /* The purple from the image */
+  --dh-background-color: #f0f2f5;
+  --dh-text-primary: #262626;
+  --dh-text-secondary: #8c8c8c;
+  --dh-border-color: #f0f0f0;
+}
+
+.dh-container {
+  padding: 16px;
+  background-color: transparent;
+  min-height: calc(100vh - 56px - 64px);
+  /* Full height minus header and footer */
+}
+
+.dh-filter-bar {
+  display: flex;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px;
+  /* Adjust margin to fit new element */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.dh-total-deliveries {
+  font-size: 14px;
+  color: var(--dh-text-secondary);
+  text-align: right;
+  margin: 0 0 16px;
+  padding: 0 16px;
+}
+
+.dh-filter-btn {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  color: var(--dh-text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dh-filter-btn.active {
+  background-color: var(--dh-primary-color);
+  color: #fff;
+  font-weight: 600;
+}
+
+.dh-date-group-card {
+  background-color: #fff;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  /* Ensures child borders don't poke out */
+}
+
+.dh-group-header {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dh-text-primary);
+  background-color: #fafafa;
+  border-bottom: 1px solid var(--dh-border-color);
+}
+
+.dh-history-list {
+  padding: 0 5px 0 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dh-history-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--dh-border-color);
+}
+
+.dh-history-item:last-child {
+  border-bottom: none;
+}
+
+.dh-item-time {
+  width: 60px;
+  /* Fixed width for time */
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dh-text-primary);
+}
+
+.dh-item-details {
+  flex-grow: 1;
+  margin-left: 12px;
+}
+
+.dh-details-main {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--dh-text-primary);
+  margin: 0 0 4px 0;
+  white-space: normal;
+  /* Allow text to wrap */
+  word-break: break-word;
+  /* Break long words */
+}
+
+.dh-details-sub {
+  font-size: 13px;
+  color: var(--dh-text-secondary);
+  margin: 0;
+}
+
+.dh-item-chevron {
+  color: #d9d9d9;
+  font-size: 20px;
+  margin-left: 8px;
+  /* Give some space */
+  flex-shrink: 0;
+  /* Prevent squeezing */
+  width: 24px;
+  /* Ensure fixed width */
+  text-align: center;
+}
+
+.dh-empty-message {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--dh-text-secondary);
+}
+
+/* Pagination styles (copied from RiderMainPage.css) */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  /* 버튼들을 중앙에 배치 */
+  align-items: center;
+  gap: 8px;
+  /* 버튼 사이 간격 */
+  margin-top: 30px;
+  /* 위쪽 여백 */
+  margin-bottom: 20px;
+  /* 아래쪽 여백 */
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+  /* 상단 구분선 */
+}
+
+.pagination-container button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
+  transition: all 0.2s ease-in-out;
+  min-width: 40px;
+  /* 버튼 최소 너비 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* 은은한 그림자 */
+}
+
+.pagination-container button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+  color: #333;
+}
+
+.pagination-container button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #f9f9f9;
+  color: #aaa;
+}
+
+/* 활성화된 페이지 버튼 스타일 */
+.pagination-container button.active {
+  /* Changed from [style*="font-weight: bold"] for easier use with JSX classNames */
+  background-color: var(--dh-primary-color);
+  /* 파란색 배경 */
+  color: #fff !important;
+  /* 글씨색 흰색 (important로 우선순위 높임) */
+  border-color: var(--dh-primary-color);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+  /* 더 강조되는 그림자 */
+}

@@ -1,0 +1,254 @@
+/**
+ * @file src/components/main/sections/MainCover.css
+ * @description 메인 첫화면 섹션
+ * 251216 v1.0.0 sara init 
+ * 251229 v1.1.0 video & motion 추가
+ */
+
+.maincover-frame {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. 상단 비주얼 영역 */
+.maincover-visual-area {
+  position: relative;
+  width: 100%;
+  height: min(60vh, 550px);
+  /* 왼쪽 기본 배경색을 블랙으로 설정 */
+  background-color: var(--com-color-black);
+  overflow: hidden;
+}
+
+/* 제휴 신청 폼 이동 svg */
+.maincover-shortcut-group {
+  position: absolute;
+  top: 25px; /* 상단 여백 */
+  right: 25px; /* 우측 여백 */
+  z-index: 5; /* 비디오보다 위에 위치 */
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.maincover-shortcut-btn {
+  background: none;
+  border: none;
+  color: var(--com-color-white);
+  font-size: 14px;
+  font-weight: var(--com-font-weight-heavy);
+  cursor: pointer; /* 마우스 포인터 변경 */
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: var(--com-radius-sm);
+  transition: all 0.2s ease;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* 가독성을 위한 그림자 */
+}
+
+.maincover-shortcut-btn:hover {
+ cursor: pointer;
+}
+
+/* 우측 영상 배치 */
+.maincover-video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  /* 영상이 차지하는 너비 (자연스럽게 조절 가능) */
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* level 0 */
+  transform: scale(1.1);
+  filter: saturate(0.85) brightness(0.7);
+}
+
+/* 핵심: 왼쪽 블랙에서 오른쪽 투명으로 변하는 마스크 */
+.maincover-side-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* 35% 지점까지는 블랙, 그 이후부터 서서히 투명해짐 */
+  background: linear-gradient(to right,
+      var(--com-color-black) 35%,
+      rgba(17, 24, 39, 0.6) 55%,
+      rgba(17, 24, 39, 0) 75%);
+  z-index: 0; /* level 0 */
+}
+
+/* 텍스트 배치 */
+.maincover-text-wrapper {
+  position: relative;
+  z-index: 0; /* level 0 */
+  width: 100%;
+  max-width: var(--com-web-max-width);
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--com-container-padding);
+}
+
+.maincover-text-content {
+  color: var(--com-color-white);
+  text-align: left;
+  /* 좌측 정렬로 변경 */
+}
+
+.maincover-hero-title {
+  font-size: 42px;
+  font-weight: var(--com-font-weight-bold);
+  margin-bottom: var(--com-gap-xs);
+}
+
+.maincover-hero-subtitle {
+  font-size: var(--com-size-subtitle);
+  /* Make it smaller */
+  font-weight: var(--com-font-weight-heavy);
+  /* Keep it bold */
+  display: block;
+  /* Ensure it takes its own line after the <br> */
+  margin-top: var(--com-gap-xs);
+  /* Small gap from the first line */
+}
+
+.maincover-hero-desc {
+  font-size: var(--com-size-subtitle);
+  opacity: 0.8;
+}
+
+/* 2. 하단 배송 조회 영역 (간격 최적화) */
+.maincover-delivery-area {
+  width: 100%;
+  padding: 30px var(--com-container-padding);
+  background-color: var(--com-color-gray);
+  display: flex;
+  justify-content: center;
+}
+
+.maincover-delivery-form {
+  width: 100%;
+  max-width: var(--com-web-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maincover-delivery-title-text {
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
+  font-size: var(--com-size-subtitle);
+  margin-bottom: var(--com-gap-md);
+}
+
+.maincover-input-group {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: var(--com-gap-sm);
+  box-shadow: var(--com-shadow-xs);
+}
+
+.maincover-input-field {
+  flex-grow: 1;
+  padding: var(--com-size-subtitle);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-md) 0 0 var(--com-radius-md);
+  outline: none;
+  font-size: var(--com-size-sidebar);
+}
+
+.maincover-submit-button {
+  background-color: var(--com-color-black);
+  color: var(--com-color-white);
+  padding: 0 var(--com-gap-xl);
+  cursor: pointer;
+  border-radius: 0 var(--com-radius-md) var(--com-radius-md) 0;
+  border: none;
+  font-weight: var(--com-font-weight-heavy);
+}
+
+.maincover-more-link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--com-font-muted);
+  font-size: var(--com-size-content);
+}
+
+/* 모바일 대응 */
+@media screen and (max-width: 767px) {
+  .maincover-visual-area {
+    height: 35vh;
+  }
+  /* 모바일에서는 비디오를 전체로 깔고 중앙 정렬 텍스트로 변경하는 것이 가독성이 좋습니다 */
+  .maincover-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.5) translateZ(0);
+    opacity: 0.7;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
+  .maincover-side-mask {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .maincover-text-wrapper {
+    justify-content: center;
+  }
+
+  .maincover-text-content {
+    text-align: center;
+  }
+
+  .maincover-input-group {
+    flex-direction: column;
+    max-width: 100%;
+    gap: var(--com-gap-xs);
+  }
+
+  .maincover-input-field,
+  .maincover-submit-button {
+    border-radius: var(--com-radius-md);
+    padding: var(--com-size-sidebar);
+  }
+
+  .maincover-hero-title {
+    font-size: var(--com-size-title);
+  }
+
+  .maincover-hero-subtitle {
+    font-size: var(--com-size-subtitle);
+  }
+
+  .maincover-submit-button {
+    border: 1px solid var(--com-color-black);
+  }
+
+  .maincover-submit-button:active {
+    background: var(--com-gradient-rainbow);
+    color: var(--com-color-black);
+    border-color: var(--com-color-white);
+  }
+
+  .maincover-shortcut-group {
+    flex-direction: column; /* 모바일에서 상하 배치 */
+    align-items: flex-end;
+    gap: 8px;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .maincover-shortcut-btn {
+    font-size: 13px;
+    padding: 4px 0;
+    display: none;
+  }
+}

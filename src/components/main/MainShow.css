@@ -1,0 +1,203 @@
+/**
+ * @file src/components/main/MainShow.css
+ * @description 메인 페이지(app) 
+ * 251216 v1.0.0 sara init 
+ */
+
+/* 1. 전체 페이지 레이아웃 */
+.mainshow-page-container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--com-color-white);
+  color: var(--com-font-primary-color);
+}
+
+/* 2. 공통 섹션 그리드 래퍼 */
+.mainshow-section-wrapper {
+  max-width: var(--com-web-max-width);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: var(--com-gap-xl) var(--com-radius-md); 
+  /* 각 카드 컴포넌트 패딩 */
+
+}
+
+/* 3. 섹션 간 간격 조절용 프레임 */
+.mainshow-section-frame {
+  padding: 60px 0;
+}
+
+#intro,
+#plans,
+#branches,
+#support,
+#promotion,
+#partners {
+  scroll-margin-top: 90px;
+}
+
+.mainshow-branches-section-style {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 4. 플로팅 내비게이션 (오른쪽 사이드 고정) */
+.mainshow-floating-nav {
+  position: fixed;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10; /* level 10 */
+}
+
+/* 5. 내비게이션 그룹 컨테이너 */
+.mainshow-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--com-size-subtitle);
+  padding: 15px var(--com-gap-sm);
+  align-items: flex-end; /* 도트를 오른쪽 끝으로 정렬 */
+}
+
+/* 6. 개별 아이템 래퍼 */
+.mainshow-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  position: relative;
+  height: 40px;
+}
+
+/* 7. 도트 스타일 (기본 상태) */
+.mainshow-nav-dot {
+  width: 16px; /* Slightly increased size */
+  height: 16px; /* Slightly increased size */
+  background-color: var(--com-font-muted);
+  border:rgba(0, 0, 0, 0.145) 0.5px solid;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0; /* level 0 */
+
+}
+
+/* 8. 활성 도트 강조 */
+.mainshow-nav-dot.active {
+  background-color: var(--com-color-red);
+  transform: scale(1.4);
+}
+
+/* 9. 이름 라벨 박스 (기본 상태에서 숨김) */
+.mainshow-nav-label-box {
+  position: absolute;
+  right: 0; /* 도트 위치에 고정 */
+  width: 180px; 
+  height: var(--com-size-button-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: 50px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(var(--com-gap-sm)); /* 살짝 오른쪽에서 나타나는 효과 */
+  transition: all 0.3s ease-in-out;
+  z-index: 0; /* level 0 */
+} 
+
+/* 10. 내비게이션 텍스트 */
+.mainshow-nav-text {
+  font-size: var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
+  color: var(--com-font-muted);
+}
+
+/* 11. 내비게이션 텍스트 활성화 */
+.mainshow-nav-text.active {
+  color: var(--com-color-black);
+}
+
+/* 12. 그룹 전체 호버 시: 도트는 숨기고 라벨 박스 노출 */
+.mainshow-nav-group:hover .mainshow-nav-dot {
+  opacity: 0;
+  transform: scale(0);
+}
+
+/* 13. 라벨 박스 */
+.mainshow-nav-group:hover .mainshow-nav-label-box {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* 14. 개별 아이템 호버 시 무지개 그라데이션 적용 */
+.mainshow-nav-item:hover .mainshow-nav-label-box {
+  background: var(--com-gradient-rainbow);
+  border-color: transparent;
+  box-shadow: var(--com-shadow-md);
+}
+
+/* 15. 호버 시 텍스트 가독성 향상을 위해 글자 색상을 흰색으로 변경 */
+.mainshow-nav-item:hover .mainshow-nav-text {
+  color: var(--com-color-black);
+}
+
+/* 16. 도트 색상 순차 적용 (무지개 톤) */
+.mainshow-nav-item:nth-child(1) .mainshow-nav-dot { 
+  background-color: rgba(255, 173, 173, 0.5); /* Red */
+}
+.mainshow-nav-item:nth-child(2) .mainshow-nav-dot { 
+  background-color: rgba(255, 214, 165, 0.5); /* Orange */
+}
+.mainshow-nav-item:nth-child(3) .mainshow-nav-dot { 
+  background-color: rgba(253, 255, 182, 0.5); /* Yellow */
+}
+.mainshow-nav-item:nth-child(4) .mainshow-nav-dot { 
+  background-color: rgba(202, 255, 191, 0.5); /* Green */
+}
+.mainshow-nav-item:nth-child(5) .mainshow-nav-dot { 
+  background-color: rgba(155, 246, 255, 0.5); /* Cyan */
+}
+.mainshow-nav-item:nth-child(6) .mainshow-nav-dot { 
+  background-color: rgba(160, 196, 255, 0.5); /* Blue */
+}
+.mainshow-nav-item:nth-child(7) .mainshow-nav-dot { 
+  background-color: rgba(189, 178, 255, 0.5); /* Purple */
+}  
+
+/* ✅ intro 섹션만 공백 제거 (MainShow.jsx 수정 없이) */
+#intro.mainshow-section-frame {
+  padding: 0;
+  border-top: 0;
+}
+
+.mainshow-carousel-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* 자식이 튀어나가는 것 방지 */
+  padding: 60px 0;
+  background-color: #fff; /* 섹션 배경색 */
+  text-align: center;
+}
+
+/* 모바일 반응형 */
+@media screen and (max-width: 375px) {
+  .mainshow-carousel-wrapper {
+    padding: 40px 0;
+  }
+  
+  .mainshow-carousel-wrapper h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+/* 17. 모바일 환경 내비게이션 숨김 */
+@media (max-width: 768px) {
+  .mainshow-nav-group {
+    display: none;
+  }
+}

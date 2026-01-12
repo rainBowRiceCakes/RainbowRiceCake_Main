@@ -1,0 +1,207 @@
+/* wrapper */
+.rider-waiting-view {
+  padding: 12px 16px 16px;
+}
+
+/* empty */
+.rw-empty {
+  text-align: center;
+  color: #868e96;
+  font-size: 14px;
+  margin: 40px;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #e9ecef;
+  background: #fafafa;
+}
+
+/* item */
+.rw-item {
+  margin-bottom: 12px;
+}
+
+.rw-item.rw-disabled {
+  filter: grayscale(0.5);
+  opacity: 0.7;
+}
+
+/* card */
+.rw-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  background: #f5f6f8;
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+/* left */
+.rw-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* time */
+.rw-time {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #adb5bd;
+}
+
+/* summary */
+.rw-summary {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #495057;
+}
+
+.rw-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rw-summary-item .icon {
+  font-size: 13px;
+}
+
+.rw-summary-item.reward {
+  margin-top: 4px;
+  font-weight: 800;
+  color: #000;
+}
+
+/* accept button */
+.rw-accept {
+  flex-shrink: 0;
+  padding: 30px;
+  border-radius: 15px;
+  border: none;
+  background: #e6d8ff;
+  color: #212529;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.rw-accept:active {
+  transform: scale(0.97);
+}
+
+.rw-accept.is-off {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* modal */
+.rip-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.rip-modal {
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  width: 280px;
+}
+
+.rip-modal-title {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.rip-modal-desc {
+  font-size: 13px;
+  color: #495057;
+}
+
+.rip-modal-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.rip-modal-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rip-modal-btn.cancel {
+  background: #f1f3f5;
+  color: #333;
+}
+
+.rip-modal-btn.confirm {
+  background: #000;
+  color: #fff;
+}
+
+.rw-status-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 양 끝으로 밀어내기 */
+
+  /* [색상 조합] 시니어 디자이너 추천: Soft Coral & Deep Red */
+  background-color: #FFF5F5;
+  border: 1px solid #FFE3E3;
+  color: #E03131;
+
+  padding: 12px 16px;
+  margin: 10px 16px 20px 16px;
+  /* 좌우 여백을 주어 카드와 정렬 맞춤 */
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(224, 49, 49, 0.05);
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* 아이콘과 글자 사이 간격 */
+  font-size: 14px;
+}
+
+.alert-content .icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.rw-go-mypage {
+  background-color: #E03131;
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  /* 버튼 글자가 두 줄로 안 쪼개지게 */
+  transition: all 0.2s ease;
+}
+
+.rw-go-mypage:active {
+  transform: scale(0.96);
+  /* 클릭 시 살짝 눌리는 효과 */
+  background-color: #c92a2a;
+}

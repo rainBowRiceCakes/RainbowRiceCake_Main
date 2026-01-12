@@ -1,0 +1,175 @@
+/**
+ * @file src/components/main/sections/MainDLVS.css
+ * @description 배송 현황 페이지
+ * 251216 v1.0.0 sara init 
+ */
+ 
+.maindlvs-frame {
+  padding: var(--com-section-padding) 0;
+  background-color: var(--com-color-bg-section);
+}
+
+.maindlvs-header-group {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--com-size-subtitle);
+  margin-bottom: var(--com-radius-lg);
+}
+
+.maindlvs-title-text {
+  font-size: var(--com-size-title);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--com-color-black);
+}
+
+.maindlvs-desc-text {
+  margin: var(--com-gap-xs) 0 0;
+  color: var(--com-font-muted);
+  font-size: var(--com-size-sidebar);
+  line-height: 1.5;
+}
+
+/* Grid Layouts */
+.maindlvs-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--com-size-subtitle);
+}
+
+@media (min-width: 900px) {
+  .maindlvs-grid-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+}
+
+/* Card Base */
+.maindlvs-card-box {
+  background: var(--com-color-white);
+  border: 1px solid var(--com-border-default);
+  border-radius: var(--com-radius-lg);
+  box-shadow: var(--com-shadow-default);
+  padding: var(--com-radius-lg);
+}
+
+.maindlvs-card-title-text {
+  margin: 0;
+  font-size: var(--com-size-subtitle);
+  font-weight: var(--com-font-weight-heavy);
+  letter-spacing: -0.01em;
+  color: var(--com-color-black);
+}
+
+/* --- Form Fields --- */
+.maindlvs-form-fields-group {
+  margin-top: var(--com-radius-md);
+  display: grid;
+  gap: var(--com-gap-sm);
+}
+
+.maindlvs-field-label {
+  display: block;
+  font-size: var(--com-size-content);
+  color: var(--com-font-muted);
+  margin-bottom: 6px;
+}
+
+.maindlvs-field-input {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--com-radius-md);
+  border: 1px solid var(--com-border-default);
+  padding: 0 var(--com-radius-md);
+  font-size: var(--com-size-sidebar);
+  background-color: var(--com-color-white);
+  outline: none;
+}
+
+.maindlvs-field-input:focus {
+  border-color: var(--com-font-gray);
+  box-shadow: 0 0 0 4px var(--com-color-overlay);
+}
+
+/* Submit Button */
+.maindlvs-submit-button {
+  appearance: none;
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-white);
+  color: var(--com-color-black);
+  padding: var(--com-gap-sm) var(--com-size-sidebar);
+  font-weight: var(--com-font-weight-heavy);
+  font-size: var(--com-size-sidebar);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+  height: 44px;
+  border-radius: var(--com-radius-md);
+}
+
+.maindlvs-submit-button--primary {
+  background: var(--com-color-black);
+  color: var(--com-color-white);
+  border-color: var(--com-color-black);
+}
+
+/* --- Result Content Styles --- */
+.maindlvs-status-box {
+  margin-top: 6px;
+  padding: var(--com-radius-md);
+  border-radius: var(--com-radius-md);
+  border: 1px solid var(--com-border-default);
+  background: var(--com-color-bg-light);
+}
+
+.maindlvs-status-title-text {
+  font-weight: var(--com-font-weight-bold);
+  color: var(--com-color-black);
+}
+
+/* Timeline */
+.maindlvs-timeline-item {
+  border-left: 3px solid var(--com-color-black);
+  padding-left: var(--com-gap-sm);
+  margin-bottom: var(--com-gap-sm);
+}
+
+.maindlvs-timeline-step-text {
+  font-weight: var(--com-font-weight-bold);
+  font-size: var(--com-size-sidebar);
+}
+
+.maindlvs-timeline-desc-text {
+  color: var(--com-font-muted);
+  font-size: var(--com-size-sub-title);
+  margin-top: 3px;
+}
+
+/* Proof Box (배송 인증 사진) */
+.maindlvs-proof-box {
+  height: 160px;
+  border-radius: var(--com-radius-lg);
+  border: 1px dashed var(--com-border-default);
+  background: var(--com-color-bg-light);
+  display: grid;
+  place-items: center;
+  color: var(--com-font-muted);
+  font-size: var(--com-size-content);
+}
+
+
+/* 📱 아이폰 SE 대응 */
+@media screen and (max-width: 375px) {
+  .maindlvs-title-text {
+    font-size: var(--com-font-size-title);
+  }
+  .maindlvs-desc-text,
+  .maindlvs-timeline-desc-text {
+    font-size: var(--com-font-size-content);
+  }
+}

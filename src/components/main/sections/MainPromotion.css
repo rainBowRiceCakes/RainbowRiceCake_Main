@@ -1,0 +1,225 @@
+/**
+ * @file src/components/main/sections/MainPromotion.css
+ * @description Styles for the new tabbed promotion section.
+ * 260105 v1.0.0 sara init
+ * 260106 v2.0.0 sara update redesign for responsiveness and UX.
+ */
+
+/**
+ * @file src/components/main/sections/MainPromotion.css
+ * @description 프리미엄 라이더/파트너 프로모션 섹션 스타일
+ */
+
+/* 1. Section Header - 더 깔끔한 폰트 무게와 간격 */
+.mainpromotion-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+}
+
+.mainpromotion-header-frame {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 12px;
+}
+
+.mainpromotion-eyebrow-text {
+  color: #666;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.mainpromotion-title-text {
+  font-size: 32px;
+  font-weight: 800;
+  color: #111;
+}
+
+.mainpromotion-subtitle-text {
+  font-size: 13px;
+}
+
+/* 2. Main Promotion Card - 그림자 제거 후 깔끔한 보더 위주 */
+.mainpromotion-card {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+}
+
+/* 3. Tab Navigation - 상단 바 느낌으로 세련되게 */
+.mainpromotion-tabs {
+  display: flex;
+  background-color: #f9f9f9;
+  padding: 8px;
+  gap: 8px;
+}
+
+.mainpromotion-tab-btn {
+  flex: 1;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #888;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mainpromotion-tab-btn.active {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 4. Content Layout - 텍스트 영역을 더 넓게 활용 */
+.mainpromotion-content-wrapper {
+  padding: 60px;
+  min-height: 500px;
+}
+
+.mainpromotion-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px; /* 이미지와 텍스트 사이 확실한 여백 */
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 이미지 영역 - 16:9 비율 유지 및 고해상도 느낌 */
+.mainpromotion-icon-wrapper {
+  flex: 1.4;
+  height: 450px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  background: #f0f0f0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s ease;
+}
+
+.mainpromotion-promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mainpromotion-promo-img:hover {
+  transform: scale(1.05);
+}
+
+/* 텍스트 영역 - 여백 보라색 공간을 채우기 위해 flex 확장 */
+.mainpromotion-text-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 400px;
+}
+
+.mainpromotion-content-title {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.mainpromotion-content-desc {
+  font-size: 17px;
+  color: #555;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+/* 리스트 아이템 - 좌측 정렬로 변경하여 가독성 증대 */
+.mainpromotion-benefit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mainpromotion-benefit-item {
+  display: flex;
+  align-items: flex-start; /* 아이콘과 텍스트 상단 맞춤 */
+  gap: 14px;
+  text-align: left;
+}
+
+.mainpromotion-benefit-item span {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 버튼 - 더 크고 직관적으로 */
+.mainpromotion-cta-btn {
+  width: 100%; /* 모바일 대응을 위해 너비 확장 */
+  max-width: 280px;
+  padding: 18px 0;
+  border-radius: 12px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.mainpromotion-cta-btn:hover {
+  background: var(--com-gradient-rainbow, linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000));
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  color: #000;
+}
+
+/* 5. Responsive Design */
+@media screen and (max-width: 1100px) {
+  .mainpromotion-content {
+    gap: 40px;
+    flex-direction: column;
+  }
+  
+  .mainpromotion-icon-wrapper {
+    width: 100%;
+    height: 350px;
+  }
+  
+  .mainpromotion-text-content {
+    min-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mainpromotion-content-wrapper {
+    padding: 30px 20px;
+  }
+  
+  .mainpromotion-title-text {
+    font-size: 24px;
+  }
+
+  .mainpromotion-content-title {
+    font-size: 20px;
+  }
+
+  .mainpromotion-content-desc {
+    font-size: 13px;
+  }
+
+  .mainpromotion-benefit-item span {
+    font-size: 13px;
+  }
+}

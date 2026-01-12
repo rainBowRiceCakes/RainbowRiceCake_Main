@@ -1,0 +1,70 @@
+/* src/components/common/Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* level 10 */
+}
+
+.modal-content {
+  background: var(--com-color-white);
+  padding: 24px;
+  border-radius: var(--com-radius-md);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: slide-up 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: var(--com-size-title);
+  cursor: pointer;
+  color: #8c8c8c;
+  line-height: 1;
+}
+
+.modal-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  /* For pre-wrap content */
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+
+@keyframes slide-up {
+  from {
+    transform: translateY(var(--com-gap-xl));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -15,9 +15,9 @@ export default defineConfig({
         '/icons/*'
       ],
       manifest: {
-        name: 'meerkatgram',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
-        short_name: 'meerkatgram', // 홈 화면 아이콘 아래에 표시될 이름
-        description: 'meerkatgram', // 앱 설명
+        name: 'DGD',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
+        short_name: 'DGD', // 홈 화면 아이콘 아래에 표시될 이름
+        description: 'DGD', // 앱 설명
         theme_color: '#ffffff', // 브라우저 UI 테마 색상
         background_color: '#ffffff', //기본 배경색
         lang: 'ko',                     // 앱의 언어 설정 (기본 언어)
@@ -30,21 +30,21 @@ export default defineConfig({
           // Android (Chrome)의 경우, `maskable`을 우선 사용
           // IOS의 경우, manifest를 무시하고, index.html의 <link rel="apple-touch-icon">만 사용
           {
-            src: '/icons/meerkat_192.png', // 로컬 경로로 설정
+            src: '/icons/main-logo192.svg', // 로컬 경로로 설정
             sizes: '192x192', // 아이콘 크기
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any' // purpose 속성을 설정하지 않으면 기본 `any`
           },
           {
-            src: '/icons/meerkat_512.png',
+            src: '/icons/main-logo512.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any' // purpose 속성을 설정하지 않으면 기본 `any`
           },
           {
-            src: '/icons/meerkat_512.png',
+            src: '/icons/main-logo512.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'maskable' // 마스크 가능 속성 추가
           }
         ]
@@ -56,7 +56,7 @@ export default defineConfig({
     proxy: {
       // 경로가 `/api`로 시작하는 요청을 대상으로 proxy 설정
       '/api': {
-        target: `localhost:${process.env.APP_PATH}`, // Request 대상 서버 주소 TODO: env설정 후 수정 할 것
+        target: `http://localhost:3000`, // Request 대상 서버 주소 TODO: env설정 후 수정 할 것
         changeOrigin: true, // Request Header Host 필드 값을 대상 서버 호스트로 변경
         secure: false, // SSL 인증서 검증 무시
         ws: true // WebSoket 프로토콜 사용
