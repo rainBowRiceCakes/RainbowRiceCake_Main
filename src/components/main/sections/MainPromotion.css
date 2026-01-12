@@ -39,6 +39,10 @@
   color: #111;
 }
 
+.mainpromotion-subtitle-text {
+  font-size: 13px;
+}
+
 /* 2. Main Promotion Card - 그림자 제거 후 깔끔한 보더 위주 */
 .mainpromotion-card {
   background: #fff;

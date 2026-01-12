@@ -270,7 +270,7 @@ export const LANG_CNG = {
   },
   riderCta: {
     ko: "DGD 라이더로 입점 신청하기",
-    en: "Apply to become a DGD rider",
+    en: "Apply to Join DGD Rider",
   },
   partnerBenefitTitle: {
     ko: "첫 달 무료!<br /> 사장님을 위한 프리미엄 파트너십",
@@ -294,7 +294,7 @@ export const LANG_CNG = {
   },
   partnerCta: {
     ko: "DGD 파트너로 입점 신청하기",
-    en: "Apply to be DGD Partner",
+    en: "Apply to Join DGD Partner",
   },
 
   // --- src/components/main/sections/MainDLVS.jsx ---
