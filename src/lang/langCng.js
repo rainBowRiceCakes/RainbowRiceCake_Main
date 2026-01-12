@@ -1529,6 +1529,10 @@ export const LANG_CNG = {
     "ko": "로그인이 필요한 서비스입니다.",
     "en": "This service requires login."
   },
+  "alertErrorTitle": {
+    "ko": "접근 권한 에러",
+    "en": "Login Required"
+  },
   "coverOrderNotFound": {
     "ko": "주문 번호를 찾을 수 없습니다: 다시 시도해주세요.",
     "en": "Order number not found: Please try again."
