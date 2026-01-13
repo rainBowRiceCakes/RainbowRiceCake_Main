@@ -5,13 +5,6 @@
  * 260112 v2.0.0 sara update - match partnerApplyButton01 tone
  */
 
-/**
- * @file src/components/common/TopButton01.css
- * @description top 버튼 (웹/ 앱 공용) - match PartnerApplyButton01 tone (black + subtle rainbow) with airy opacity
- * 251216 v1.0.0 sara init
- * 260112 v2.0.0 sara update - tone match
- */
-
 .topbutton01-button {
   position: fixed;
   right: var(--com-container-padding);

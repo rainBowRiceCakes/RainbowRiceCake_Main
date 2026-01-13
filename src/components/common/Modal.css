@@ -1,4 +1,9 @@
-/* src/components/common/Modal.css */
+/**
+ * @file src/components/common/Modal.css
+ * @description 전역 모달 스타일 정의 파일 
+ * 251229 v1.1.0 sara init
+ */
+
 .modal-overlay {
   position: fixed;
   top: 0;

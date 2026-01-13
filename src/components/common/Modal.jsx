@@ -1,4 +1,9 @@
-// src/components/common/Modal.jsx
+/**
+ * @file src/components/common/Modal.jsx
+ * @description 전역 모달 스타일 정의 파일 
+ * 251229 v1.1.0 sara init
+ */
+
 import { useContext } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
 import "./Modal.css";
