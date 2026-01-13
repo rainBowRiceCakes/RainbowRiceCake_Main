@@ -1,3 +1,9 @@
+/**
+ * @file src/components/common/PWAInstallButton.jsx
+ * @description PWA Install Button UI (Refined Monochrome Design)
+ * 251228 v2.0.0 wook - Refactored to a sophisticated monochrome design
+ */
+
 import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../../context/LanguageContext';
 import './PWAInstallButton.css';

@@ -1,7 +1,9 @@
 /**
  * @file src/components/main/sections/MainInfo.jsx
  * @description 이미지 스타일을 반영한 플랜 선택 UI (모바일 가로 배열 최적화)
- * 20260105 
+ * 251227 v1.0.0 sara init 
+ * 251228 v2.0.0 sara - Refactored to display pricing plans
+ * 251229 v2.1.0 sara - Applied monochrome theme and new mobile layout
 */
 
 import './MainInfo.css';

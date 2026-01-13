@@ -27,8 +27,9 @@ export default function MyPage() {
   const location = useLocation();
 
   // 토글 (배송/문의)
-  const [activeTab, setActiveTab] = useState("delivery"); // 'delivery' | 'inquiry'
   const { summary, loading: summaryLoading } = useSelector((state) => state.myPage);
+  const incomingTab = location.state?.activeTab;
+  const [activeTab, setActiveTab] = useState("delivery"); // 'delivery' | 'inquiry'
   
   // 필터링 및 페이지네이션 상태
   const [deliveryFilter, setDeliveryFilter] = useState('all'); // 'all', 'processing', 'com'
@@ -38,12 +39,16 @@ export default function MyPage() {
   const [orderSearchQuery, setOrderSearchQuery] = useState('');
   const [inquirySearchQuery, setInquirySearchQuery] = useState('');
 
+  // 데이터 로드만 담당
   useEffect(() => {
-    if (location.state?.activeTab) {
-      setActiveTab(location.state.activeTab);
-    }
     dispatch(myPageIndexThunk());
-  }, [dispatch, location.state]);
+  }, [dispatch]);
+
+  // activeTab 동기화는 "값이 바뀔 때만"
+  useEffect(() => {
+    if (!incomingTab) return;
+    setActiveTab((prev) => (prev === incomingTab ? prev : incomingTab));
+  }, [incomingTab]);
 
   // 필터 변경 시 페이지를 1로 리셋
   useEffect(() => {

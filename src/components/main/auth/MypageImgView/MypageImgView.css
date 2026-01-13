@@ -4,8 +4,6 @@
  * 250107 v1.0.0 sara init
  */
 
-/* 화면 꽉 채우는 이미지 뷰어 모달 */
-
 .mypage-imgview-overlay {
   position: fixed;
   inset: 0;
