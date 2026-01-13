@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import PartnerOrderListPage from './PartnerOrderListPage.css';
+import './PartnerOrderListPage.css';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';

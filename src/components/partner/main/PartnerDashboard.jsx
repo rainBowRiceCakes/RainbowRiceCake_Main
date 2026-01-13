@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { orderIndexThunk } from '../../../store/thunks/orders/orderIndexThunk.js';
 import { getProfileThunk } from '../../../store/thunks/profile/getProfileThunk.js';
-import HourlyOrderChart from './barChart.jsx';
+import HourlyOrderChart from './HourlyOrderChart.jsx';
 import PartnerStatCard from './PartnerStatCard.jsx';
 import './PartnerDashboard.css';
 import dayjs from 'dayjs';
