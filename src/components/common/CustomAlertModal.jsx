@@ -2,9 +2,9 @@
  * @file src/components/common/CustomAlertModal.jsx
  * @description CustomAlertModal.jsx
  * 250102 v1.0.0 sara init 
+ * 260113 v1.0.0 sara update - pwa build and modify for design
  */
 
-import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../context/LanguageContext';
 import './CustomAlertModal.css';

@@ -1321,7 +1321,7 @@ export const LANG_CNG = {
   },
   pwaInstallDescription: {
     ko: "더 빠르고 쉽게 서비스를 이용하려면 앱을 설치하세요.",
-    en: "Install the app for faster and easier access to our services.",
+    en: "Install now for easier access to our service.",
   },
   pwaInstallButton: {
     ko: "설치",
