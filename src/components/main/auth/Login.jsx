@@ -22,7 +22,8 @@ export default function Login() {
   const { t } = useContext(LanguageContext);
 
   const handleKakaoLogin = () => {
-    window.location.replace(`/api/auth/social/kakao`);
+    const domain = import.meta.env.VITE_SERVER_URL || 'http://localhost:5173';
+    window.location.replace(`${domain}/api/auth/social/kakao`);
     // alert("카카오 로그인 기능을 연결해주세요.");
   };
 

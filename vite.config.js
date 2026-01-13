@@ -53,6 +53,7 @@ export default defineConfig({
   ],
   // 개발 서버 Proxy 정의
   server: {
+    port: 5173,
     proxy: {
       // 경로가 `/api`로 시작하는 요청을 대상으로 proxy 설정
       '/api': {
@@ -62,5 +63,8 @@ export default defineConfig({
         ws: true // WebSoket 프로토콜 사용
       }
     }
+  },
+  preview: {
+    port: 5173,
   }
 })
