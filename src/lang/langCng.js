@@ -551,8 +551,8 @@ export const LANG_CNG = {
     en: "Content",
   },
   csInquiryContentPlaceholder: {
-    ko: "문의 내용을 상세히 입력해주세요.<br>(문의 내용을 입력해주세요.(10~5000자))",
-    en: "Enter your inquiry in detail.<br>(10-5000 chars.)",
+    ko: "문의 내용을 상세히 입력해주세요. (문의 내용을 입력해주세요.(10~5000자))",
+    en: "Enter your inquiry in detail. (10-5000 chars.)",
   },
   csInquiryFileLabel: {
     ko: "첨부파일 (선택)",
