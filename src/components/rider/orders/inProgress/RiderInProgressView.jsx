@@ -9,6 +9,13 @@ const RIDER_FEE_RATE = 0.8;
 const calcRiderFee = (price) =>
   Math.floor((Number(price) || 0) * RIDER_FEE_RATE);
 
+// 플랜 매핑
+const PLAN_MAP = {
+  cntS: "베이직 (쇼핑백 1개)",
+  cntM: "스탠다드 (쇼핑백 2개)",
+  cntL: "프리미엄 (쇼핑백 3개)",
+};
+
 export default function RiderInProgressView({ orders = [] }) {
   const navigate = useNavigate();
 
@@ -24,7 +31,10 @@ export default function RiderInProgressView({ orders = [] }) {
   return (
     <div className="rip-wrap">
       {orders.map((order) => {
-        const totalBags = (order.cntS || 0) + (order.cntM || 0) + (order.cntL || 0);
+        const planKey = Object.keys(PLAN_MAP).find(
+          (key) => order[key] === 1
+        );
+        const plan = PLAN_MAP[planKey];
         const fee = calcRiderFee(order.price);
 
         return (
@@ -36,8 +46,12 @@ export default function RiderInProgressView({ orders = [] }) {
           >
             <div className="rip-left">
               <div className="rip-badge-row">
-                <span className="rip-badge">{getInProgressBadgeText(order.status)}</span>
-                <span className="rip-order-id">#{order.orderCode?.slice(-4)}</span>
+                <span className="rip-badge">
+                  {getInProgressBadgeText(order.status)}
+                </span>
+                <span className="rip-order-id">
+                  #{order.orderCode?.slice(-4)}
+                </span>
               </div>
 
               <div className="rip-divider" />
@@ -46,14 +60,18 @@ export default function RiderInProgressView({ orders = [] }) {
                 <div className="rip-title-row">
                   <span className="icon">📍</span>
                   <p className="rip-title">
-                    {order.order_partner?.krName} → {order.order_hotel?.krName}
+                    {order.order_partner?.krName} →{" "}
+                    {order.order_hotel?.krName}
                   </p>
                 </div>
 
                 <div className="rip-details-row">
-                  <div className="rip-detail-item">
-                    <span>📦 쇼핑백 {totalBags}개</span>
-                  </div>
+                  {plan && (
+                    <div className="rip-detail-item">
+                      <span>📦 {plan}</span>
+                    </div>
+                  )}
+
                   <div className="rip-detail-item reward">
                     <span>💰 {fee.toLocaleString()}원</span>
                   </div>
@@ -62,7 +80,7 @@ export default function RiderInProgressView({ orders = [] }) {
 
               <div className="rip-footer">
                 <span className="rip-label">
-                  배송 요청 시간: {dayjs(order.createdAt).format('A HH:mm')}
+                  배송 요청 시간: {dayjs(order.createdAt).format("A HH:mm")}
                 </span>
               </div>
             </div>
