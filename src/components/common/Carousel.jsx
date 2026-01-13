@@ -16,12 +16,23 @@ export default function Carousel({ images = [] }) {
     return null;
   }
 
+  // [수정] 무한 롤링을 위해 원본 배열을 2배로 복제하여 연결
+  const loopedImages = [...images, ...images];
+
   return (
-    <div className="carousel-container" style={{ '--quantity': images.length }}>
+    // --quantity 값도 복제된 개수에 맞춰 업데이트 (CSS에서 필요할 경우를 대비)
+    <div className="carousel-container" style={{ '--quantity': loopedImages.length }}>
       <div className="carousel-track">
-        {/* 로고 렌더링 처리 */}
-        {images.map((img, index) => (
-          <div className="carousel-slide" key={index}>
+        
+        {/* [수정] 원본(images) 대신 복제된 배열(loopedImages)을 순회 */}
+        {loopedImages.map((img, index) => (
+          <div 
+            className="carousel-slide" 
+            /* 배열을 합쳤기 때문에 map의 index는 0부터 (2 * N - 1)까지 생성됩니다.
+               따라서 단순히 index를 key로 사용해도 중복되지 않아 안전합니다.
+            */
+            key={index}
+          >
             <img 
               src={img.url} 
               alt={`Partner Logo ${index}`} 

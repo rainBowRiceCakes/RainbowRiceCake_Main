@@ -1272,16 +1272,16 @@ export const LANG_CNG = {
     en: "CEO: Euiwook Jeong",
   },
   footerPhone: {
-    ko: "대표 번호: 010-0000-0000",
-    en: "Main Number: 010-0000-0000",
+    ko: "대표 번호: 010-9414-8425",
+    en: "Main Number: 010-9414-8425",
   },
   footerEmail: {
     ko: "대표 이메일: https://daegu.greenart.co.kr",
     en: "Main Email: https://daegu.greenart.co.kr",
   },
   footerBizNum: {
-    ko: "사업자 등록번호: 000-00-00000",
-    en: "Business Registration Number: 000-00-00000",
+    ko: "사업자 등록번호: 123-80-4567",
+    en: "Business Registration Number: 123-80-4567",
   },
   footerClose: {
     ko: "닫기",
