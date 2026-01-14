@@ -175,9 +175,9 @@ const PartnerSettlement = () => {
                   <td className="item_summary">
                     {/* 사이즈가 있을 때만 배지 형태로 노출 */}
                     <div className="size_badges">
-                      {order.cntS > 0 && <span className="badge s">S:{order.cntS}</span>}
-                      {order.cntM > 0 && <span className="badge m">M:{order.cntM}</span>}
-                      {order.cntL > 0 && <span className="badge l">L:{order.cntL}</span>}
+                      {order.cntS > 0 && <span className="badge s">베이직:{order.cntS}</span>}
+                      {order.cntM > 0 && <span className="badge m">스탠다드:{order.cntM}</span>}
+                      {order.cntL > 0 && <span className="badge l">프리미엄:{order.cntL}</span>}
                     </div>
                   </td>
                   {/* 백엔드에서 받은 실제 주문 금액 표시 */}
