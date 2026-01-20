@@ -1,4 +1,4 @@
-# 🌈 DGD (DongGleDongGle) - RainbowRiceCake
+# 🌈 DGD - RainbowRiceCake
 
 ## 🔗 배포 링크 (Live Demo)
 현재 프로젝트는 다음 URL에서 직접 확인하실 수 있습니다:
