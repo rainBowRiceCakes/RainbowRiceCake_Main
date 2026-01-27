@@ -6,13 +6,6 @@
 
 import "./FullScreenLoader.css";
 
-export default function FullScreenLoader({ message = "Loading..." }) {
-  return (
-    <div className="fs-loader">
-      <div className="fs-loader__box">
-        <div className="fs-loader__spinner" />
-        <div className="fs-loader__text">{message}</div>
-      </div>
-    </div>
-  );
+export default function FullScreenLoader() {
+  return <div className="fs-blank" aria-hidden="true" />;
 }
