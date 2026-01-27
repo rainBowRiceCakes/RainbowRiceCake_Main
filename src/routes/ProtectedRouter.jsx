@@ -31,29 +31,32 @@ export default function ProtectedRouter({ allowedRoles }) {
   useEffect(() => {
     let alive = true;
 
-    async function verifySession() {
-      // 1. 이미 리덕스에 데이터가 있다면 체크 완료
-      if (isLoggedIn && user) {
-        if (alive) setIsAuthChecked(true);
-        return;
-      }
+  async function verifySession() {
+    const signalNow = (() => {
+      try { return localStorage.getItem('isLoginSignal') === 'true'; }
+      catch (e) { console.error('[AUTH] read signal failed:', e); return false; }
+    })();
 
-      // 2. 로그인 신호가 있다면 토큰 재발급 시도
-      if (hasLoginSignal) {
-        try {
-          await dispatch(reissueThunk()).unwrap();
-        } catch (error) {
-          console.error("Session restoration failed:", error);
-          localStorage.removeItem("isLoginSignal");
-          dispatch(clearAuth());
-        } finally {
-          if (alive) setIsAuthChecked(true);
-        }
-      } else {
-        // 3. 신호조차 없다면 즉시 체크 완료 (비로그인 상태 확정)
+    if (isLoggedIn && user) {
+      if (alive) setIsAuthChecked(true);
+      return;
+    }
+
+    if (signalNow) {
+      try {
+        await dispatch(reissueThunk()).unwrap();
+      } catch (error) {
+        console.error("Session restoration failed:", error);
+        try { localStorage.removeItem("isLoginSignal"); }
+        catch (e) { console.error("[AUTH] remove signal failed:", e); }
+        dispatch(clearAuth());
+      } finally {
         if (alive) setIsAuthChecked(true);
       }
+    } else {
+      if (alive) setIsAuthChecked(true);
     }
+  }
 
     verifySession();
     return () => { alive = false; };
