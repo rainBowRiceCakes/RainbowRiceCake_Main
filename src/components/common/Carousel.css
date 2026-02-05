@@ -4,35 +4,72 @@
  * 251219 v1.0.0 jun init
  */
 
+/* 전체 컨테이너 */
 .carousel-container {
   width: 100%;
-  height: 150px; /* [중요] 높이 명시 */
-  overflow: hidden;
+  overflow: hidden; /* 넘치는 부분 숨김 */
+  background-color: #ffffff;
+  padding: 40px 0;
   position: relative;
-  background-color: #fff;
+
+  /* (옵션) 양옆을 자연스럽게 흐리게 만드는 마스크 효과 */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
+/* 2. 움직이는 트랙 (기차) */
 .carousel-track {
   display: flex;
-  width: calc(200px * var(--quantity)); /* 로고 개수만큼 너비 확보 */
-  height: 100%;
-  animation: scroll 40s linear infinite;
-}
-
-.carousel-slide {
-  width: 200px;
-  display: flex;
   align-items: center;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+  will-change: transform;
+}
+
+/* 슬라이드: 로고가 들어갈 '규격 박스' 역할을 합니다. */
+.carousel-slide {
+  /* 가로/세로 크기를 고정합니다. (원하는 크기로 조절하세요) */
+  width: 150px;  
+  height: 80px;  
+  
+  /* 박스 내부에서 로고를 정중앙에 배치합니다. */
+  display: flex;
   justify-content: center;
+  align-items: center;
+  
+  /* 박스 간의 간격 */
+  margin: 0 30px;
 }
 
+/* 이미지: 규격 박스 안에서 비율을 유지하며 맞춥니다. */
 .partner-logo {
-  max-width: 100%;
-  max-height: 80%;
+  max-width: 150px;
+  max-height: 150px;
+  
+  /* 핵심 속성: 비율을 유지하면서 박스 안에 쏙 들어가게 함 (짤림 없음) */
   object-fit: contain;
+  
+  /* (선택사항) 이미지 로딩 시 깜빡임 방지용 배경 */
+  background-color: transparent;
 }
 
+/* 애니메이션 로직 (끊김 없는 비결) */
 @keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-200px * var(--quantity))); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* 데이터가 [A, B, C, A, B, C] 이렇게 2세트가 있습니다.
+       전체 길이의 딱 절반(-50%)만큼 왼쪽으로 이동하면,
+       뒷부분의 [A, B, C]가 앞부분의 [A, B, C] 위치와 완벽하게 겹쳐집니다.
+       이때 0%로 순간이동(Reset)하므로 우리 눈에는 계속 도는 것처럼 보입니다.
+    */
+    transform: translateX(-50%);
+  }
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .partner-logo { height: 80px; }
+  .carousel-slide { padding: 0 20px; }
 }

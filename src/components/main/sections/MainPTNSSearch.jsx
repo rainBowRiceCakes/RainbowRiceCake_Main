@@ -1,9 +1,10 @@
 /**
  * @file src/components/main/sections/MainPTNSSearch.jsx
- * @description 제휴업체 검색 페이지 (지도 기반 검색 레이아웃)
- * @date 2026-01-05
- * @description v2.1.0 Refactored by Senior Full-stack Developer
- * - 백엔드 API 연동 복구 및 useMemo 최적화 적용
+ * @description 제휴업체 검색 페이지 (v2.0.0 리팩토링)
+ * 251221 v1.0.0 sara init 
+ * Monochrome 테마 및 --com- 변수 사용
+ * - 모바일 바텀시트 및 지도 상호작용 최적화
+ * - 상세 정보 팝업 스타일 추가
  */
 
 import { useState, useContext, useCallback, useMemo, useRef, useEffect } from "react";
@@ -302,7 +303,7 @@ export default function MainPTNSSearch() {
                       <StoreDetailPopup 
                         store={selectedStore}
                         onClose={() => setSelectedStore(null)}
-                        onNavigate={() => window.open(`https://map.kakao.com/link/search/${selectedStore.krName}`, '_blank')}
+                        onNavigate={() => window.open(`https://map.kakao.com/link/search/${selectedStore.address}`, '_blank')}
                       />
                     )}
                   </Map>

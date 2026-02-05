@@ -86,8 +86,8 @@ const PartnerSettlement = () => {
       }
 
       const response = await window.PortOne.requestIssueBillingKey({
-        storeId: "store-75c769ee-16f3-47dc-abf3-b06e7fce3851", // '내 식별 코드'의 V2 Store ID
-        channelKey: "channel-key-2bb7ea05-d9ae-4bc9-b00b-e029044a403f",   // '채널 관리'에서 만든 V2 채널 키
+        storeId: import.meta.env.VITE_PORTONE_STORE_ID,
+        channelKey: import.meta.env.VITE_PORTONE_CHANNEL_KEY,
         billingKeyMethod: "EASY_PAY", // 간편결제 방식 지정
         easyPay: {
           provider: "KAKAOPAY", // 카카오페이 명시
@@ -175,9 +175,9 @@ const PartnerSettlement = () => {
                   <td className="item_summary">
                     {/* 사이즈가 있을 때만 배지 형태로 노출 */}
                     <div className="size_badges">
-                      {order.cntS > 0 && <span className="badge s">S:{order.cntS}</span>}
-                      {order.cntM > 0 && <span className="badge m">M:{order.cntM}</span>}
-                      {order.cntL > 0 && <span className="badge l">L:{order.cntL}</span>}
+                      {order.cntS > 0 && <span className="badge s">베이직:{order.cntS}</span>}
+                      {order.cntM > 0 && <span className="badge m">스탠다드:{order.cntM}</span>}
+                      {order.cntL > 0 && <span className="badge l">프리미엄:{order.cntL}</span>}
                     </div>
                   </td>
                   {/* 백엔드에서 받은 실제 주문 금액 표시 */}

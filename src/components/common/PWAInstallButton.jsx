@@ -1,3 +1,10 @@
+/**
+ * @file src/components/common/PWAInstallButton.jsx
+ * @description PWA Install Button UI (Refined Monochrome Design)
+ * 251228 v1.0.0 sara init
+ * 260113 v2.0.0 sara update
+ */
+
 import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../../context/LanguageContext';
 import './PWAInstallButton.css';

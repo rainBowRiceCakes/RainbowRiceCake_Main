@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import store from './store/store.js';
 import { LanguageProvider } from './context/LanguageProvider.jsx';
 import { injectStoreInAxios } from './api/axiosInstance.js';
+import swRegister from './swRegister.js';
+
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <LanguageProvider>
@@ -21,3 +23,6 @@ createRoot(document.getElementById('root')).render(
 
 // 스토어가 생성되자마자 axiosInstance에 주입
 injectStoreInAxios(store);
+
+// 서비스 워커 등록
+swRegister();

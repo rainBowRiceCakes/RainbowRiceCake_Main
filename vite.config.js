@@ -30,21 +30,21 @@ export default defineConfig({
           // Android (Chrome)의 경우, `maskable`을 우선 사용
           // IOS의 경우, manifest를 무시하고, index.html의 <link rel="apple-touch-icon">만 사용
           {
-            src: '/icons/meerkat_192.png', // 로컬 경로로 설정
+            src: '/icons/main-logo192.svg', // 로컬 경로로 설정
             sizes: '192x192', // 아이콘 크기
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any' // purpose 속성을 설정하지 않으면 기본 `any`
           },
           {
-            src: '/icons/meerkat_512.png',
+            src: '/icons/main-logo512.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any' // purpose 속성을 설정하지 않으면 기본 `any`
           },
           {
-            src: '/icons/meerkat_512.png',
+            src: '/icons/main-logo512.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'maskable' // 마스크 가능 속성 추가
           }
         ]
@@ -53,6 +53,7 @@ export default defineConfig({
   ],
   // 개발 서버 Proxy 정의
   server: {
+    port: 5173,
     proxy: {
       // 경로가 `/api`로 시작하는 요청을 대상으로 proxy 설정
       '/api': {
@@ -62,5 +63,8 @@ export default defineConfig({
         ws: true // WebSoket 프로토콜 사용
       }
     }
+  },
+  preview: {
+    port: 5173,
   }
 })

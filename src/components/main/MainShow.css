@@ -184,14 +184,9 @@
 }
 
 /* 모바일 반응형 */
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 768px) {
   .mainshow-carousel-wrapper {
-    padding: 40px 0;
-  }
-  
-  .mainshow-carousel-wrapper h3 {
-    font-size: 20px;
-    margin-bottom: 20px;
+    padding: 20px 0;
   }
 }
 

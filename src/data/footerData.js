@@ -132,7 +132,7 @@ export const footerData = {
           text: "회사는 위치정보를 적절히 관리·보호하고, 고객의 불만을 원활히 처리하기 위하여 위치정보관리책임자를 지정합니다.",
           list: [
             "성명: 정의욱 (대표)",
-            "연락처: 010-0000-0000 / https://daegu.greenart.co.kr"
+            "연락처: 010-9414-8425 / https://daegu.greenart.co.kr"
           ]
         },
         {
@@ -273,7 +273,7 @@ export const footerData = {
           text: "The Company designates a supervisor to manage location information and handle complaints.",
           list: [
             "Name: Euiwook Jeong (CEO)",
-            "Contact: 010-0000-0000 / https://daegu.greenart.co.kr"
+            "Contact: 010-9414-8425 / https://daegu.greenart.co.kr"
           ]
         },
         {

@@ -36,11 +36,25 @@ export default function MainCS() {
   const [inqFiles, setInqFiles] = useState(null);
   const [formStatus, setFormStatus] = useState({ state: "idle", message: "" });
 
+  const goMyInquiry = () => {
+  if (!isLoggedIn) {
+    setAlertModal({
+      isOpen: true,
+      title: t("alertErrorTitle"),
+      message: t("coverLoginRequired"),
+      next: () => navigate("/login", { state: { activeTab: "inquiry" } }),
+    });
+    return;
+  }
+  navigate("/mypage", { state: { activeTab: "inquiry" } });
+};
+
   // [추가] 모달 제어를 위한 State
   const [alertModal, setAlertModal] = useState({
     isOpen: false,
     title: "",
-    message: ""
+    message: "",
+    next: null
   });
 
   const FAQ_DATA = [
@@ -83,14 +97,51 @@ export default function MainCS() {
 
   // [추가] 모달 닫기 핸들러
   const handleCloseModal = () => {
-    setAlertModal((prev) => ({ ...prev, isOpen: false }));
-  };
+  setAlertModal((prev) => {
+    const nextFn = prev.next;
+    // 모달 먼저 닫고
+    setTimeout(() => {
+      if (typeof nextFn === "function") nextFn();
+    }, 0);
+    return { ...prev, isOpen: false, next: null };
+  });
+};
 
   const onInquirySubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
       // 로그인 안 된 상태면 알림 또는 로그인 페이지 이동 처리
       alert(t('coverLoginRequired'));
+      return;
+    }
+
+    // 프론트엔드 유효성 검사 (빈 값 체크) 로직 추가
+    // trim()을 사용하여 공백만 입력된 경우도 체크
+    const isTitleEmpty = !inqTitle.trim();
+    const isContentEmpty = !inqContent.trim();
+
+    if (isTitleEmpty || isContentEmpty) {
+      let modalTitle = t("csInquiryErrorCheck") || "입력 확인";
+      let modalMessage = "";
+
+      if (isTitleEmpty && isContentEmpty) {
+        modalTitle = t("csInquiryErrorInput") || "입력 오류";
+        modalMessage = t("csInquiryInputErrorMsg") || "제목과 내용을 입력해주세요.";
+      } else if (isTitleEmpty) {
+        modalTitle = t("csInquiryErrorTitle") || "제목 오류";
+        modalMessage = t("csInquiryTitleErrorMsg") || "제목을 입력해주세요.";
+      } else {
+        modalTitle = t("csInquiryErrorContent") || "내용 오류";
+        modalMessage = t("csInquiryContentPlaceholder") || "내용을 입력해주세요.";
+      }
+
+      setAlertModal({
+        isOpen: true,
+        title: modalTitle,
+        message: modalMessage
+      });
+      
+      // 유효성 검사에 걸리면 API 호출을 하지 않고 함수를 종료
       return;
     }
 
@@ -134,7 +185,7 @@ export default function MainCS() {
           message: t("csInquirySuccessMsg") // "문의가 성공적으로 접수되었습니다."
         });
       }
-      // 실패 시 (백엔드 유효성 검사 걸림)
+      // 백엔드 유효성 검사 실패 시 (프론트 검사를 통과했더라도 서버에서 거절된 경우)
       else {
         const errorPayload = result.payload;
         const errorList = Array.isArray(errorPayload?.data) ? errorPayload.data : [];
@@ -197,13 +248,13 @@ return (
           <p className="maincs-subtitle-text">{t("csDesc")}</p>
         </div>
         <div className="maincs-actions-group">
-          <button
-            className="maincs-button maincs-button--primary"
-            type="button"
-            onClick={() => navigate('/mypage', { state: { activeTab: 'inquiry' } })}
-          >
-            {t("csViewMyInquiriesButton")}
-          </button>
+        <button
+          className="maincs-button maincs-button--primary"
+          type="button"
+          onClick={goMyInquiry}
+        >
+          {t("csViewMyInquiriesButton")}
+        </button>
         </div>
       </div>
 
@@ -263,7 +314,6 @@ return (
                   name="title"
                   value={inqTitle}
                   onChange={(e) => setInqTitle(e.target.value)}
-                  required
                   placeholder={t("csInquirySubjectPlaceholder")}
                   disabled={!isLoggedIn}
                 />
@@ -275,7 +325,6 @@ return (
                   name="content"
                   value={inqContent}
                   onChange={(e) => setInqContent(e.target.value)}
-                  required
                   rows={4}
                   placeholder={t("csInquiryContentPlaceholder")}
                   disabled={!isLoggedIn}
@@ -344,12 +393,12 @@ return (
           </div>
         </div>
       </div>
-      <CustomAlertModal 
-        isOpen={alertModal.isOpen}
-        onClose={handleCloseModal}
-        title={alertModal.title}
-        message={alertModal.message}
-      />
+        <CustomAlertModal 
+          isOpen={alertModal.isOpen}
+          onClose={handleCloseModal}
+          title={alertModal.title}
+          message={alertModal.message}
+        />
   </div> 
   );
 }

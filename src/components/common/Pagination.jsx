@@ -13,7 +13,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const { width } = useWindowSize();
 
   // 화면 너비에 따라 표시할 페이지 버튼 수를 결정
-  const maxVisibleButtons = width <= 375 ? 3 : (width <= 500 ? 5 : 10);
+  const maxVisibleButtons = width <= 768 ? 3 : 10;
   
   if (totalPages <= 1) {
     return null;

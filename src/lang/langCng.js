@@ -17,8 +17,8 @@ export const LANG_CNG = {
     en: "Partners",
   },
   navIntro: {
-    ko: "DGD Service",
-    en: "About DGD",
+    ko: "DGD 소개",
+    en: "About us",
   },
   navPromotion: {
     ko: "프로모션",
@@ -270,7 +270,7 @@ export const LANG_CNG = {
   },
   riderCta: {
     ko: "DGD 라이더로 입점 신청하기",
-    en: "Apply to become a DGD rider",
+    en: "Apply to Join DGD Rider",
   },
   partnerBenefitTitle: {
     ko: "첫 달 무료!<br /> 사장님을 위한 프리미엄 파트너십",
@@ -294,7 +294,7 @@ export const LANG_CNG = {
   },
   partnerCta: {
     ko: "DGD 파트너로 입점 신청하기",
-    en: "Apply to be DGD Partner",
+    en: "Apply to Join DGD Partner",
   },
 
   // --- src/components/main/sections/MainDLVS.jsx ---
@@ -551,7 +551,7 @@ export const LANG_CNG = {
     en: "Content",
   },
   csInquiryContentPlaceholder: {
-    ko: "문의 내용을 상세히 입력해주세요.(문의 내용을 입력해주세요. (10~5000자))",
+    ko: "문의 내용을 상세히 입력해주세요. (문의 내용을 입력해주세요.(10~5000자))",
     en: "Enter your inquiry in detail. (10-5000 chars.)",
   },
   csInquiryFileLabel: {
@@ -595,8 +595,8 @@ export const LANG_CNG = {
     en: "Input Error"
   },
   csInquiryInputErrorMsg: {
-    ko: "문의 내용을 상세히 입력해주세요.(문의 내용을 입력해주세요. (10~5000자)",
-    en: "Enter your inquiry in detail. (10-5000 chars.)"
+    ko: "제목과 내용을 입력해주세요.",
+    en: "Please enter a title and content."
   },
   csInquirySuccessTitle: {
     ko: "접수 완료",
@@ -1272,16 +1272,16 @@ export const LANG_CNG = {
     en: "CEO: Euiwook Jeong",
   },
   footerPhone: {
-    ko: "대표 번호: 010-0000-0000",
-    en: "Main Number: 010-0000-0000",
+    ko: "대표 번호: 010-9414-8425",
+    en: "Main Number: 010-9414-8425",
   },
   footerEmail: {
     ko: "대표 이메일: https://daegu.greenart.co.kr",
     en: "Main Email: https://daegu.greenart.co.kr",
   },
   footerBizNum: {
-    ko: "사업자 등록번호: 000-00-00000",
-    en: "Business Registration Number: 000-00-00000",
+    ko: "사업자 등록번호: 123-80-4567",
+    en: "Business Registration Number: 123-80-4567",
   },
   footerClose: {
     ko: "닫기",
@@ -1321,7 +1321,7 @@ export const LANG_CNG = {
   },
   pwaInstallDescription: {
     ko: "더 빠르고 쉽게 서비스를 이용하려면 앱을 설치하세요.",
-    en: "Install the app for faster and easier access to our services.",
+    en: "Install now for easier access to our service.",
   },
   pwaInstallButton: {
     ko: "설치",
@@ -1528,6 +1528,10 @@ export const LANG_CNG = {
   "coverLoginRequired": {
     "ko": "로그인이 필요한 서비스입니다.",
     "en": "This service requires login."
+  },
+  "alertErrorTitle": {
+    "ko": "접근 권한 에러",
+    "en": "Login Required"
   },
   "coverOrderNotFound": {
     "ko": "주문 번호를 찾을 수 없습니다: 다시 시도해주세요.",

@@ -69,7 +69,7 @@ export default function ProtectedRouter({ allowedRoles }) {
 
     // 신호가 없거나 복구가 실패했다면 로그인으로 보냄
     if (!hasLoginSignal) {
-      alert('로그인이 필요한 서비스입니다.');
+      // alert('로그인이 필요한 서비스입니다.');
       return <Navigate to="/login" replace state={{ from: location }} />;
     }
     return null;

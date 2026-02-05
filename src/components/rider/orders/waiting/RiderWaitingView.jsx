@@ -104,7 +104,9 @@ export default function RiderWaitingView({ orders = [] }) {
                 <div className="rw-summary-item">
                   <span className="icon">📦</span>
                   <span>
-                    쇼핑백 {order.cntS + order.cntM + order.cntL}개
+                    {order.cntS === 1 && '베이직 (쇼핑백 1개)'}
+                    {order.cntM === 1 && '스탠다드 (쇼핑백 2개)'}
+                    {order.cntL === 1 && '프리미엄 (쇼핑백 3개)'}
                   </span>
                 </div>
 
