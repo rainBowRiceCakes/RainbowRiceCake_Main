@@ -2,31 +2,51 @@
 import "./RiderMyPage.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProfileThunk } from "../../../store/thunks/profile/getProfileThunk.js";
 import { logoutThunk } from "../../../store/thunks/authThunk.js";
 import { updateWorkStatusThunk } from "../../../store/thunks/riders/updateWorkStatusThunk.js";
 import { clearAuth } from "../../../store/slices/authSlice.js";
-
-const externalImageUrl = "https://img.icons8.com/?size=100&id=81021&format=png&color=000000";
+import rider_icon from "/resource/rider_icon.png?url";
 
 export default function RiderMyPage() {
   const dispatch = useDispatch();
   const nav = useNavigate();
 
+  const { isLoggedIn, isAuthChecked } = useSelector((state) => state.auth);
   const { profileData, isLoading } = useSelector((state) => state.profile);
 
-  const isWorking = profileData?.isWorking || false;
+  // isWorking이 rider_user 안에 있거나, profileData 최상위에 있을 수 있음 (구조 불일치 대응)
+  const isWorking = profileData?.rider_user?.isWorking ?? profileData?.isWorking ?? false;
   const userName = profileData?.rider_user?.name || "Guest";
 
-  useEffect(() => {
-    dispatch(getProfileThunk());
-  }, [dispatch]);
+  const [showModal, setShowModal] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [modalType, setModalType] = useState(null); // "in" | "out"
 
-  // 2. 이벤트 핸들러 정의
-  const handleToggleWorkStatus = (e) => {
-    const nextStatus = e.target.checked;
-    dispatch(updateWorkStatusThunk(nextStatus));
+  useEffect(() => {
+    // 로그인 상태라면 프로필 정보 호출 (토큰 갱신은 인터셉터가 담당)
+    if (isLoggedIn) {
+      dispatch(getProfileThunk());
+    }
+  }, [dispatch, isLoggedIn]);
+
+  const handleToggleWorkStatus = async () => {
+    const next = !isWorking;
+
+    try {
+      await dispatch(updateWorkStatusThunk(next)).unwrap();
+
+      setModalType(next ? "in" : "out");
+      setShowModal(true);
+      setFadeOut(false);
+
+      setTimeout(() => setFadeOut(true), 2000);
+      setTimeout(() => setShowModal(false), 2600);
+    } catch (e) {
+      alert("서버 통신에 실패했습니다. 현재 출퇴근 상태가 반영되지 않았습니다.");
+      console.error("Critical Error:", e);
+    }
   };
 
   const handleLogout = async () => {
@@ -48,7 +68,15 @@ export default function RiderMyPage() {
   };
 
   if (isLoading && !profileData) {
-    return <div>로딩 중...</div>;
+    return <div></div>;
+  }
+
+  if (!isAuthChecked) {
+    return <div className="mypage-loading">로그인 확인 중...</div>;
+  }
+
+  if (!isLoggedIn) {
+    return null;
   }
 
   return (
@@ -56,14 +84,33 @@ export default function RiderMyPage() {
       {/* 상단 프로필 영역 */}
       <div className="header">
         <div className="profile">
-          <div className="avatar" style={{ backgroundImage: `url("${externalImageUrl}")` }} />
+          <div className="avatar" style={{ backgroundImage: `url("${rider_icon}")` }} />
           <div className="info">
             <div className="name">{userName}<span className="rider-info-sub-title">기사님</span></div> {/* 추후 수정 {user.name} */}
           </div>
 
-          <label className="clockInAndOutToggle"> {/* 기사들의 출근 on and off 기능 */}
-            <input type="checkbox" checked={isWorking} onChange={handleToggleWorkStatus} />
-            <span className="clockInAndOutToggleUi" />
+          <label className="clockInAndOutToggle">
+            {!isAuthChecked ? (
+              <div className="toggle-placeholder">
+                <span className="mini-loader-inside" />
+              </div>
+            ) : (
+              <>
+                <input
+                  type="checkbox"
+                  checked={isWorking}
+                  onChange={handleToggleWorkStatus}
+                  disabled={isLoading}
+                />
+                <span className="clockInAndOutToggleUi" />
+                {isLoading && <div className="mini-loader" title="처리 중..." />}
+                {showModal && (
+                  <div className={`modal ${modalType} ${fadeOut ? "fade-out" : "fade-in"}`}>
+                    {modalType === "in" ? "출근이 되었습니다" : "퇴근이 완료되었습니다"}
+                  </div>
+                )}
+              </>
+            )}
           </label>
         </div>
       </div>

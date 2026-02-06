@@ -24,6 +24,7 @@ import hotelReducer from './slices/hotelListSlice.js';
 import riderSettlementReducer from './slices/riderSettlementSlice.js';
 import authReducer from './slices/authSlice.js';
 import inquiryReducer from './slices/inquirySlice.js';
+import localPersistenceMiddleware from './middleware/localPersistenceMiddleware.js';
 
 const store = configureStore({
   reducer: {
@@ -47,6 +48,7 @@ const store = configureStore({
     settlement: riderSettlementReducer,
     inquiry: inquiryReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localPersistenceMiddleware),
 });
 
 export default store;

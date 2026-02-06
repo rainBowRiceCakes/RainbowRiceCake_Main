@@ -12,34 +12,20 @@ import { reissueThunk } from "../store/thunks/authThunk.js";
 import { clearAuth } from "../store/slices/authSlice.js";
 
 export default function ProtectedRouter({ allowedRoles }) {
-  const { isLoggedIn, user } = useSelector(state => state.auth);
+  const { isLoggedIn, user, isAuthChecked } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
-
-  // 1. ⭐ 핵심: 쿠키 대신(또는 함께) localStorage의 로그인 신호를 확인
-  // 자바스크립트가 즉시 읽을 수 있어 "Mount 즉시 로그인 상태" 유지가 가능합니다.
   const hasLoginSignal = !!localStorage.getItem('isLoginSignal');
-
-  const [isReissuing, setIsReissuing] = useState(hasLoginSignal && !isLoggedIn);
-  // 2. ⭐ 신호가 있다면 일단 인증 체크가 된 것으로 간주하여 Loading을 건너뜁니다.
-  const [isAuthChecked, setIsAuthChecked] = useState(isLoggedIn || hasLoginSignal);
-
-  const ROLE = { PTN: 'PTN', DLV: 'DLV', COM: 'COM', ADM: 'ADM' };
-  const GUEST_ONLY_ROUTES = [/^\/login$/];
 
   useEffect(() => {
     async function restoreSession() {
-      if (hasLoginSignal && !isLoggedIn) {
+      // 로그인 신호가 있고, 아직 인증 확인이 안 됐을 때만 토큰 재발급 시도
+      if (hasLoginSignal && !isAuthChecked) {
         try {
-          setIsReissuing(true);
-          // ✅ unwrap을 통해 성공 여부를 확실히 확인
           await dispatch(reissueThunk()).unwrap();
         } catch (error) {
-          console.error('Session restoration failed:', error);
           localStorage.removeItem('isLoginSignal');
           dispatch(clearAuth());
-        } finally {
-          setIsReissuing(false);
         }
       }
     }
@@ -47,13 +33,14 @@ export default function ProtectedRouter({ allowedRoles }) {
     if (location.pathname !== '/social') {
       restoreSession();
     }
-  }, [dispatch, isLoggedIn, hasLoginSignal, location.pathname]);
+  }, [dispatch, isAuthChecked, hasLoginSignal, location.pathname]);
+
 
   // 4. 로딩 가드 (신호도 없고 로그인도 안 된 완전 초기 상태만 로딩)
   if (!isAuthChecked) return null; // 또는 빈 div
 
-  // 1️⃣ 유저 정보 복구 중(reissue 실행 중)이라면 대기 화면 (깜빡임 방지)
-  if (isReissuing) return null;
+  const ROLE = { PTN: 'PTN', DLV: 'DLV', COM: 'COM', ADM: 'ADM' };
+  const GUEST_ONLY_ROUTES = [/^\/login$/];
 
   const isGuestRoute = GUEST_ONLY_ROUTES.some(regex => regex.test(location.pathname));
 

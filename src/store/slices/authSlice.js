@@ -9,7 +9,7 @@ const initialState = {
   user: null,
   // 2. 신호가 있으면(True) -> 리덕스가 켜지자마자 로그인 상태로 시작! (깜빡임 X)
   isLoggedIn: hasLoginSignal,
-  isAuthChecked: false,
+  isAuthChecked: !hasLoginSignal
 };
 
 const slice = createSlice({
