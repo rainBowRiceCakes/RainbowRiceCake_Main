@@ -17,11 +17,14 @@ const formatTime = (value) => {
   return d.format("A hh:mm");
 };
 
-// 기사 보수 계산
+// 기사 보수 계산 함수
 const calcRiderFee = (price) =>
   Math.floor((Number(price) || 0) * RIDER_FEE_RATE);
 
-export default function RiderWaitingView({ orders = [] }) {
+export default function RiderWaitingView({
+  orders = [],
+  ongoingCount // ✅ props로 받기
+}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,12 +34,22 @@ export default function RiderWaitingView({ orders = [] }) {
   const profileData = useSelector((state) => state.profile?.profileData);
   const isWorking = profileData?.isWorking ?? false;
 
+  const MAX_ORDER_LIMIT = 3;
+  const isOverLimit = ongoingCount >= MAX_ORDER_LIMIT; // ✅ props 사용
+
   if (orders.length === 0 && isWorking) {
     return <div className="rw-empty">현재 수락 가능한 오더가 없습니다.</div>;
   }
 
   const handleOpenModal = (order) => {
     if (!isWorking) return;
+
+    // ✅ 프론트 검증 (UX 개선용)
+    if (isOverLimit) {
+      alert(`최대 ${MAX_ORDER_LIMIT}개까지만 동시에 배달할 수 있습니다.\n기존 주문을 먼저 완료해주세요!`);
+      return;
+    }
+
     setSelectedOrder(order);
     setIsModalOpen(true);
   };
@@ -63,7 +76,14 @@ export default function RiderWaitingView({ orders = [] }) {
         },
       });
     } catch (error) {
-      alert(error.response?.data?.message || "주문 수락에 실패했습니다.");
+      // ✅ 백엔드 에러 메시지 표시
+      const errorMsg = error.response?.data?.message ||
+        error.response?.data?.msg ||
+        "주문 수락에 실패했습니다.";
+      alert(errorMsg);
+
+      // ✅ 에러 발생 시 페이지 새로고침으로 상태 동기화
+      window.location.reload();
     } finally {
       setIsModalOpen(false);
     }
@@ -71,10 +91,22 @@ export default function RiderWaitingView({ orders = [] }) {
 
   return (
     <div className="rider-waiting-view">
+      {/* ✅ 3개 제한 경고 */}
+      {isWorking && isOverLimit && (
+        <div className="rw-status-alert limit-warning">
+          <div className="alert-content">
+            <span className="icon">⚠️</span>
+            <span>
+              현재 <strong>{ongoingCount}개</strong>의 주문을 진행 중입니다.
+              더 이상 수락할 수 없습니다.
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* 퇴근 상태 안내 */}
       {!isWorking && (
         <div className="rw-status-alert">
-          {/* 아이콘과 텍스트를 묶어주는 덩어리 */}
           <div className="alert-content">
             <span className="icon">⛔</span>
             <span>현재 <strong>퇴근 상태</strong>입니다.</span>
@@ -92,7 +124,7 @@ export default function RiderWaitingView({ orders = [] }) {
       {orders.map((order) => (
         <div
           key={order.id}
-          className={`rw-item ${!isWorking ? "rw-disabled" : ""}`}
+          className={`rw-item ${(!isWorking || isOverLimit) ? "rw-disabled" : ""}`}
         >
           <div className="rw-card">
             <div className="rw-left">
@@ -128,11 +160,11 @@ export default function RiderWaitingView({ orders = [] }) {
             </div>
 
             <button
-              className={`rw-accept ${!isWorking ? "is-off" : ""}`}
-              disabled={!isWorking}
+              className={`rw-accept ${(!isWorking || isOverLimit) ? "is-off" : ""}`}
+              disabled={!isWorking || isOverLimit}
               onClick={() => handleOpenModal(order)}
             >
-              {isWorking ? "수락" : "퇴근중"}
+              {!isWorking ? "퇴근중" : isOverLimit ? "수락 불가" : "수락"}
             </button>
           </div>
         </div>

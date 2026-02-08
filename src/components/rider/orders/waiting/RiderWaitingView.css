@@ -3,6 +3,14 @@
   padding: 12px 16px 16px;
 }
 
+.limit-warning {
+  background-color: #fff3cd;
+  /* 경고 노란색 */
+  border: 1px solid #ffeeba;
+  color: #856404;
+  margin-bottom: 15px;
+}
+
 /* empty */
 .rw-empty {
   text-align: center;

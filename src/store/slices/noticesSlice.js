@@ -3,7 +3,6 @@ import { noticeIndexThunk } from "../thunks/notices/noticeIndexThunk.js";
 
 const initialState = {
   allNotices: [],
-  ongoingNotices: [],
   loading: false,
   error: null,
   pagination: {
@@ -18,13 +17,6 @@ const noticesSlice = createSlice({
   name: "notices",
   initialState,
   reducers: {
-    // 기존 reducer들 유지
-    setAllNotices: (state, action) => {
-      state.allNotices = action.payload;
-    },
-    setOngoingNotices: (state, action) => {
-      state.ongoingNotices = action.payload;
-    },
     clearError: (state) => {
       state.error = null;
     }
@@ -37,17 +29,22 @@ const noticesSlice = createSlice({
       })
       .addCase(noticeIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.allNotices = action.payload.data?.rows || action.payload.notices || [];
-        
-        const totalItems = action.payload.data?.count || 0;
-        const itemsPerPage = action.meta.arg?.limit || 9;
-        const currentPage = action.meta.arg?.page || 1;
+
+        // 1. 데이터 추출
+        const { data, notices } = action.payload;
+        const rows = data?.rows || notices || [];
+        state.allNotices = rows;
+
+        // 2. 페이지네이션 정보 (백엔드 데이터 우선 -> 요청 인자 차선)
+        const totalItems = data?.count ?? action.payload.totalCount ?? rows.length;
+        const itemsPerPage = action.meta.arg?.limit || state.pagination.itemsPerPage;
+        const currentPage = action.meta.arg?.page || state.pagination.currentPage;
 
         state.pagination = {
-          currentPage: currentPage,
+          currentPage,
+          itemsPerPage,
+          totalItems,
           totalPages: Math.ceil(totalItems / itemsPerPage) || 1,
-          totalItems: totalItems,
-          itemsPerPage: itemsPerPage
         };
       })
       .addCase(noticeIndexThunk.rejected, (state, action) => {
@@ -57,5 +54,5 @@ const noticesSlice = createSlice({
   }
 });
 
-export const { setAllNotices, setOngoingNotices, clearError } = noticesSlice.actions;
+export const { clearError } = noticesSlice.actions;
 export default noticesSlice.reducer;

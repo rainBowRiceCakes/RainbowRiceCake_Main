@@ -2,8 +2,7 @@
 import "./RiderOrderDetailPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { orderShowThunk } from "../../../store/thunks/orders/orderShowThunk.js"; // 경로에 맞춰 수정하세요
-// import RiderSubHeader from "../common/RiderSubHeader";
+import { orderShowThunk } from "../../../store/thunks/orders/orderShowThunk.js";
 import { useEffect } from "react";
 import { clearOrderDetail } from "../../../store/slices/ordersDetailSlice.js";
 import dayjs from "dayjs";

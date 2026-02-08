@@ -1,11 +1,7 @@
 // components/rider/main/RiderMainPage.jsx
 import "./RiderMainPage.css";
 
-import { useState, useMemo, useEffect } from "react";
-import {
-  setOngoingNotices,
-}
-  from "../../../store/slices/noticesSlice.js";
+import { useState, useEffect } from "react";
 import { noticeIndexThunk } from "../../../store/thunks/notices/noticeIndexThunk.js";
 import { orderIndexThunk } from "../../../store/thunks/orders/orderIndexThunk.js";
 
@@ -20,125 +16,97 @@ import RiderCompletedView from "../orders/completed/RiderCompletedView.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { setActiveTab } from "../../../store/slices/ordersSlice.js";
+import axiosInstance from "../../../api/axiosInstance.js";
+import { orderOngoingThunk } from "../../../store/thunks/orders/orderOngoingThunk.js";
 
-const IITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 5;
 
 export default function RiderMainPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { orders, pagination, loading, error, activeTab } = useSelector((state) => state.orders);
-  const { user } = useSelector((state) => state.auth); // ✅ 이 줄 추가
+  const { orders, pagination, loading, error, activeTab, ongoingOrders } = useSelector((state) => state.orders);
+  const { user } = useSelector((state) => state.auth);
+  const allNotices = useSelector((state) => state.notices.allNotices);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetch orders based on activeTab
+  const ongoingCount = ongoingOrders?.length || 0; // ✅ Redux 상태에서 진행 중 주문 개수 도출
+
+  // 공지사항 로드
   useEffect(() => {
-    // 공지사항은 유저 ID가 없어도 불러올 수 있다면 위로 올림
     dispatch(noticeIndexThunk({ page: 1, limit: 100, from: 'rider' }));
+  }, [dispatch]);
 
-    // 유저 정보가 아직 로드되지 않았다면 여기서 중단
-    if (!user?.id) {
-      console.log("⏳ 유저 정보를 기다리는 중...");
-      return;
-    }
+  // ongoing한 공지사항만 필터링
+  const ongoingNotices = allNotices.filter(notice => notice.status === true);
 
-    let params = {
+  // 진행 중인 주문 개수 조회 (Redux Thunk 사용)
+  useEffect(() => {
+    if (!user?.id) return;
+    dispatch(orderOngoingThunk({ riderId: user.id }));
+  }, [dispatch, user?.id, activeTab]); // activeTab 변경 시에도 갱신
+
+  // 주문 로드
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const params = {
       date: 'today',
       page: currentPage,
-      limit: IITEMS_PER_PAGE,
+      limit: ITEMS_PER_PAGE,
+
+      ...(activeTab === 'waiting' && { status: 'req' }),
+      ...(activeTab === 'inProgress' && { riderId: user.id, status: ['mat', 'pick'] }),
+      ...(activeTab === 'completed' && { riderId: user.id, status: 'com' }),
     };
 
-    switch (activeTab) {
-      case 'waiting':
-        // 모든 라이더가 볼 수 있는 대기 중인 주문
-        params.status = 'req';
-        break;
-
-      case 'inProgress':
-        // 내가 수락한 진행 중인 주문
-        params.riderId = user.id;
-        params.status = ['mat', 'pick'];
-        break;
-
-      case 'completed':
-        // 내가 완료한 주문
-        params.riderId = user.id;
-        params.status = 'com';
-        break;
-    }
-    console.log('📤 보내는 params:', params);
     dispatch(orderIndexThunk(params));
-  }, [dispatch, activeTab, currentPage, user?.id]);
+  }, [dispatch, activeTab, currentPage, user?.id, error]);
 
-  // 2. 💡 (추가) 가져온 데이터를 현재 탭에 맞게 한 번 더 검러내는 역할
-  const filteredOrders = useMemo(() => {
-    // orders가 로딩 중이거나 비어있을 때 방어 로직
-    const orderList = Array.isArray(orders) ? orders : [];
-
-    // 2. 백엔드에서 이미 params.status를 통해 필터링된 결과만 보내주고 있습니다.
-    // 따라서 프론트에서 또 filter를 빡빡하게 걸면 데이터가 사라질 수 있습니다.
-    if (orderList.length > 0) {
-      console.log("✅ 주문 데이터 구조 확인:", orderList[0]);
-    } else {
-      console.log("⚠️ 현재 orders 배열이 비어있습니다.");
+  // 에러 처리 전용
+  useEffect(() => {
+    if (error?.includes('acceptOrder')) {
+      alert(error);
     }
-    return orderList;
-  }, [orders, activeTab]); // orders나 탭이 바뀔 때만 계산
+  }, [error]);
 
-  const pagedOrders = useMemo(() => {
-    const items = filteredOrders || [];
+  // 필터링된 주문 목록
+  const pagedOrders = {
+    items: Array.isArray(orders) ? orders : [],
+    totalPage: pagination?.totalPages || 1,
+    totalCount: pagination?.totalItems || 0
+  };
 
-    const totalPage = pagination?.totalPages || 1;
-    const totalCount = pagination?.totalItems || items.length;
-
-    return {
-      items,
-      totalPage,
-      totalCount
-    };
-  }, [filteredOrders, pagination]);
-
-  // 2. 탭 변경 핸들러는 dispatch와 페이지 리셋을 함께 담당
   const handleTabChange = (newTab) => {
+    if (newTab === activeTab) return;
     dispatch(setActiveTab(newTab));
     setCurrentPage(1);
   };
 
-  const handleNavigateToNotices = () => {
-    navigate(`/riders/mypage/notices`);
-  };
-
-  const { allNotices } = useSelector((state) => state.notices);
-
-  // 진행 중인 공지사항 필터링 (메모이제이션)
-  const ongoingNotices = useMemo(() => {
-    return allNotices.filter((notice) => notice.status === true);
-  }, [allNotices]);
-
-  // ongoingNotices가 변경될 때마다 store 업데이트 (RiderNoticeBar가 store를 사용하므로)
-  useEffect(() => {
-    dispatch(setOngoingNotices(ongoingNotices));
-  }, [dispatch, ongoingNotices]);
-
-  if (loading) {
-    return <div className="rider-loading">Loading...</div>;
+  if (loading && currentPage === 1) {
+    return <div className="rider-loading">데이터를 불러오는 중입니다...</div>;
   }
 
   return (
     <div className="rider-main">
-      <RiderInfoBar />
+      <RiderInfoBar ongoingCount={ongoingCount} />
       <RiderStatusTabs activeTab={activeTab} onChange={handleTabChange} />
-      <RiderNoticeBar riderId={id} onNavigateToNotices={handleNavigateToNotices} />
+      <RiderNoticeBar
+        riderId={id}
+        ongoingNotices={ongoingNotices}
+        onNavigateToNotices={() => navigate('mypage/notices')}
+      />
 
       {error ? (
-        <div className="rider-error-message" style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
-          Error: {error.message || "오류가 발생했습니다."}
-        </div>
+        <div className="rider-error-message">오류: {error}</div>
       ) : (
         <div className="rider-content-area">
           {activeTab === "waiting" && (
-            <RiderWaitingView orders={pagedOrders.items} currentTab={activeTab} />
+            <RiderWaitingView
+              orders={pagedOrders.items}
+              ongoingCount={ongoingCount}
+            />
           )}
           {activeTab === "inProgress" && (
             <RiderInProgressView orders={pagedOrders.items} />

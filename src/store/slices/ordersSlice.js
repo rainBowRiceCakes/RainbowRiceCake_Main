@@ -5,10 +5,12 @@ import { uploadCompletePhoto, uploadPickupPhoto } from "../thunks/orders/orderPi
 import { submitDeliveryRequest } from "../thunks/requests/submitDeliveryRequestThunk.js";
 import { getHourlyStatsThunk } from "../thunks/orders/orderStatsThunk.js";
 import { acceptOrderThunk } from "../thunks/orders/acceptOrderThunk.js";
+import { orderOngoingThunk } from "../thunks/orders/orderOngoingThunk.js";
 
 const initialState = {
   orders: [],
-  stats: [], // ✅ 차트용 통계 데이터 저장소 추가
+  stats: [], // 차트용 통계 데이터 저장소 추가
+  ongoingOrders: [], // 진행 중 주문 별도 저장
   loading: false,
   error: null,
   pagination: {
@@ -17,7 +19,7 @@ const initialState = {
     totalItems: 0,
     itemsPerPage: 100
   },
-  activeTab: localStorage.getItem("activeRiderTab") || "waiting",
+  activeTab: "waiting",
 };
 
 const ordersSlice = createSlice({
@@ -28,7 +30,6 @@ const ordersSlice = createSlice({
     setActiveTab(state, action) {
       state.activeTab = action.payload;
       state.orders = [];
-      localStorage.setItem("activeRiderTab", action.payload);
     },
     // 서버 데이터 동기화용
     setAllOrders(state, action) {
@@ -47,116 +48,78 @@ const ordersSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    // 헬퍼: 주문 코드로 대상을 찾는 로직 공통화
+    const findOrder = (state, id) =>
+      state.orders.find(o => String(o.orderCode) === String(id) || String(o.id) === String(id));
+
     builder
-      .addCase(orderIndexThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      /* --- fulfilled: 성공 케이스 --- */
       .addCase(orderIndexThunk.fulfilled, (state, action) => {
         state.loading = false;
-        const payload = action.payload; // Thunk에서 return response.data.data 한 값
-        console.log('RTK Payload:', payload)
+        const payload = action.payload;
+        state.orders = payload?.data || payload?.rows || (Array.isArray(payload) ? payload : []);
 
-        let extractedOrders = [];
-
-        // ✅ 1. 가장 먼저 현재 백엔드 구조(data.data)를 확인합니다.
-        if (payload?.data && Array.isArray(payload.data)) {
-          extractedOrders = payload.data;
-        }
-        // 2. 만약 구조가 바뀌어 payload 자체가 배열인 경우
-        else if (Array.isArray(payload)) {
-          extractedOrders = payload;
-        }
-        // 3. 기존 방어 코드들 (순서가 밀려도 상관없음)
-        else if (payload?.rows && Array.isArray(payload.rows)) {
-          extractedOrders = payload.rows;
-        }
-
-        state.orders = extractedOrders;
-
-        // ✅ 2. 페이지네이션 정보 추출
-        // 현재 구조는 payload.pagination에 정보가 있습니다.
-        const p = payload?.pagination;
-
-        if (p) {
+        if (payload?.pagination) {
+          const { currentPage, totalPages, totalItems, itemsPerPage } = payload.pagination;
           state.pagination = {
-            currentPage: Number(p.currentPage) || 1,
-            totalPages: Number(p.totalPages) || 1,
-            totalItems: Number(p.totalItems) || extractedOrders.length,
-            itemsPerPage: Number(p.itemsPerPage) || state.pagination.itemsPerPage
+            currentPage: Number(currentPage) || 1,
+            totalPages: Number(totalPages) || 1,
+            totalItems: Number(totalItems) || state.orders.length,
+            itemsPerPage: Number(itemsPerPage) || state.pagination.itemsPerPage
           };
         }
       })
-      .addCase(orderIndexThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload?.message || "주문 리스트를 불러오는데 실패했습니다.";
-      })
       .addCase(submitDeliveryRequest.fulfilled, (state, action) => {
-        const newOrder = action.payload.data || action.payload;
+        const newOrder = action.payload?.data || action.payload;
         if (newOrder) {
-          state.orders.unshift(newOrder); // 리스트 맨 처음에 추가
+          state.orders.unshift(newOrder);
           state.pagination.totalItems += 1;
         }
       })
-      // --- 🚀 [추가] 사진 업로드 성공 시 상태 업데이트 로직 ---
-      // 2. 픽업 사진 업로드 성공 시 (mat -> pick)
       .addCase(uploadPickupPhoto.fulfilled, (state, action) => {
-        // action.payload에 서버가 보낸 orderId나 updatedOrder가 들어있어야 합니다.
-        const targetId = action.payload?.orderId || action.payload?.id;
-        const target = state.orders.find((o) => String(o.orderCode) === String(targetId));
-        if (target) {
-          target.status = "pick"; // 이제 RiderNavFlowPage가 이 변화를 감지합니다!
-        }
+        const target = findOrder(state, action.payload?.orderId || action.payload?.id);
+        if (target) target.status = "pick";
       })
-
-      // 3. 배달 완료 사진 업로드 성공 시 (pick -> com)
       .addCase(uploadCompletePhoto.fulfilled, (state, action) => {
-        const targetId = action.payload?.orderId || action.payload?.id;
-        const target = state.orders.find((o) => String(o.orderCode) === String(targetId));
-        if (target) {
-          target.status = "com";
-        }
-      })
-      .addCase(getHourlyStatsThunk.pending, (state) => {
-        state.loading = true;
+        const target = findOrder(state, action.payload?.orderId || action.payload?.id);
+        if (target) target.status = "com";
       })
       .addCase(getHourlyStatsThunk.fulfilled, (state, action) => {
-        // payload가 배열이면 그대로 쓰고, 아니면 payload.data가 배열인지 확인
-        const statsArray = Array.isArray(action.payload)
-          ? action.payload
-          : action.payload?.data;
-
-        console.log('최종 추출된 배열:', statsArray);
-
-        if (Array.isArray(statsArray)) {
-          state.stats = statsArray.filter(item => item.count > 0);
-        } else {
-          state.stats = [];
-        }
-      })
-      .addCase(getHourlyStatsThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload?.msg || "통계 데이터를 가져오지 못했습니다.";
-      })
-      .addCase(acceptOrderThunk.pending, (state) => {
-        state.loading = true;
+        const statsArray = Array.isArray(action.payload) ? action.payload : action.payload?.data;
+        state.stats = Array.isArray(statsArray) ? statsArray.filter(item => item.count > 0) : [];
       })
       .addCase(acceptOrderThunk.fulfilled, (state, action) => {
         state.loading = false;
-        // action.payload = { orderCode, updatedOrder } from acceptOrderThunk
-        const target = state.orders.find(o => o.orderCode === action.payload.orderCode);
-        console.log('target 찾아주세요:', target);
+        const target = findOrder(state, action.payload.orderCode);
         if (target) {
-          // updatedOrder에서 riderId를 가져오거나, updatedOrder.data에서 가져옴
-          const updatedData = action.payload.updatedOrder?.data || action.payload.updatedOrder;
-          target.riderId = updatedData?.riderId;
+          const updated = action.payload.updatedOrder?.data || action.payload.updatedOrder;
+          target.riderId = updated?.riderId;
           target.status = "mat";
         }
       })
-      .addCase(acceptOrderThunk.rejected, (state, action) => {
+      .addCase(orderOngoingThunk.fulfilled, (state, action) => {
         state.loading = false;
-        alert(action.payload?.message || "수락 실패!");
+        state.ongoingOrders = action.payload;
       })
+
+    /* --- Matchers: 공통 상태 처리 --- */
+    builder
+      // 모든 오더 관련 Thunk의 pending 상태
+      .addMatcher(
+        (action) => action.type.startsWith('orders/') && action.type.endsWith('/pending'),
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      // 모든 오더 관련 Thunk의 rejected 상태
+      .addMatcher(
+        (action) => action.type.startsWith('orders/') && action.type.endsWith('/rejected'),
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload?.message || action.payload?.msg || "요청을 처리하지 못했습니다.";
+        }
+      );
   },
 });
 

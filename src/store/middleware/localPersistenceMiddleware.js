@@ -44,6 +44,10 @@ const localPersistenceMiddleware = (store) => (next) => (action) => {
     localStorage.removeItem('cachedProfile');
   }
 
+  if (action.type === 'orders/setActiveTab') {
+    localStorage.setItem('activeRiderTab', action.payload);
+  }
+
   return result;
 };
 
