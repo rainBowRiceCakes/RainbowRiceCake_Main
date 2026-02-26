@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useMemo } from "react"; // ✅ 추가
+import { useMemo } from "react";
 import "./RiderCompletedView.css";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
@@ -40,32 +40,35 @@ function CompletedOrderRow({ order }) {
   );
 }
 
-// ✅ props로 받던 { orders = [] } 제거 (useSelector와 충돌 방지)
-export default function RiderCompletedView() {
-  const orders = useSelector((state) => state.orders.orders);
+export default function RiderCompletedView({ orders: paginatedOrders = [] }) {
+  const allOrders = useSelector((state) => state.orders.orders);
+  const profileData = useSelector((state) => state.profile?.profileData);
+  const riderUniqueId = profileData?.id;
 
-  // ✅ 오늘 완료된 주문들만 따로 필터링 (수익과 횟수 계산의 기준)
-  const todayCompletedOrders = useMemo(() => {
-    if (!orders || !Array.isArray(orders)) return [];
+  // ✅ KPI 계산용 (오늘 전체 완료 데이터) - 페이지가 바뀌어도 유지되어야 함
+  const todayAllCompletedOrders = useMemo(() => {
+    if (!allOrders || !Array.isArray(allOrders)) return [];
     const today = dayjs().tz(KST).format("YYYY-MM-DD");
 
-    return orders.filter((order) => {
+    return allOrders.filter((order) => {
+      const oRiderId = order.order_rider?.id; // 기사 고유 번호
+      const isMyOrder = String(oRiderId) === String(riderUniqueId);
       const isCompleted = order.status === "com";
       const isToday = dayjs(order.updatedAt).tz(KST).format("YYYY-MM-DD") === today;
-      return isCompleted && isToday;
+      return isMyOrder && isCompleted && isToday;
     });
-  }, [orders]);
+  }, [allOrders, riderUniqueId]);
 
   // ✅ 1. 오늘 총 수익 계산
   const todayRevenue = useMemo(() => {
-    return todayCompletedOrders.reduce((sum, order) => {
+    return todayAllCompletedOrders.reduce((sum, order) => {
       const price = Number(order.price) || 0;
       return sum + Math.floor(price * RIDER_FEE_RATE);
     }, 0);
-  }, [todayCompletedOrders]);
+  }, [todayAllCompletedOrders]);
 
   // ✅ 2. 오늘 배달 횟수 계산
-  const todayCompletedCount = todayCompletedOrders.length;
+  const todayCompletedCount = todayAllCompletedOrders.length;
 
   // 3. 화폐 포맷팅 함수
   const formatKRW = (val) => new Intl.NumberFormat("ko-KR").format(val);
@@ -87,12 +90,12 @@ export default function RiderCompletedView() {
 
       <div className="rcv-divider" />
 
-      {/* ✅ 완료 리스트 - 전체가 아닌 필터링된 오늘 리스트만 보여줄지, 전체 완료 건을 보여줄지 선택 가능 */}
+      {/* ✅ 완료 리스트 - 부모(MainPage)가 잘라준 paginatedOrders만 출력 */}
       <div className="rcv-list">
-        {todayCompletedOrders.length === 0 ? (
-          <div className="rcv-empty">오늘 완료된 배달이 없습니다</div>
+        {paginatedOrders.length === 0 ? (
+          <div className="rcv-empty">완료된 배달이 없습니다</div>
         ) : (
-          todayCompletedOrders.map((order) => (
+          paginatedOrders.map((order) => (
             <CompletedOrderRow
               key={order.id}
               order={order}

@@ -1,4 +1,4 @@
-/* mypage.css */
+/* RiderMyPage.css */
 
 .mypage-loading {
   display: flex;
@@ -184,6 +184,24 @@
   font-size: 15px;
   opacity: 0;
   transition: opacity 0.6s ease, transform 0.6s ease;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 9999;
+}
+
+/* error 타입 추가: 빨간색 계열로 경고 의미 전달 */
+.modal.error {
+  color: #e74c3c;
+  border: 1.5px solid #ffc9c9;
+  background: #fff5f5;
+}
+
+/* new_order 타입 추가: 녹색/파란색 계열로 새로운 정보 전달 */
+.modal.new_order {
+  color: #27ae60;
+  border: 1.5px solid #b7f1cf;
+  background: #f0fff4;
+  font-weight: bold;
 }
 
 .modal.in {

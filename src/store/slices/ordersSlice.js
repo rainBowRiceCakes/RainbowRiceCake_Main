@@ -5,12 +5,10 @@ import { uploadCompletePhoto, uploadPickupPhoto } from "../thunks/orders/orderPi
 import { submitDeliveryRequest } from "../thunks/requests/submitDeliveryRequestThunk.js";
 import { getHourlyStatsThunk } from "../thunks/orders/orderStatsThunk.js";
 import { acceptOrderThunk } from "../thunks/orders/acceptOrderThunk.js";
-import { orderOngoingThunk } from "../thunks/orders/orderOngoingThunk.js";
 
 const initialState = {
   orders: [],
   stats: [], // 차트용 통계 데이터 저장소 추가
-  ongoingOrders: [], // 진행 중 주문 별도 저장
   loading: false,
   error: null,
   pagination: {
@@ -29,7 +27,6 @@ const ordersSlice = createSlice({
     // --- [통용] 탭 관리 ---
     setActiveTab(state, action) {
       state.activeTab = action.payload;
-      state.orders = [];
     },
     // 서버 데이터 동기화용
     setAllOrders(state, action) {
@@ -45,6 +42,28 @@ const ordersSlice = createSlice({
         target.riderId = riderId;
         target.status = "mat";
       }
+    },
+    // ✅ 실시간 단일 주문 추가/수정 (소켓 패치용)
+    upsertOrder(state, action) {
+      const newOrder = action.payload;
+      const index = state.orders.findIndex(o =>
+        String(o.orderCode) === String(newOrder.orderCode) || String(o.id) === String(newOrder.id)
+      );
+
+      if (index !== -1) {
+        // 기존 주문 업데이트
+        state.orders[index] = { ...state.orders[index], ...newOrder };
+      } else {
+        // 새 주문 추가 (최상단)
+        state.orders.unshift(newOrder);
+      }
+    },
+    // ✅ 실시간 단일 주문 삭제 (소켓 취소용)
+    deleteOrder(state, action) {
+      const id = action.payload;
+      state.orders = state.orders.filter(o =>
+        String(o.orderCode) !== String(id) && String(o.id) !== String(id)
+      );
     }
   },
   extraReducers: (builder) => {
@@ -97,10 +116,6 @@ const ordersSlice = createSlice({
           target.status = "mat";
         }
       })
-      .addCase(orderOngoingThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.ongoingOrders = action.payload;
-      })
 
     /* --- Matchers: 공통 상태 처리 --- */
     builder
@@ -126,7 +141,9 @@ const ordersSlice = createSlice({
 export const {
   setActiveTab,
   setAllOrders,
-  acceptOrder
+  acceptOrder,
+  upsertOrder,
+  deleteOrder
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

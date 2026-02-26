@@ -65,7 +65,7 @@ export default function RiderWaitingView({
       dispatch(
         acceptOrder({
           id: orderCode,
-          riderId: response.data?.data?.riderId || response.data?.riderId,
+          riderId: response.data?.data?.riderId || response.data?.riderId || response.data?.data?.rider_id || response.data?.rider_id,
         })
       );
 
